@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>London Cardiology Clinic — Three.js Concept Designs</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',sans-serif; background:#0a0a0a; color:#fff; overflow-x:hidden; }
+
+  .page-header { padding:24px 40px; display:flex; justify-content:space-between; align-items:center; background:rgba(10,10,10,0.9); position:sticky; top:0; z-index:100; backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.06); }
+  .page-header h1 { font-size:18px; font-weight:300; letter-spacing:1px; }
+  .page-header p { font-size:12px; color:rgba(255,255,255,0.4); }
+
+  .concept { margin-bottom:80px; }
+  .concept-label { padding:20px 40px; display:flex; align-items:center; gap:12px; }
+  .concept-label h2 { font-size:14px; font-weight:600; text-transform:uppercase; letter-spacing:2px; color:rgba(255,255,255,0.5); }
+  .concept-label .badge { background:linear-gradient(135deg,#2a7d6a,#48a999); padding:4px 12px; border-radius:12px; font-size:11px; font-weight:600; }
+  .concept-desc { padding:0 40px 20px; font-size:14px; color:rgba(255,255,255,0.5); max-width:700px; line-height:1.6; }
+
+  /* ═══════════════════════════════════════════════ */
+  /* CONCEPT 1: Particle Heart + ECG Wave           */
+  /* ═══════════════════════════════════════════════ */
+  .hero-1 {
+    position:relative; height:600px; overflow:hidden;
+    background:radial-gradient(ellipse at 30% 50%, #0d2e24 0%, #0a1a14 40%, #050d0a 100%);
+  }
+  /* Animated ECG line */
+  .ecg-line { position:absolute; bottom:120px; left:0; width:200%; height:80px; }
+  .ecg-path {
+    stroke:#2a7d6a; stroke-width:2; fill:none;
+    stroke-dasharray:2000; stroke-dashoffset:2000;
+    animation: ecgDraw 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 8px rgba(42,125,106,0.6));
+  }
+  @keyframes ecgDraw { 0%{stroke-dashoffset:2000} 100%{stroke-dashoffset:0} }
+
+  /* Floating particles */
+  .particles { position:absolute; inset:0; overflow:hidden; }
+  .particle {
+    position:absolute; width:3px; height:3px; background:#2a7d6a; border-radius:50%;
+    opacity:0; animation: particleFloat 6s ease-in-out infinite;
+    box-shadow: 0 0 6px rgba(42,125,106,0.4);
+  }
+  @keyframes particleFloat {
+    0% { opacity:0; transform:translateY(100px) scale(0); }
+    20% { opacity:0.8; }
+    80% { opacity:0.6; }
+    100% { opacity:0; transform:translateY(-400px) scale(1.5); }
+  }
+
+  /* Heart silhouette made of dots */
+  .heart-container { position:absolute; right:10%; top:50%; transform:translateY(-50%); width:300px; height:300px; }
+  .heart-glow {
+    width:100%; height:100%;
+    background:radial-gradient(circle, rgba(42,125,106,0.15) 0%, transparent 70%);
+    animation: heartPulse 1.5s ease-in-out infinite;
+  }
+  @keyframes heartPulse {
+    0%,100% { transform:scale(1); opacity:0.8; }
+    50% { transform:scale(1.08); opacity:1; }
+  }
+
+  .hero-1 .content { position:relative; z-index:10; padding:100px 60px; max-width:600px; }
+  .hero-1 .eyebrow { font-size:11px; letter-spacing:4px; text-transform:uppercase; color:#48a999; margin-bottom:16px; font-weight:500; }
+  .hero-1 h3 { font-family:'Playfair Display',serif; font-size:48px; font-weight:400; line-height:1.15; margin-bottom:16px; }
+  .hero-1 h3 em { font-style:normal; color:#48a999; }
+  .hero-1 .sub { font-size:16px; color:rgba(255,255,255,0.6); line-height:1.6; margin-bottom:32px; font-weight:300; }
+  .btn-primary {
+    display:inline-block; background:linear-gradient(135deg,#2a7d6a,#48a999); color:#fff;
+    padding:14px 36px; border-radius:8px; font-size:14px; font-weight:600; letter-spacing:0.5px;
+    text-decoration:none; transition:all 0.3s;
+    box-shadow: 0 4px 20px rgba(42,125,106,0.3);
+  }
+  .btn-ghost {
+    display:inline-block; color:rgba(255,255,255,0.7); padding:14px 36px;
+    border:1px solid rgba(255,255,255,0.2); border-radius:8px; font-size:14px;
+    text-decoration:none; margin-left:12px; font-weight:400; letter-spacing:0.5px;
+  }
+
+  /* Services section */
+  .services-1 {
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:rgba(255,255,255,0.04); margin:0 40px; border-radius:16px; overflow:hidden;
+  }
+  .svc-card {
+    background:rgba(255,255,255,0.02); padding:36px 24px; text-align:center;
+    transition:all 0.4s; cursor:pointer; position:relative; overflow:hidden;
+  }
+  .svc-card:hover { background:rgba(42,125,106,0.08); }
+  .svc-card::after {
+    content:''; position:absolute; bottom:0; left:50%; width:0; height:2px;
+    background:#2a7d6a; transition:all 0.4s; transform:translateX(-50%);
+  }
+  .svc-card:hover::after { width:60%; }
+  .svc-icon { font-size:28px; margin-bottom:12px; }
+  .svc-card h4 { font-size:14px; font-weight:600; margin-bottom:6px; }
+  .svc-card p { font-size:12px; color:rgba(255,255,255,0.4); line-height:1.5; }
+
+  /* Trust bar */
+  .trust-1 {
+    display:flex; justify-content:center; gap:40px; padding:32px 40px;
+    border-top:1px solid rgba(255,255,255,0.04); margin-top:40px;
+  }
+  .trust-item { font-size:12px; color:rgba(255,255,255,0.3); display:flex; align-items:center; gap:8px; }
+  .trust-dot { width:6px; height:6px; border-radius:50%; background:#2a7d6a; }
+
+  /* Nav bar at top of hero */
+  .nav-1 {
+    position:absolute; top:0; left:0; right:0; z-index:20;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:24px 40px;
+  }
+  .nav-1 .logo { font-family:'Playfair Display',serif; font-size:18px; font-weight:500; }
+  .nav-1 .logo span { color:#48a999; }
+  .nav-1 .links { display:flex; gap:28px; }
+  .nav-1 .links a { color:rgba(255,255,255,0.6); text-decoration:none; font-size:13px; font-weight:400; }
+  .nav-1 .book-btn { background:rgba(42,125,106,0.2); border:1px solid rgba(42,125,106,0.4); color:#48a999; padding:8px 20px; border-radius:6px; font-size:13px; text-decoration:none; font-weight:500; }
+
+  /* ═══════════════════════════════════════════════ */
+  /* CONCEPT 2: Dark Luxury + Gold ECG              */
+  /* ═══════════════════════════════════════════════ */
+  .hero-2 {
+    position:relative; height:600px; overflow:hidden;
+    background:radial-gradient(ellipse at 60% 40%, #1a1520 0%, #0d0b12 50%, #08060c 100%);
+  }
+  .ecg-gold { position:absolute; top:50%; left:0; width:200%; height:60px; transform:translateY(-50%); opacity:0.15; }
+  .ecg-gold-path {
+    stroke:#c9a84c; stroke-width:1.5; fill:none;
+    stroke-dasharray:2000; stroke-dashoffset:2000;
+    animation: ecgDraw 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 12px rgba(201,168,76,0.4));
+  }
+  .hero-2 .content { position:relative; z-index:10; padding:120px 60px; text-align:center; max-width:800px; margin:0 auto; }
+  .hero-2 .eyebrow { font-size:12px; letter-spacing:5px; text-transform:uppercase; color:#c9a84c; margin-bottom:20px; font-weight:400; }
+  .hero-2 h3 { font-family:'Playfair Display',serif; font-size:52px; font-weight:400; line-height:1.15; margin-bottom:16px; }
+  .hero-2 h3 em { font-style:normal; color:#c9a84c; }
+  .hero-2 .sub { font-size:16px; color:rgba(255,255,255,0.5); margin-bottom:36px; font-weight:300; }
+  .btn-gold {
+    display:inline-block; background:linear-gradient(135deg,#c9a84c,#e8c862); color:#0d0b12;
+    padding:16px 44px; border-radius:4px; font-size:14px; font-weight:600; letter-spacing:1px;
+    text-decoration:none; text-transform:uppercase;
+    box-shadow: 0 4px 24px rgba(201,168,76,0.25);
+  }
+  .nav-2 {
+    position:absolute; top:0; left:0; right:0; z-index:20;
+    display:flex; justify-content:space-between; align-items:center; padding:28px 48px;
+  }
+  .nav-2 .logo { font-family:'Playfair Display',serif; font-size:18px; font-weight:500; letter-spacing:1px; }
+  .nav-2 .logo span { color:#c9a84c; }
+  .nav-2 .links { display:flex; gap:32px; }
+  .nav-2 .links a { color:rgba(255,255,255,0.5); text-decoration:none; font-size:12px; font-weight:400; letter-spacing:1px; text-transform:uppercase; }
+
+  .services-2 { display:flex; justify-content:center; gap:40px; padding:48px 40px; background:rgba(255,255,255,0.02); margin:0 40px; border-radius:12px; }
+  .svc-2 { text-align:center; max-width:140px; }
+  .svc-2 .line { width:40px; height:1px; background:#c9a84c; margin:0 auto 12px; }
+  .svc-2 h4 { font-size:13px; font-weight:500; margin-bottom:4px; letter-spacing:0.5px; }
+  .svc-2 p { font-size:11px; color:rgba(255,255,255,0.35); }
+
+  /* ═══════════════════════════════════════════════ */
+  /* CONCEPT 3: Split-screen + Anatomical           */
+  /* ═══════════════════════════════════════════════ */
+  .hero-3 {
+    display:grid; grid-template-columns:1fr 1fr; height:600px; overflow:hidden;
+  }
+  .hero-3-left {
+    background:#faf8f5; color:#1a1a1a; padding:80px 60px;
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  .hero-3-left .eyebrow { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:#2a7d6a; margin-bottom:16px; font-weight:600; }
+  .hero-3-left h3 { font-family:'Playfair Display',serif; font-size:44px; font-weight:400; line-height:1.15; margin-bottom:16px; color:#1a1a1a; }
+  .hero-3-left .sub { font-size:15px; color:#666; line-height:1.7; margin-bottom:32px; font-weight:300; }
+  .btn-dark {
+    display:inline-block; background:#1a1a1a; color:#fff;
+    padding:14px 36px; border-radius:8px; font-size:14px; font-weight:500;
+    text-decoration:none;
+  }
+  .btn-outline-dark {
+    display:inline-block; border:1px solid #ccc; color:#666; padding:14px 36px;
+    border-radius:8px; font-size:14px; text-decoration:none; margin-left:12px; font-weight:400;
+  }
+  .hero-3-right {
+    background:linear-gradient(160deg, #0f2b1e 0%, #1a4a35 40%, #2a7d6a 100%);
+    display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;
+  }
+  /* Animated heart outline */
+  .heart-outline {
+    width:280px; height:280px; position:relative;
+  }
+  .heart-outline svg { width:100%; height:100%; }
+  .heart-draw {
+    stroke:#fff; stroke-width:1; fill:none;
+    stroke-dasharray:1000; stroke-dashoffset:1000;
+    animation: heartDraw 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255,255,255,0.2));
+  }
+  @keyframes heartDraw { 0%{stroke-dashoffset:1000} 50%{stroke-dashoffset:0} 100%{stroke-dashoffset:-1000} }
+
+  /* Hotspots on heart */
+  .hotspot {
+    position:absolute; width:28px; height:28px; border-radius:50%;
+    background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.3);
+    display:flex; align-items:center; justify-content:center;
+    font-size:10px; font-weight:600; cursor:pointer;
+    animation: hotspotPulse 2s ease-in-out infinite;
+  }
+  .hotspot:nth-child(2) { top:25%; left:35%; animation-delay:0.3s; }
+  .hotspot:nth-child(3) { top:40%; right:25%; animation-delay:0.6s; }
+  .hotspot:nth-child(4) { bottom:35%; left:45%; animation-delay:0.9s; }
+  @keyframes hotspotPulse {
+    0%,100% { box-shadow:0 0 0 0 rgba(255,255,255,0.2); }
+    50% { box-shadow:0 0 0 8px rgba(255,255,255,0); }
+  }
+
+  .hotspot-tooltip {
+    position:absolute; background:rgba(0,0,0,0.85); color:#fff; padding:8px 14px;
+    border-radius:6px; font-size:11px; white-space:nowrap; pointer-events:none;
+    top:-36px; left:50%; transform:translateX(-50%);
+    opacity:0; transition:opacity 0.3s;
+  }
+  .hotspot:hover .hotspot-tooltip { opacity:1; }
+
+  .services-3 {
+    display:grid; grid-template-columns:repeat(5,1fr); background:#faf8f5; border-top:1px solid #eee;
+  }
+  .svc-3 {
+    padding:28px 16px; text-align:center; border-right:1px solid #eee;
+    transition:all 0.3s; cursor:pointer;
+  }
+  .svc-3:last-child { border:none; }
+  .svc-3:hover { background:#f0f5f2; }
+  .svc-3 h4 { font-size:12px; font-weight:600; color:#1a1a1a; margin-bottom:3px; }
+  .svc-3 p { font-size:10px; color:#999; }
+
+  /* ═══════════════════════════════════════════════ */
+  /* Section dividers                               */
+  /* ═══════════════════════════════════════════════ */
+  .divider { border:0; border-top:1px solid rgba(255,255,255,0.06); margin:0 40px; }
+
+  /* ═══════════════════════════════════════════════ */
+  /* CONCEPT 4: Minimal White + ECG Animation        */
+  /* ═══════════════════════════════════════════════ */
+  .hero-4 {
+    position:relative; height:600px; overflow:hidden;
+    background:#fff; color:#1a1a1a;
+  }
+  .ecg-bg { position:absolute; top:50%; left:0; width:200%; height:120px; transform:translateY(-50%); opacity:0.06; }
+  .ecg-bg-path { stroke:#2a7d6a; stroke-width:3; fill:none; stroke-dasharray:2000; stroke-dashoffset:2000; animation:ecgDraw 3.5s ease-in-out infinite; }
+
+  .hero-4 .content { position:relative; z-index:10; padding:100px 60px; max-width:650px; }
+  .hero-4 .eyebrow { font-size:11px; letter-spacing:4px; text-transform:uppercase; color:#2a7d6a; margin-bottom:16px; font-weight:600; }
+  .hero-4 h3 { font-family:'Playfair Display',serif; font-size:48px; font-weight:400; line-height:1.15; margin-bottom:14px; color:#1a1a1a; }
+  .hero-4 .sub { font-size:16px; color:#888; line-height:1.6; margin-bottom:32px; font-weight:300; }
+  .btn-green {
+    display:inline-block; background:#2a7d6a; color:#fff;
+    padding:14px 36px; border-radius:8px; font-size:14px; font-weight:600;
+    text-decoration:none; box-shadow:0 4px 16px rgba(42,125,106,0.2);
+  }
+  .btn-outline-green {
+    display:inline-block; border:1.5px solid #2a7d6a; color:#2a7d6a; padding:13px 36px;
+    border-radius:8px; font-size:14px; text-decoration:none; margin-left:12px; font-weight:500;
+  }
+  .nav-4 {
+    position:absolute; top:0; left:0; right:0; z-index:20;
+    display:flex; justify-content:space-between; align-items:center; padding:24px 40px;
+  }
+  .nav-4 .logo { font-family:'Playfair Display',serif; font-size:18px; font-weight:500; color:#1a1a1a; }
+  .nav-4 .logo span { color:#2a7d6a; }
+  .nav-4 .links { display:flex; gap:28px; }
+  .nav-4 .links a { color:#888; text-decoration:none; font-size:13px; }
+  .nav-4 .book-btn { background:#2a7d6a; color:#fff; padding:8px 20px; border-radius:6px; font-size:13px; text-decoration:none; font-weight:500; }
+
+  /* Symptom checker preview */
+  .checker-preview {
+    margin:0 40px; padding:40px; background:#faf8f5; border-radius:16px;
+    display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center;
+  }
+  .checker-left h4 { font-size:20px; font-weight:600; color:#1a1a1a; margin-bottom:8px; }
+  .checker-left p { font-size:14px; color:#888; line-height:1.6; margin-bottom:20px; }
+  .checker-right {
+    background:#fff; border-radius:12px; padding:24px; box-shadow:0 2px 12px rgba(0,0,0,0.06);
+  }
+  .checker-q { font-size:14px; font-weight:600; color:#1a1a1a; margin-bottom:16px; }
+  .checker-opt {
+    display:block; width:100%; padding:12px 16px; margin-bottom:8px; background:#f5f5f5;
+    border:1.5px solid transparent; border-radius:8px; font-size:13px; color:#333;
+    cursor:pointer; transition:all 0.3s; text-align:left;
+  }
+  .checker-opt:hover { border-color:#2a7d6a; background:#f0f5f2; }
+  .checker-opt.active { border-color:#2a7d6a; background:#eef7f4; color:#2a7d6a; font-weight:600; }
+
+  .safety-banner {
+    margin:24px 40px; padding:16px 24px; background:#fff3f3; border-left:4px solid #d32f2f;
+    border-radius:0 8px 8px 0; display:flex; align-items:center; gap:12px;
+  }
+  .safety-banner .icon { font-size:20px; }
+  .safety-banner p { font-size:13px; color:#666; }
+  .safety-banner strong { color:#d32f2f; }
+</style>
+</head>
+<body>
+
+<!-- CONCEPT 1: Particle Heart + ECG -->
+<div class="concept">
+  <div class="concept-label">
+    <h2>Concept 1: Emerald Particles</h2>
+    <span class="badge">Three.js Heart + ECG Wave</span>
+  </div>
+  <div class="concept-desc">Dark background with a 3D particle heart that slowly rotates and pulses. An animated ECG line traces across the screen. Particles float upward like embers. Mouse movement affects particle drift.</div>
+
+  <div class="hero-1">
+    <!-- Nav -->
+    <div class="nav-1">
+      <div class="logo">London <span>Cardiology</span> Clinic</div>
+      <div class="links">
+        <a href="#">About</a><a href="#">Conditions</a><a href="#">What to Expect</a><a href="#">Fees</a>
+      </div>
+      <a href="#" class="book-btn">Book Appointment</a>
+    </div>
+
+    <!-- Particles -->
+    <div class="particles">
+      <div class="particle" style="left:10%;top:60%;animation-delay:0s;"></div>
+      <div class="particle" style="left:25%;top:70%;animation-delay:0.8s;"></div>
+      <div class="particle" style="left:40%;top:80%;animation-delay:1.6s;"></div>
+      <div class="particle" style="left:55%;top:65%;animation-delay:2.4s;"></div>
+      <div class="particle" style="left:70%;top:75%;animation-delay:3.2s;"></div>
+      <div class="particle" style="left:85%;top:85%;animation-delay:4s;"></div>
+      <div class="particle" style="left:15%;top:90%;animation-delay:1.2s;"></div>
+      <div class="particle" style="left:60%;top:55%;animation-delay:2s;"></div>
+      <div class="particle" style="left:80%;top:45%;animation-delay:0.4s;"></div>
+      <div class="particle" style="left:35%;top:50%;animation-delay:3.6s;"></div>
+      <div class="particle" style="left:90%;top:70%;animation-delay:4.8s;"></div>
+      <div class="particle" style="left:5%;top:40%;animation-delay:5.2s;"></div>
+    </div>
+
+    <!-- ECG Line -->
+    <svg class="ecg-line" viewBox="0 0 2000 80" preserveAspectRatio="none">
+      <path class="ecg-path" d="M0,40 L200,40 L220,40 L230,20 L240,40 L260,40 L270,5 L275,75 L280,35 L290,40 L500,40 L520,40 L530,20 L540,40 L560,40 L570,5 L575,75 L580,35 L590,40 L800,40 L820,40 L830,20 L840,40 L860,40 L870,5 L875,75 L880,35 L890,40 L1100,40 L1120,40 L1130,20 L1140,40 L1160,40 L1170,5 L1175,75 L1180,35 L1190,40 L1400,40 L1420,40 L1430,20 L1440,40 L1460,40 L1470,5 L1475,75 L1480,35 L1490,40 L1700,40 L1720,40 L1730,20 L1740,40 L1760,40 L1770,5 L1775,75 L1780,35 L1790,40 L2000,40"/>
+    </svg>
+
+    <!-- Heart glow -->
+    <div class="heart-container"><div class="heart-glow"></div></div>
+
+    <!-- Content -->
+    <div class="content">
+      <div class="eyebrow">London Cardiology Clinic</div>
+      <h3>Expert care for<br>your <em>heart</em></h3>
+      <div class="sub">Specialist cardiology consultations in South London. Palpitations, blood pressure, ECG interpretation, and cardiac assessment — without the wait.</div>
+      <a href="#" class="btn-primary">Book Appointment — £49.99</a>
+      <a href="#" class="btn-ghost">Explore Conditions</a>
+    </div>
+  </div>
+
+  <!-- Services -->
+  <div class="services-1">
+    <div class="svc-card">
+      <div class="svc-icon">&#9829;</div>
+      <h4>Palpitations</h4>
+      <p>Expert assessment of heart rhythm disturbances and ectopic beats</p>
+    </div>
+    <div class="svc-card">
+      <div class="svc-icon">&#9889;</div>
+      <h4>ECG Review</h4>
+      <p>Bring your GP's ECG for specialist interpretation and advice</p>
+    </div>
+    <div class="svc-card">
+      <div class="svc-icon">&#128200;</div>
+      <h4>Blood Pressure</h4>
+      <p>Hypertension assessment, risk stratification, and management</p>
+    </div>
+    <div class="svc-card">
+      <div class="svc-icon">&#128168;</div>
+      <h4>Cardiac Screening</h4>
+      <p>Heart murmurs, breathlessness, chest pain triage</p>
+    </div>
+  </div>
+
+  <div class="trust-1">
+    <div class="trust-item"><span class="trust-dot"></span>GMC Registered</div>
+    <div class="trust-item"><span class="trust-dot"></span>MRCP (UK)</div>
+    <div class="trust-item"><span class="trust-dot"></span>Royal Free Hospital</div>
+    <div class="trust-item"><span class="trust-dot"></span>Wimbledon SW19</div>
+    <div class="trust-item"><span class="trust-dot"></span>Friday Evenings</div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- CONCEPT 2: Dark Luxury + Gold -->
+<div class="concept">
+  <div class="concept-label">
+    <h2>Concept 2: Midnight Gold</h2>
+    <span class="badge" style="background:linear-gradient(135deg,#c9a84c,#e8c862);color:#1a1a1a;">Three.js Gold ECG Trace</span>
+  </div>
+  <div class="concept-desc">Ultra-premium dark theme with gold accents. A golden ECG line traces across the viewport. 3D gold particles form constellations. Luxury feel — Harley Street meets modern tech.</div>
+
+  <div class="hero-2">
+    <div class="nav-2">
+      <div class="logo">London <span>Cardiology</span> Clinic</div>
+      <div class="links">
+        <a href="#">About</a><a href="#">Conditions</a><a href="#">Fees</a><a href="#">Contact</a>
+      </div>
+    </div>
+    <svg class="ecg-gold" viewBox="0 0 2000 60" preserveAspectRatio="none">
+      <path class="ecg-gold-path" d="M0,30 L200,30 L220,30 L230,15 L240,30 L260,30 L270,3 L275,57 L280,27 L290,30 L500,30 L520,30 L530,15 L540,30 L560,30 L570,3 L575,57 L580,27 L590,30 L800,30 L820,30 L830,15 L840,30 L860,30 L870,3 L875,57 L880,27 L890,30 L1100,30 L1120,30 L1130,15 L1140,30 L1160,30 L1170,3 L1175,57 L1180,27 L1190,30 L1400,30 L1420,30 L1430,15 L1440,30 L1460,30 L1470,3 L1475,57 L1480,27 L1490,30 L2000,30"/>
+    </svg>
+    <div class="content">
+      <div class="eyebrow">London Cardiology Clinic</div>
+      <h3>Private cardiology<br><em>without the wait</em></h3>
+      <div class="sub">Same-week specialist consultations in Wimbledon — Friday evenings</div>
+      <a href="#" class="btn-gold">Book Your Consultation</a>
+    </div>
+  </div>
+
+  <div class="services-2">
+    <div class="svc-2"><div class="line"></div><h4>Palpitations</h4><p>Heart rhythm</p></div>
+    <div class="svc-2"><div class="line"></div><h4>ECG</h4><p>Expert reading</p></div>
+    <div class="svc-2"><div class="line"></div><h4>Blood Pressure</h4><p>Assessment</p></div>
+    <div class="svc-2"><div class="line"></div><h4>Chest Pain</h4><p>Low-risk triage</p></div>
+    <div class="svc-2"><div class="line"></div><h4>Heart Murmurs</h4><p>Auscultation</p></div>
+    <div class="svc-2"><div class="line"></div><h4>Breathlessness</h4><p>Cardiac screen</p></div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- CONCEPT 3: Split + Interactive Heart -->
+<div class="concept">
+  <div class="concept-label">
+    <h2>Concept 3: Split Anatomical</h2>
+    <span class="badge" style="background:linear-gradient(135deg,#2a7d6a,#1a3d2e);">Three.js Interactive Heart Model</span>
+  </div>
+  <div class="concept-desc">Split-screen: clean white left side with copy, right side has a 3D interactive heart model you can hover over to discover conditions. Hotspots on the heart reveal symptom info. Light + professional + interactive.</div>
+
+  <div class="hero-3">
+    <div class="hero-3-left">
+      <div class="eyebrow">London Cardiology Clinic</div>
+      <h3>Specialist heart care,<br>close to home</h3>
+      <div class="sub">Private cardiology consultations in Wimbledon. Expert assessment for palpitations, blood pressure, breathlessness, and heart rhythm concerns. No referral needed.</div>
+      <div>
+        <a href="#" class="btn-dark">Book — £49.99</a>
+        <a href="#" class="btn-outline-dark">View Conditions</a>
+      </div>
+    </div>
+    <div class="hero-3-right">
+      <!-- Interactive heart with hotspots -->
+      <div class="heart-outline">
+        <svg viewBox="0 0 200 200">
+          <path class="heart-draw" d="M100,180 C60,140 10,110 10,70 C10,30 40,10 70,10 C85,10 95,20 100,30 C105,20 115,10 130,10 C160,10 190,30 190,70 C190,110 140,140 100,180Z"/>
+        </svg>
+        <div class="hotspot" style="top:25%;left:35%;">
+          <span>1</span>
+          <div class="hotspot-tooltip">Atrial Fibrillation</div>
+        </div>
+        <div class="hotspot" style="top:40%;right:25%;">
+          <span>2</span>
+          <div class="hotspot-tooltip">Heart Rhythm</div>
+        </div>
+        <div class="hotspot" style="bottom:35%;left:45%;">
+          <span>3</span>
+          <div class="hotspot-tooltip">Valvular Murmur</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="services-3">
+    <div class="svc-3"><h4>Palpitations</h4><p>Assessment & ECG</p></div>
+    <div class="svc-3"><h4>Blood Pressure</h4><p>Hypertension</p></div>
+    <div class="svc-3"><h4>Heart Murmurs</h4><p>Auscultation</p></div>
+    <div class="svc-3"><h4>Breathlessness</h4><p>Cardiac screening</p></div>
+    <div class="svc-3"><h4>Chest Pain</h4><p>Low-risk triage</p></div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- CONCEPT 4: Clean White + Interactive Symptom Checker -->
+<div class="concept">
+  <div class="concept-label">
+    <h2>Concept 4: Clinical White + Symptom Checker</h2>
+    <span class="badge" style="background:linear-gradient(135deg,#2a7d6a,#48a999);">Three.js Subtle ECG + Interactive Triage</span>
+  </div>
+  <div class="concept-desc">Clean white design with a subtle animated ECG watermark in the background. The standout feature: an interactive symptom checker that helps patients self-triage before booking, funnelling out high-risk patients (chest pain, under-18, congenital) with safety warnings.</div>
+
+  <div class="hero-4">
+    <div class="nav-4">
+      <div class="logo">London <span>Cardiology</span> Clinic</div>
+      <div class="links">
+        <a href="#">About</a><a href="#">Conditions</a><a href="#">Symptom Checker</a><a href="#">Fees</a>
+      </div>
+      <a href="#" class="nav-4 book-btn">Book Now</a>
+    </div>
+    <svg class="ecg-bg" viewBox="0 0 2000 120" preserveAspectRatio="none">
+      <path class="ecg-bg-path" d="M0,60 L300,60 L330,60 L345,30 L360,60 L390,60 L405,8 L413,112 L420,53 L435,60 L700,60 L730,60 L745,30 L760,60 L790,60 L805,8 L813,112 L820,53 L835,60 L1100,60 L1130,60 L1145,30 L1160,60 L1190,60 L1205,8 L1213,112 L1220,53 L1235,60 L1500,60 L1530,60 L1545,30 L1560,60 L1590,60 L1605,8 L1613,112 L1620,53 L1635,60 L2000,60"/>
+    </svg>
+    <div class="content">
+      <div class="eyebrow">London Cardiology Clinic</div>
+      <h3>Is your heart<br>trying to tell you<br>something?</h3>
+      <div class="sub">Private cardiology consultations in South London. Use our symptom checker or book directly — no referral needed.</div>
+      <a href="#" class="btn-green">Book Appointment — £49.99</a>
+      <a href="#" class="btn-outline-green">Check Your Symptoms</a>
+    </div>
+  </div>
+
+  <!-- Symptom checker preview -->
+  <div class="checker-preview">
+    <div class="checker-left">
+      <h4>Interactive Symptom Checker</h4>
+      <p>Answer a few quick questions to understand your symptoms and whether our clinic is right for you. This tool helps ensure patient safety by identifying high-risk presentations that need urgent care.</p>
+      <p style="font-size:12px;color:#aaa;margin-top:8px;">Not a diagnostic tool — always seek medical advice for new symptoms.</p>
+    </div>
+    <div class="checker-right">
+      <div class="checker-q">What best describes your main concern?</div>
+      <button class="checker-opt active">My heart feels like it's racing or skipping beats</button>
+      <button class="checker-opt">I've been told I have high blood pressure</button>
+      <button class="checker-opt">I feel breathless with minimal exertion</button>
+      <button class="checker-opt">My GP found a heart murmur</button>
+      <button class="checker-opt">I'd like a general cardiac check-up</button>
+    </div>
+  </div>
+
+  <!-- Safety funnel example -->
+  <div class="safety-banner">
+    <div class="icon">&#9888;</div>
+    <p><strong>Safety First:</strong> If you are experiencing chest pain right now, difficulty breathing, or feel faint, please call <strong>999</strong> immediately. Our clinic is for non-emergency cardiac concerns only.</p>
+  </div>
+</div>
+
+<div style="padding:60px 40px; text-align:center; color:rgba(255,255,255,0.3); font-size:13px;">
+  <p>These are CSS approximations — the real site will use Three.js for 3D particle hearts, animated ECG traces, mouse-reactive effects, and smooth scroll-driven transitions.</p>
+</div>
+
+</body>
+</html>

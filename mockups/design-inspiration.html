@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Inspiration — London Cardiology Clinic</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Segoe UI', -apple-system, sans-serif; background:#f8f8f8; color:#333; }
+  .header { background:#fff; padding:20px 32px; border-bottom:1px solid #eee; position:sticky; top:0; z-index:10; }
+  .header h1 { font-size:22px; font-weight:600; }
+  .header p { color:#888; font-size:13px; margin-top:4px; }
+  .section { max-width:1200px; margin:0 auto; padding:32px 24px; }
+  .section h2 { font-size:20px; margin-bottom:8px; }
+  .section .desc { color:#666; font-size:14px; margin-bottom:24px; line-height:1.6; }
+  .grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  @media(max-width:900px) { .grid3,.grid2 { grid-template-columns:1fr; } }
+
+  /* Mockup styles */
+  .mockup { background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 2px 16px rgba(0,0,0,0.06); }
+  .mockup-label { background:#f0f0f0; padding:10px 16px; font-size:12px; font-weight:600; color:#666; text-transform:uppercase; letter-spacing:1px; border-bottom:1px solid #e8e8e8; }
+  .mockup-label .tag { display:inline-block; background:#2a7d6a; color:#fff; padding:2px 8px; border-radius:10px; font-size:10px; margin-left:8px; text-transform:none; letter-spacing:0; }
+
+  /* Design A: Welbeck-inspired luxury */
+  .lux-hero { background:#FEFBF6; padding:48px 28px; text-align:center; }
+  .lux-hero .eyebrow { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:#03576F; margin-bottom:12px; }
+  .lux-hero h3 { font-family:Georgia,'Times New Roman',serif; font-size:28px; color:#0A1438; font-weight:400; line-height:1.3; margin-bottom:10px; }
+  .lux-hero .sub { font-size:14px; color:#666; margin-bottom:20px; }
+  .lux-hero .btn { display:inline-block; background:#03576F; color:#fff; padding:12px 32px; border-radius:4px; font-size:13px; font-weight:500; letter-spacing:0.5px; }
+  .lux-cards { display:flex; gap:1px; background:#e8e0d6; }
+  .lux-card { flex:1; background:#FEFBF6; padding:20px 16px; text-align:center; }
+  .lux-card .icon { font-size:24px; margin-bottom:8px; }
+  .lux-card h4 { font-family:Georgia,serif; font-size:13px; color:#0A1438; margin-bottom:4px; }
+  .lux-card p { font-size:11px; color:#888; }
+  .lux-nav { background:#0A1438; padding:10px 20px; display:flex; justify-content:space-between; color:rgba(255,255,255,0.7); font-size:11px; }
+
+  /* Design B: Heartbeat Health-inspired modern */
+  .mod-hero { background:linear-gradient(135deg, #2E3192 0%, #262979 100%); padding:48px 28px; color:#fff; }
+  .mod-hero .eyebrow { font-size:11px; letter-spacing:2px; text-transform:uppercase; opacity:0.6; margin-bottom:10px; }
+  .mod-hero h3 { font-size:26px; font-weight:700; line-height:1.25; margin-bottom:8px; }
+  .mod-hero .sub { font-size:14px; opacity:0.8; margin-bottom:20px; }
+  .mod-hero .btn { display:inline-block; background:#D1007E; color:#fff; padding:12px 28px; border-radius:30px; font-size:13px; font-weight:600; }
+  .mod-stats { display:flex; background:#f2f2f2; }
+  .mod-stat { flex:1; padding:16px; text-align:center; border-right:1px solid #ddd; }
+  .mod-stat:last-child { border:none; }
+  .mod-stat .num { font-size:22px; font-weight:700; color:#2E3192; }
+  .mod-stat .label { font-size:10px; color:#888; margin-top:2px; text-transform:uppercase; letter-spacing:0.5px; }
+  .mod-nav { background:#1a1a5e; padding:10px 20px; display:flex; justify-content:space-between; color:rgba(255,255,255,0.7); font-size:11px; }
+
+  /* Design C: Emerald warmth (our recommendation evolved) */
+  .em-hero { background:linear-gradient(160deg, #0f2b1e 0%, #1a4a35 40%, #2a7d6a 100%); padding:48px 28px; color:#fff; }
+  .em-hero .eyebrow { font-size:11px; letter-spacing:2px; text-transform:uppercase; opacity:0.6; margin-bottom:10px; }
+  .em-hero h3 { font-family:Georgia,'Times New Roman',serif; font-size:26px; font-weight:400; line-height:1.3; margin-bottom:8px; }
+  .em-hero .sub { font-size:14px; opacity:0.85; margin-bottom:20px; }
+  .em-hero .btn { display:inline-block; background:rgba(255,255,255,0.15); color:#fff; padding:12px 28px; border-radius:6px; font-size:13px; font-weight:500; border:1px solid rgba(255,255,255,0.35); }
+  .em-hero .btn-solid { display:inline-block; background:#d4a853; color:#0f2b1e; padding:12px 28px; border-radius:6px; font-size:13px; font-weight:600; margin-right:10px; }
+  .em-services { background:#f5f9f7; padding:16px; }
+  .em-svc-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .em-svc { background:#fff; border-radius:8px; padding:14px; border-left:3px solid #2a7d6a; }
+  .em-svc h4 { font-size:12px; font-weight:700; color:#0f2b1e; margin-bottom:2px; }
+  .em-svc p { font-size:10px; color:#777; }
+  .em-nav { background:#0f2b1e; padding:10px 20px; display:flex; justify-content:space-between; color:rgba(255,255,255,0.7); font-size:11px; }
+  .em-trust { display:flex; justify-content:center; gap:16px; padding:12px; background:#fff; }
+  .em-badge { font-size:10px; color:#666; padding:4px 10px; border:1px solid #ddd; border-radius:4px; }
+
+  /* Design D: EchoMed-inspired warm clinical */
+  .warm-hero { background:#FFFAF3; padding:48px 28px; text-align:center; border-bottom:3px solid #1B4965; }
+  .warm-hero .eyebrow { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#1B4965; margin-bottom:10px; }
+  .warm-hero h3 { font-size:26px; font-weight:700; color:#1B4965; line-height:1.3; margin-bottom:8px; }
+  .warm-hero .sub { font-size:14px; color:#666; margin-bottom:20px; }
+  .warm-hero .btn { display:inline-block; background:#1B4965; color:#fff; padding:12px 28px; border-radius:6px; font-size:13px; font-weight:600; }
+  .warm-svc { display:flex; background:#fff; }
+  .warm-svc-item { flex:1; padding:16px; text-align:center; border-right:1px solid #f0e8dc; }
+  .warm-svc-item:last-child { border:none; }
+  .warm-svc-item .icon { font-size:20px; margin-bottom:6px; }
+  .warm-svc-item h4 { font-size:12px; font-weight:700; color:#1B4965; margin-bottom:3px; }
+  .warm-svc-item p { font-size:10px; color:#888; }
+  .warm-nav { background:#1B4965; padding:10px 20px; display:flex; justify-content:space-between; color:rgba(255,255,255,0.7); font-size:11px; }
+
+  /* Design E: Gold + dark (Clinic78-inspired premium) */
+  .gold-hero { background:linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); padding:48px 28px; color:#fff; text-align:center; }
+  .gold-hero .eyebrow { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:#b29050; margin-bottom:12px; }
+  .gold-hero h3 { font-family:Georgia,serif; font-size:26px; font-weight:400; line-height:1.3; margin-bottom:10px; }
+  .gold-hero .sub { font-size:14px; opacity:0.75; margin-bottom:20px; }
+  .gold-hero .btn { display:inline-block; background:#b29050; color:#fff; padding:12px 28px; border-radius:4px; font-size:13px; font-weight:600; letter-spacing:0.5px; }
+  .gold-review { background:#f5f4f2; padding:14px; text-align:center; }
+  .gold-review .stars { color:#b29050; font-size:16px; }
+  .gold-review p { font-size:11px; color:#666; margin-top:4px; }
+  .gold-cards { display:flex; gap:8px; padding:12px; background:#fff; }
+  .gold-card { flex:1; background:#f5f4f2; border-radius:8px; padding:14px; text-align:center; }
+  .gold-card h4 { font-size:12px; font-weight:700; color:#16213e; margin-bottom:3px; }
+  .gold-card p { font-size:10px; color:#888; }
+  .gold-nav { background:#1a1a2e; padding:10px 20px; display:flex; justify-content:space-between; color:rgba(255,255,255,0.6); font-size:11px; }
+
+  /* Design F: Clean white + accent (OneHeart-inspired) */
+  .clean-hero { background:#fff; padding:48px 28px; border-bottom:4px solid #78c6bb; }
+  .clean-hero .eyebrow { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#78c6bb; margin-bottom:10px; }
+  .clean-hero h3 { font-size:26px; font-weight:700; color:#222; line-height:1.3; margin-bottom:8px; }
+  .clean-hero .sub { font-size:14px; color:#888; margin-bottom:20px; }
+  .clean-hero .btn { display:inline-block; background:#78c6bb; color:#fff; padding:12px 28px; border-radius:30px; font-size:13px; font-weight:600; }
+  .clean-hero .btn-outline { display:inline-block; background:transparent; color:#78c6bb; padding:12px 28px; border-radius:30px; font-size:13px; font-weight:600; border:2px solid #78c6bb; margin-left:8px; }
+  .clean-services { display:flex; background:#f9faf9; }
+  .clean-svc { flex:1; padding:16px; text-align:center; }
+  .clean-svc .icon { font-size:20px; margin-bottom:6px; color:#78c6bb; }
+  .clean-svc h4 { font-size:12px; font-weight:700; color:#222; margin-bottom:3px; }
+  .clean-svc p { font-size:10px; color:#888; }
+  .clean-nav { background:#222; padding:10px 20px; display:flex; justify-content:space-between; color:rgba(255,255,255,0.7); font-size:11px; }
+
+  .divider { border:0; border-top:1px solid #e0e0e0; margin:40px 0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>London Cardiology Clinic — Design Exploration</h1>
+  <p>6 design directions based on 15+ top UK and international cardiology websites</p>
+</div>
+
+<div class="section">
+  <h2>Which direction feels right?</h2>
+  <p class="desc">Each mockup shows how your homepage hero + services would look. All use the name "London Cardiology Clinic" and cover low-risk cardiac conditions (palpitations, ECG, blood pressure, chest pain assessment, heart murmurs, breathlessness).</p>
+
+  <div class="grid3">
+
+    <!-- A: Welbeck luxury -->
+    <div class="mockup">
+      <div class="mockup-label">A. Luxury Editorial <span class="tag" style="background:#03576F;">Welbeck-inspired</span></div>
+      <div class="lux-hero">
+        <div class="eyebrow">London Cardiology Clinic</div>
+        <h3>Expert cardiac care,<br>close to home</h3>
+        <div class="sub">Specialist assessment for palpitations, breathlessness, and heart rhythm concerns</div>
+        <div class="btn">Book Your Consultation</div>
+      </div>
+      <div class="lux-cards">
+        <div class="lux-card"><div class="icon">&#9829;</div><h4>Palpitations</h4><p>Assessment & ECG</p></div>
+        <div class="lux-card"><div class="icon">&#9889;</div><h4>ECG Review</h4><p>Expert reading</p></div>
+        <div class="lux-card"><div class="icon">&#128168;</div><h4>Breathlessness</h4><p>Cardiac screening</p></div>
+      </div>
+      <div class="lux-nav"><span>Home</span><span>About</span><span>Conditions</span><span>Book</span><span>Contact</span></div>
+    </div>
+
+    <!-- B: Modern startup -->
+    <div class="mockup">
+      <div class="mockup-label">B. Modern Bold <span class="tag" style="background:#D1007E;">Heartbeat-inspired</span></div>
+      <div class="mod-hero">
+        <div class="eyebrow">London Cardiology Clinic</div>
+        <h3>Your heart, our expertise.<br>No waiting lists.</h3>
+        <div class="sub">Same-week appointments for palpitations, blood pressure, and cardiac concerns</div>
+        <div class="btn">Book Now — £49.99</div>
+      </div>
+      <div class="mod-stats">
+        <div class="mod-stat"><div class="num">6</div><div class="label">Slots / Friday</div></div>
+        <div class="mod-stat"><div class="num">30</div><div class="label">Min consult</div></div>
+        <div class="mod-stat"><div class="num">3+</div><div class="label">Years specialist</div></div>
+      </div>
+      <div class="mod-nav"><span>Home</span><span>About</span><span>Conditions</span><span>Book</span><span>Contact</span></div>
+    </div>
+
+    <!-- C: Emerald warmth (evolved) -->
+    <div class="mockup">
+      <div class="mockup-label">C. Emerald Warmth <span class="tag">Recommended</span></div>
+      <div class="em-hero">
+        <div class="eyebrow">London Cardiology Clinic</div>
+        <h3>Specialist heart care<br>in South London</h3>
+        <div class="sub">Expert assessment for palpitations, heart rhythm, blood pressure & more</div>
+        <div><span class="em-hero btn-solid">Book Appointment</span><span class="em-hero btn">Learn More</span></div>
+      </div>
+      <div class="em-services">
+        <div class="em-svc-grid">
+          <div class="em-svc"><h4>Palpitations</h4><p>Assessment & ECG</p></div>
+          <div class="em-svc"><h4>Blood Pressure</h4><p>Hypertension review</p></div>
+          <div class="em-svc"><h4>Chest Pain</h4><p>Low-risk assessment</p></div>
+          <div class="em-svc"><h4>Heart Murmurs</h4><p>Auscultation & advice</p></div>
+        </div>
+      </div>
+      <div class="em-trust">
+        <span class="em-badge">GMC Registered</span>
+        <span class="em-badge">MRCP (UK)</span>
+        <span class="em-badge">Royal Free NHS</span>
+      </div>
+      <div class="em-nav"><span>Home</span><span>About</span><span>Conditions</span><span>Fees</span><span>Book</span></div>
+    </div>
+
+    <!-- D: Warm clinical -->
+    <div class="mockup">
+      <div class="mockup-label">D. Warm Clinical <span class="tag" style="background:#1B4965;">EchoMed-inspired</span></div>
+      <div class="warm-hero">
+        <div class="eyebrow">London Cardiology Clinic</div>
+        <h3>Your heart is at the centre<br>of everything we do</h3>
+        <div class="sub">Private cardiology consultations — no referral needed</div>
+        <div class="btn">Get Checked Today</div>
+      </div>
+      <div class="warm-svc">
+        <div class="warm-svc-item"><div class="icon">&#9829;</div><h4>Palpitations</h4><p>Heart rhythm</p></div>
+        <div class="warm-svc-item"><div class="icon">&#128200;</div><h4>Blood Pressure</h4><p>Assessment</p></div>
+        <div class="warm-svc-item"><div class="icon">&#9889;</div><h4>ECG</h4><p>Interpretation</p></div>
+        <div class="warm-svc-item"><div class="icon">&#128168;</div><h4>Breathlessness</h4><p>Screening</p></div>
+      </div>
+      <div class="warm-nav"><span>Home</span><span>About</span><span>Services</span><span>Fees</span><span>Book</span></div>
+    </div>
+
+    <!-- E: Gold premium -->
+    <div class="mockup">
+      <div class="mockup-label">E. Dark Premium <span class="tag" style="background:#b29050;">Clinic78-inspired</span></div>
+      <div class="gold-hero">
+        <div class="eyebrow">London Cardiology Clinic</div>
+        <h3>Private cardiology<br>consultations from £49.99</h3>
+        <div class="sub">Expert heart care in Wimbledon — Friday evenings</div>
+        <div class="btn">Book Your Appointment</div>
+      </div>
+      <div class="gold-review">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>Specialist cardiology care in South London</p>
+      </div>
+      <div class="gold-cards">
+        <div class="gold-card"><h4>Palpitations</h4><p>Assessment</p></div>
+        <div class="gold-card"><h4>ECG Review</h4><p>Expert reading</p></div>
+        <div class="gold-card"><h4>Blood Pressure</h4><p>Management</p></div>
+      </div>
+      <div class="gold-nav"><span>Home</span><span>About</span><span>Conditions</span><span>Fees</span><span>Book</span></div>
+    </div>
+
+    <!-- F: Clean minimal -->
+    <div class="mockup">
+      <div class="mockup-label">F. Clean Minimal <span class="tag" style="background:#78c6bb;">OneHeart-inspired</span></div>
+      <div class="clean-hero">
+        <div class="eyebrow">London Cardiology Clinic</div>
+        <h3>Expert heart care.<br>No waiting lists.</h3>
+        <div class="sub">Private cardiology consultations in South London from £49.99</div>
+        <div><span class="clean-hero btn">Book Now</span><span class="clean-hero btn-outline">Our Services</span></div>
+      </div>
+      <div class="clean-services">
+        <div class="clean-svc"><div class="icon">&#9829;</div><h4>Palpitations</h4><p>Assessment & ECG</p></div>
+        <div class="clean-svc"><div class="icon">&#128200;</div><h4>Blood Pressure</h4><p>Hypertension</p></div>
+        <div class="clean-svc"><div class="icon">&#128168;</div><h4>Breathlessness</h4><p>Cardiac screen</p></div>
+        <div class="clean-svc"><div class="icon">&#9889;</div><h4>Heart Rhythm</h4><p>AF & ectopics</p></div>
+      </div>
+      <div class="clean-nav"><span>Home</span><span>About</span><span>Conditions</span><span>Fees</span><span>Book</span></div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

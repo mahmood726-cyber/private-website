@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>London Cardiology Clinic — Private Cardiology in Wimbledon</title>
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; script-src 'self' https://js.stripe.com; frame-src https://js.stripe.com; connect-src 'self' https://api.stripe.com;">
+<style>
+  /* Fonts: self-hosted in production. Using Google Fonts for mockup only. */
+  @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Libre Baskerville','Baskerville','Georgia',serif; background:#faf7f2; color:#2c2c2c; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+
+  /* ═══ Colour Palette (contrast-fixed) ═══ */
+  :root {
+    --sage: #a8c5b8;           /* pastel green — decorative only */
+    --sage-deep: #3d6b55;      /* FIXED: darkened for AA text contrast (was #7ba393) */
+    --sage-btn: #4d7a65;       /* FIXED: button bg — AA on white text */
+    --sage-light: #dce8e0;     /* very light sage */
+    --sage-bg: #f0f5f2;        /* sage tint background */
+    --blush: #e8c4c4;          /* pastel pink — accent */
+    --blush-light: #f5e5e5;    /* light blush */
+    --cream: #faf7f2;          /* warm cream — main bg */
+    --ivory: #fffdf8;          /* slightly warmer white */
+    --lavender: #d4cfe6;       /* pastel purple — subtle accent */
+    --sky: #c4d7e8;            /* pastel blue */
+    --charcoal: #2c2c2c;       /* text */
+    --warm-grey: #6b6560;      /* secondary text */
+    --mid-grey: #7a756e;       /* FIXED: tertiary text — AA compliant (was #b5aea6) */
+    --danger: #9e3333;         /* FIXED: safety red — AA compliant (was #c45a5a) */
+  }
+
+  /* ═══ Skip Link ═══ */
+  .skip-link {
+    position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
+    font-family:'Inter',sans-serif; font-size:14px; background:var(--charcoal); color:#fff;
+    padding:12px 24px; z-index:1000; text-decoration:none; border-radius:0 0 8px 0;
+  }
+  .skip-link:focus { position:fixed; left:0; top:0; width:auto; height:auto; }
+
+  /* ═══ Focus Indicators ═══ */
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+    outline:2px solid var(--charcoal); outline-offset:2px;
+  }
+
+  /* ═══ Reduced Motion ═══ */
+  @media (prefers-reduced-motion: reduce) {
+    .soft-particle, .ecg-deco-path { animation:none !important; }
+  }
+
+  /* ═══ Navigation ═══ */
+  .nav {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:20px 48px; background:var(--ivory); border-bottom:1px solid rgba(0,0,0,0.04);
+    position:sticky; top:0; z-index:100;
+  }
+  .nav .logo { font-size:20px; font-weight:400; color:var(--charcoal); letter-spacing:0.5px; }
+  .nav .logo em { font-style:italic; color:var(--sage-deep); }
+  .nav .links { display:flex; gap:32px; align-items:center; }
+  .nav .links a {
+    font-family:'Inter',sans-serif; font-size:13px; font-weight:400;
+    color:var(--warm-grey); text-decoration:none; letter-spacing:0.3px;
+    transition:color 0.3s;
+  }
+  .nav .links a:hover { color:var(--charcoal); }
+  .nav .book-btn {
+    font-family:'Inter',sans-serif; font-size:13px; font-weight:500;
+    background:var(--sage-btn); color:#fff; padding:10px 24px;
+    border-radius:8px; text-decoration:none; transition:all 0.3s;
+    letter-spacing:0.3px;
+  }
+  .nav .book-btn:hover { background:#3d6b55; }
+
+  /* ═══ Safety Strip (moved to top) ═══ */
+  .safety-top {
+    padding:12px 48px; background:var(--blush-light);
+    border-bottom:2px solid var(--blush);
+    display:flex; align-items:center; gap:10px;
+  }
+  .safety-top p { font-family:'Inter',sans-serif; font-size:13px; color:var(--warm-grey); line-height:1.5; }
+  .safety-top strong { color:var(--danger); }
+
+  /* ═══ Hero Split ═══ */
+  .hero {
+    display:grid; grid-template-columns:1fr 1fr; min-height:85vh;
+  }
+  .hero-left {
+    background:var(--ivory); padding:80px 64px;
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  .hero-left .eyebrow {
+    font-family:'Inter',sans-serif; font-size:12px; letter-spacing:3px;
+    text-transform:uppercase; color:var(--sage-deep); margin-bottom:20px; font-weight:500;
+  }
+  .hero-left h1 {
+    font-size:46px; font-weight:400; line-height:1.2; margin-bottom:20px;
+    color:var(--charcoal);
+  }
+  .hero-left h1 em { font-style:italic; color:var(--sage-deep); }
+  .hero-left .description {
+    font-size:17px; line-height:1.8; color:var(--warm-grey); margin-bottom:36px;
+    font-weight:400; max-width:460px;
+  }
+  .hero-buttons { display:flex; gap:14px; align-items:center; }
+  .btn-primary {
+    font-family:'Inter',sans-serif; display:inline-block;
+    background:var(--sage-btn); color:#fff; padding:14px 32px;
+    border-radius:8px; font-size:14px; font-weight:500; text-decoration:none;
+    transition:all 0.3s; letter-spacing:0.3px;
+  }
+  .btn-primary:hover { background:#3d6b55; transform:translateY(-1px); box-shadow:0 4px 16px rgba(61,107,85,0.25); }
+  .btn-secondary {
+    font-family:'Inter',sans-serif; display:inline-block;
+    border:1.5px solid var(--sage); color:var(--sage-deep); padding:13px 32px;
+    border-radius:8px; font-size:14px; font-weight:500; text-decoration:none;
+    transition:all 0.3s; letter-spacing:0.3px;
+  }
+  .btn-secondary:hover { background:var(--sage-light); }
+
+  .hero-right {
+    background:linear-gradient(160deg, var(--sage-light) 0%, var(--sage) 60%, #5a9a80 100%);
+    display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;
+  }
+
+  /* Heart-shaped spider diagram */
+  .spider-container { position:relative; width:380px; height:380px; }
+
+  /* ═══ Services Strip ═══ */
+  .services-strip {
+    display:grid; grid-template-columns:repeat(5,1fr);
+    border-top:1px solid rgba(0,0,0,0.06); background:var(--ivory);
+  }
+  .services-strip a {
+    display:block; padding:32px 20px; text-align:center;
+    border-right:1px solid rgba(0,0,0,0.04);
+    transition:all 0.3s; text-decoration:none; color:inherit;
+  }
+  .services-strip a:last-child { border:none; }
+  .services-strip a:hover { background:var(--sage-bg); }
+  .svc-icon { font-size:24px; margin-bottom:10px; }
+  .services-strip h3 { font-size:15px; font-weight:400; color:var(--charcoal); margin-bottom:4px; }
+  .services-strip p { font-family:'Inter',sans-serif; font-size:14px; color:var(--mid-grey); }
+
+  /* ═══ About / Clinician Section ═══ */
+  .welcome {
+    display:grid; grid-template-columns:1fr 1fr; gap:0;
+    background:var(--cream); min-height:400px;
+  }
+  .welcome-text {
+    padding:72px 64px; display:flex; flex-direction:column; justify-content:center;
+  }
+  .welcome-text h2 { font-size:32px; font-weight:400; margin-bottom:16px; line-height:1.3; }
+  .welcome-text h2 em { font-style:italic; color:var(--sage-deep); }
+  .welcome-text p {
+    font-size:16px; line-height:1.9; color:var(--warm-grey); margin-bottom:20px;
+    max-width:440px;
+  }
+  .welcome-text .credentials {
+    display:flex; gap:16px; flex-wrap:wrap; margin-top:12px;
+  }
+  .credential {
+    font-family:'Inter',sans-serif; font-size:13px; color:var(--sage-deep);
+    padding:6px 14px; border:1px solid var(--sage); border-radius:20px;
+    font-weight:500;
+  }
+  .disclosure {
+    font-family:'Inter',sans-serif; font-size:13px; color:var(--mid-grey);
+    line-height:1.7; margin-top:16px; padding-top:16px;
+    border-top:1px solid rgba(0,0,0,0.06); max-width:440px;
+  }
+
+  .welcome-visual {
+    background:var(--sage-bg); display:flex; align-items:center; justify-content:center;
+    position:relative; overflow:hidden;
+  }
+  /* Decorative ECG */
+  .ecg-deco { width:100%; height:80px; opacity:0.15; }
+  .ecg-deco-path {
+    stroke:var(--sage-deep); stroke-width:2; fill:none;
+    stroke-dasharray:1500; stroke-dashoffset:1500;
+    animation:ecgTrace 4s ease-in-out infinite;
+  }
+  @keyframes ecgTrace { 0%{stroke-dashoffset:1500} 100%{stroke-dashoffset:0} }
+
+  /* ═══ Facilities Section ═══ */
+  .facilities {
+    padding:48px 64px; background:var(--ivory); border-top:1px solid rgba(0,0,0,0.04);
+  }
+  .facilities h2 { font-size:28px; font-weight:400; margin-bottom:12px; }
+  .facilities .cols { display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:20px; }
+  .facilities .col h3 { font-family:'Inter',sans-serif; font-size:14px; font-weight:600; color:var(--sage-deep); margin-bottom:8px; }
+  .facilities .col p { font-family:'Inter',sans-serif; font-size:14px; color:var(--mid-grey); line-height:1.7; }
+
+  /* ═══ What to Expect ═══ */
+  .expect { padding:80px 64px; background:var(--cream); }
+  .expect h2 { font-size:32px; font-weight:400; text-align:center; margin-bottom:12px; }
+  .expect .sub { font-family:'Inter',sans-serif; font-size:14px; color:var(--mid-grey); text-align:center; margin-bottom:48px; }
+  .timeline { display:flex; gap:0; max-width:900px; margin:0 auto; position:relative; list-style:none; }
+  .timeline::before {
+    content:''; position:absolute; top:28px; left:60px; right:60px; height:2px;
+    background:var(--sage-light);
+  }
+  .step {
+    flex:1; text-align:center; position:relative;
+  }
+  .step-num {
+    width:56px; height:56px; border-radius:50%; background:var(--sage-light);
+    border:2px solid var(--sage); display:flex; align-items:center; justify-content:center;
+    font-family:'Inter',sans-serif; font-size:16px; font-weight:600; color:var(--sage-deep);
+    margin:0 auto 16px; position:relative; z-index:2;
+  }
+  .step h3 { font-size:15px; font-weight:400; margin-bottom:6px; }
+  .step p { font-family:'Inter',sans-serif; font-size:14px; color:var(--mid-grey); line-height:1.5; padding:0 12px; }
+
+  /* ═══ Booking CTA ═══ */
+  .cta-section {
+    text-align:center; padding:80px 64px; background:var(--sage-bg);
+  }
+  .cta-section h2 { font-size:34px; font-weight:400; margin-bottom:12px; }
+  .cta-section h2 em { font-style:italic; color:var(--sage-deep); }
+  .cta-section p { font-size:16px; color:var(--warm-grey); margin-bottom:32px; line-height:1.7; max-width:500px; margin-left:auto; margin-right:auto; }
+  .cta-section .price {
+    font-family:'Inter',sans-serif; font-size:36px; font-weight:400;
+    color:var(--sage-deep); margin-bottom:8px;
+  }
+  .cta-section .price-note {
+    font-family:'Inter',sans-serif; font-size:14px; color:var(--mid-grey); margin-bottom:28px;
+  }
+  .cta-section .cancel-note {
+    font-family:'Inter',sans-serif; font-size:13px; color:var(--mid-grey); margin-top:20px;
+  }
+
+  /* ═══ Footer ═══ */
+  .footer {
+    background:var(--charcoal); color:rgba(255,255,255,0.75); padding:48px 64px;
+    display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:48px;
+  }
+  .footer h3 { font-size:14px; font-weight:400; color:#fff; margin-bottom:12px; }
+  .footer p, .footer a { font-family:'Inter',sans-serif; font-size:13px; color:rgba(255,255,255,0.65); text-decoration:none; line-height:1.8; display:block; }
+  .footer a:hover { color:rgba(255,255,255,0.9); }
+
+  /* ═══ Responsive ═══ */
+  @media (max-width:900px) {
+    .hero { grid-template-columns:1fr; }
+    .hero-left { padding:48px 32px; }
+    .hero-left h1 { font-size:34px; }
+    .hero-right { min-height:400px; }
+    .services-strip { grid-template-columns:repeat(2,1fr); }
+    .services-strip a:nth-child(5) { grid-column:span 2; }
+    .welcome { grid-template-columns:1fr; }
+    .welcome-text { padding:48px 32px; }
+    .facilities { padding:32px; }
+    .facilities .cols { grid-template-columns:1fr; }
+    .expect { padding:48px 32px; }
+    .timeline { flex-direction:column; gap:24px; }
+    .timeline::before { display:none; }
+    .cta-section { padding:48px 32px; }
+    .footer { grid-template-columns:1fr 1fr; gap:32px; padding:32px; }
+    .nav { padding:16px 24px; }
+    .nav .links { gap:16px; }
+    .safety-top { padding:10px 24px; }
+  }
+  @media (max-width:480px) {
+    .hero-left h1 { font-size:28px; }
+    .services-strip { grid-template-columns:1fr; }
+    .services-strip a:nth-child(5) { grid-column:span 1; }
+    .hero-buttons { flex-direction:column; align-items:stretch; }
+    .footer { grid-template-columns:1fr; }
+    .nav .links a:not(.book-btn) { display:none; }
+    .spider-container { width:300px; height:300px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Skip link -->
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- Safety Strip (moved to top — visible immediately) -->
+<div class="safety-top" role="alert" aria-live="polite">
+  <p><strong>Important:</strong> If you have chest pain, difficulty breathing, fainting, or feel unwell, call <strong>999</strong> immediately. This clinic is for non-emergency cardiac concerns only. We do not see patients under 18, those with known congenital heart disease, heart failure, implanted cardiac devices, or cardiac symptoms during pregnancy.</p>
+</div>
+
+<!-- Navigation -->
+<nav class="nav" aria-label="Main navigation">
+  <div class="logo">London <em>Cardiology</em> Clinic</div>
+  <div class="links">
+    <a href="#about">About</a>
+    <a href="#conditions">Conditions</a>
+    <a href="#expect">What to Expect</a>
+    <a href="#booking">Fees</a>
+    <a href="#contact">Contact</a>
+    <a href="#booking" class="book-btn" aria-label="Book an appointment">Book Appointment</a>
+  </div>
+</nav>
+
+<!-- Main content -->
+<main id="main">
+
+<!-- Hero Split -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="eyebrow" aria-hidden="true">London Cardiology Clinic</div>
+    <h1>Cardiology care, <em>close to home</em></h1>
+    <p class="description">Private cardiology consultations in Wimbledon. Experienced assessment for palpitations, blood pressure, breathlessness, and heart rhythm concerns. We recommend discussing your symptoms with your GP before booking.</p>
+    <div class="hero-buttons">
+      <a href="#booking" class="btn-primary" aria-label="Book an appointment in the booking section">Book Appointment</a>
+      <a href="#conditions" class="btn-secondary">View Conditions</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <!-- Heart-shaped spider diagram of conditions -->
+    <div class="spider-container">
+      <svg viewBox="0 0 400 380" width="380" height="380" role="img" aria-label="Heart-shaped diagram showing conditions we assess: Palpitations, Blood Pressure, ECG Interpretation, Breathlessness, and Heart Murmurs">
+        <!-- Heart-shaped grid lines (3 levels) -->
+        <path d="M200,340 C140,280 40,230 40,140 C40,60 90,20 140,20 C170,20 190,40 200,60 C210,40 230,20 260,20 C310,20 360,60 360,140 C360,230 260,280 200,340Z" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" aria-hidden="true"/>
+        <path d="M200,290 C155,245 80,210 80,145 C80,85 110,55 145,55 C165,55 180,68 200,82 C220,68 235,55 255,55 C290,55 320,85 320,145 C320,210 245,245 200,290Z" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" aria-hidden="true"/>
+        <path d="M200,240 C170,215 120,190 120,152 C120,112 138,92 158,92 C172,92 185,100 200,112 C215,100 228,92 242,92 C262,92 280,112 280,152 C280,190 230,215 200,240Z" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" aria-hidden="true"/>
+
+        <!-- Filled spider area -->
+        <path d="M200,330 C148,275 55,225 55,142 C55,65 98,28 145,28 C172,28 188,45 200,65 C212,45 228,28 255,28 C302,28 345,65 345,142 C345,225 252,275 200,330Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" aria-hidden="true"/>
+
+        <!-- Axis lines -->
+        <line x1="200" y1="180" x2="200" y2="28" stroke="rgba(255,255,255,0.12)" stroke-width="1" aria-hidden="true"/>
+        <line x1="200" y1="180" x2="55" y2="142" stroke="rgba(255,255,255,0.12)" stroke-width="1" aria-hidden="true"/>
+        <line x1="200" y1="180" x2="345" y2="142" stroke="rgba(255,255,255,0.12)" stroke-width="1" aria-hidden="true"/>
+        <line x1="200" y1="180" x2="130" y2="310" stroke="rgba(255,255,255,0.12)" stroke-width="1" aria-hidden="true"/>
+        <line x1="200" y1="180" x2="270" y2="310" stroke="rgba(255,255,255,0.12)" stroke-width="1" aria-hidden="true"/>
+
+        <!-- Condition dots (5 conditions — chest pain removed) -->
+        <circle cx="200" cy="28" r="6" fill="rgba(255,255,255,0.9)" aria-hidden="true"/>
+        <circle cx="55" cy="142" r="6" fill="rgba(255,255,255,0.9)" aria-hidden="true"/>
+        <circle cx="345" cy="142" r="6" fill="rgba(255,255,255,0.9)" aria-hidden="true"/>
+        <circle cx="130" cy="310" r="6" fill="rgba(255,255,255,0.9)" aria-hidden="true"/>
+        <circle cx="270" cy="310" r="6" fill="rgba(255,255,255,0.9)" aria-hidden="true"/>
+
+        <!-- Condition labels -->
+        <text x="200" y="14" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-size="12" font-weight="600" aria-hidden="true">Palpitations</text>
+        <text x="20" y="142" text-anchor="start" fill="#fff" font-family="Inter,sans-serif" font-size="12" font-weight="600" aria-hidden="true">Blood</text>
+        <text x="20" y="156" text-anchor="start" fill="rgba(255,255,255,0.8)" font-family="Inter,sans-serif" font-size="10" aria-hidden="true">Pressure</text>
+        <text x="380" y="142" text-anchor="end" fill="#fff" font-family="Inter,sans-serif" font-size="12" font-weight="600" aria-hidden="true">ECG</text>
+        <text x="380" y="156" text-anchor="end" fill="rgba(255,255,255,0.8)" font-family="Inter,sans-serif" font-size="10" aria-hidden="true">Interpretation</text>
+        <text x="105" y="328" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-size="12" font-weight="600" aria-hidden="true">Breathlessness</text>
+        <text x="295" y="328" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-size="12" font-weight="600" aria-hidden="true">Heart Murmurs</text>
+
+        <!-- Center label -->
+        <text x="200" y="176" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-family="Libre Baskerville,serif" font-size="11" font-style="italic" aria-hidden="true">What we</text>
+        <text x="200" y="192" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-family="Libre Baskerville,serif" font-size="11" font-style="italic" aria-hidden="true">assess</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- Services Strip -->
+<div class="services-strip" id="conditions">
+  <a href="#about"><div class="svc-icon">&#9829;</div><h3>Palpitations</h3><p>Assessment &amp; ECG</p></a>
+  <a href="#about"><div class="svc-icon">&#9889;</div><h3>ECG Review</h3><p>Interpretation &amp; advice</p></a>
+  <a href="#about"><div class="svc-icon">&#128200;</div><h3>Blood Pressure</h3><p>Hypertension assessment</p></a>
+  <a href="#about"><div class="svc-icon">&#128168;</div><h3>Breathlessness</h3><p>Cardiac assessment</p></a>
+  <a href="#about"><div class="svc-icon">&#127973;</div><h3>Heart Murmurs</h3><p>Auscultation &amp; advice</p></a>
+</div>
+
+<!-- About / Clinician -->
+<section class="welcome" id="about">
+  <div class="welcome-text">
+    <h2>A warm welcome to <em>our cardiac clinic</em></h2>
+    <p>Our clinic offers cardiology assessment in a calm, unhurried setting. With over three years working on the cardiology consultant rota at the Royal Free Hospital and Barnet Hospital, we bring extensive experience in managing common cardiac conditions in private practice.</p>
+    <p>We focus on low-risk cardiac conditions where timely cardiology input can make a real difference to your care.</p>
+    <div class="credentials">
+      <span class="credential">GMC Registered</span>
+      <span class="credential">MRCP (UK)</span>
+      <span class="credential">Fully Insured</span>
+    </div>
+    <p class="disclosure">Dr Mahmood is a Specialist in Cardiology working on the consultant rota at the Royal Free Hospital and Barnet Hospital. He holds MRCP(UK) and is GMC-registered (GMC no. 6071047). He does not hold a Certificate of Completion of Training (CCT) and is not a consultant cardiologist. This clinic is not affiliated with or endorsed by the Royal Free London NHS Foundation Trust or Barnet Hospital.</p>
+  </div>
+  <div class="welcome-visual">
+    <svg class="ecg-deco" viewBox="0 0 800 80" preserveAspectRatio="none" aria-hidden="true">
+      <path class="ecg-deco-path" d="M0,40 L150,40 L170,40 L180,20 L190,40 L210,40 L220,5 L225,75 L230,35 L240,40 L400,40 L420,40 L430,20 L440,40 L460,40 L470,5 L475,75 L480,35 L490,40 L650,40 L670,40 L680,20 L690,40 L710,40 L720,5 L725,75 L730,35 L740,40 L800,40"/>
+    </svg>
+  </div>
+</section>
+
+<!-- Facilities -->
+<section class="facilities">
+  <h2>Our facilities</h2>
+  <div class="cols">
+    <div class="col">
+      <h3>What we offer</h3>
+      <p>12-lead ECG and clinical assessment. We provide a thorough cardiology consultation, interpret your ECG, and give you a clear management plan.</p>
+    </div>
+    <div class="col">
+      <h3>What we do not offer</h3>
+      <p>We do not offer echocardiography, Holter monitoring (24-hour tape), ambulatory blood pressure monitoring, CT, MRI, or exercise stress testing. If these are needed, we will refer you to the appropriate service.</p>
+    </div>
+  </div>
+</section>
+
+<!-- What to Expect -->
+<section class="expect" id="expect">
+  <h2>What to expect</h2>
+  <p class="sub">Your consultation journey in four simple steps</p>
+  <ol class="timeline">
+    <li class="step">
+      <div class="step-num">1</div>
+      <h3>Prepare</h3>
+      <p>Bring your medications list, medical history, and any GP ECG</p>
+    </li>
+    <li class="step">
+      <div class="step-num">2</div>
+      <h3>Book &amp; Pay</h3>
+      <p>Select a Friday evening slot and pay securely online via Stripe</p>
+    </li>
+    <li class="step">
+      <div class="step-num">3</div>
+      <h3>Consultation</h3>
+      <p>30-minute cardiology assessment at our Wimbledon clinic</p>
+    </li>
+    <li class="step">
+      <div class="step-num">4</div>
+      <h3>Follow Up</h3>
+      <p>With your consent, a written report is sent to your GP. You also receive a copy.</p>
+    </li>
+  </ol>
+</section>
+
+<!-- Booking CTA -->
+<section class="cta-section" id="booking">
+  <h2>Ready to <em>get checked?</em></h2>
+  <div class="price">&pound;49.99</div>
+  <div class="price-note">30-minute cardiology consultation &middot; Friday evenings &middot; Wimbledon SW19</div>
+  <p>Appointments available from 3rd April 2026, 5&ndash;8pm at The Broadway, Wimbledon.</p>
+  <a href="#" class="btn-primary" aria-label="Book your appointment and pay securely">Book Your Appointment</a>
+  <p class="cancel-note">Cancellation with 48 hours&rsquo; notice: full refund. Less than 48 hours or non-attendance: no refund.</p>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer" id="contact">
+  <div>
+    <h3>London Cardiology Clinic</h3>
+    <p>40&ndash;44 The Broadway<br>London SW19 1RQ</p>
+    <p>Friday evenings, 5&ndash;8pm</p>
+    <p>Starting 3rd April 2026</p>
+  </div>
+  <div>
+    <h3>Conditions</h3>
+    <a href="#conditions" aria-label="Palpitations - learn about this condition">Palpitations</a>
+    <a href="#conditions" aria-label="Blood Pressure - learn about this condition">Blood Pressure</a>
+    <a href="#conditions" aria-label="Breathlessness - learn about this condition">Breathlessness</a>
+    <a href="#conditions" aria-label="Heart Murmurs - learn about this condition">Heart Murmurs</a>
+    <a href="#conditions" aria-label="ECG Review - learn about this condition">ECG Review</a>
+  </div>
+  <div>
+    <h3>Information</h3>
+    <a href="#">About</a>
+    <a href="#">What to Expect</a>
+    <a href="#">Fees</a>
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms of Service</a>
+    <a href="#">Complaints</a>
+  </div>
+  <div>
+    <h3>Contact</h3>
+    <a href="https://drmahmood.org" target="_blank" rel="noopener noreferrer">drmahmood.org</a>
+    <p>This clinic is for non-emergency cardiac concerns only. For emergencies call 999.</p>
+    <p>If we identify concerning findings during your consultation, we have protocols to arrange urgent referral or call emergency services.</p>
+  </div>
+</footer>
+
+</body>
+</html>

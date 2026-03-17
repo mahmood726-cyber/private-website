@@ -23,7 +23,7 @@ services:
       DATABASE_URL: postgresql://calcom:${POSTGRES_PASSWORD}@database:5432/calcom
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
       CALENDSO_ENCRYPTION_KEY: ${CALENDSO_ENCRYPTION_KEY}
-      NEXTAUTH_URL: https://drmahmood.org/booking
+      NEXTAUTH_URL: https://londoncardiologyclinic.uk/booking
 
       # Stripe (for paid bookings)
       STRIPE_API_KEY: ${STRIPE_API_KEY}
@@ -40,8 +40,8 @@ services:
       EMAIL_SERVER_PASSWORD: ${EMAIL_SERVER_PASSWORD}
 
       # App config
-      NEXT_PUBLIC_WEBAPP_URL: https://drmahmood.org/booking
-      NEXT_PUBLIC_WEBSITE_URL: https://drmahmood.org
+      NEXT_PUBLIC_WEBAPP_URL: https://londoncardiologyclinic.uk/booking
+      NEXT_PUBLIC_WEBSITE_URL: https://londoncardiologyclinic.uk
       CALCOM_TELEMETRY_DISABLED: "1"
     ports:
       - "3000:3000"
