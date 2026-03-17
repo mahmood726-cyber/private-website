@@ -1,0 +1,27 @@
+synthesis-medicine.org, www.synthesis-medicine.org {
+    reverse_proxy 127.0.0.1:8080 {
+        header_up X-Forwarded-Proto {scheme}
+        header_up X-Forwarded-Host {host}
+    }
+}
+
+londoncardiologyclinic.uk, www.londoncardiologyclinic.uk {
+    root * /var/www/clinic-site
+    file_server
+
+    header {
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        Permissions-Policy "camera=(), microphone=(), geolocation=()"
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    }
+
+    handle_errors {
+        rewrite * /404.html
+        file_server
+    }
+}
+
+booking.londoncardiologyclinic.uk {
+    reverse_proxy localhost:3000
+}
