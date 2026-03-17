@@ -1,0 +1,24 @@
+{
+  "name": "london-cardiology-clinic",
+  "version": "1.0.0",
+  "description": "London Cardiology Clinic — booking, monitoring & lifestyle platform",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "better-sqlite3": "^11.0.0",
+    "stripe": "^17.0.0",
+    "twilio": "^5.0.0",
+    "multer": "^1.4.5-lts.1",
+    "bcrypt": "^5.1.1",
+    "cookie-session": "^2.1.0",
+    "helmet": "^8.0.0",
+    "cors": "^2.8.5",
+    "pdf-parse": "^1.1.1",
+    "node-cron": "^3.0.3",
+    "nodemailer": "^6.9.0"
+  }
+}

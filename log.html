@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Log — CardioTrack | London Cardiology Clinic</title>
+  <meta name="description" content="Your daily CardioTrack log — record steps, food and readings.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* ── Log page specific styles ── */
+
+    .log-body {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    /* Language bar */
+    .lang-bar {
+      background: var(--ivory);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .lang-bar label {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--mid-grey);
+      letter-spacing: 0.3px;
+    }
+
+    .lang-bar select {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--charcoal);
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: var(--radius-sm);
+      padding: 5px 28px 5px 10px;
+      background: var(--cream);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b6560' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+    }
+
+    /* Greeting */
+    .greeting-section {
+      padding: 36px 0 0;
+    }
+
+    .greeting-section .greeting-eyebrow {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--sage-deep);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .greeting-section h1 {
+      font-size: 30px;
+      margin-bottom: 4px;
+    }
+
+    .greeting-section .greeting-date {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--mid-grey);
+    }
+
+    /* Programme status bar */
+    .programme-bar {
+      margin: 24px 0 36px;
+      background: var(--ivory);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .programme-bar .prog-label {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--sage-deep);
+      margin-bottom: 12px;
+    }
+
+    .week-track {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .week-pip {
+      flex: 1;
+      height: 8px;
+      border-radius: 4px;
+      background: var(--sage-light);
+    }
+
+    .week-pip.done {
+      background: var(--sage-deep);
+    }
+
+    .week-pip.current {
+      background: var(--sage-btn);
+      box-shadow: 0 0 0 2px rgba(77,122,101,0.25);
+    }
+
+    .prog-text {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--warm-grey);
+    }
+
+    .prog-text strong {
+      color: var(--sage-deep);
+    }
+
+    /* Form card */
+    .log-card {
+      background: var(--ivory);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(0,0,0,0.06);
+      padding: 32px 28px;
+      margin-bottom: 24px;
+    }
+
+    .log-card-heading {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--sage-deep);
+      margin-bottom: 20px;
+    }
+
+    .log-form-group {
+      margin-bottom: 20px;
+    }
+
+    .log-form-group label {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--charcoal);
+      margin-bottom: 7px;
+    }
+
+    .log-form-group .hint {
+      font-size: 12px;
+      color: var(--mid-grey);
+      font-weight: 400;
+      margin-left: 6px;
+    }
+
+    .log-form-group input[type="date"],
+    .log-form-group input[type="number"],
+    .log-form-group textarea {
+      width: 100%;
+      padding: 11px 14px;
+      background: var(--cream);
+      border: 1.5px solid rgba(0,0,0,0.1);
+      border-radius: var(--radius-md);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--charcoal);
+      transition: border-color var(--transition-base), box-shadow var(--transition-base);
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .log-form-group input:focus,
+    .log-form-group textarea:focus {
+      border-color: var(--sage-deep);
+      box-shadow: 0 0 0 3px rgba(61,107,85,0.08);
+      outline: none;
+    }
+
+    /* Steps input with target badge */
+    .steps-wrapper {
+      position: relative;
+    }
+
+    .steps-target-badge {
+      display: inline-block;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--sage-deep);
+      background: var(--sage-light);
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 8px;
+    }
+
+    /* Toggle switches */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .toggle-row:last-child {
+      border-bottom: none;
+    }
+
+    .toggle-label-text {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--charcoal);
+      padding-right: 16px;
+      line-height: 1.4;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .toggle-switch input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-track {
+      width: 44px;
+      height: 24px;
+      border-radius: 12px;
+      background: #d0ccc8;
+      position: relative;
+      cursor: pointer;
+      transition: background var(--transition-base);
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .toggle-track::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+      transition: transform var(--transition-base);
+    }
+
+    .toggle-switch input:checked + .toggle-track {
+      background: var(--sage-btn);
+    }
+
+    .toggle-switch input:checked + .toggle-track::after {
+      transform: translateX(20px);
+    }
+
+    .toggle-switch input:focus-visible + .toggle-track {
+      outline: 2px solid var(--charcoal);
+      outline-offset: 2px;
+    }
+
+    .toggle-val {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--mid-grey);
+      min-width: 24px;
+      text-align: right;
+    }
+
+    .toggle-switch input:checked ~ .toggle-val {
+      color: var(--sage-deep);
+    }
+
+    /* BP inputs */
+    .bp-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* File upload */
+    .file-upload-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      background: var(--cream);
+      border: 2px dashed var(--sage);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: background var(--transition-base), border-color var(--transition-base);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--sage-deep);
+      font-weight: 500;
+      width: 100%;
+      text-align: left;
+    }
+
+    .file-upload-btn:hover {
+      background: var(--sage-bg);
+      border-color: var(--sage-deep);
+    }
+
+    .file-upload-btn svg {
+      flex-shrink: 0;
+    }
+
+    .file-name-display {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--mid-grey);
+      margin-top: 6px;
+    }
+
+    #ecg-file-input {
+      display: none;
+    }
+
+    /* Submit button */
+    .btn-log-submit {
+      width: 100%;
+      padding: 16px 32px;
+      background: var(--sage-btn);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background var(--transition-base), box-shadow var(--transition-base), transform var(--transition-base);
+      letter-spacing: 0.3px;
+      margin-top: 8px;
+    }
+
+    .btn-log-submit:hover {
+      background: var(--sage-deep);
+      box-shadow: 0 4px 20px rgba(61,107,85,0.3);
+      transform: translateY(-1px);
+    }
+
+    .btn-log-submit:disabled {
+      background: var(--mid-grey);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Confirmation message */
+    .confirm-msg {
+      display: none;
+      background: #e8f5ef;
+      border: 1.5px solid #b8dece;
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .confirm-msg.visible {
+      display: block;
+    }
+
+    .confirm-msg .confirm-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .confirm-msg h3 {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      color: #1a6040;
+      margin-bottom: 8px;
+    }
+
+    .confirm-msg p {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: #2a6050;
+      line-height: 1.6;
+    }
+
+    /* Progress section */
+    .progress-section {
+      margin-top: 8px;
+    }
+
+    .progress-section h2 {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    /* Bar chart */
+    .steps-chart {
+      background: var(--ivory);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(0,0,0,0.06);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .chart-heading {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--sage-deep);
+      margin-bottom: 16px;
+    }
+
+    .bar-chart {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      height: 100px;
+    }
+
+    .bar-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .bar-fill {
+      width: 100%;
+      border-radius: 3px 3px 0 0;
+      background: var(--sage-light);
+      transition: height 0.4s ease;
+      min-height: 4px;
+    }
+
+    .bar-fill.today {
+      background: var(--sage-btn);
+    }
+
+    .bar-fill.target-met {
+      background: var(--sage-deep);
+    }
+
+    .bar-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: var(--mid-grey);
+      text-align: center;
+    }
+
+    .bar-value {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      color: var(--mid-grey);
+      text-align: center;
+    }
+
+    /* Food adherence card */
+    .adherence-card {
+      background: var(--ivory);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(0,0,0,0.06);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .adherence-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .adherence-stat {
+      text-align: center;
+      padding: 16px;
+      background: var(--cream);
+      border-radius: var(--radius-md);
+    }
+
+    .adherence-stat .stat-num {
+      font-family: var(--font-serif);
+      font-size: 30px;
+      color: var(--sage-deep);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .adherence-stat .stat-label {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--mid-grey);
+    }
+
+    /* Streak */
+    .streak-card {
+      background: var(--ivory);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(0,0,0,0.06);
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .streak-flame {
+      font-size: 36px;
+      line-height: 1;
+    }
+
+    .streak-text h3 {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--charcoal);
+      margin-bottom: 4px;
+    }
+
+    .streak-text p {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--mid-grey);
+    }
+
+    /* Error state */
+    .log-error {
+      background: var(--blush-light);
+      border: 1px solid var(--blush);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--danger);
+      margin: 24px 0;
+    }
+
+    .loading-state {
+      padding: 60px 20px;
+      text-align: center;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--mid-grey);
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .log-card {
+        padding: 24px 18px;
+      }
+
+      .bp-row {
+        grid-template-columns: 1fr;
+      }
+
+      .adherence-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- Safety Strip -->
+<div class="safety-top" role="alert" aria-live="polite">
+  <p>
+    <span id="safety-text">
+      <strong>Emergency:</strong> If you feel unwell, have chest pain, or palpitations that concern you, stop this log and call <strong>999</strong> immediately. Do not wait.
+    </span>
+  </p>
+</div>
+
+<!-- Language selector bar -->
+<div class="lang-bar" role="navigation" aria-label="Language selection">
+  <label for="lang-select" id="lang-select-label">Language / زبان / भाषा:</label>
+  <select id="lang-select" aria-labelledby="lang-select-label">
+    <option value="en">English</option>
+    <option value="ur">اردو (Urdu)</option>
+    <option value="hi">हिन्दी (Hindi)</option>
+    <option value="ta">Tamil</option>
+    <option value="pl">Polski</option>
+    <option value="pt">Português</option>
+    <option value="ar">العربية</option>
+    <option value="so">Soomaali</option>
+    <option value="fr">Français</option>
+  </select>
+</div>
+
+<!-- Nav -->
+<nav class="nav" aria-label="Main navigation">
+  <a href="/" class="logo" aria-label="London Cardiology Clinic home">
+    London <em>Cardiology</em> Clinic
+  </a>
+</nav>
+
+<main id="main">
+  <div class="log-body">
+
+    <div id="loading-state" class="loading-state" aria-live="polite" aria-busy="true">
+      Loading your programme&hellip;
+    </div>
+
+    <div id="error-state" class="log-error" role="alert" style="display:none;"></div>
+
+    <div id="log-content" style="display:none;" aria-live="polite">
+
+      <!-- Greeting -->
+      <section class="greeting-section" aria-labelledby="greeting-heading">
+        <p class="greeting-eyebrow" id="greeting-eyebrow-text" aria-hidden="true">CardioTrack Programme</p>
+        <h1 id="greeting-heading"><span id="greeting-hello">Hello</span>, <span id="patient-name">there</span></h1>
+        <p class="greeting-date" id="greeting-date"></p>
+      </section>
+
+      <!-- Programme Status Bar -->
+      <div class="programme-bar" role="region" aria-label="Programme progress">
+        <p class="prog-label" id="prog-label-text">Programme Progress</p>
+        <div class="week-track" id="week-track" aria-hidden="true">
+          <!-- 7 pips rendered by JS -->
+        </div>
+        <p class="prog-text" id="prog-text"></p>
+      </div>
+
+      <!-- Confirmation Message (hidden until submit) -->
+      <div class="confirm-msg" id="confirm-msg" role="status" aria-live="assertive">
+        <div class="confirm-icon" aria-hidden="true">&#10003;</div>
+        <h3 id="confirm-heading">Thank you!</h3>
+        <p id="confirm-body">Your log has been saved. See you tomorrow.</p>
+      </div>
+
+      <!-- Daily Log Form -->
+      <form id="log-form" novalidate>
+
+        <!-- Date & Steps -->
+        <div class="log-card" aria-labelledby="steps-heading">
+          <p class="log-card-heading" id="steps-heading" aria-hidden="true">Steps &amp; Date</p>
+
+          <div class="log-form-group">
+            <label for="log-date" id="label-log-date">Date</label>
+            <input type="date" id="log-date" name="logDate" required aria-required="true">
+          </div>
+
+          <div class="log-form-group">
+            <label for="log-steps" id="label-log-steps">Steps today <span class="hint" id="steps-hint-text"></span></label>
+            <div class="steps-target-badge" id="steps-target-badge" aria-live="polite"></div>
+            <input type="number" id="log-steps" name="steps" min="0" max="100000" placeholder="0" required aria-required="true" aria-describedby="steps-target-badge">
+          </div>
+        </div>
+
+        <!-- Food Checks -->
+        <div class="log-card" aria-labelledby="food-heading">
+          <p class="log-card-heading" id="food-heading" aria-hidden="true">Food Check</p>
+
+          <div class="toggle-row">
+            <span class="toggle-label-text" id="toggle-stop1-label"></span>
+            <div class="toggle-switch">
+              <input type="checkbox" id="toggle-stop1" name="avoidStop1" role="switch" aria-checked="false">
+              <label class="toggle-track" for="toggle-stop1" aria-hidden="true"></label>
+              <span class="toggle-val" id="toggle-stop1-val" aria-hidden="true">No</span>
+            </div>
+          </div>
+
+          <div class="toggle-row">
+            <span class="toggle-label-text" id="toggle-stop2-label"></span>
+            <div class="toggle-switch">
+              <input type="checkbox" id="toggle-stop2" name="avoidStop2" role="switch" aria-checked="false">
+              <label class="toggle-track" for="toggle-stop2" aria-hidden="true"></label>
+              <span class="toggle-val" id="toggle-stop2-val" aria-hidden="true">No</span>
+            </div>
+          </div>
+
+          <div class="toggle-row">
+            <span class="toggle-label-text" id="toggle-start1-label"></span>
+            <div class="toggle-switch">
+              <input type="checkbox" id="toggle-start1" name="ateStart1" role="switch" aria-checked="false">
+              <label class="toggle-track" for="toggle-start1" aria-hidden="true"></label>
+              <span class="toggle-val" id="toggle-start1-val" aria-hidden="true">No</span>
+            </div>
+          </div>
+
+          <div class="toggle-row">
+            <span class="toggle-label-text" id="toggle-start2-label"></span>
+            <div class="toggle-switch">
+              <input type="checkbox" id="toggle-start2" name="ateStart2" role="switch" aria-checked="false">
+              <label class="toggle-track" for="toggle-start2" aria-hidden="true"></label>
+              <span class="toggle-val" id="toggle-start2-val" aria-hidden="true">No</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- BP Reading (Week 1 only) -->
+        <div class="log-card" id="bp-card" aria-labelledby="bp-heading" style="display:none;">
+          <p class="log-card-heading" id="bp-heading" aria-hidden="true">Blood Pressure Reading</p>
+          <p style="font-family:var(--font-sans);font-size:13px;color:var(--mid-grey);margin-bottom:16px;line-height:1.6;" id="bp-instructions">
+            Take a seated reading after 5 minutes of rest. Record both numbers from your cuff.
+          </p>
+          <div class="bp-row">
+            <div class="log-form-group">
+              <label for="bp-systolic" id="label-bp-sys">Systolic (top number)</label>
+              <input type="number" id="bp-systolic" name="bpSystolic" min="60" max="260" placeholder="e.g. 120" aria-describedby="bp-heading">
+            </div>
+            <div class="log-form-group">
+              <label for="bp-diastolic" id="label-bp-dia">Diastolic (bottom number)</label>
+              <input type="number" id="bp-diastolic" name="bpDiastolic" min="40" max="160" placeholder="e.g. 80" aria-describedby="bp-heading">
+            </div>
+          </div>
+        </div>
+
+        <!-- ECG Upload (Week 1 only) -->
+        <div class="log-card" id="ecg-card" aria-labelledby="ecg-heading" style="display:none;">
+          <p class="log-card-heading" id="ecg-heading" aria-hidden="true">ECG Upload</p>
+          <p style="font-family:var(--font-sans);font-size:13px;color:var(--mid-grey);margin-bottom:16px;line-height:1.6;" id="ecg-instructions">
+            Record your 30-second ECG on the Kardia device, then export the PDF from the KardiaApp and upload it here.
+          </p>
+          <input type="file" id="ecg-file-input" name="ecgFile" accept=".pdf" aria-label="Upload Kardia ECG PDF">
+          <button type="button" class="file-upload-btn" id="ecg-upload-btn" aria-controls="ecg-file-input">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span id="ecg-btn-text">Upload your Kardia ECG PDF</span>
+          </button>
+          <p class="file-name-display" id="file-name-display" aria-live="polite"></p>
+        </div>
+
+        <!-- Optional Note -->
+        <div class="log-card" aria-labelledby="note-heading">
+          <p class="log-card-heading" id="note-heading" aria-hidden="true">Optional Note</p>
+          <div class="log-form-group">
+            <label for="daily-note" id="label-daily-note">How are you feeling today? <span class="hint">(optional)</span></label>
+            <textarea id="daily-note" name="note" rows="3" style="resize:vertical;" placeholder="Any symptoms, energy levels, or observations…"></textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-log-submit" id="log-submit-btn">
+          <span id="submit-label">Save Today's Log</span>
+        </button>
+        <p id="submit-error" role="alert" style="font-family:var(--font-sans);font-size:13px;color:var(--danger);margin-top:10px;display:none;"></p>
+
+      </form>
+
+      <!-- Progress Section -->
+      <section class="progress-section" aria-labelledby="progress-heading">
+        <h2 id="progress-heading">Your Progress</h2>
+
+        <!-- Steps chart (last 7 days, CSS only) -->
+        <div class="steps-chart" role="region" aria-labelledby="chart-heading">
+          <p class="chart-heading" id="chart-heading">Steps — Last 7 Days</p>
+          <div class="bar-chart" id="bar-chart" aria-label="Bar chart of steps over the last 7 days" role="img">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Food adherence -->
+        <div class="adherence-card" role="region" aria-labelledby="adherence-heading">
+          <p class="chart-heading" id="adherence-heading">Food Adherence</p>
+          <div class="adherence-row">
+            <div class="adherence-stat">
+              <div class="stat-num" id="today-goals" aria-live="polite">—</div>
+              <div class="stat-label" id="label-today-goals">Goals met today</div>
+            </div>
+            <div class="adherence-stat">
+              <div class="stat-num" id="week-pct" aria-live="polite">—</div>
+              <div class="stat-label" id="label-week-pct">This week</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Streak -->
+        <div class="streak-card" role="region" aria-label="Streak counter">
+          <div class="streak-flame" aria-hidden="true">&#128293;</div>
+          <div class="streak-text">
+            <h3 id="streak-num">— days</h3>
+            <p id="streak-desc">in a row!</p>
+          </div>
+        </div>
+
+      </section>
+
+    </div><!-- /log-content -->
+
+  </div><!-- /log-body -->
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Translations ── */
+  var T = {
+    en: {
+      safetyText: '<strong>Emergency:</strong> If you feel unwell, have chest pain, or palpitations that concern you, stop this log and call <strong>999</strong> immediately.',
+      eyebrow: 'CardioTrack Programme',
+      hello: 'Hello',
+      progLabel: 'Programme Progress',
+      progText: 'Week {week} of 7 — keep going!',
+      confirmHeading: 'Thank you!',
+      confirmBody: 'Your log has been saved. See you tomorrow.',
+      labelDate: 'Date',
+      labelSteps: 'Steps today',
+      stepsTarget: "Today's goal: {target} steps",
+      stepsHint: '',
+      foodHeading: 'Food Check',
+      avoidStop1: 'Did you avoid {food}?',
+      avoidStop2: 'Did you avoid {food}?',
+      ateStart1: 'Did you eat {food}?',
+      ateStart2: 'Did you eat {food}?',
+      yes: 'Yes',
+      no: 'No',
+      bpHeading: 'Blood Pressure Reading',
+      bpInstructions: 'Take a seated reading after 5 minutes of rest.',
+      labelSys: 'Systolic (top number)',
+      labelDia: 'Diastolic (bottom number)',
+      ecgHeading: 'ECG Upload',
+      ecgInstructions: 'Record your 30-second ECG on the Kardia device, export the PDF from KardiaApp, and upload it here.',
+      ecgBtnText: 'Upload your Kardia ECG PDF',
+      noteHeading: 'Optional Note',
+      labelNote: 'How are you feeling today?',
+      submitLabel: "Save Today's Log",
+      progressHeading: 'Your Progress',
+      chartHeading: 'Steps — Last 7 Days',
+      adherenceHeading: 'Food Adherence',
+      labelTodayGoals: 'Goals met today',
+      labelWeekPct: 'This week',
+      streakDesc: 'days in a row!'
+    },
+    ur: {
+      safetyText: '<strong>ہنگامی صورتحال:</strong> اگر آپ کو سینے میں درد یا دل کی تیز دھڑکن ہو تو فوری <strong>999</strong> پر کال کریں۔',
+      eyebrow: 'کارڈیو ٹریک پروگرام',
+      hello: 'السلام علیکم',
+      progLabel: 'پروگرام کی پیشرفت',
+      progText: 'ہفتہ {week} از 7',
+      confirmHeading: 'شکریہ!',
+      confirmBody: 'آپ کا لاگ محفوظ ہو گیا۔ کل پھر ملیں گے۔',
+      labelDate: 'تاریخ',
+      labelSteps: 'آج کے قدم',
+      stepsTarget: 'آج کا ہدف: {target} قدم',
+      stepsHint: '',
+      foodHeading: 'کھانے کی جانچ',
+      avoidStop1: 'کیا آپ نے {food} سے پرہیز کیا؟',
+      avoidStop2: 'کیا آپ نے {food} سے پرہیز کیا؟',
+      ateStart1: 'کیا آپ نے {food} کھایا؟',
+      ateStart2: 'کیا آپ نے {food} کھایا؟',
+      yes: 'ہاں',
+      no: 'نہیں',
+      bpHeading: 'بلڈ پریشر ریڈنگ',
+      bpInstructions: '5 منٹ آرام کے بعد بیٹھ کر بلڈ پریشر لیں۔',
+      labelSys: 'سسٹولک (اوپر کا نمبر)',
+      labelDia: 'ڈائسٹولک (نیچے کا نمبر)',
+      ecgHeading: 'ECG اپلوڈ',
+      ecgInstructions: 'Kardia ڈیوائس سے ECG ریکارڈ کریں اور PDF اپلوڈ کریں۔',
+      ecgBtnText: 'Kardia ECG PDF اپلوڈ کریں',
+      noteHeading: 'اضافی نوٹ',
+      labelNote: 'آج آپ کیسا محسوس کر رہے ہیں؟',
+      submitLabel: 'آج کا لاگ محفوظ کریں',
+      progressHeading: 'آپ کی پیشرفت',
+      chartHeading: 'قدم — گزشتہ 7 دن',
+      adherenceHeading: 'کھانے کی پابندی',
+      labelTodayGoals: 'آج کے اہداف',
+      labelWeekPct: 'اس ہفتے',
+      streakDesc: 'دن متواتر!'
+    },
+    hi: {
+      safetyText: '<strong>आपातकाल:</strong> यदि आपको सीने में दर्द हो तो तुरंत <strong>999</strong> पर कॉल करें।',
+      eyebrow: 'कार्डियोट्रैक प्रोग्राम',
+      hello: 'नमस्ते',
+      progLabel: 'प्रोग्राम की प्रगति',
+      progText: 'सप्ताह {week} / 7',
+      confirmHeading: 'धन्यवाद!',
+      confirmBody: 'आपका लॉग सहेजा गया। कल फिर मिलेंगे।',
+      labelDate: 'तारीख',
+      labelSteps: 'आज के कदम',
+      stepsTarget: 'आज का लक्ष्य: {target} कदम',
+      stepsHint: '',
+      foodHeading: 'खाना जाँच',
+      avoidStop1: 'क्या आपने {food} से परहेज किया?',
+      avoidStop2: 'क्या आपने {food} से परहेज किया?',
+      ateStart1: 'क्या आपने {food} खाया?',
+      ateStart2: 'क्या आपने {food} खाया?',
+      yes: 'हाँ',
+      no: 'नहीं',
+      bpHeading: 'रक्तचाप रीडिंग',
+      bpInstructions: '5 मिनट आराम के बाद बैठकर रक्तचाप लें।',
+      labelSys: 'सिस्टोलिक (ऊपरी संख्या)',
+      labelDia: 'डायस्टोलिक (निचली संख्या)',
+      ecgHeading: 'ECG अपलोड',
+      ecgInstructions: 'Kardia डिवाइस से ECG रिकॉर्ड करें और PDF अपलोड करें।',
+      ecgBtnText: 'Kardia ECG PDF अपलोड करें',
+      noteHeading: 'वैकल्पिक नोट',
+      labelNote: 'आज आप कैसा महसूस कर रहे हैं?',
+      submitLabel: 'आज का लॉग सहेजें',
+      progressHeading: 'आपकी प्रगति',
+      chartHeading: 'कदम — पिछले 7 दिन',
+      adherenceHeading: 'खाने की पालना',
+      labelTodayGoals: 'आज के लक्ष्य पूरे',
+      labelWeekPct: 'इस सप्ताह',
+      streakDesc: 'दिन लगातार!'
+    }
+  };
+
+  /* Fallback to English for languages not yet translated */
+  function getLang(code) {
+    return T[code] || T['en'];
+  }
+
+  /* ── State ── */
+  var patientData = null;
+  var progressData = null;
+  var currentLang = 'en';
+  var currentToken = null;
+
+  /* ── Read token from URL ── */
+  function getToken() {
+    var params = new URLSearchParams(window.location.search);
+    return params.get('token') || '';
+  }
+
+  /* ── Today's date ── */
+  function todayISO() {
+    var d = new Date();
+    var y = d.getFullYear();
+    var m = String(d.getMonth() + 1).padStart(2, '0');
+    var day = String(d.getDate()).padStart(2, '0');
+    return y + '-' + m + '-' + day;
+  }
+
+  var DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  function formatDisplayDate(isoStr) {
+    var d = new Date(isoStr + 'T00:00:00');
+    return DAY_NAMES[d.getDay()] + ' ' + d.getDate() + ' ' + MONTH_NAMES[d.getMonth()] + ' ' + d.getFullYear();
+  }
+
+  /* ── Apply translations to DOM ── */
+  function applyTranslations(lang) {
+    var tr = getLang(lang);
+    document.getElementById('safety-text').innerHTML = tr.safetyText;
+    document.getElementById('greeting-eyebrow-text').textContent = tr.eyebrow;
+    document.getElementById('greeting-hello').textContent = tr.hello;
+    document.getElementById('prog-label-text').textContent = tr.progLabel;
+    document.getElementById('confirm-heading').textContent = tr.confirmHeading;
+    document.getElementById('confirm-body').textContent = tr.confirmBody;
+    document.getElementById('label-log-date').textContent = tr.labelDate;
+
+    var stepsLabel = document.getElementById('label-log-steps');
+    stepsLabel.innerHTML = tr.labelSteps + (tr.stepsHint ? ' <span class="hint">' + tr.stepsHint + '</span>' : '');
+
+    document.getElementById('food-heading').textContent = tr.foodHeading;
+    document.getElementById('bp-heading').textContent = tr.bpHeading;
+    document.getElementById('bp-instructions').textContent = tr.bpInstructions;
+    document.getElementById('label-bp-sys').textContent = tr.labelSys;
+    document.getElementById('label-bp-dia').textContent = tr.labelDia;
+    document.getElementById('ecg-heading').textContent = tr.ecgHeading;
+    document.getElementById('ecg-instructions').textContent = tr.ecgInstructions;
+    document.getElementById('ecg-btn-text').textContent = tr.ecgBtnText;
+    document.getElementById('note-heading').textContent = tr.noteHeading;
+    document.getElementById('label-daily-note').textContent = tr.labelNote;
+    document.getElementById('submit-label').textContent = tr.submitLabel;
+    document.getElementById('progress-heading').textContent = tr.progressHeading;
+    document.getElementById('chart-heading').textContent = tr.chartHeading;
+    document.getElementById('adherence-heading').textContent = tr.adherenceHeading;
+    document.getElementById('label-today-goals').textContent = tr.labelTodayGoals;
+    document.getElementById('label-week-pct').textContent = tr.labelWeekPct;
+    document.getElementById('streak-desc').textContent = tr.streakDesc;
+
+    if (patientData) {
+      applyPatientTranslations(tr, patientData);
+    }
+  }
+
+  function applyPatientTranslations(tr, pd) {
+    var week = pd.currentWeek || 1;
+    document.getElementById('prog-text').textContent = tr.progText.replace('{week}', week);
+
+    var target = pd.stepTarget || 5000;
+    document.getElementById('steps-target-badge').textContent = tr.stepsTarget.replace('{target}', target.toLocaleString());
+
+    function foodLabel(template, foodName) { return template.replace('{food}', foodName || '…'); }
+    document.getElementById('toggle-stop1-label').textContent = foodLabel(tr.avoidStop1, pd.stopFood1Label || pd.stopFood1 || '');
+    document.getElementById('toggle-stop2-label').textContent = foodLabel(tr.avoidStop2, pd.stopFood2Label || pd.stopFood2 || '');
+    document.getElementById('toggle-start1-label').textContent = foodLabel(tr.ateStart1, pd.startFood1Label || pd.startFood1 || '');
+    document.getElementById('toggle-start2-label').textContent = foodLabel(tr.ateStart2, pd.startFood2Label || pd.startFood2 || '');
+
+    /* Yes/No labels on toggles */
+    updateToggleVals(tr);
+  }
+
+  function updateToggleVals(tr) {
+    ['stop1','stop2','start1','start2'].forEach(function (id) {
+      var cb = document.getElementById('toggle-' + id);
+      var valEl = document.getElementById('toggle-' + id + '-val');
+      if (cb && valEl) {
+        valEl.textContent = cb.checked ? tr.yes : tr.no;
+      }
+    });
+  }
+
+  /* ── Wire toggle yes/no labels ── */
+  function wireToggles() {
+    ['stop1','stop2','start1','start2'].forEach(function (id) {
+      var cb = document.getElementById('toggle-' + id);
+      if (!cb) { return; }
+      cb.addEventListener('change', function () {
+        var valEl = document.getElementById('toggle-' + id + '-val');
+        var tr = getLang(currentLang);
+        if (valEl) { valEl.textContent = cb.checked ? tr.yes : tr.no; }
+        cb.setAttribute('aria-checked', cb.checked ? 'true' : 'false');
+      });
+    });
+  }
+
+  /* ── Render programme pips ── */
+  function renderWeekTrack(currentWeek) {
+    var container = document.getElementById('week-track');
+    container.innerHTML = '';
+    for (var w = 1; w <= 7; w++) {
+      var pip = document.createElement('div');
+      pip.className = 'week-pip' + (w < currentWeek ? ' done' : '') + (w === currentWeek ? ' current' : '');
+      container.appendChild(pip);
+    }
+  }
+
+  /* ── Render steps bar chart ── */
+  function renderStepsChart(stepHistory) {
+    var container = document.getElementById('bar-chart');
+    container.innerHTML = '';
+    if (!stepHistory || !stepHistory.length) {
+      container.innerHTML = '<span style="font-family:var(--font-sans);font-size:12px;color:var(--mid-grey);">No data yet</span>';
+      return;
+    }
+    var maxSteps = Math.max.apply(null, stepHistory.map(function (d) { return d.steps || 0; }));
+    if (maxSteps < 1) { maxSteps = 1; }
+    var target = (patientData && patientData.stepTarget) ? patientData.stepTarget : 5000;
+    var today = todayISO();
+
+    stepHistory.forEach(function (d) {
+      var col = document.createElement('div');
+      col.className = 'bar-col';
+
+      var fill = document.createElement('div');
+      var heightPct = Math.round(((d.steps || 0) / maxSteps) * 100);
+      var isToday = d.date === today;
+      var metTarget = (d.steps || 0) >= target;
+      fill.className = 'bar-fill' + (isToday ? ' today' : '') + (metTarget && !isToday ? ' target-met' : '');
+      fill.style.height = heightPct + 'px';
+      fill.setAttribute('title', (d.steps || 0).toLocaleString() + ' steps');
+
+      var label = document.createElement('div');
+      label.className = 'bar-label';
+      var dObj = new Date(d.date + 'T00:00:00');
+      label.textContent = DAY_NAMES[dObj.getDay()];
+
+      var val = document.createElement('div');
+      val.className = 'bar-value';
+      val.textContent = d.steps ? (d.steps >= 1000 ? (d.steps / 1000).toFixed(1) + 'k' : d.steps) : '—';
+
+      col.appendChild(fill);
+      col.appendChild(label);
+      col.appendChild(val);
+      container.appendChild(col);
+    });
+  }
+
+  /* ── Render adherence stats ── */
+  function renderAdherence(progressD) {
+    if (!progressD) { return; }
+    var today = progressD.todayGoalsMet != null ? progressD.todayGoalsMet + '/4' : '—';
+    var weekPct = progressD.weekAdherencePct != null ? progressD.weekAdherencePct + '%' : '—';
+    document.getElementById('today-goals').textContent = today;
+    document.getElementById('week-pct').textContent = weekPct;
+
+    var streakDays = progressD.streakDays || 0;
+    document.getElementById('streak-num').textContent = streakDays + ' ' + (getLang(currentLang).streakDesc || 'days in a row!');
+    document.getElementById('streak-desc').style.display = 'none';
+  }
+
+  /* ── Load patient data ── */
+  function loadPatient(token) {
+    fetch('/api/log/patient?token=' + encodeURIComponent(token))
+      .then(function (r) {
+        if (!r.ok) { throw new Error(r.status === 404 ? 'Token not recognised. Please scan the QR code in your welcome email.' : 'Unable to load your programme (HTTP ' + r.status + ').'); }
+        return r.json();
+      })
+      .then(function (data) {
+        patientData = data;
+        onPatientLoaded(data);
+      })
+      .catch(function (err) {
+        showError(err.message || 'An error occurred. Please try again later.');
+      });
+  }
+
+  function onPatientLoaded(pd) {
+    document.getElementById('loading-state').style.display = 'none';
+    document.getElementById('log-content').style.display = 'block';
+
+    /* Restore language from localStorage */
+    var savedLang = localStorage.getItem('cardiotrack_lang') || pd.preferredLanguage || 'en';
+    var langSelect = document.getElementById('lang-select');
+    if (langSelect) { langSelect.value = savedLang; }
+    currentLang = savedLang;
+
+    /* Patient name */
+    document.getElementById('patient-name').textContent = pd.firstName || 'there';
+
+    /* Date */
+    document.getElementById('greeting-date').textContent = formatDisplayDate(todayISO());
+
+    /* Pre-fill date */
+    document.getElementById('log-date').value = todayISO();
+
+    /* Programme status */
+    var week = pd.currentWeek || 1;
+    renderWeekTrack(week);
+
+    /* Week 1 only fields */
+    if (week === 1) {
+      document.getElementById('bp-card').style.display = 'block';
+      document.getElementById('ecg-card').style.display = 'block';
+    }
+
+    /* Apply translations (also fills food labels) */
+    applyTranslations(currentLang);
+
+    /* Load progress */
+    loadProgress(currentToken);
+  }
+
+  function loadProgress(token) {
+    fetch('/api/log/progress?token=' + encodeURIComponent(token))
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        if (!data) { return; }
+        progressData = data;
+        renderStepsChart(data.stepHistory || []);
+        renderAdherence(data);
+      })
+      .catch(function () { /* Progress is non-critical — fail silently */ });
+  }
+
+  function showError(msg) {
+    document.getElementById('loading-state').style.display = 'none';
+    var errEl = document.getElementById('error-state');
+    errEl.textContent = msg;
+    errEl.style.display = 'block';
+  }
+
+  /* ── Form submission ── */
+  document.getElementById('log-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var form = e.target;
+    var errEl = document.getElementById('submit-error');
+    errEl.style.display = 'none';
+
+    var steps = parseInt(form.steps.value, 10);
+    if (isNaN(steps) || steps < 0) {
+      errEl.textContent = 'Please enter a valid step count.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    var payload = {
+      token: currentToken,
+      date: form.logDate.value,
+      steps: steps,
+      avoidStop1: form.avoidStop1.checked,
+      avoidStop2: form.avoidStop2.checked,
+      ateStart1: form.ateStart1.checked,
+      ateStart2: form.ateStart2.checked,
+      note: form.note.value.trim()
+    };
+
+    /* BP (Week 1) */
+    if (document.getElementById('bp-card').style.display !== 'none') {
+      var sys = form.bpSystolic.value;
+      var dia = form.bpDiastolic.value;
+      if (sys) { payload.bpSystolic = parseInt(sys, 10); }
+      if (dia) { payload.bpDiastolic = parseInt(dia, 10); }
+    }
+
+    var submitBtn = document.getElementById('log-submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.querySelector('#submit-label').textContent = 'Saving…';
+
+    /* If there's an ECG file, use FormData */
+    var ecgFile = document.getElementById('ecg-file-input').files[0];
+    var fetchPromise;
+
+    if (ecgFile) {
+      var formData = new FormData();
+      Object.keys(payload).forEach(function (k) { formData.append(k, payload[k]); });
+      formData.append('ecgFile', ecgFile);
+      fetchPromise = fetch('/api/log/submit', { method: 'POST', body: formData });
+    } else {
+      fetchPromise = fetch('/api/log/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    }
+
+    fetchPromise
+      .then(function (r) {
+        if (!r.ok) { return r.json().then(function (d) { throw new Error(d.message || 'HTTP ' + r.status); }); }
+        return r.json();
+      })
+      .then(function () {
+        /* Show confirmation */
+        document.getElementById('confirm-msg').classList.add('visible');
+        document.getElementById('log-form').style.display = 'none';
+
+        /* Refresh progress section */
+        loadProgress(currentToken);
+      })
+      .catch(function (err) {
+        errEl.textContent = 'Could not save your log: ' + (err.message || 'unknown error') + '. Please try again.';
+        errEl.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.querySelector('#submit-label').textContent = getLang(currentLang).submitLabel;
+      });
+  });
+
+  /* ── Language switcher ── */
+  document.getElementById('lang-select').addEventListener('change', function () {
+    currentLang = this.value;
+    localStorage.setItem('cardiotrack_lang', currentLang);
+    applyTranslations(currentLang);
+    /* Update doc lang attribute for accessibility */
+    var langMap = { en:'en-GB', ur:'ur', hi:'hi', ta:'ta', pl:'pl', pt:'pt', ar:'ar', so:'so', fr:'fr' };
+    document.documentElement.setAttribute('lang', langMap[currentLang] || 'en-GB');
+  });
+
+  /* ── ECG file upload button ── */
+  document.getElementById('ecg-upload-btn').addEventListener('click', function () {
+    document.getElementById('ecg-file-input').click();
+  });
+
+  document.getElementById('ecg-file-input').addEventListener('change', function () {
+    var file = this.files[0];
+    var display = document.getElementById('file-name-display');
+    if (file) {
+      display.textContent = 'Selected: ' + file.name;
+    } else {
+      display.textContent = '';
+    }
+  });
+
+  /* ── Init ── */
+  wireToggles();
+  currentToken = getToken();
+  if (!currentToken) {
+    showError('No programme token found. Please scan the QR code in your welcome email or contact the clinic.');
+  } else {
+    loadPatient(currentToken);
+  }
+
+})();
+</script>
+
+</body>
+</html>
