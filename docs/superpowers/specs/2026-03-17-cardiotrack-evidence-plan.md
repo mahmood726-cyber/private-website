@@ -153,11 +153,57 @@ If baseline is very low (<2,000), start with +250 increments instead.
 - Optional: free-text note
 
 ### Device Lending Policy
-- Devices lent at start of programme (clinic visit or posted)
+- Devices lent at start of programme (clinic visit)
 - **Must return within 3 days after Week 1 monitoring ends** (i.e., by Day 10)
-- **£70 late return / non-return charge** (covers device replacement cost)
-- Patient signs device agreement at onboarding
-- Deposit taken? Or charge card on file via Stripe?
+- **£200 security hold on card** via Stripe (authorised, not charged)
+  - Stripe `capture_method: manual` — holds funds without charging
+  - Hold released automatically when devices marked as returned in admin dashboard
+  - If not returned within 3 days: hold captured (£200 charged) — covers device replacement
+  - Device kit cost: ~£220-260 (KardiaMobile ~£99 + OMRON BP ~£140)
+- Patient consents to hold at booking (before payment)
+- Admin dashboard: "Mark devices returned" button → triggers Stripe hold release
+- Automated email reminder on Day 8: "Please return your devices by [date] to avoid the £200 charge"
+
+### Device Kit Contents (per patient loan)
+- 1x KardiaMobile (single-lead ECG)
+- 1x OMRON Complete BP monitor (with AF detection)
+- Instruction card with QR code
+- Return envelope / clinic return instructions
+
+### GDPR Consent (captured at booking, before payment)
+
+**Tier 1 (Consultation) — 3 checkboxes:**
+1. I consent to the processing of my personal and health data for cardiology assessment [Link: privacy policy]
+2. I consent to a written report being shared with my GP (optional — can opt out)
+3. I confirm I am 18+ and do not have excluded conditions [Link: full list]
+
+**Tier 2 (CardioTrack) — 5 checkboxes:**
+1. I consent to the collection and processing of my health data (ECG, BP, steps, diet) for cardiac assessment and lifestyle monitoring [Link: privacy policy]
+2. I understand my data will be stored securely and retained for 8 years per GMC requirements
+3. I consent to a written report being shared with my GP (optional — can opt out)
+4. I agree to return monitoring devices within 3 days of my monitoring week ending. I authorise a £200 security hold on my card, released on device return. If not returned, £200 will be charged. [Link: device agreement]
+5. I confirm I am 18+ and do not have excluded conditions [Link: full list]
+
+Consent is timestamped, stored in database, PDF copy emailed to patient, withdrawable at any time.
+
+### Booking Payment Flow (Tier 2: CardioTrack)
+1. Patient selects CardioTrack programme (£49.99)
+2. Enters name, email, phone, DOB
+3. GDPR consent screen (5 checkboxes above — all must be ticked)
+4. Stripe Checkout: charges £49.99 immediately
+5. Stripe: places £200 authorisation hold on same card (not charged)
+6. Confirmation email: receipt, consent PDF, QR code, device collection details
+7. Day 8: automated reminder to return devices
+8. Devices returned → admin clicks "Returned" → hold released
+9. Devices NOT returned by Day 10 → hold captured → £200 charged
+
+### ECG Data Flow (Option C — free Kardia app)
+1. Patient downloads free Kardia app, creates free account
+2. Takes 3 ECGs/day on loaned KardiaMobile for 7 days
+3. End of week: patient uploads Kardia PDF exports via QR code form
+4. Our system parses PDFs with regex (classification, HR, timestamp)
+5. Dashboard shows auto-summary: X normal, Y flagged, AF yes/no
+6. Clinician reviews only flagged ECGs (2-3 minutes max)
 
 ### Analytics Dashboard (Clinician)
 
