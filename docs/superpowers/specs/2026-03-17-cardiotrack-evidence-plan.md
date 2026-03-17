@@ -258,6 +258,64 @@ SMS: Twilio (~£1.68/patient for full programme)
 Payments: Stripe Checkout (£49.99 per tier)
 ```
 
+## Auto-Processing & Report Generation
+
+### Design Principle: 2-3 Minutes Per Patient Maximum
+
+Traffic light system auto-processes all data:
+- **GREEN**: All normal. Auto-report ready. Click "Approve & Send". (30 seconds)
+- **AMBER**: Minor flags (tachycardia, borderline BP, low adherence). Review flags, edit report. (2-3 minutes)
+- **RED**: AF detected, Stage 2 hypertension, concerning pattern. Review + call patient. (5 minutes)
+
+### Week 1: KardiaMobile ECG Auto-Processing
+- Patient uploads Kardia PDF export (all 21 ECGs in one file)
+- **Regex parser** extracts: classification, heart rate, timestamp per recording
+- Auto-summary: count Normal/AF/Tachy/Brady/Unclassified, average HR, HR range
+- Dashboard shows **only flagged (non-normal) ECGs** — clinician skips all normal ones
+- AF detection triggers automatic RED flag + patient contact recommendation
+
+### Week 1: BP Auto-Processing
+- 14 readings (2/day x 7 days) entered via daily log form
+- Auto-classified per NICE home BP thresholds:
+  - Normal: <135/85
+  - Stage 1: 135-149 / 85-94
+  - Stage 2: ≥150 / ≥95
+- Trend analysis: improving / stable / worsening
+- Morning vs evening comparison
+- Any reading >180/110 → immediate RED flag
+
+### Week 7: Lifestyle Auto-Report
+- Step count: baseline vs final, % improvement, estimated mortality reduction (from meta-analysis)
+- Food adherence: % days on plan (per food item)
+- Programme completion: % of daily logs submitted
+- Personalised narrative auto-generated from templates:
+  "Over 6 weeks, [Name] increased daily steps from [baseline] to [final] (+[diff] steps/day).
+   Based on published meta-analysis evidence (Banach et al., Eur J Prev Cardiology 2023),
+   this is associated with approximately [X]% reduction in cardiovascular mortality risk.
+   Food plan adherence was [Y]%. [Name] successfully reduced [STOP food] intake and
+   increased [START food] consumption. Recommend continuing current lifestyle changes."
+
+### Report Auto-Generation
+- Reports are pre-filled from data — clinician reviews, optionally edits, clicks "Approve & Send"
+- Sent to patient email + GP (with consent) as PDF
+- All reports stored encrypted for audit trail
+
+### Kardia PDF Regex Patterns
+```
+Classification: /(Normal Sinus Rhythm|Possible Atrial Fibrillation|Atrial Fibrillation|Sinus Tachycardia|Sinus Bradycardia|Unclassified|No Analysis)/
+Heart rate: /(\d+)\s*(?:BPM|bpm)/
+Date: /(\w+\s+\d{1,2},?\s+\d{4})\s+(\d{1,2}:\d{2}\s*[AP]M)/
+Duration: /(\d+)\s*(?:sec|seconds)/
+```
+
+### Population Analytics (Research-Ready)
+- Aggregate outcomes across all patients
+- Which food swaps have highest adherence?
+- Which step targets are most achievable?
+- AF detection rate in palpitation patients
+- BP improvement from monitoring alone (Hawthorne effect)
+- Exportable CSV for audit/research publication
+
 ## Build Phases
 
 ### Phase 1: Custom Booking (replace Cal.com) — 1 session
