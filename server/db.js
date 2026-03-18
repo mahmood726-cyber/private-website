@@ -200,7 +200,7 @@ async function seedAdmin(db) {
   const hash = await bcrypt.hash(DEFAULT_ADMIN_PLAINTEXT, 12);
   db.prepare('INSERT INTO admin (username, password_hash) VALUES (?, ?)')
     .run(DEFAULT_ADMIN_USERNAME, hash);
-  console.log('[db] Default admin created. USERNAME: admin  PASSWORD: ChangeMe123!');
+  console.log('[db] Default admin created. Please change the password immediately.');
   console.warn('[db] WARNING: Change the admin password immediately after first login.');
 }
 
@@ -219,6 +219,13 @@ async function initDb() {
 
   // Apply schema (all CREATE IF NOT EXISTS — safe to re-run)
   _db.exec(SCHEMA);
+
+  // Migration: add consent_sms column if it doesn't exist (PECR SMS consent)
+  try {
+    _db.exec('ALTER TABLE patients ADD COLUMN consent_sms INTEGER DEFAULT 0');
+  } catch (_) {
+    // Column already exists — safe to ignore
+  }
 
   // Seed future slots (INSERT OR IGNORE — idempotent)
   seedSlots(_db);

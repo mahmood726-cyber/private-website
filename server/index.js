@@ -153,8 +153,8 @@ app.use(
 // ---------------------------------------------------------------------------
 
 const SESSION_SECRET = process.env.SESSION_SECRET || 'dev-secret-change-in-production';
-if (SESSION_SECRET === 'dev-secret-change-in-production' && process.env.NODE_ENV === 'production') {
-  console.error('[FATAL] SESSION_SECRET must be set in production. Exiting.');
+if (SESSION_SECRET === 'dev-secret-change-in-production') {
+  console.error('[FATAL] SESSION_SECRET must be changed from the default value. Exiting.');
   process.exit(1);
 }
 
@@ -181,25 +181,34 @@ app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 // ---------------------------------------------------------------------------
 
 const STATIC_ROOT = path.join(__dirname, '..');
+
+// Block direct access to server source code and data directories
+app.use('/server', (_req, res) => res.status(403).end());
+app.use('/data', (_req, res) => res.status(403).json({ error: 'Forbidden' }));
+
 app.use(express.static(STATIC_ROOT, {
-  // Do not serve the data/ directory
   index: 'index.html',
   dotfiles: 'deny',
 }));
-
-// Deny direct access to the data directory
-app.use('/data', (_req, res) => res.status(403).json({ error: 'Forbidden' }));
 
 // ---------------------------------------------------------------------------
 // Auth middleware
 // ---------------------------------------------------------------------------
 
 function requireAdmin(req, res, next) {
-  if (req.session && req.session.adminId) return next();
-  if (req.headers['accept'] && req.headers['accept'].includes('text/html')) {
-    return res.redirect('/dashboard/login');
+  if (!req.session || !req.session.adminId) {
+    if (req.headers['accept'] && req.headers['accept'].includes('text/html')) {
+      return res.redirect('/dashboard/login');
+    }
+    return res.status(401).json({ error: 'Unauthorised' });
   }
-  return res.status(401).json({ error: 'Unauthorised' });
+  // Block all operations except password change and logout if default password is still in use
+  if (req.session.mustChangePassword
+      && !req.path.endsWith('/change-password')
+      && !req.path.endsWith('/logout')) {
+    return res.status(403).json({ error: 'Password change required before accessing other features' });
+  }
+  return next();
 }
 
 // ---------------------------------------------------------------------------
@@ -277,6 +286,48 @@ async function sendSms(patientId, toNumber, message) {
 }
 
 // ---------------------------------------------------------------------------
+// Rate limiting (in-memory, no extra dependency)
+// ---------------------------------------------------------------------------
+
+const loginAttempts = new Map();
+
+function checkLoginRate(ip) {
+  const now = Date.now();
+  const record = loginAttempts.get(ip);
+  if (record && record.blocked > now) return false;
+  return true;
+}
+
+function recordLoginFailure(ip) {
+  const now = Date.now();
+  const record = loginAttempts.get(ip) || { count: 0, first: now };
+  record.count++;
+  if (record.count >= 5) record.blocked = now + 900000; // 15 minutes
+  loginAttempts.set(ip, record);
+}
+
+function clearLoginAttempts(ip) { loginAttempts.delete(ip); }
+
+const bookingAttempts = new Map();
+
+function checkBookingRate(ip) {
+  const now = Date.now();
+  const record = bookingAttempts.get(ip);
+  if (!record) return true;
+  // Remove entries older than 1 hour
+  record.timestamps = record.timestamps.filter((ts) => now - ts < 3600000);
+  if (record.timestamps.length >= 3) return false;
+  return true;
+}
+
+function recordBookingAttempt(ip) {
+  const now = Date.now();
+  const record = bookingAttempts.get(ip) || { timestamps: [] };
+  record.timestamps.push(now);
+  bookingAttempts.set(ip, record);
+}
+
+// ---------------------------------------------------------------------------
 // API routes — /api/*
 // ---------------------------------------------------------------------------
 
@@ -317,6 +368,13 @@ api.get('/slots', (_req, res) => {
  *  5. Send confirmation SMS
  */
 api.post('/book', async (req, res) => {
+  // Rate limit: max 3 bookings per hour per IP
+  const ip = req.ip;
+  if (!checkBookingRate(ip)) {
+    return res.status(429).json({ error: 'Too many booking attempts. Please try again later.' });
+  }
+  recordBookingAttempt(ip);
+
   const {
     name, email, phone, dob, tier, language,
     slot_date, slot_time,
@@ -450,18 +508,18 @@ api.post('/book', async (req, res) => {
 
 /**
  * POST /api/cancel
- * Body: { patient_id, email }  (basic ownership check)
+ * Body: { token }  (log_token — authenticates the patient securely)
  */
 api.post('/cancel', async (req, res) => {
-  const { patient_id, email } = req.body;
-  if (!patient_id || !email) {
-    return res.status(400).json({ error: 'patient_id and email are required' });
+  const { token } = req.body;
+  if (!token || typeof token !== 'string' || token.trim() === '') {
+    return res.status(400).json({ error: 'token is required' });
   }
 
   try {
-    const patient = getPatientById(Number(patient_id));
-    if (!patient || patient.email !== email.trim().toLowerCase()) {
-      return res.status(404).json({ error: 'Booking not found' });
+    const patient = getPatientByToken(token.trim());
+    if (!patient) {
+      return res.status(404).json({ error: 'Booking not found or token is invalid' });
     }
     if (patient.booking_status === 'cancelled') {
       return res.status(409).json({ error: 'Booking is already cancelled' });
@@ -525,14 +583,25 @@ api.get('/log/patient', (req, res) => {
  * Body: { token, log_date, steps, food_stop_1, food_stop_2,
  *          food_start_1, food_start_2, bp_systolic, bp_diastolic,
  *          heart_rate, note }
+ *
+ * Token should be sent in the POST body (not query string).
+ * The QR code URL should use a fragment (#token=xxx) or a POST intermediary page
+ * to avoid exposing the token in server access logs.
  */
 api.post('/log/submit', (req, res) => {
-  const { token, log_date, ...fields } = req.body;
+  // Accept token from body only (not query string — avoids exposure in server logs)
+  const token = req.body.token;
+  const { log_date, ...fields } = req.body;
   if (!token) return res.status(400).json({ error: 'token is required' });
   if (!log_date) return res.status(400).json({ error: 'log_date is required' });
 
   const patient = getPatientByToken(token);
   if (!patient) return res.status(404).json({ error: 'Invalid or expired token' });
+
+  // Validate cancelled patients cannot log
+  if (patient.booking_status === 'cancelled') {
+    return res.status(403).json({ error: 'This booking has been cancelled. Logging is no longer available.' });
+  }
 
   // Reject future dates
   if (log_date > today()) {
@@ -548,6 +617,9 @@ api.post('/log/submit', (req, res) => {
     });
   }
 
+  const bpSys = fields.bp_systolic != null ? Number(fields.bp_systolic) : null;
+  const bpDia = fields.bp_diastolic != null ? Number(fields.bp_diastolic) : null;
+
   try {
     insertDailyLog({
       patient_id:   patient.id,
@@ -557,11 +629,21 @@ api.post('/log/submit', (req, res) => {
       food_stop_2:  fields.food_stop_2  != null ? Number(fields.food_stop_2)  : null,
       food_start_1: fields.food_start_1 != null ? Number(fields.food_start_1) : null,
       food_start_2: fields.food_start_2 != null ? Number(fields.food_start_2) : null,
-      bp_systolic:  fields.bp_systolic  != null ? Number(fields.bp_systolic)  : null,
-      bp_diastolic: fields.bp_diastolic != null ? Number(fields.bp_diastolic) : null,
+      bp_systolic:  bpSys,
+      bp_diastolic: bpDia,
       heart_rate:   fields.heart_rate   != null ? Number(fields.heart_rate)   : null,
       note:         fields.note         || null,
     });
+
+    // Red-flag alerting: severely elevated BP (systolic >= 180 OR diastolic >= 110)
+    if ((bpSys != null && bpSys >= 180) || (bpDia != null && bpDia >= 110)) {
+      console.warn(`[RED FLAG] Patient ${patient.id} (${patient.name}) submitted severely elevated BP: ${bpSys}/${bpDia}`);
+      if (twilioClient && process.env.TWILIO_FROM_NUMBER && process.env.CLINIC_PHONE_NUMBER) {
+        const alertMsg = `RED FLAG: Patient ${patient.name} (ID ${patient.id}) submitted BP ${bpSys}/${bpDia}. Urgent review required.`;
+        sendSms(patient.id, process.env.CLINIC_PHONE_NUMBER, alertMsg).catch((e) => console.error('[red-flag sms]', e));
+      }
+    }
+
     res.status(201).json({ success: true });
   } catch (err) {
     console.error('[api/log/submit]', err);
@@ -575,7 +657,7 @@ api.post('/log/submit', (req, res) => {
  * POST /api/ecg/upload
  * Multipart form: token (field), file (field: ecg)
  */
-api.post('/ecg/upload', upload.single('ecg'), (req, res) => {
+api.post('/ecg/upload', upload.single('ecg'), async (req, res) => {
   const { token } = req.body;
   if (!token) return res.status(400).json({ error: 'token is required' });
 
@@ -595,6 +677,25 @@ api.post('/ecg/upload', upload.single('ecg'), (req, res) => {
       flag_level:     'green',
       parsed:         0,
     });
+
+    // Attempt to parse the ECG and check for red-flag recordings
+    try {
+      const ecgParser = require('./services/ecg-parser');
+      const ecgBuffer = fs.readFileSync(path.join(UPLOAD_DIR, req.file.filename));
+      const recordings = await ecgParser.parseKardiaPdf(ecgBuffer);
+      const hasRedFlag = recordings.some((r) => ecgParser.classifyRecording(r.classification, r.heartRate) === 'red');
+      if (hasRedFlag) {
+        console.warn(`[RED FLAG] Patient ${patient.id} (${patient.name}) uploaded ECG with red-flag recording`);
+        if (twilioClient && process.env.TWILIO_FROM_NUMBER && process.env.CLINIC_PHONE_NUMBER) {
+          const alertMsg = `RED FLAG: Patient ${patient.name} (ID ${patient.id}) uploaded ECG with atrial fibrillation. Urgent review required.`;
+          sendSms(patient.id, process.env.CLINIC_PHONE_NUMBER, alertMsg).catch((e) => console.error('[red-flag sms]', e));
+        }
+      }
+    } catch (parseErr) {
+      // Non-fatal — the file is saved for manual review regardless
+      console.log('[api/ecg/upload] Auto-parse not available:', parseErr.message);
+    }
+
     res.status(201).json({ success: true, filename: req.file.filename });
   } catch (err) {
     console.error('[api/ecg/upload]', err);
@@ -609,6 +710,11 @@ api.post('/ecg/upload', upload.single('ecg'), (req, res) => {
  * Body: { username, password }
  */
 api.post('/admin/login', async (req, res) => {
+  const ip = req.ip;
+  if (!checkLoginRate(ip)) {
+    return res.status(429).json({ error: 'Too many login attempts. Please try again in 15 minutes.' });
+  }
+
   const { username, password } = req.body;
   if (!username || !password) {
     return res.status(400).json({ error: 'Username and password are required' });
@@ -616,13 +722,33 @@ api.post('/admin/login', async (req, res) => {
 
   try {
     const admin = getAdminByUsername(username);
-    if (!admin) return res.status(401).json({ error: 'Invalid credentials' });
+    if (!admin) {
+      recordLoginFailure(ip);
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
 
     const match = await bcrypt.compare(password, admin.password_hash);
-    if (!match) return res.status(401).json({ error: 'Invalid credentials' });
+    if (!match) {
+      recordLoginFailure(ip);
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    clearLoginAttempts(ip);
+
+    // Check if password is still the default — force change
+    const DEFAULT_ADMIN_PLAINTEXT = 'ChangeMe123!';
+    const isDefault = await bcrypt.compare(DEFAULT_ADMIN_PLAINTEXT, admin.password_hash);
+    if (isDefault) {
+      // Set session so password change endpoint works, but flag as must-change
+      req.session.adminId   = admin.id;
+      req.session.adminUser = admin.username;
+      req.session.mustChangePassword = true;
+      return res.json({ success: true, mustChangePassword: true });
+    }
 
     req.session.adminId   = admin.id;
     req.session.adminUser = admin.username;
+    req.session.mustChangePassword = false;
     res.json({ success: true });
   } catch (err) {
     console.error('[api/admin/login]', err);
@@ -657,6 +783,7 @@ api.post('/admin/change-password', requireAdmin, async (req, res) => {
     if (!match) return res.status(401).json({ error: 'Current password is incorrect' });
 
     await updateAdminPassword(req.session.adminUser, new_password);
+    req.session.mustChangePassword = false;
     res.json({ success: true, message: 'Password updated' });
   } catch (err) {
     console.error('[api/admin/change-password]', err);
@@ -668,7 +795,8 @@ api.post('/admin/change-password', requireAdmin, async (req, res) => {
 
 api.get('/admin/patients', requireAdmin, (_req, res) => {
   try {
-    res.json({ patients: getAllPatients() });
+    const patients = getAllPatients().map(({ log_token, stripe_payment_id, stripe_hold_id, ...safe }) => safe);
+    res.json({ patients });
   } catch (err) {
     console.error('[api/admin/patients]', err);
     res.status(500).json({ error: 'Failed to retrieve patients' });
@@ -677,11 +805,12 @@ api.get('/admin/patients', requireAdmin, (_req, res) => {
 
 api.get('/admin/patients/:id', requireAdmin, (req, res) => {
   try {
-    const patient = getPatientById(Number(req.params.id));
-    if (!patient) return res.status(404).json({ error: 'Patient not found' });
-    const logs = getLogsByPatient(patient.id);
-    const ecgs = getEcgsByPatient(patient.id);
-    const sms  = getSmsByPatient(patient.id);
+    const raw = getPatientById(Number(req.params.id));
+    if (!raw) return res.status(404).json({ error: 'Patient not found' });
+    const { log_token, stripe_payment_id, stripe_hold_id, ...patient } = raw;
+    const logs = getLogsByPatient(raw.id);
+    const ecgs = getEcgsByPatient(raw.id);
+    const sms  = getSmsByPatient(raw.id);
     res.json({ patient, logs, ecgs, sms });
   } catch (err) {
     console.error('[api/admin/patients/:id]', err);

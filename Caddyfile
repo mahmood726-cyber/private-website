@@ -7,6 +7,10 @@ synthesis-medicine.org, www.synthesis-medicine.org {
 
 londoncardiologyclinic.uk, www.londoncardiologyclinic.uk {
     root * /var/www/clinic-site
+
+    # Serve pathway.html as the main landing page
+    try_files {path} /pathway.html
+
     file_server
 
     header {

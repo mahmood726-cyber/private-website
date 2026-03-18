@@ -132,15 +132,8 @@ async function sendMorningReminder(patient) {
       break;
 
     case 3: {
-      // Step streak — requires baseline_steps
-      const goal = patient.baseline_steps
-        ? Math.round(patient.baseline_steps * 1.2)
-        : 5000;
-      message = `${firstName}, you've hit your step goal ${_streakDays(dayNumber)} days in a row. Keep going.`;
-      // Fall back to variant 0 if the goal is obviously not personalised
-      if (!patient.baseline_steps) {
-        message = `Good morning ${firstName}. Today's step goal: ${goal} steps. You've got this.`;
-      }
+      // Variant 3: generic encouragement (was streak — real streak requires DB query from cron)
+      message = `Good morning ${firstName}. Keep up the momentum with your steps today.`;
       break;
     }
 
@@ -184,7 +177,7 @@ async function sendEveningReminder(patient, logUrl) {
 
   const message = dayNumber % 2 === 0
     ? `${firstName}, how did you do today? Log your steps and food: ${logUrl}`
-    : `Evening ${firstName}. Did you stick to your food plan? Quick log: ${logUrl}`;
+    : `Evening ${firstName}. Did you stick to your food plan? Quick log: ${logUrl} Questions? Email drmahmoodclinic@pm.me`;
 
   return sendSms(patient.phone, message, patient.id);
 }
@@ -203,7 +196,7 @@ async function sendDeviceReturnReminder(patient) {
   const firstName  = _firstName(patient.name);
   const returnDate = _formatReturnDate(patient.devices_collected_date);
 
-  const message = `${firstName}, please return your monitoring devices to the clinic by ${returnDate} to avoid the £200 charge.`;
+  const message = `Hi ${firstName}, your monitoring week is complete — well done! Please bring the Kardia device back to the clinic by ${returnDate} and we'll release the hold on your card. Call us if you need to arrange a different day.`;
 
   return sendSms(patient.phone, message, patient.id);
 }
@@ -281,15 +274,6 @@ function _formatReturnDate(collectedDate) {
   } catch (_) {
     return 'within 7 days';
   }
-}
-
-/**
- * Estimate how many days in a row the patient has hit their goal.
- * Simple heuristic: returns the day number clamped to a plausible streak (1–7).
- * The cron job can pass the real streak if available.
- */
-function _streakDays(dayNumber) {
-  return Math.min(7, Math.max(1, dayNumber));
 }
 
 // ─── Exports ──────────────────────────────────────────────────────────────────

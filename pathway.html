@@ -1,0 +1,1595 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Low-Risk Palpitations Pathway — London Cardiology Clinic</title>
+  <meta name="description" content="A structured rapid-access pathway for low-risk palpitations. Combining clinic review, ECG monitoring, and a guided 6-week improvement programme. From £50.">
+  <meta name="robots" content="index, follow">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ══════════════════════════════════════════════════════════════
+       PATHWAY SITE — DESIGN SYSTEM
+       Refined medical editorial. Calm, authoritative, airy.
+       ══════════════════════════════════════════════════════════════ */
+
+    :root {
+      --font-serif: 'Libre Baskerville', 'Georgia', serif;
+      --font-sans: 'DM Sans', 'Helvetica Neue', sans-serif;
+
+      /* Palette */
+      --white: #FFFFFF;
+      --warm-white: #FAFAF8;
+      --ivory: #F5F4F0;
+      --light-grey: #E8E6E1;
+      --mid-grey: #9B9690;
+      --dark-grey: #5A5650;
+      --charcoal: #2C2A27;
+
+      --blue-50: #F0F4F8;
+      --blue-100: #D9E4ED;
+      --blue-200: #B3C9DB;
+      --blue-400: #6A9ABF;
+      --blue-500: #4A7FA8;
+      --blue-600: #3A6B8F;
+      --blue-700: #2D5470;
+      --blue-800: #1E3A4F;
+
+      --sage-50: #F2F5F3;
+      --sage-100: #DCE5DF;
+      --sage-400: #7BA393;
+      --sage-600: #4D7A65;
+
+      --red-50: #FDF2F2;
+      --red-400: #C45A5A;
+      --red-600: #A63D3D;
+
+      --amber-50: #FDF6E3;
+      --amber-400: #D4A017;
+
+      /* Layout */
+      --max-w: 1120px;
+      --max-w-narrow: 760px;
+      --radius: 12px;
+      --radius-sm: 6px;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.08);
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 72px;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--charcoal);
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: var(--blue-600); text-decoration: none; }
+    a:hover { color: var(--blue-700); }
+    a:focus-visible { outline: 2px solid var(--blue-400); outline-offset: 2px; border-radius: 2px; }
+
+    h1, h2, h3, h4 {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--charcoal);
+    }
+
+    h1 { font-size: clamp(32px, 5vw, 48px); letter-spacing: -0.5px; }
+    h2 { font-size: clamp(26px, 3.5vw, 36px); letter-spacing: -0.3px; }
+    h3 { font-size: clamp(20px, 2.5vw, 24px); }
+    h4 { font-size: 18px; font-weight: 700; }
+
+    p, li { max-width: 68ch; }
+
+    /* ── Utility ── */
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+    .container-narrow { max-width: var(--max-w-narrow); margin: 0 auto; padding: 0 24px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    /* ── Navigation ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--light-grey);
+    }
+
+    .nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      color: var(--charcoal);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .nav-logo em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--blue-600);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 4px;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--dark-grey);
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { background: var(--blue-50); color: var(--blue-700); }
+
+    .nav-links .nav-cta {
+      background: var(--blue-600);
+      color: var(--white);
+      font-weight: 600;
+      padding: 8px 20px;
+      border-radius: 999px;
+      margin-left: 8px;
+    }
+
+    .nav-links .nav-cta:hover { background: var(--blue-700); }
+
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .nav-hamburger svg { width: 24px; height: 24px; stroke: var(--charcoal); }
+
+    /* ── Mobile nav ── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: block; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        border-bottom: 1px solid var(--light-grey);
+        padding: 16px 24px;
+        gap: 4px;
+        box-shadow: var(--shadow-lg);
+      }
+      .nav-links.open .nav-cta { margin-left: 0; margin-top: 8px; text-align: center; }
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(175deg, var(--blue-50) 0%, var(--warm-white) 60%, var(--white) 100%);
+      padding: 80px 24px 72px;
+      text-align: center;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--blue-600);
+      margin-bottom: 20px;
+    }
+
+    .hero h1 { margin-bottom: 20px; }
+
+    .hero-sub {
+      font-size: 18px;
+      color: var(--dark-grey);
+      line-height: 1.7;
+      max-width: 640px;
+      margin: 0 auto 36px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 14px 28px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .btn:focus-visible { outline: 2px solid var(--blue-400); outline-offset: 2px; }
+
+    .btn-primary {
+      background: var(--blue-600);
+      color: var(--white);
+    }
+
+    .btn-primary:hover { background: var(--blue-700); color: var(--white); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--blue-600);
+      border: 1.5px solid var(--blue-200);
+    }
+
+    .btn-secondary:hover { background: var(--blue-50); border-color: var(--blue-400); color: var(--blue-700); }
+
+    /* ── Sections ── */
+    .section {
+      padding: 80px 24px;
+    }
+
+    .section-alt { background: var(--warm-white); }
+    .section-blue { background: var(--blue-50); }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-header h2 { margin-bottom: 14px; }
+
+    .section-header p {
+      color: var(--dark-grey);
+      font-size: 17px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--blue-500);
+      margin-bottom: 10px;
+    }
+
+    /* ── Pathway Steps (3-column) ── */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .step-card {
+      background: var(--white);
+      border: 1px solid var(--light-grey);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+      position: relative;
+      transition: box-shadow 0.3s, transform 0.2s;
+    }
+
+    .step-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: var(--blue-50);
+      color: var(--blue-600);
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 18px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+    }
+
+    .step-card h3 { margin-bottom: 12px; font-size: 20px; }
+    .step-card p { color: var(--dark-grey); font-size: 15px; }
+
+    /* ── Timeline ── */
+    .timeline {
+      max-width: var(--max-w-narrow);
+      margin: 0 auto;
+      position: relative;
+      padding-left: 48px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--blue-400), var(--sage-400));
+      border-radius: 1px;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 40px;
+    }
+
+    .timeline-item:last-child { padding-bottom: 0; }
+
+    .timeline-dot {
+      position: absolute;
+      left: -40px;
+      top: 4px;
+      width: 14px;
+      height: 14px;
+      background: var(--blue-500);
+      border: 3px solid var(--white);
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px var(--blue-200);
+    }
+
+    .timeline-item:last-child .timeline-dot { background: var(--sage-400); box-shadow: 0 0 0 2px var(--sage-100); }
+
+    .timeline-week {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--blue-500);
+      margin-bottom: 6px;
+    }
+
+    .timeline-item h4 { margin-bottom: 8px; }
+    .timeline-item p { color: var(--dark-grey); font-size: 15px; }
+
+    /* ── Cards grid ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .info-card {
+      background: var(--white);
+      border: 1px solid var(--light-grey);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+    }
+
+    .info-card h4 { margin-bottom: 10px; }
+    .info-card p { color: var(--dark-grey); font-size: 15px; }
+
+    .info-card-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--blue-50);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      font-size: 22px;
+    }
+
+    /* ── Pricing ── */
+    .pricing-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 740px;
+      margin: 0 auto;
+    }
+
+    .price-card {
+      background: var(--white);
+      border: 1.5px solid var(--light-grey);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+      text-align: center;
+      transition: box-shadow 0.3s, border-color 0.3s;
+    }
+
+    .price-card:hover { border-color: var(--blue-200); box-shadow: var(--shadow-md); }
+
+    .price-card h4 { margin-bottom: 8px; font-size: 20px; }
+    .price-card .price-desc { color: var(--dark-grey); font-size: 14px; margin-bottom: 20px; }
+
+    .price-amount {
+      font-family: var(--font-serif);
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--blue-700);
+      margin-bottom: 4px;
+    }
+
+    .price-per { font-size: 14px; color: var(--mid-grey); margin-bottom: 20px; }
+
+    .price-features {
+      list-style: none;
+      text-align: left;
+      font-size: 14px;
+      color: var(--dark-grey);
+    }
+
+    .price-features li {
+      padding: 6px 0;
+      border-bottom: 1px solid var(--ivory);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .price-features li::before {
+      content: '';
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      background: var(--sage-50);
+      border-radius: 50%;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%234D7A65' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      margin-top: 3px;
+    }
+
+    .price-total {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .price-total-box {
+      display: inline-block;
+      background: var(--blue-50);
+      border: 1px solid var(--blue-100);
+      border-radius: var(--radius);
+      padding: 20px 40px;
+    }
+
+    .price-total-label { font-size: 14px; color: var(--dark-grey); margin-bottom: 4px; }
+
+    .price-total-amount {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--blue-700);
+    }
+
+    .price-note {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--mid-grey);
+      font-style: italic;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── Suitability ── */
+    .suit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 28px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .suit-card {
+      border-radius: var(--radius);
+      padding: 32px 28px;
+    }
+
+    .suit-card.suit-yes {
+      background: var(--sage-50);
+      border: 1px solid var(--sage-100);
+    }
+
+    .suit-card.suit-no {
+      background: var(--red-50);
+      border: 1px solid #F5D5D5;
+    }
+
+    .suit-card.suit-maybe {
+      background: var(--amber-50);
+      border: 1px solid #F0E0B0;
+    }
+
+    .suit-card h4 { margin-bottom: 14px; font-size: 18px; }
+
+    .suit-list {
+      list-style: none;
+      font-size: 15px;
+      color: var(--dark-grey);
+    }
+
+    .suit-list li {
+      padding: 5px 0;
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .suit-list li::before {
+      position: absolute;
+      left: 0;
+      top: 5px;
+      font-size: 14px;
+    }
+
+    .suit-yes .suit-list li::before { content: '\2713'; color: var(--sage-600); }
+    .suit-no .suit-list li::before { content: '\2717'; color: var(--red-400); }
+    .suit-maybe .suit-list li::before { content: '\25CB'; color: var(--amber-400); }
+
+    /* ── Programme interventions ── */
+    .prog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .prog-card {
+      background: var(--white);
+      border: 1px solid var(--light-grey);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      border-top: 3px solid var(--blue-400);
+    }
+
+    .prog-card h4 { font-size: 17px; margin-bottom: 8px; }
+    .prog-card p { font-size: 14px; color: var(--dark-grey); line-height: 1.6; }
+
+    /* ── FAQ ── */
+    .faq-list {
+      max-width: var(--max-w-narrow);
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--light-grey);
+    }
+
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 20px 40px 20px 0;
+      font-family: var(--font-sans);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--charcoal);
+      cursor: pointer;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .faq-q:focus-visible { outline: 2px solid var(--blue-400); outline-offset: -2px; border-radius: 4px; }
+
+    .faq-q::after {
+      content: '+';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--mid-grey);
+      transition: transform 0.2s;
+    }
+
+    .faq-item.open .faq-q::after { content: '\2212'; }
+
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+      padding: 0 0 0 0;
+    }
+
+    .faq-item.open .faq-a {
+      max-height: 400px;
+      padding: 0 0 20px 0;
+    }
+
+    .faq-a p { color: var(--dark-grey); font-size: 15px; }
+
+    /* ── Callout box ── */
+    .callout {
+      background: var(--blue-50);
+      border-left: 4px solid var(--blue-400);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 24px 28px;
+      margin: 32px 0;
+    }
+
+    .callout h4 { font-size: 16px; margin-bottom: 8px; }
+    .callout p { font-size: 15px; color: var(--dark-grey); }
+
+    .callout-urgent {
+      background: var(--red-50);
+      border-left-color: var(--red-400);
+    }
+
+    /* ── Clinician page ── */
+    .governance-list {
+      list-style: none;
+      max-width: var(--max-w-narrow);
+      margin: 0 auto;
+    }
+
+    .governance-list li {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--light-grey);
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      font-size: 15px;
+      color: var(--dark-grey);
+    }
+
+    .governance-list li::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      min-width: 8px;
+      background: var(--blue-400);
+      border-radius: 50%;
+      margin-top: 8px;
+    }
+
+    /* ── Safety banner ── */
+    .safety-banner {
+      background: var(--red-50);
+      border: 1px solid #F0D0D0;
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      max-width: var(--max-w-narrow);
+      margin: 40px auto 0;
+      text-align: center;
+    }
+
+    .safety-banner p {
+      font-size: 15px;
+      color: var(--red-600);
+      margin: 0 auto;
+    }
+
+    .safety-banner strong { font-weight: 700; }
+
+    /* ── Footer ── */
+    .site-footer {
+      background: var(--charcoal);
+      color: rgba(255,255,255,0.7);
+      padding: 56px 24px 32px;
+      font-size: 14px;
+    }
+
+    .footer-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .footer-brand {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .footer-brand em { font-style: italic; color: var(--blue-200); }
+
+    .site-footer h5 {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 14px;
+    }
+
+    .site-footer a { color: rgba(255,255,255,0.7); }
+    .site-footer a:hover { color: var(--white); }
+
+    .footer-links { list-style: none; }
+    .footer-links li { padding: 4px 0; }
+
+    .footer-bottom {
+      max-width: var(--max-w);
+      margin: 40px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* ── Page sections (SPA) ── */
+    .page-section { display: none; }
+    .page-section.active { display: block; }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up {
+      animation: fadeUp 0.6s ease forwards;
+      opacity: 0;
+    }
+
+    .fade-up-d1 { animation-delay: 0.1s; }
+    .fade-up-d2 { animation-delay: 0.2s; }
+    .fade-up-d3 { animation-delay: 0.3s; }
+    .fade-up-d4 { animation-delay: 0.4s; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .hero { padding: 56px 20px 48px; }
+      .section { padding: 56px 20px; }
+      .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+      .suit-grid { grid-template-columns: 1fr; }
+      .pricing-row { grid-template-columns: 1fr; }
+      .timeline { padding-left: 40px; }
+      .timeline::before { left: 11px; }
+      .timeline-dot { left: -35px; }
+      .prog-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .prog-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Print ── */
+    @media print {
+      .nav, .nav-hamburger, .hero-ctas, .btn, .site-footer { display: none; }
+      .page-section { display: block !important; }
+      .section { padding: 24px 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════
+     NAVIGATION
+     ════════════════════════════════════════════════════════════════ -->
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="#home" class="nav-logo" aria-label="London Cardiology Clinic — home">London Cardiology <em>Clinic</em></a>
+
+    <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false" onclick="document.querySelector('.nav-links').classList.toggle('open'); this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true')">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+
+    <ul class="nav-links" role="list">
+      <li><a href="#home" data-page="home">Home</a></li>
+      <li><a href="#how-it-works" data-page="how-it-works">How It Works</a></li>
+      <li><a href="#whats-included" data-page="whats-included">What's Included</a></li>
+      <li><a href="#suitability" data-page="suitability">Is This Right for You?</a></li>
+      <li><a href="#programme" data-page="programme">The Programme</a></li>
+      <li><a href="#faq" data-page="faq">FAQ</a></li>
+      <li><a href="#clinicians" data-page="clinicians">For Clinicians</a></li>
+      <li><a href="/book" class="nav-cta">Book</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PAGE: HOME
+     ════════════════════════════════════════════════════════════════ -->
+<div id="home" class="page-section active">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <p class="hero-eyebrow fade-up">Rapid Rhythm Assessment Pathway</p>
+      <h1 class="fade-up fade-up-d1">Structured assessment and monitoring<br>for low-risk palpitations</h1>
+      <p class="hero-sub fade-up fade-up-d2">Combining clinic review, ECG monitoring, and a guided six-week improvement programme. Designed for reassurance, rhythm capture, and meaningful symptom improvement.</p>
+      <div class="hero-ctas fade-up fade-up-d3">
+        <a href="/book" class="btn btn-primary">Book an appointment</a>
+        <a href="#suitability" class="btn btn-secondary" data-page="suitability">See if this is right for you</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who it's for -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Who this is for</p>
+        <h2>Many palpitations are distressing but not dangerous</h2>
+        <p>A single normal ECG rarely explains intermittent symptoms. This pathway is designed for adults with low-risk palpitations who are otherwise well and want clarity, reassurance, and a structured plan to feel better.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3>Assess</h3>
+          <p>A focused clinic appointment to review your symptoms, triggers, and risk factors. We confirm whether the low-risk pathway is appropriate for you.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3>Capture &amp; Clarify</h3>
+          <p>Up to six weeks of structured ECG monitoring to try to record your heart rhythm during symptoms, giving you and your clinician real data.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3>Improve &amp; Reassure</h3>
+          <p>A guided six-week programme targeting triggers, breathing, sleep, activity, and your response to symptoms. Or onward referral if we find something significant.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Why this pathway</p>
+        <h2>Not just testing &mdash; understanding and improving</h2>
+      </div>
+
+      <div class="cards-grid">
+        <div class="info-card">
+          <div class="info-card-icon">&#9201;</div>
+          <h4>Rapid access</h4>
+          <p>Appointments available within days, not months. No long waiting lists for a focused low-risk assessment.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon">&#9829;</div>
+          <h4>Structured monitoring</h4>
+          <p>A stepped approach to ECG monitoring &mdash; from two-week Kardia recording through to extended wearable monitoring where clinically appropriate.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon">&#128161;</div>
+          <h4>Practical improvement plan</h4>
+          <p>Seven targeted interventions covering breathing, triggers, sleep, activity, and symptom response. Designed to help you feel better, not just receive a test result.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon">&#128274;</div>
+          <h4>Clear escalation</h4>
+          <p>If monitoring reveals a significant rhythm abnormality, you are referred onward to NHS or private cardiology as appropriate. Nothing is missed or managed in isolation.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon">&#163;</div>
+          <h4>Affordable and transparent</h4>
+          <p>The full pathway costs &pound;100 total &mdash; &pound;50 for the clinic appointment, &pound;50 for monitoring and the six-week programme. No hidden fees.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon">&#128100;</div>
+          <h4>Specialist-led</h4>
+          <p>Delivered by Dr Mahmood Ahmad, Specialist in Cardiology (GMC&nbsp;6071047), practising independently on the consultant rota at the Royal Free and Barnet hospitals.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Suitability summary -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Suitability</p>
+        <h2>This service is designed for selected low-risk patients</h2>
+      </div>
+
+      <div class="suit-grid">
+        <div class="suit-card suit-yes">
+          <h4>This pathway is suitable for</h4>
+          <ul class="suit-list">
+            <li>Intermittent awareness of your heartbeat</li>
+            <li>Brief episodes of palpitations (seconds to minutes)</li>
+            <li>Missed or skipped beats</li>
+            <li>Palpitations linked to caffeine, stress, or poor sleep</li>
+            <li>Episodes that settle spontaneously</li>
+            <li>Generally well between episodes</li>
+          </ul>
+        </div>
+        <div class="suit-card suit-no">
+          <h4>This pathway is not suitable for</h4>
+          <ul class="suit-list">
+            <li>Fainting or near-fainting</li>
+            <li>Chest pain suggestive of a cardiac cause</li>
+            <li>Severe or unexplained breathlessness</li>
+            <li>Sustained rapid heart rate lasting more than 20&ndash;30 minutes</li>
+            <li>Known significant heart disease or heart failure</li>
+            <li>Palpitations with collapse</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="safety-banner" role="alert">
+        <p><strong>If you have chest pain, fainting, severe breathlessness, or feel acutely unwell, do not use this service.</strong> Call 999 or attend A&amp;E immediately.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="section section-alt" id="pricing">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Pricing</p>
+        <h2>Transparent and affordable</h2>
+        <p>Two clear costs. No hidden fees. No surprises.</p>
+      </div>
+
+      <div class="pricing-row">
+        <div class="price-card">
+          <h4>Clinic Appointment</h4>
+          <p class="price-desc">Focused rhythm assessment</p>
+          <div class="price-amount">&pound;50</div>
+          <p class="price-per">One-off payment</p>
+          <ul class="price-features">
+            <li>Face-to-face clinic review</li>
+            <li>Symptom, trigger, and risk factor assessment</li>
+            <li>Confirmation of pathway suitability</li>
+            <li>ECG if part of the service model</li>
+            <li>Clear explanation and next steps</li>
+          </ul>
+        </div>
+        <div class="price-card">
+          <h4>Monitoring &amp; Programme</h4>
+          <p class="price-desc">6-week structured support</p>
+          <div class="price-amount">&pound;50</div>
+          <p class="price-per">One-off payment</p>
+          <ul class="price-features">
+            <li>2-week Kardia ECG monitoring</li>
+            <li>Review of submitted recordings</li>
+            <li>Extended monitoring if clinically appropriate</li>
+            <li>Patient guide (breathing, sleep, activity, triggers)</li>
+            <li>Light-touch reminders and support</li>
+            <li>Review and explanation of findings</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="price-total">
+        <div class="price-total-box">
+          <p class="price-total-label">Typical full pathway</p>
+          <p class="price-total-amount">&pound;100</p>
+        </div>
+        <p class="price-note">Extended monitoring within the pathway may be included when clinically appropriate. Not every patient requires every stage of monitoring.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section-blue" style="text-align:center;">
+    <div class="container">
+      <h2>Ready to take the first step?</h2>
+      <p style="color:var(--dark-grey); font-size:17px; max-width:520px; margin:14px auto 32px;">Book your clinic appointment and begin your structured assessment pathway.</p>
+      <a href="/book" class="btn btn-primary">Book an appointment</a>
+    </div>
+  </section>
+
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PAGE: HOW IT WORKS
+     ════════════════════════════════════════════════════════════════ -->
+<div id="how-it-works" class="page-section">
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">How It Works</p>
+        <h2>A stepped pathway from assessment to improvement</h2>
+        <p>The Rapid Rhythm Assessment Pathway combines clinical review, structured monitoring, and a practical improvement programme over approximately six weeks.</p>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <p class="timeline-week">Week 0</p>
+          <h4>Clinic appointment</h4>
+          <p>A focused face-to-face assessment. We review your symptoms, triggers, risk factors, and medical history. If the low-risk pathway is appropriate, we discuss next steps and provide your monitoring device.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <p class="timeline-week">Weeks 0&ndash;2</p>
+          <h4>Kardia ECG monitoring</h4>
+          <p>You use a Kardia device to record 30-second ECGs whenever you experience symptoms, and at regular intervals. Recordings are submitted and reviewed within the pathway.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <p class="timeline-week">Weeks 2&ndash;4 (if needed)</p>
+          <h4>Extended monitoring</h4>
+          <p>If Kardia monitoring has not captured a diagnostic rhythm during symptoms, selected patients may move to a higher-quality wearable ECG device for continuous or extended recording.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <p class="timeline-week">Weeks 4&ndash;6 (if clinically appropriate)</p>
+          <h4>Final monitoring phase</h4>
+          <p>If no diagnostic capture has occurred and it remains clinically appropriate, up to two further weeks of monitoring may be offered. No monitoring extends beyond six weeks within this standard pathway.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <p class="timeline-week">Weeks 0&ndash;6</p>
+          <h4>Six-week improvement programme</h4>
+          <p>Running alongside monitoring, the programme covers breathing, trigger mapping, sleep, graded activity, structured reassurance, and learning to respond calmly to symptoms. Designed to help you feel measurably better.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <p class="timeline-week">At any point</p>
+          <h4>Escalation if needed</h4>
+          <p>If monitoring reveals a significant rhythm finding &mdash; SVT, atrial fibrillation, significant pauses, or high ectopy burden &mdash; you are referred onward to NHS or private cardiology as appropriate.</p>
+        </div>
+      </div>
+
+      <div class="callout" style="max-width:var(--max-w-narrow); margin:48px auto 0;">
+        <h4>What if something significant is found?</h4>
+        <p>This pathway is designed for low-risk assessment and reassurance. If monitoring identifies a significant abnormality, we do not manage it in isolation. You will be referred to an appropriate specialist &mdash; NHS or private &mdash; with documented findings and a clear summary.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PAGE: WHAT'S INCLUDED
+     ════════════════════════════════════════════════════════════════ -->
+<div id="whats-included" class="page-section">
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">What's Included</p>
+        <h2>Everything in the pathway</h2>
+        <p>Two clear payments covering your entire journey from assessment through monitoring and the improvement programme.</p>
+      </div>
+
+      <div class="pricing-row" style="margin-bottom:48px;">
+        <div class="price-card">
+          <h4>Part 1: Clinic Appointment</h4>
+          <p class="price-desc">&pound;50</p>
+          <ul class="price-features">
+            <li>Face-to-face consultation</li>
+            <li>Focused symptom and trigger assessment</li>
+            <li>Risk factor review</li>
+            <li>ECG if part of the service model</li>
+            <li>Confirmation of pathway suitability</li>
+            <li>Discussion of monitoring and programme plan</li>
+          </ul>
+        </div>
+        <div class="price-card">
+          <h4>Part 2: Monitoring &amp; Programme</h4>
+          <p class="price-desc">&pound;50</p>
+          <ul class="price-features">
+            <li>2-week Kardia ECG monitoring</li>
+            <li>Review and interpretation of recordings</li>
+            <li>Extended monitoring if clinically appropriate</li>
+            <li>4-page patient guide</li>
+            <li>Breathing, activity, sleep, and trigger protocols</li>
+            <li>HRV-informed feedback where applicable</li>
+            <li>Light-touch reminders and support</li>
+            <li>Final review and explanation of findings</li>
+            <li>Onward referral if significant findings arise</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout" style="max-width:var(--max-w-narrow); margin:0 auto;">
+        <h4>A note on extended monitoring</h4>
+        <p>Not every patient requires extended monitoring. The standard pathway begins with two weeks of Kardia monitoring. If a diagnostic rhythm has not been captured and it remains clinically appropriate, monitoring may be extended with a wearable ECG device. The decision to extend is made by your clinician based on your individual circumstances.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PAGE: IS THIS RIGHT FOR YOU?
+     ════════════════════════════════════════════════════════════════ -->
+<div id="suitability" class="page-section">
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Suitability</p>
+        <h2>Is this pathway right for you?</h2>
+        <p>This service is designed for selected low-risk patients. Please review the criteria below carefully.</p>
+      </div>
+
+      <div class="suit-grid" style="margin-bottom:32px;">
+        <div class="suit-card suit-yes">
+          <h4>This pathway is designed for you if</h4>
+          <ul class="suit-list">
+            <li>You have intermittent palpitations &mdash; an awareness of your heartbeat</li>
+            <li>Episodes are brief, lasting seconds to minutes</li>
+            <li>You feel generally well between episodes</li>
+            <li>You have no known significant heart disease</li>
+            <li>Symptoms include missed beats, skipped beats, or occasional rapid episodes that settle on their own</li>
+            <li>Symptoms are associated with caffeine, stress, poor sleep, or anxiety</li>
+            <li>You have not been diagnosed with a high-risk arrhythmia</li>
+          </ul>
+        </div>
+
+        <div class="suit-card suit-no">
+          <h4>This pathway is not suitable if</h4>
+          <ul class="suit-list">
+            <li>You have fainted or nearly fainted</li>
+            <li>You have chest pain that may be cardiac in origin</li>
+            <li>You have severe or unexplained breathlessness</li>
+            <li>Your heart races for more than 20&ndash;30 minutes without settling</li>
+            <li>You have known structural heart disease or heart failure</li>
+            <li>You have a known significant arrhythmia requiring management</li>
+            <li>You have had cardiac surgery or complex congenital heart disease</li>
+            <li>Your symptoms are clearly triggered by exertion</li>
+            <li>You have a strong family history of sudden cardiac death</li>
+            <li>You have an abnormal baseline ECG that needs investigation</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="suit-grid" style="max-width:400px; margin:0 auto 32px;">
+        <div class="suit-card suit-maybe">
+          <h4>Borderline &mdash; clinical judgement required</h4>
+          <ul class="suit-list">
+            <li>More frequent or prolonged episodes</li>
+            <li>Mild exertional symptoms without other red flags</li>
+            <li>Unclear history</li>
+            <li>Previous investigations but persistent symptoms</li>
+          </ul>
+          <p style="margin-top:12px; font-size:14px; color:var(--dark-grey);">These patients may enter the pathway after clinician review, or be referred onward directly.</p>
+        </div>
+      </div>
+
+      <div class="safety-banner" role="alert">
+        <p><strong>If you have chest pain, fainting, severe breathlessness, or feel acutely unwell, do not use this service.</strong> Seek urgent medical attention immediately &mdash; call 999 or attend A&amp;E.</p>
+      </div>
+
+      <div class="callout" style="max-width:var(--max-w-narrow); margin:40px auto 0;">
+        <h4>What if monitoring finds something significant?</h4>
+        <p>Even in low-risk patients, monitoring may occasionally reveal a significant finding such as SVT, atrial fibrillation, significant pauses, or high ectopy burden. If this happens, you are referred onward to NHS or private cardiology as appropriate. Symptoms that remain unexplained after the pathway are also escalated.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PAGE: THE 6-WEEK PROGRAMME
+     ════════════════════════════════════════════════════════════════ -->
+<div id="programme" class="page-section">
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">The Programme</p>
+        <h2>Six weeks of structured support</h2>
+        <p>Seven practical interventions designed to help you understand your symptoms and feel measurably better. No dense science &mdash; just clear, actionable steps.</p>
+      </div>
+
+      <div class="prog-grid">
+        <div class="prog-card">
+          <h4>Breathe</h4>
+          <p>A simple breathing protocol that helps regulate your nervous system. Slow, controlled breathing can reduce the frequency and intensity of palpitations for many people.</p>
+        </div>
+        <div class="prog-card">
+          <h4>Track</h4>
+          <p>Heart rate variability (HRV) feedback helps you understand how your body responds to stress and recovery. You learn to recognise patterns and respond to them.</p>
+        </div>
+        <div class="prog-card">
+          <h4>Map your triggers</h4>
+          <p>Identify what makes your symptoms more likely &mdash; caffeine, alcohol, poor sleep, stress, dehydration. Once you know your triggers, you can make informed choices.</p>
+        </div>
+        <div class="prog-card">
+          <h4>Move</h4>
+          <p>Graded activity guidance tailored to your fitness level. Regular gentle activity supports cardiovascular health and is associated with reduced palpitation frequency.</p>
+        </div>
+        <div class="prog-card">
+          <h4>Sleep</h4>
+          <p>Sleep quality has a direct relationship with heart rhythm. We provide a structured sleep optimisation plan covering timing, environment, and habits.</p>
+        </div>
+        <div class="prog-card">
+          <h4>Reduce triggers</h4>
+          <p>Practical, non-judgemental guidance on reducing lifestyle factors that contribute to palpitations. Small changes can make a meaningful difference.</p>
+        </div>
+        <div class="prog-card">
+          <h4>Respond calmly</h4>
+          <p>Learning to respond to palpitations without fear. Many patients find that anxiety about symptoms makes them worse. We help you break that cycle using structured reassurance and graduated exposure techniques.</p>
+        </div>
+      </div>
+
+      <div class="callout" style="max-width:var(--max-w-narrow); margin:48px auto 0;">
+        <h4>What makes this different?</h4>
+        <p>Most palpitation pathways stop at testing. If the test is normal, the patient is discharged. This pathway is designed to go further &mdash; combining monitoring with a practical programme aimed at symptom improvement, not just diagnosis. It is one of the first structured pathways to integrate rhythm monitoring with behavioural and physiological optimisation for low-risk patients.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PAGE: CLINICAL SAFETY & GOVERNANCE
+     ════════════════════════════════════════════════════════════════ -->
+<div id="safety" class="page-section">
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Clinical Safety</p>
+        <h2>Governance and escalation</h2>
+        <p>This pathway is designed with clear boundaries. We are transparent about what this service does and does not cover.</p>
+      </div>
+
+      <ul class="governance-list">
+        <li>This service is for selected low-risk patients with palpitations only. It is not a substitute for comprehensive cardiology care.</li>
+        <li>Every patient is assessed at the initial clinic appointment to confirm suitability for the low-risk pathway.</li>
+        <li>Clear referral thresholds are defined. If monitoring reveals SVT, atrial fibrillation, significant pauses, high ectopy burden, or any other significant rhythm finding, the patient is referred onward.</li>
+        <li>Referral may be to NHS cardiology or private cardiology, as appropriate to the patient's circumstances and preferences.</li>
+        <li>This is not an emergency service. It does not replace urgent or hospital care.</li>
+        <li>Monitoring recordings are reviewed within the clinic pathway. Complex or ambiguous findings are escalated for further specialist assessment.</li>
+        <li>The improvement programme is supportive and behavioural. It does not replace medical treatment where medical treatment is indicated.</li>
+        <li>If symptoms remain unexplained after completing the pathway, or clinical concern persists, patients are referred onward for further investigation.</li>
+        <li>All care is delivered by Dr Mahmood Ahmad, Specialist in Cardiology (GMC&nbsp;6071047), practising on the consultant rota at the Royal Free and Barnet hospitals. Dr Ahmad does not hold a CCT and is not on the GMC Specialist Register.</li>
+      </ul>
+
+      <div class="safety-banner" role="alert" style="margin-top:48px;">
+        <p><strong>If you experience chest pain, fainting, severe breathlessness, or feel acutely unwell, seek urgent medical attention.</strong> Call 999, contact your GP, or attend A&amp;E. Do not wait for a clinic appointment.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PAGE: FAQ
+     ════════════════════════════════════════════════════════════════ -->
+<div id="faq" class="page-section">
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Questions</p>
+        <h2>Frequently asked questions</h2>
+      </div>
+
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">What if my ECG is normal?</button>
+          <div class="faq-a" role="region"><p>A normal resting ECG is reassuring, but it only captures a few seconds of your heart rhythm. Many palpitations are intermittent, which is why this pathway includes extended monitoring over days or weeks &mdash; to catch what a single ECG often misses.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">What if my symptoms happen at night?</button>
+          <div class="faq-a" role="region"><p>Night-time symptoms are common with palpitations. Kardia monitoring allows you to record an ECG when you wake with symptoms. If extended monitoring is needed, a wearable device can record continuously, including overnight.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">What if nothing is found after monitoring?</button>
+          <div class="faq-a" role="region"><p>If monitoring does not capture an abnormal rhythm, that itself is useful information. Combined with a normal clinical assessment, it provides meaningful reassurance. The improvement programme can still help reduce symptom frequency and your response to symptoms. If clinical concern persists, you will be referred onward.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">What if something significant is found?</button>
+          <div class="faq-a" role="region"><p>If monitoring identifies a significant rhythm abnormality &mdash; such as SVT, atrial fibrillation, significant pauses, or high ectopy burden &mdash; you will be referred to an appropriate specialist. This may be NHS or private cardiology. We provide documented findings and a clear summary to the receiving clinician.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">Can I still be referred to a cardiologist?</button>
+          <div class="faq-a" role="region"><p>Yes. This pathway does not prevent or replace referral to a cardiologist. If significant findings emerge, or if symptoms persist beyond the pathway, referral is arranged. Patients may also choose to see a private cardiologist independently at any time.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">Is this pathway for atrial fibrillation?</button>
+          <div class="faq-a" role="region"><p>This pathway is designed for low-risk palpitations. It is not a management pathway for known atrial fibrillation. However, if AF is detected during monitoring, it will be identified and you will be referred for appropriate specialist management.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">What if I have already had tests?</button>
+          <div class="faq-a" role="region"><p>Many patients have had previous tests &mdash; a normal ECG, blood tests, or even an echocardiogram &mdash; but still have symptoms. This pathway is designed to complement prior investigation by adding structured monitoring over a longer period and a practical improvement programme.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">Why combine monitoring with lifestyle changes?</button>
+          <div class="faq-a" role="region"><p>Because most low-risk palpitations are influenced by modifiable factors &mdash; caffeine, stress, sleep quality, activity levels, and how you respond to symptoms. Monitoring alone tells you what your heart is doing. The improvement programme aims to help you influence what it does next.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">Is this suitable if I have fainted?</button>
+          <div class="faq-a" role="region"><p>No. Fainting (syncope) associated with palpitations is a red flag that requires urgent or specialist assessment. This pathway is for low-risk patients without syncope. If you have fainted, please seek appropriate medical assessment through your GP, A&amp;E, or another specialist.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">How long is the clinic appointment?</button>
+          <div class="faq-a" role="region"><p>The initial appointment is approximately 30 minutes. This allows thorough assessment of your symptoms, triggers, medical history, and suitability for the pathway. If you proceed to monitoring, the device will be explained and provided at this visit.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">Where is the clinic?</button>
+          <div class="faq-a" role="region"><p>The clinic is located at 146 Church Road, Wimbledon, London SW19 5DQ. It is approximately five minutes from Wimbledon station (District line, Northern line, trams). Appointments are available on Friday evenings.</p></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PAGE: FOR CLINICIANS / REFERRERS
+     ════════════════════════════════════════════════════════════════ -->
+<div id="clinicians" class="page-section">
+
+  <section class="section">
+    <div class="container-narrow">
+      <p class="section-eyebrow">For Clinicians &amp; Referrers</p>
+      <h2 style="margin-bottom:20px;">Rapid Rhythm Assessment Pathway</h2>
+      <p style="color:var(--dark-grey); font-size:17px; margin-bottom:40px;">A structured low-risk palpitations pathway combining clinic review, stepped ECG monitoring, and a six-week behavioural and physiological optimisation programme.</p>
+
+      <h3 style="margin-bottom:14px;">Pathway focus</h3>
+      <p style="margin-bottom:28px;">This pathway is designed for adults with low-risk palpitations who are otherwise well and have no high-risk features. It aims to improve access and speed for patients who might otherwise wait for routine cardiology review, while providing structured monitoring and practical support that standard pathways do not typically offer.</p>
+
+      <h3 style="margin-bottom:14px;">Inclusion criteria</h3>
+      <ul style="margin-bottom:28px; padding-left:20px; color:var(--dark-grey);">
+        <li>Intermittent palpitations (awareness of heartbeat)</li>
+        <li>Brief episodes (seconds to minutes), settling spontaneously</li>
+        <li>No loss of consciousness</li>
+        <li>No known significant structural heart disease</li>
+        <li>No prior high-risk arrhythmia diagnosis</li>
+        <li>Generally well between episodes</li>
+      </ul>
+
+      <h3 style="margin-bottom:14px;">Exclusion criteria</h3>
+      <ul style="margin-bottom:28px; padding-left:20px; color:var(--dark-grey);">
+        <li>Syncope or pre-syncope</li>
+        <li>Chest pain suggestive of cardiac origin</li>
+        <li>Severe or unexplained breathlessness</li>
+        <li>Sustained tachycardia (&gt;20&ndash;30 minutes)</li>
+        <li>Known structural heart disease, heart failure, or significant arrhythmia</li>
+        <li>Exertion-triggered symptoms</li>
+        <li>Strong family history of sudden cardiac death</li>
+        <li>Abnormal baseline ECG requiring investigation</li>
+      </ul>
+
+      <h3 style="margin-bottom:14px;">Monitoring protocol</h3>
+      <p style="margin-bottom:12px;">Stepped approach within a six-week maximum:</p>
+      <ol style="margin-bottom:28px; padding-left:20px; color:var(--dark-grey);">
+        <li>Weeks 0&ndash;2: KardiaMobile event recording</li>
+        <li>Weeks 2&ndash;4: Extended wearable ECG monitoring if no diagnostic capture (selected patients)</li>
+        <li>Weeks 4&ndash;6: Further extended monitoring if clinically appropriate</li>
+      </ol>
+
+      <h3 style="margin-bottom:14px;">Escalation thresholds</h3>
+      <p style="margin-bottom:12px;">Patients are referred onward if any of the following are identified:</p>
+      <ul style="margin-bottom:28px; padding-left:20px; color:var(--dark-grey);">
+        <li>SVT or significant supraventricular tachycardia</li>
+        <li>Atrial fibrillation or flutter</li>
+        <li>Significant pauses</li>
+        <li>High ectopy burden</li>
+        <li>Symptoms remaining unexplained after completion of the pathway</li>
+        <li>Persistent clinical concern</li>
+      </ul>
+      <p style="margin-bottom:28px;">Referral may be to NHS or private cardiology, depending on patient preference and clinical need.</p>
+
+      <h3 style="margin-bottom:14px;">Six-week improvement programme</h3>
+      <p style="margin-bottom:12px;">Runs concurrently with monitoring. Seven interventions:</p>
+      <ol style="margin-bottom:28px; padding-left:20px; color:var(--dark-grey);">
+        <li>Structured breathing protocol</li>
+        <li>HRV-informed biofeedback</li>
+        <li>Trigger identification and mapping</li>
+        <li>Structured reassurance</li>
+        <li>Graded physical activity</li>
+        <li>Sleep optimisation</li>
+        <li>Interoceptive exposure and symptom desensitisation</li>
+      </ol>
+
+      <h3 style="margin-bottom:14px;">Service delivery</h3>
+      <p style="margin-bottom:28px;">All care is delivered by Dr Mahmood Ahmad, Specialist in Cardiology (GMC&nbsp;6071047), practising on the consultant cardiology rota at the Royal Free Hospital and Barnet Hospital. Dr Ahmad is a Specialist Grade (SAS) doctor who practises independently at consultant level. He does not hold a Certificate of Completion of Training (CCT) and is not on the GMC Specialist Register.</p>
+
+      <h3 style="margin-bottom:14px;">Purpose</h3>
+      <p style="margin-bottom:28px;">This pathway aims to reduce low-value repetitive reassurance consultations while identifying meaningful rhythm abnormalities efficiently. It is designed to complement &mdash; not replace &mdash; existing NHS and private cardiology services. Documented findings can be shared with receiving clinicians to support onward care.</p>
+
+      <div class="callout">
+        <h4>Referral</h4>
+        <p>Patients may self-refer. If you would like to refer a patient or discuss suitability, please contact <a href="mailto:drmahmoodclinic@pm.me">drmahmoodclinic@pm.me</a>.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <p class="footer-brand">London Cardiology <em>Clinic</em></p>
+      <p style="margin-top:8px;">146 Church Road, Wimbledon<br>London SW19 5DQ</p>
+      <p style="margin-top:8px;"><a href="mailto:drmahmoodclinic@pm.me">drmahmoodclinic@pm.me</a></p>
+    </div>
+    <div>
+      <h5>Pathway</h5>
+      <ul class="footer-links">
+        <li><a href="#how-it-works" data-page="how-it-works">How It Works</a></li>
+        <li><a href="#whats-included" data-page="whats-included">What's Included</a></li>
+        <li><a href="#suitability" data-page="suitability">Suitability</a></li>
+        <li><a href="#programme" data-page="programme">The Programme</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Information</h5>
+      <ul class="footer-links">
+        <li><a href="#faq" data-page="faq">FAQ</a></li>
+        <li><a href="#safety" data-page="safety">Clinical Safety</a></li>
+        <li><a href="#clinicians" data-page="clinicians">For Clinicians</a></li>
+        <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+        <li><a href="/terms.html">Terms</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>Dr Mahmood Ahmad &mdash; Specialist in Cardiology &mdash; GMC <a href="https://www.gmc-uk.org/doctors/6071047" target="_blank" rel="noopener">6071047</a></p>
+    <p>This service is for selected low-risk patients only. It is not an emergency service. If you have chest pain, fainting, or severe breathlessness, call 999.</p>
+    <p>Pathway v1.0</p>
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════════════════════════════════
+     JAVASCRIPT — SPA Navigation + FAQ Accordion
+     ════════════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  'use strict';
+
+  // ── SPA page navigation ──
+  var pages = document.querySelectorAll('.page-section');
+  var navLinks = document.querySelectorAll('[data-page]');
+  var mobileMenu = document.querySelector('.nav-links');
+
+  function showPage(pageId) {
+    pages.forEach(function(p) { p.classList.remove('active'); });
+    var target = document.getElementById(pageId);
+    if (target) {
+      target.classList.add('active');
+      // Re-trigger animations
+      target.querySelectorAll('.fade-up').forEach(function(el) {
+        el.style.animation = 'none';
+        el.offsetHeight; // reflow
+        el.style.animation = '';
+      });
+    }
+
+    // Update nav active state
+    navLinks.forEach(function(a) {
+      a.classList.toggle('active', a.getAttribute('data-page') === pageId);
+    });
+
+    // Close mobile menu
+    if (mobileMenu) mobileMenu.classList.remove('open');
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Update URL hash
+    history.pushState(null, '', '#' + pageId);
+  }
+
+  // Attach click handlers
+  navLinks.forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      showPage(this.getAttribute('data-page'));
+    });
+  });
+
+  // Handle initial hash or back/forward
+  function handleHash() {
+    var hash = location.hash.replace('#', '');
+    if (hash && document.getElementById(hash)) {
+      showPage(hash);
+    } else {
+      showPage('home');
+    }
+  }
+
+  window.addEventListener('popstate', handleHash);
+  // Don't call handleHash on load if already on home — let default active state work
+  if (location.hash && location.hash !== '#home') {
+    handleHash();
+  }
+
+  // ── FAQ accordion ──
+  document.querySelectorAll('.faq-q').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var item = this.parentElement;
+      var isOpen = item.classList.contains('open');
+
+      // Close all
+      document.querySelectorAll('.faq-item').forEach(function(fi) {
+        fi.classList.remove('open');
+        fi.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      });
+
+      // Toggle current
+      if (!isOpen) {
+        item.classList.add('open');
+        this.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  // ── Scroll-triggered fade-in for non-home pages ──
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.step-card, .info-card, .price-card, .prog-card, .timeline-item').forEach(function(el) {
+      observer.observe(el);
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

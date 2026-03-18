@@ -60,7 +60,7 @@
 
     .greeting-section .greeting-eyebrow {
       font-family: var(--font-sans);
-      font-size: 11px;
+      font-size: 12px;
       letter-spacing: 2.5px;
       text-transform: uppercase;
       color: var(--sage-deep);
@@ -141,7 +141,7 @@
 
     .log-card-heading {
       font-family: var(--font-sans);
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 600;
       letter-spacing: 2.5px;
       text-transform: uppercase;
@@ -188,7 +188,7 @@
     .log-form-group input:focus,
     .log-form-group textarea:focus {
       border-color: var(--sage-deep);
-      box-shadow: 0 0 0 3px rgba(61,107,85,0.08);
+      box-shadow: 0 0 0 3px rgba(61,107,85,0.35);
       outline: none;
     }
 
@@ -426,7 +426,7 @@
 
     .chart-heading {
       font-family: var(--font-sans);
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 600;
       letter-spacing: 2px;
       text-transform: uppercase;
@@ -467,14 +467,14 @@
 
     .bar-label {
       font-family: var(--font-sans);
-      font-size: 11px;
+      font-size: 12px;
       color: var(--mid-grey);
       text-align: center;
     }
 
     .bar-value {
       font-family: var(--font-sans);
-      font-size: 10px;
+      font-size: 12px;
       color: var(--mid-grey);
       text-align: center;
     }
@@ -565,6 +565,40 @@
       color: var(--mid-grey);
     }
 
+    /* RTL support for Arabic and Urdu */
+    [dir="rtl"] .lang-bar { flex-direction: row-reverse; }
+    [dir="rtl"] .log-card-heading { text-align: right; }
+    [dir="rtl"] .toggle-row { flex-direction: row-reverse; }
+    [dir="rtl"] .toggle-label-text { text-align: right; }
+    [dir="rtl"] .log-form-group label { text-align: right; }
+    [dir="rtl"] .log-form-group input,
+    [dir="rtl"] .log-form-group textarea { text-align: right; }
+    [dir="rtl"] .bar-label { text-align: center; }
+
+    /* Loading spinner */
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2.5px solid var(--sage-light);
+      border-top-color: var(--sage-deep);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ECG drop zone highlight */
+    .file-upload-btn.drag-over {
+      background: var(--sage-bg);
+      border-color: var(--sage-deep);
+      border-style: solid;
+    }
+
     /* Responsive */
     @media (max-width: 480px) {
       .log-card {
@@ -586,7 +620,7 @@
 <a href="#main" class="skip-link">Skip to main content</a>
 
 <!-- Safety Strip -->
-<div class="safety-top" role="alert" aria-live="polite">
+<div class="safety-top" role="alert">
   <p>
     <span id="safety-text">
       <strong>Emergency:</strong> If you feel unwell, have chest pain, or palpitations that concern you, stop this log and call <strong>999</strong> immediately. Do not wait.
@@ -601,7 +635,7 @@
     <option value="en">English</option>
     <option value="ur">اردو (Urdu)</option>
     <option value="hi">हिन्दी (Hindi)</option>
-    <option value="ta">Tamil</option>
+    <option value="ta">தமிழ் (Tamil)</option>
     <option value="pl">Polski</option>
     <option value="pt">Português</option>
     <option value="ar">العربية</option>
@@ -615,13 +649,14 @@
   <a href="/" class="logo" aria-label="London Cardiology Clinic home">
     London <em>Cardiology</em> Clinic
   </a>
+  <a href="/" style="font-family:var(--font-sans);font-size:13px;color:var(--sage-deep);text-decoration:none;margin-left:auto;" id="back-home-link">Back to home</a>
 </nav>
 
 <main id="main">
   <div class="log-body">
 
     <div id="loading-state" class="loading-state" aria-live="polite" aria-busy="true">
-      Loading your programme&hellip;
+      <span class="loading-spinner" aria-hidden="true"></span>Loading your programme&hellip;
     </div>
 
     <div id="error-state" class="log-error" role="alert" style="display:none;"></div>
@@ -656,7 +691,7 @@
 
         <!-- Date & Steps -->
         <div class="log-card" aria-labelledby="steps-heading">
-          <p class="log-card-heading" id="steps-heading" aria-hidden="true">Steps &amp; Date</p>
+          <h3 class="log-card-heading" id="steps-heading">Steps &amp; Date</h3>
 
           <div class="log-form-group">
             <label for="log-date" id="label-log-date">Date</label>
@@ -672,12 +707,12 @@
 
         <!-- Food Checks -->
         <div class="log-card" aria-labelledby="food-heading">
-          <p class="log-card-heading" id="food-heading" aria-hidden="true">Food Check</p>
+          <h3 class="log-card-heading" id="food-heading">Food Check</h3>
 
           <div class="toggle-row">
             <span class="toggle-label-text" id="toggle-stop1-label"></span>
             <div class="toggle-switch">
-              <input type="checkbox" id="toggle-stop1" name="avoidStop1" role="switch" aria-checked="false">
+              <input type="checkbox" id="toggle-stop1" name="avoidStop1" role="switch" aria-checked="false" aria-labelledby="toggle-stop1-label">
               <label class="toggle-track" for="toggle-stop1" aria-hidden="true"></label>
               <span class="toggle-val" id="toggle-stop1-val" aria-hidden="true">No</span>
             </div>
@@ -686,7 +721,7 @@
           <div class="toggle-row">
             <span class="toggle-label-text" id="toggle-stop2-label"></span>
             <div class="toggle-switch">
-              <input type="checkbox" id="toggle-stop2" name="avoidStop2" role="switch" aria-checked="false">
+              <input type="checkbox" id="toggle-stop2" name="avoidStop2" role="switch" aria-checked="false" aria-labelledby="toggle-stop2-label">
               <label class="toggle-track" for="toggle-stop2" aria-hidden="true"></label>
               <span class="toggle-val" id="toggle-stop2-val" aria-hidden="true">No</span>
             </div>
@@ -695,7 +730,7 @@
           <div class="toggle-row">
             <span class="toggle-label-text" id="toggle-start1-label"></span>
             <div class="toggle-switch">
-              <input type="checkbox" id="toggle-start1" name="ateStart1" role="switch" aria-checked="false">
+              <input type="checkbox" id="toggle-start1" name="ateStart1" role="switch" aria-checked="false" aria-labelledby="toggle-start1-label">
               <label class="toggle-track" for="toggle-start1" aria-hidden="true"></label>
               <span class="toggle-val" id="toggle-start1-val" aria-hidden="true">No</span>
             </div>
@@ -704,7 +739,7 @@
           <div class="toggle-row">
             <span class="toggle-label-text" id="toggle-start2-label"></span>
             <div class="toggle-switch">
-              <input type="checkbox" id="toggle-start2" name="ateStart2" role="switch" aria-checked="false">
+              <input type="checkbox" id="toggle-start2" name="ateStart2" role="switch" aria-checked="false" aria-labelledby="toggle-start2-label">
               <label class="toggle-track" for="toggle-start2" aria-hidden="true"></label>
               <span class="toggle-val" id="toggle-start2-val" aria-hidden="true">No</span>
             </div>
@@ -713,7 +748,10 @@
 
         <!-- BP Reading (Week 1 only) -->
         <div class="log-card" id="bp-card" aria-labelledby="bp-heading" style="display:none;">
-          <p class="log-card-heading" id="bp-heading" aria-hidden="true">Blood Pressure Reading</p>
+          <h3 class="log-card-heading" id="bp-heading">Blood Pressure Reading</h3>
+          <p style="font-family:var(--font-sans);font-size:13px;color:var(--mid-grey);margin-bottom:10px;line-height:1.6;" id="bp-help-text">
+            If you have a home BP monitor, enter your reading below. If not, skip this section.
+          </p>
           <p style="font-family:var(--font-sans);font-size:13px;color:var(--mid-grey);margin-bottom:16px;line-height:1.6;" id="bp-instructions">
             Take a seated reading after 5 minutes of rest. Record both numbers from your cuff.
           </p>
@@ -731,10 +769,17 @@
 
         <!-- ECG Upload (Week 1 only) -->
         <div class="log-card" id="ecg-card" aria-labelledby="ecg-heading" style="display:none;">
-          <p class="log-card-heading" id="ecg-heading" aria-hidden="true">ECG Upload</p>
-          <p style="font-family:var(--font-sans);font-size:13px;color:var(--mid-grey);margin-bottom:16px;line-height:1.6;" id="ecg-instructions">
+          <h3 class="log-card-heading" id="ecg-heading">ECG Upload</h3>
+          <p style="font-family:var(--font-sans);font-size:13px;color:var(--mid-grey);margin-bottom:10px;line-height:1.6;" id="ecg-instructions">
             Record your 30-second ECG on the Kardia device, then export the PDF from the KardiaApp and upload it here.
           </p>
+          <div style="font-family:var(--font-sans);font-size:13px;color:var(--mid-grey);margin-bottom:16px;line-height:1.7;background:var(--cream);padding:14px 18px;border-radius:var(--radius-md);" id="ecg-help-text">
+            <strong style="color:var(--sage-deep);" id="ecg-help-heading">How to export your ECG:</strong><br>
+            1. Open the KardiaApp on your phone<br>
+            2. Tap on your latest recording<br>
+            3. Tap Share &rarr; Export as PDF<br>
+            4. Upload the PDF file here
+          </div>
           <input type="file" id="ecg-file-input" name="ecgFile" accept=".pdf" aria-label="Upload Kardia ECG PDF">
           <button type="button" class="file-upload-btn" id="ecg-upload-btn" aria-controls="ecg-file-input">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -745,7 +790,7 @@
 
         <!-- Optional Note -->
         <div class="log-card" aria-labelledby="note-heading">
-          <p class="log-card-heading" id="note-heading" aria-hidden="true">Optional Note</p>
+          <h3 class="log-card-heading" id="note-heading">Optional Note</h3>
           <div class="log-form-group">
             <label for="daily-note" id="label-daily-note">How are you feeling today? <span class="hint">(optional)</span></label>
             <textarea id="daily-note" name="note" rows="3" style="resize:vertical;" placeholder="Any symptoms, energy levels, or observations…"></textarea>

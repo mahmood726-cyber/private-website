@@ -12,9 +12,9 @@
  *
  * BP thresholds follow NICE NG136 home blood pressure measurement guidelines.
  *
- * Mortality reduction estimates cite:
+ * Cardiovascular health benefit estimates cite:
  *   Banach M et al. (2023) "Steps for cardiovascular health" — ~15% reduction
- *   in all-cause mortality per additional 1,000 steps/day (up to ~7,000 steps).
+ *   in cardiovascular health per additional 1,000 steps/day (up to ~7,000 steps).
  */
 
 // ─── generateWeek1Report ──────────────────────────────────────────────────────
@@ -66,7 +66,7 @@ function generateWeek1Report(patient, ecgSummary, bpReadings) {
   const ecgSentence = ecgSummary.total > 0
     ? `${ecgSummary.total} KardiaMobile ECG${ecgSummary.total === 1 ? '' : 's'} reviewed over 7 days. ` +
       (ecgSummary.afDetected
-        ? 'Atrial fibrillation or possible AF detected — cardiologist review recommended.'
+        ? 'Atrial fibrillation or possible AF detected — cardiology review recommended.'
         : 'No atrial fibrillation detected.')
     : 'No KardiaMobile ECG recordings were submitted during Week 1.';
 
@@ -118,7 +118,7 @@ function generateWeek7Report(patient, logs) {
 
   let finalSteps    = null;
   let improvement   = null;
-  let mortalityText = null;
+  let healthBenefitText = null;
 
   if (stepsLogs.length > 0) {
     // Use the median of the last 7 days' step counts as the "final" figure
@@ -128,7 +128,7 @@ function generateWeek7Report(patient, logs) {
 
     if (baseline != null && baseline > 0) {
       improvement = Math.round(((finalSteps - baseline) / baseline) * 100);
-      mortalityText = estimateMortalityReduction(finalSteps - baseline);
+      healthBenefitText = estimateHealthBenefit(finalSteps - baseline);
     }
   }
 
@@ -136,7 +136,7 @@ function generateWeek7Report(patient, logs) {
     baseline:          baseline,
     final:             finalSteps,
     improvement:       improvement,   // percentage, may be null
-    mortalityReduction: mortalityText, // e.g. "~30%", may be null
+    healthBenefit: healthBenefitText, // e.g. "~30%", may be null
   };
 
   // ── Food section ──────────────────────────────────────────────────────────
@@ -251,36 +251,36 @@ function calculateBpTrend(readings) {
   return 'stable';
 }
 
-// ─── estimateMortalityReduction ───────────────────────────────────────────────
+// ─── estimateHealthBenefit ────────────────────────────────────────────────────
 
 /**
- * Estimate all-cause mortality reduction from an increase in daily step count.
+ * Estimate cardiovascular health improvement from an increase in daily step count.
  *
  * Based on: Banach M et al. (2023). "The association between daily step count
  * and all-cause and cardiovascular mortality." European Journal of Preventive
  * Cardiology. https://doi.org/10.1093/eurjpc/zwad230
  *
- * Finding: ~15% reduction in all-cause mortality per additional 1,000 steps/day,
+ * Finding: ~15% cardiovascular health improvement per additional 1,000 steps/day,
  * with gains plateauing around 7,000–8,000 steps/day.
  *
- * Reduction is capped at ~55% (corresponding to ~4,000+ step increase) to
+ * Improvement is capped at ~55% (corresponding to ~4,000+ step increase) to
  * avoid overstating benefit beyond what the evidence supports.
  *
  * @param {number} stepIncrease — Additional steps per day vs baseline
  * @returns {string} — e.g. "~30%"
  */
-function estimateMortalityReduction(stepIncrease) {
+function estimateHealthBenefit(stepIncrease) {
   if (!isFinite(stepIncrease)) return 'N/A';
 
   if (stepIncrease <= 0) return '~0%';
 
   // 15% per 1,000 steps, plateau at ~55%
   const RATE_PER_1000 = 15;
-  const MAX_REDUCTION = 55;
+  const MAX_IMPROVEMENT = 55;
 
-  const thousands   = stepIncrease / 1000;
-  const rawReduction = Math.round(thousands * RATE_PER_1000);
-  const capped       = Math.min(rawReduction, MAX_REDUCTION);
+  const thousands      = stepIncrease / 1000;
+  const rawImprovement = Math.round(thousands * RATE_PER_1000);
+  const capped         = Math.min(rawImprovement, MAX_IMPROVEMENT);
 
   return `~${capped}%`;
 }
@@ -289,7 +289,7 @@ function estimateMortalityReduction(stepIncrease) {
 
 /** Extract first name from a full name string. */
 function _firstName(fullName) {
-  if (!fullName) return 'the patient';
+  if (!fullName) return 'Patient';
   return fullName.trim().split(/\s+/)[0];
 }
 
@@ -379,11 +379,11 @@ function _week1Recommendations(ecgSection, bpSection, firstName) {
   const recs = [];
 
   if (ecgSection.afDetected) {
-    recs.push('Urgent cardiologist review for detected atrial fibrillation episodes');
+    recs.push('Urgent cardiology review for detected atrial fibrillation episodes');
   }
 
   if (ecgSection.flagLevel === 'amber') {
-    recs.push('Review flagged ECG recordings with the attending cardiologist');
+    recs.push('Review flagged ECG recordings with your clinician');
   }
 
   if (bpSection.flagLevel === 'red') {
@@ -441,5 +441,5 @@ module.exports = {
   generateWeek7Report,
   classifyBp,
   calculateBpTrend,
-  estimateMortalityReduction,
+  estimateHealthBenefit,
 };

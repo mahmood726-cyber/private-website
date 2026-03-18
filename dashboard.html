@@ -688,7 +688,7 @@
   <!-- Top bar -->
   <header class="dash-topbar">
     <div class="dash-brand">
-      London <em>Cardiology</em> Clinic <span>— Dashboard</span>
+      London <em>Cardiology</em> Clinic <span>— Dr Mahmood Ahmad</span>
     </div>
     <button class="btn-logout" id="logout-btn" type="button">Sign out</button>
   </header>
@@ -714,9 +714,9 @@
         <p class="sc-sub" id="sc-devices-sub">Awaiting return</p>
       </div>
       <div class="summary-card">
-        <p class="sc-label">Reports Pending</p>
+        <p class="sc-label">ECGs Pending</p>
         <div class="sc-value" id="sc-reports" aria-live="polite">—</div>
-        <p class="sc-sub">Awaiting review</p>
+        <p class="sc-sub">Awaiting classification</p>
       </div>
     </div>
 
@@ -843,16 +843,9 @@
 (function () {
   'use strict';
 
-  /* ── Auth token storage ── */
-  var AUTH_KEY = 'lcc_dash_token';
-
-  function getToken() { return sessionStorage.getItem(AUTH_KEY) || ''; }
-  function setToken(t) { sessionStorage.setItem(AUTH_KEY, t); }
-  function clearToken() { sessionStorage.removeItem(AUTH_KEY); }
-
-  function authHeaders() {
-    return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() };
-  }
+  /* ── Auth helpers ── */
+  /* Cookie-session is sent automatically by the browser (same-origin).
+     No Bearer tokens needed — the server sets req.session on login. */
 
   /* ── Toast ── */
   var toastTimer = null;
@@ -902,18 +895,21 @@
       password: document.getElementById('login-password').value
     };
 
-    fetch('/api/auth/login', {
+    fetch('/api/admin/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     })
       .then(function (r) {
-        if (!r.ok) { return r.json().then(function (d) { throw new Error(d.message || 'Invalid credentials'); }); }
+        if (!r.ok) { return r.json().then(function (d) { throw new Error(d.error || 'Invalid credentials'); }); }
         return r.json();
       })
       .then(function (data) {
-        setToken(data.token || '');
-        showDashboard();
+        if (data.success) {
+          showDashboard();
+        } else {
+          throw new Error('Login failed. Please try again.');
+        }
       })
       .catch(function (err) {
         errEl.textContent = err.message || 'Login failed. Please try again.';
@@ -925,23 +921,20 @@
 
   /* ── Logout ── */
   document.getElementById('logout-btn').addEventListener('click', function () {
-    clearToken();
-    showLogin();
+    fetch('/api/admin/logout', { method: 'POST' })
+      .finally(function () { showLogin(); });
   });
 
   /* ── Summary cards ── */
   function loadSummary() {
-    fetch('/api/dashboard/summary', { headers: authHeaders() })
+    fetch('/api/admin/stats')
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) {
         if (!d) { return; }
-        document.getElementById('sc-friday').textContent = (d.fridayBooked || 0) + '/6';
-        document.getElementById('sc-active').textContent = d.activeCardioTrack || 0;
-        document.getElementById('sc-devices').textContent = d.devicesOut || 0;
-        if (d.devicesDueSoon) {
-          document.getElementById('sc-devices-sub').textContent = d.devicesDueSoon + ' due within 2 days';
-        }
-        document.getElementById('sc-reports').textContent = d.reportsPending || 0;
+        document.getElementById('sc-friday').textContent = (d.confirmed || 0) + '/' + ((d.confirmed || 0) + (d.availableSlots || 0));
+        document.getElementById('sc-active').textContent = d.tier2 || 0;
+        document.getElementById('sc-devices').textContent = d.pendingDevices || 0;
+        document.getElementById('sc-reports').textContent = d.unparsedEcgs || 0;
       })
       .catch(function () { /* non-fatal */ });
   }
@@ -980,20 +973,35 @@
     var container = document.getElementById('bookings-list');
     container.innerHTML = '<div class="dash-loading">Loading bookings&hellip;</div>';
 
-    var url = '/api/bookings';
-    var params = [];
-    if (fromDate) { params.push('from=' + encodeURIComponent(fromDate)); }
-    if (toDate) { params.push('to=' + encodeURIComponent(toDate)); }
-    if (params.length) { url += '?' + params.join('&'); }
-
-    fetch(url, { headers: authHeaders() })
+    fetch('/api/admin/slots')
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (data) {
-        if (!data || !data.bookings || !data.bookings.length) {
+        if (!data || !data.slots) {
           container.innerHTML = '<div class="dash-empty">No bookings found.</div>';
           return;
         }
-        renderBookingsTable(container, data.bookings);
+        /* Map slot rows to the shape the table renderer expects */
+        var bookings = data.slots
+          .filter(function (s) { return s.patient_id; })
+          .map(function (s) {
+            return {
+              date: s.slot_date,
+              time: s.slot_time,
+              patientId: s.patient_id,
+              patientName: s.patient_name || '(unknown)',
+              tier: String(s.patient_tier || 1),
+              status: s.is_booked ? 'confirmed' : 'pending'
+            };
+          });
+        /* Client-side date filter */
+        if (fromDate) { bookings = bookings.filter(function (b) { return b.date >= fromDate; }); }
+        if (toDate)   { bookings = bookings.filter(function (b) { return b.date <= toDate; }); }
+
+        if (!bookings.length) {
+          container.innerHTML = '<div class="dash-empty">No bookings found.</div>';
+          return;
+        }
+        renderBookingsTable(container, bookings);
       })
       .catch(function () {
         container.innerHTML = '<div class="dash-empty">Could not load bookings. Ensure you are authenticated.</div>';
@@ -1051,7 +1059,7 @@
     var container = document.getElementById('patients-list');
     container.innerHTML = '<div class="dash-loading">Loading patients&hellip;</div>';
 
-    fetch('/api/patients', { headers: authHeaders() })
+    fetch('/api/admin/patients')
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (data) {
         if (!data || !data.patients || !data.patients.length) {
@@ -1065,39 +1073,32 @@
       });
   }
 
-  function flagIcon(flag) {
-    var colours = { green: 'tl-green', amber: 'tl-amber', red: 'tl-red' };
-    var cls = colours[flag] || 'tl-green';
-    return '<span class="tl-dot ' + cls + '" aria-label="Flag: ' + esc(flag) + '" title="' + esc(flag) + '"></span>';
-  }
-
-  function trendArrow(trend) {
-    if (trend > 0) { return '<span style="color:var(--tl-green);" aria-label="Improving">&uarr;</span>'; }
-    if (trend < 0) { return '<span style="color:var(--tl-red);" aria-label="Declining">&darr;</span>'; }
-    return '<span style="color:var(--mid-grey);" aria-label="Stable">&rarr;</span>';
-  }
-
   function renderPatientsTable(container, patients) {
     var rows = patients.map(function (p) {
+      /* Compute programme week from created_at */
+      var week = '—';
+      if (p.created_at) {
+        var diffMs = Date.now() - new Date(p.created_at).getTime();
+        week = Math.min(7, Math.max(1, Math.ceil(diffMs / (7 * 86400000))));
+      }
+      var statusBadge = p.booking_status || p.programme_status || 'pending';
       return '<tr>' +
         '<td><a href="#" class="view-patient-link" style="color:var(--sage-deep);text-decoration:underline;" data-patient-id="' + esc(p.id) + '">' + esc(p.name) + '</a></td>' +
-        '<td>Week ' + esc(p.currentWeek) + '</td>' +
-        '<td>' + flagIcon(p.flag) + '</td>' +
-        '<td>' + esc((p.stepsLatest || 0).toLocaleString()) + ' ' + trendArrow(p.stepsTrend || 0) + '</td>' +
-        '<td>' + esc(p.foodAdherencePct || '—') + (p.foodAdherencePct != null ? '%' : '') + '</td>' +
-        '<td class="td-muted">' + esc(p.lastLog || '—') + '</td>' +
+        '<td>Tier ' + esc(p.tier) + '</td>' +
+        '<td>' + esc(statusBadge) + '</td>' +
+        '<td class="td-muted">' + esc(p.appointment_date || '—') + '</td>' +
+        '<td class="td-muted">' + esc(p.email) + '</td>' +
         '<td><button class="btn-sm btn-sm-outline view-patient-btn" type="button" data-patient-id="' + esc(p.id) + '">View</button></td>' +
         '</tr>';
     }).join('');
 
-    container.innerHTML = '<table role="grid" aria-label="CardioTrack patients table">' +
+    container.innerHTML = '<table role="grid" aria-label="Patients table">' +
       '<thead><tr>' +
         '<th scope="col">Name</th>' +
-        '<th scope="col">Week</th>' +
-        '<th scope="col">Flag</th>' +
-        '<th scope="col">Steps (latest)</th>' +
-        '<th scope="col">Food Adherence</th>' +
-        '<th scope="col">Last Log</th>' +
+        '<th scope="col">Tier</th>' +
+        '<th scope="col">Status</th>' +
+        '<th scope="col">Appointment</th>' +
+        '<th scope="col">Email</th>' +
         '<th scope="col">Actions</th>' +
       '</tr></thead>' +
       '<tbody>' + rows + '</tbody>' +
@@ -1127,114 +1128,162 @@
     document.getElementById('report-action-msg').style.display = 'none';
     document.getElementById('detail-week1').style.display = 'none';
 
-    fetch('/api/patients/' + encodeURIComponent(patientId), { headers: authHeaders() })
+    fetch('/api/admin/patients/' + encodeURIComponent(patientId))
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (data) {
-        if (!data) {
+        if (!data || !data.patient) {
           document.getElementById('detail-patient-name').textContent = 'Not found';
           return;
         }
-        renderPatientDetail(data);
+        renderPatientDetail(data.patient, data.logs || [], data.ecgs || []);
       })
       .catch(function () {
         document.getElementById('detail-patient-name').textContent = 'Error loading patient';
       });
   }
 
-  function renderPatientDetail(p) {
+  function renderPatientDetail(p, logs, ecgs) {
     document.getElementById('detail-patient-name').textContent = p.name || 'Unknown';
-    document.getElementById('detail-patient-meta').textContent = 'Week ' + (p.currentWeek || 1) + ' of 7 · Enrolled ' + (p.enrolledDate || '—');
 
-    /* Week 1 panel */
-    if (p.currentWeek === 1) {
+    /* Compute programme week from created_at */
+    var enrolled = p.created_at ? p.created_at.split('T')[0] : '—';
+    var currentWeek = 1;
+    if (p.created_at) {
+      var diffMs = Date.now() - new Date(p.created_at).getTime();
+      currentWeek = Math.min(7, Math.max(1, Math.ceil(diffMs / (7 * 86400000))));
+    }
+
+    document.getElementById('detail-patient-meta').textContent =
+      'Week ' + currentWeek + ' of 7 · Enrolled ' + enrolled +
+      ' · Status: ' + esc(p.programme_status || p.booking_status || '—');
+
+    /* Week 1 panel — show ECG + BP data from logs/ecgs */
+    if (currentWeek === 1) {
       document.getElementById('detail-week1').style.display = '';
 
-      /* ECG summary */
-      document.getElementById('detail-ecg-summary').textContent = p.ecgSummary || 'Not yet uploaded.';
-      document.getElementById('detail-ecg-flags').textContent = p.ecgFlags ? 'Flags: ' + p.ecgFlags : '';
+      /* ECG summary from ecgs array */
+      var ecgText = 'Not yet uploaded.';
+      var ecgFlagText = '';
+      if (ecgs.length) {
+        var lastEcg = ecgs[ecgs.length - 1];
+        ecgText = lastEcg.classification || 'Uploaded — awaiting classification';
+        if (lastEcg.flag_level && lastEcg.flag_level !== 'green') {
+          ecgFlagText = 'Flag: ' + lastEcg.flag_level;
+        }
+      }
+      document.getElementById('detail-ecg-summary').textContent = ecgText;
+      document.getElementById('detail-ecg-flags').textContent = ecgFlagText;
 
-      /* BP mini chart */
+      /* BP mini chart from logs */
       var bpContainer = document.getElementById('detail-bp-chart');
       bpContainer.innerHTML = '';
-      var bpReadings = p.bpReadings || [];
-      var maxBp = Math.max.apply(null, bpReadings.map(function (r) { return r.systolic || 0; }).concat([140]));
+      var bpReadings = logs.filter(function (l) { return l.bp_systolic; });
+      var maxBp = Math.max.apply(null, bpReadings.map(function (r) { return r.bp_systolic || 0; }).concat([140]));
       bpReadings.slice(-7).forEach(function (r) {
         var bar = document.createElement('div');
-        bar.className = 'mini-bar' + (r.systolic >= 140 ? ' high' : r.systolic >= 130 ? ' med' : '');
-        bar.style.height = Math.round((r.systolic / maxBp) * 60) + 'px';
-        bar.setAttribute('title', r.systolic + '/' + r.diastolic + ' mmHg on ' + r.date);
+        bar.className = 'mini-bar' + (r.bp_systolic >= 140 ? ' high' : r.bp_systolic >= 130 ? ' med' : '');
+        bar.style.height = Math.round((r.bp_systolic / maxBp) * 60) + 'px';
+        bar.setAttribute('title', r.bp_systolic + '/' + r.bp_diastolic + ' mmHg on ' + r.log_date);
         bpContainer.appendChild(bar);
       });
-      var latest = bpReadings[bpReadings.length - 1];
-      document.getElementById('detail-bp-latest').textContent = latest
-        ? 'Latest: ' + latest.systolic + '/' + latest.diastolic + ' mmHg (' + latest.date + ')'
+      var latestBp = bpReadings[bpReadings.length - 1];
+      document.getElementById('detail-bp-latest').textContent = latestBp
+        ? 'Latest: ' + latestBp.bp_systolic + '/' + latestBp.bp_diastolic + ' mmHg (' + latestBp.log_date + ')'
         : 'No readings yet.';
     }
 
-    /* Steps mini chart */
+    /* Steps mini chart from logs */
     var stepsContainer = document.getElementById('detail-steps-chart');
     stepsContainer.innerHTML = '';
-    var stepHistory = p.stepHistory || [];
+    var stepHistory = logs.filter(function (l) { return l.steps != null; });
     var maxSteps = Math.max.apply(null, stepHistory.map(function (d) { return d.steps || 0; }).concat([1]));
+    var target = p.baseline_steps || 5000;
     stepHistory.slice(-7).forEach(function (d) {
       var bar = document.createElement('div');
-      var target = p.stepTarget || 5000;
       bar.className = 'mini-bar' + (d.steps >= target ? ' high' : d.steps >= target * 0.7 ? ' med' : '');
       bar.style.height = Math.round(((d.steps || 0) / maxSteps) * 60) + 'px';
-      bar.setAttribute('title', (d.steps || 0).toLocaleString() + ' steps on ' + d.date);
+      bar.setAttribute('title', (d.steps || 0).toLocaleString() + ' steps on ' + d.log_date);
       stepsContainer.appendChild(bar);
     });
     var avgSteps = stepHistory.length
       ? Math.round(stepHistory.reduce(function (s, d) { return s + (d.steps || 0); }, 0) / stepHistory.length)
       : 0;
-    document.getElementById('detail-steps-summary').textContent = 'Average: ' + avgSteps.toLocaleString() + ' steps/day' + (p.stepTarget ? ' · Target: ' + p.stepTarget.toLocaleString() : '');
+    document.getElementById('detail-steps-summary').textContent = 'Average: ' + avgSteps.toLocaleString() + ' steps/day' + (target ? ' · Target: ' + target.toLocaleString() : '');
 
-    /* Food */
-    document.getElementById('detail-food-pct').textContent = p.foodAdherencePct != null ? p.foodAdherencePct + '%' : '—';
+    /* Food adherence — compute from logs */
+    var foodLogs = logs.filter(function (l) {
+      return l.food_stop_1 != null || l.food_stop_2 != null || l.food_start_1 != null || l.food_start_2 != null;
+    });
+    var foodPct = null;
+    if (foodLogs.length) {
+      var goodCount = foodLogs.reduce(function (sum, l) {
+        return sum + (l.food_stop_1 || 0) + (l.food_stop_2 || 0) + (l.food_start_1 || 0) + (l.food_start_2 || 0);
+      }, 0);
+      foodPct = Math.round((goodCount / (foodLogs.length * 4)) * 100);
+    }
+    document.getElementById('detail-food-pct').textContent = foodPct != null ? foodPct + '%' : '—';
 
-    /* Daily logs */
+    /* Daily logs table */
     var logsContainer = document.getElementById('detail-logs-table');
-    var logs = p.dailyLogs || [];
     if (!logs.length) {
       logsContainer.innerHTML = '<p style="font-size:13px;color:var(--mid-grey);padding:12px 0;">No logs yet.</p>';
     } else {
       var logRows = logs.map(function (l) {
         return '<tr>' +
-          '<td>' + esc(l.date) + '</td>' +
+          '<td>' + esc(l.log_date) + '</td>' +
           '<td>' + esc((l.steps || 0).toLocaleString()) + '</td>' +
-          '<td>' + (l.avoidStop1 && l.avoidStop2 ? '<span style="color:var(--tl-green);">&#10003;</span>' : '<span style="color:var(--tl-amber);">&#8212;</span>') + '</td>' +
-          '<td>' + (l.ateStart1 && l.ateStart2 ? '<span style="color:var(--tl-green);">&#10003;</span>' : '<span style="color:var(--tl-amber);">&#8212;</span>') + '</td>' +
-          '<td class="td-muted">' + (l.note ? esc(l.note.substring(0, 60)) + (l.note.length > 60 ? '…' : '') : '—') + '</td>' +
+          '<td>' + (l.food_stop_1 && l.food_stop_2 ? '<span style="color:var(--tl-green);">&#10003;</span>' : '<span style="color:var(--tl-amber);">&#8212;</span>') + '</td>' +
+          '<td>' + (l.food_start_1 && l.food_start_2 ? '<span style="color:var(--tl-green);">&#10003;</span>' : '<span style="color:var(--tl-amber);">&#8212;</span>') + '</td>' +
+          '<td class="td-muted">' + (l.note ? esc(l.note.substring(0, 60)) + (l.note.length > 60 ? '...' : '') : '—') + '</td>' +
           '</tr>';
       }).join('');
       logsContainer.innerHTML = '<table role="grid"><thead><tr><th scope="col">Date</th><th scope="col">Steps</th><th scope="col">Stop Foods</th><th scope="col">Start Foods</th><th scope="col">Note</th></tr></thead><tbody>' + logRows + '</tbody></table>';
     }
 
     /* Report */
-    document.getElementById('detail-report').value = p.autoReport || generateReport(p);
+    document.getElementById('detail-report').value = generateReport(p, logs, ecgs);
   }
 
-  function generateReport(p) {
+  function generateReport(p, logs, ecgs) {
+    var enrolled = p.created_at ? p.created_at.split('T')[0] : '—';
+    var currentWeek = 1;
+    if (p.created_at) {
+      var diffMs = Date.now() - new Date(p.created_at).getTime();
+      currentWeek = Math.min(7, Math.max(1, Math.ceil(diffMs / (7 * 86400000))));
+    }
+    var avgSteps = 0;
+    var stepsLogs = logs.filter(function (l) { return l.steps != null; });
+    if (stepsLogs.length) {
+      avgSteps = Math.round(stepsLogs.reduce(function (s, l) { return s + (l.steps || 0); }, 0) / stepsLogs.length);
+    }
+    var ecgNote = '(ECG not yet uploaded)';
+    if (ecgs && ecgs.length) {
+      var last = ecgs[ecgs.length - 1];
+      ecgNote = last.classification || 'Uploaded — awaiting classification';
+    }
     var lines = [
       'CardioTrack Programme Report — ' + (p.name || 'Patient'),
-      'Programme Week: ' + (p.currentWeek || 1) + ' of 7',
-      'Enrolled: ' + (p.enrolledDate || '—'),
+      'Programme Week: ' + currentWeek + ' of 7',
+      'Enrolled: ' + enrolled,
       '',
       'STEPS SUMMARY',
-      'Average daily steps: ' + (p.avgSteps || '—'),
-      'Step target: ' + (p.stepTarget || 5000),
+      'Average daily steps: ' + (avgSteps || '—'),
+      'Step target: ' + (p.baseline_steps || 5000),
       '',
       'FOOD ADHERENCE',
-      'Overall adherence this week: ' + (p.foodAdherencePct != null ? p.foodAdherencePct + '%' : '—'),
+      'Overall adherence this week: see dashboard',
       '',
       'CLINICAL NOTES',
-      p.ecgSummary || '(ECG not yet uploaded)',
+      ecgNote,
       '',
       'RECOMMENDATIONS',
       '(Please edit before sending)',
       '',
       '---',
-      'Issued by: London Cardiology Clinic | Authorised: Dr Mahmood'
+      'Issued by: London Cardiology Clinic',
+      'Authorised: Dr Mahmood Ahmad, Specialist in Cardiology',
+      'GMC: 6071047',
+      'Royal Free Hospital & Barnet Hospital'
     ];
     return lines.join('\n');
   }
@@ -1245,14 +1294,16 @@
     var reportText = document.getElementById('detail-report').value;
     var msgEl = document.getElementById('report-action-msg');
 
-    fetch('/api/patients/' + encodeURIComponent(currentPatientId) + '/report', {
+    /* Send the report as an SMS to the patient */
+    fetch('/api/admin/sms/send', {
       method: 'POST',
-      headers: authHeaders(),
-      body: JSON.stringify({ report: reportText })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ patient_id: Number(currentPatientId), message: reportText })
     })
       .then(function (r) { return r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)); })
       .then(function () {
         msgEl.textContent = 'Report approved and sent to patient.';
+        msgEl.style.color = 'var(--sage-deep)';
         msgEl.style.display = 'block';
         showToast('Report sent successfully.');
         loadSummary();
@@ -1268,9 +1319,10 @@
     if (!currentPatientId) { return; }
     var msgEl = document.getElementById('report-action-msg');
 
-    fetch('/api/patients/' + encodeURIComponent(currentPatientId) + '/devices-returned', {
+    fetch('/api/admin/devices/returned', {
       method: 'POST',
-      headers: authHeaders()
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ patient_id: Number(currentPatientId) })
     })
       .then(function (r) { return r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)); })
       .then(function () {
@@ -1291,9 +1343,10 @@
     if (!currentPatientId) { return; }
     var msgEl = document.getElementById('report-action-msg');
 
-    fetch('/api/patients/' + encodeURIComponent(currentPatientId) + '/flag', {
-      method: 'POST',
-      headers: authHeaders()
+    fetch('/api/admin/patients/' + encodeURIComponent(currentPatientId), {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ field: 'booking_status', value: 'flagged' })
     })
       .then(function (r) { return r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)); })
       .then(function () {
@@ -1323,14 +1376,41 @@
     var container = document.getElementById('devices-list');
     container.innerHTML = '<div class="dash-loading">Loading devices&hellip;</div>';
 
-    fetch('/api/devices', { headers: authHeaders() })
+    fetch('/api/admin/patients')
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (data) {
-        if (!data || !data.devices || !data.devices.length) {
+        if (!data || !data.patients) {
           container.innerHTML = '<div class="dash-empty">No devices currently out.</div>';
           return;
         }
-        renderDevicesTable(container, data.devices);
+        /* Filter tier 2 patients who have collected devices */
+        var devices = data.patients
+          .filter(function (p) { return p.tier === 2 && p.devices_collected; })
+          .map(function (p) {
+            var collectedDate = p.devices_collected_date || '';
+            var dueDate = '';
+            var daysRemaining = null;
+            if (collectedDate) {
+              var due = new Date(collectedDate);
+              due.setDate(due.getDate() + 7);
+              dueDate = due.toISOString().split('T')[0];
+              daysRemaining = Math.ceil((due.getTime() - Date.now()) / 86400000);
+            }
+            var status = p.devices_returned ? 'returned' : (p.device_hold_charged ? 'charged' : 'out');
+            return {
+              id: p.id,
+              patientName: p.name,
+              collectedDate: collectedDate,
+              dueDate: dueDate,
+              daysRemaining: daysRemaining,
+              status: status
+            };
+          });
+        if (!devices.length) {
+          container.innerHTML = '<div class="dash-empty">No devices currently out.</div>';
+          return;
+        }
+        renderDevicesTable(container, devices);
       })
       .catch(function () {
         container.innerHTML = '<div class="dash-empty">Could not load devices.</div>';
@@ -1387,12 +1467,16 @@
     });
   }
 
-  function deviceAction(deviceId, action) {
+  function deviceAction(patientId, action) {
     var endpoint = action === 'return'
-      ? '/api/devices/' + encodeURIComponent(deviceId) + '/return'
-      : '/api/devices/' + encodeURIComponent(deviceId) + '/charge';
+      ? '/api/admin/devices/returned'
+      : '/api/admin/devices/charge-hold';
 
-    fetch(endpoint, { method: 'POST', headers: authHeaders() })
+    fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ patient_id: Number(patientId) })
+    })
       .then(function (r) { return r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)); })
       .then(function () {
         showToast(action === 'return' ? 'Device marked returned. Hold will be released.' : '£200 hold captured.');
@@ -1413,14 +1497,30 @@
     var container = document.getElementById('analytics-content');
     container.innerHTML = '<div class="dash-loading">Loading analytics&hellip;</div>';
 
-    fetch('/api/analytics', { headers: authHeaders() })
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (data) {
-        if (!data) {
+    /* Build analytics from stats + patients endpoints */
+    Promise.all([
+      fetch('/api/admin/stats').then(function (r) { return r.ok ? r.json() : null; }),
+      fetch('/api/admin/patients').then(function (r) { return r.ok ? r.json() : null; })
+    ])
+      .then(function (results) {
+        var stats = results[0];
+        var pData = results[1];
+        if (!stats) {
           container.innerHTML = '<div class="dash-empty">No analytics data available yet.</div>';
           return;
         }
-        renderAnalytics(container, data);
+        var analyticsData = {
+          totalPatients: stats.totalPatients || 0,
+          tier1: stats.tier1 || 0,
+          tier2: stats.tier2 || 0,
+          confirmed: stats.confirmed || 0,
+          completed: stats.completed || 0,
+          cancelled: stats.cancelled || 0,
+          pendingDevices: stats.pendingDevices || 0,
+          unparsedEcgs: stats.unparsedEcgs || 0,
+          availableSlots: stats.availableSlots || 0
+        };
+        renderAnalytics(container, analyticsData);
       })
       .catch(function () {
         container.innerHTML = '<div class="dash-empty">Could not load analytics.</div>';
@@ -1428,46 +1528,53 @@
   }
 
   function renderAnalytics(container, d) {
-    var swaps = (d.popularFoodSwaps || []).map(function (s) {
-      return '<li><span>' + esc(s.swap) + '</span><span class="swap-pct">' + esc(s.pct) + '%</span></li>';
-    }).join('');
-
     container.innerHTML =
       '<div class="analytics-grid">' +
-        '<div class="analytics-card">' +
-          '<p class="an-label">Avg Step Improvement</p>' +
-          '<div class="an-value">+' + esc(d.avgStepImprovement || '—') + '</div>' +
-          '<p class="an-sub">steps/day vs baseline</p>' +
-        '</div>' +
-        '<div class="analytics-card">' +
-          '<p class="an-label">Food Adherence Rate</p>' +
-          '<div class="an-value">' + esc(d.avgFoodAdherencePct != null ? d.avgFoodAdherencePct + '%' : '—') + '</div>' +
-          '<p class="an-sub">Average across all patients</p>' +
-        '</div>' +
-        '<div class="analytics-card">' +
-          '<p class="an-label">AF Detection Rate</p>' +
-          '<div class="an-value">' + esc(d.afDetectionRate != null ? d.afDetectionRate + '%' : '—') + '</div>' +
-          '<p class="an-sub">Of Week 1 ECG uploads</p>' +
-        '</div>' +
-        '<div class="analytics-card">' +
-          '<p class="an-label">Programme Completion</p>' +
-          '<div class="an-value">' + esc(d.completionRate != null ? d.completionRate + '%' : '—') + '</div>' +
-          '<p class="an-sub">Completed 7 weeks</p>' +
-        '</div>' +
         '<div class="analytics-card">' +
           '<p class="an-label">Total Patients</p>' +
           '<div class="an-value">' + esc(d.totalPatients || 0) + '</div>' +
           '<p class="an-sub">Enrolled to date</p>' +
         '</div>' +
         '<div class="analytics-card">' +
-          '<p class="an-label">Avg Weekly Logs</p>' +
-          '<div class="an-value">' + esc(d.avgWeeklyLogs != null ? d.avgWeeklyLogs : '—') + '</div>' +
-          '<p class="an-sub">Log submissions per week</p>' +
+          '<p class="an-label">Tier 1 (Consultation)</p>' +
+          '<div class="an-value">' + esc(d.tier1 || 0) + '</div>' +
+          '<p class="an-sub">Standard appointments</p>' +
         '</div>' +
-      '</div>' +
-      '<div class="analytics-card" style="max-width:480px;">' +
-        '<h3 style="font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--sage-deep);margin-bottom:16px;">Most Popular Food Swaps</h3>' +
-        '<ul class="food-swap-list">' + (swaps || '<li style="color:var(--mid-grey);">No data yet.</li>') + '</ul>' +
+        '<div class="analytics-card">' +
+          '<p class="an-label">Tier 2 (CardioTrack)</p>' +
+          '<div class="an-value">' + esc(d.tier2 || 0) + '</div>' +
+          '<p class="an-sub">Full programme enrolments</p>' +
+        '</div>' +
+        '<div class="analytics-card">' +
+          '<p class="an-label">Confirmed Bookings</p>' +
+          '<div class="an-value">' + esc(d.confirmed || 0) + '</div>' +
+          '<p class="an-sub">Active appointments</p>' +
+        '</div>' +
+        '<div class="analytics-card">' +
+          '<p class="an-label">Completed</p>' +
+          '<div class="an-value">' + esc(d.completed || 0) + '</div>' +
+          '<p class="an-sub">Programme completed</p>' +
+        '</div>' +
+        '<div class="analytics-card">' +
+          '<p class="an-label">Cancelled</p>' +
+          '<div class="an-value">' + esc(d.cancelled || 0) + '</div>' +
+          '<p class="an-sub">Appointments cancelled</p>' +
+        '</div>' +
+        '<div class="analytics-card">' +
+          '<p class="an-label">Devices Out</p>' +
+          '<div class="an-value">' + esc(d.pendingDevices || 0) + '</div>' +
+          '<p class="an-sub">Awaiting return</p>' +
+        '</div>' +
+        '<div class="analytics-card">' +
+          '<p class="an-label">ECGs Pending Review</p>' +
+          '<div class="an-value">' + esc(d.unparsedEcgs || 0) + '</div>' +
+          '<p class="an-sub">Uploads awaiting classification</p>' +
+        '</div>' +
+        '<div class="analytics-card">' +
+          '<p class="an-label">Available Slots</p>' +
+          '<div class="an-value">' + esc(d.availableSlots || 0) + '</div>' +
+          '<p class="an-sub">Open for booking</p>' +
+        '</div>' +
       '</div>';
   }
 
@@ -1475,23 +1582,18 @@
      INIT — check if already authenticated
   ────────────────────────────────────── */
 
-  if (getToken()) {
-    /* Validate token with a lightweight call */
-    fetch('/api/dashboard/summary', { headers: authHeaders() })
-      .then(function (r) {
-        if (r.ok) {
-          showDashboard();
-        } else {
-          clearToken();
-          showLogin();
-        }
-      })
-      .catch(function () {
+  /* Check if already authenticated via cookie-session */
+  fetch('/api/admin/stats')
+    .then(function (r) {
+      if (r.ok) {
+        showDashboard();
+      } else {
         showLogin();
-      });
-  } else {
-    showLogin();
-  }
+      }
+    })
+    .catch(function () {
+      showLogin();
+    });
 
 })();
 </script>
