@@ -567,12 +567,15 @@
 
     /* RTL support for Arabic and Urdu */
     [dir="rtl"] .lang-bar { flex-direction: row-reverse; }
-    [dir="rtl"] .log-card-heading { text-align: right; }
+    [dir="rtl"] .log-card-heading,
+    [dir="rtl"] .log-form-group label,
+    [dir="rtl"] .hint { text-align: right; }
     [dir="rtl"] .toggle-row { flex-direction: row-reverse; }
     [dir="rtl"] .toggle-label-text { text-align: right; }
-    [dir="rtl"] .log-form-group label { text-align: right; }
     [dir="rtl"] .log-form-group input,
     [dir="rtl"] .log-form-group textarea { text-align: right; }
+    [dir="rtl"] .log-form-group select { text-align: right; }
+    [dir="rtl"] .safety-text { text-align: right; }
     [dir="rtl"] .bar-label { text-align: center; }
 
     /* Loading spinner */
@@ -960,6 +963,222 @@
       labelTodayGoals: 'आज के लक्ष्य पूरे',
       labelWeekPct: 'इस सप्ताह',
       streakDesc: 'दिन लगातार!'
+    },
+    ar: {
+      safetyText: '<strong>طوارئ:</strong> إذا شعرت بتوعك أو بألم في الصدر أو خفقان يقلقك، توقف عن هذا السجل واتصل بالرقم <strong>999</strong> فورًا.',
+      eyebrow: 'برنامج كارديوتراك',
+      hello: 'مرحبًا',
+      progLabel: 'تقدم البرنامج',
+      progText: 'الأسبوع {week} من 7 — واصل!',
+      confirmHeading: 'شكرًا لك!',
+      confirmBody: 'تم حفظ سجلك. نراك غدًا.',
+      labelDate: 'التاريخ',
+      labelSteps: 'خطواتك اليوم',
+      stepsTarget: 'هدف اليوم: {target} خطوة',
+      stepsHint: '',
+      foodHeading: 'فحص الطعام',
+      avoidStop1: 'هل تجنبت {food}؟',
+      avoidStop2: 'هل تجنبت {food}؟',
+      ateStart1: 'هل تناولت {food}؟',
+      ateStart2: 'هل تناولت {food}؟',
+      yes: 'نعم',
+      no: 'لا',
+      bpHeading: 'قراءة ضغط الدم',
+      bpInstructions: 'إذا كان لديك جهاز قياس ضغط الدم المنزلي، أدخل قراءتك أدناه. إذا لم يكن لديك، تخطَّ هذا القسم.',
+      labelSys: 'الانقباضي (الرقم العلوي)',
+      labelDia: 'الانبساطي (الرقم السفلي)',
+      ecgHeading: 'تحميل تخطيط القلب',
+      ecgInstructions: 'سجّل تخطيط القلب لمدة 30 ثانية على جهاز كارديا، ثم صدّر ملف PDF من تطبيق كارديا وحمّله هنا.',
+      ecgBtnText: 'تحميل ملف PDF لتخطيط القلب من كارديا',
+      noteHeading: 'ملاحظة اختيارية',
+      labelNote: 'كيف تشعر اليوم؟',
+      submitLabel: 'حفظ سجل اليوم',
+      progressHeading: 'تقدمك',
+      chartHeading: 'الخطوات — آخر 7 أيام',
+      adherenceHeading: 'الالتزام بالطعام',
+      labelTodayGoals: 'الأهداف المحققة اليوم',
+      labelWeekPct: 'هذا الأسبوع',
+      streakDesc: 'أيام متتالية!'
+    },
+    ta: {
+      safetyText: '<strong>அவசரநிலை:</strong> உடல்நிலை சரியில்லை என்றால் அல்லது நெஞ்சு வலி இருந்தால், இந்தப் பதிவை நிறுத்திவிட்டு உடனடியாக <strong>999</strong> அழைக்கவும்.',
+      eyebrow: 'கார்டியோட்ராக் திட்டம்',
+      hello: 'வணக்கம்',
+      progLabel: 'திட்ட முன்னேற்றம்',
+      progText: 'வாரம் {week} / 7 — தொடருங்கள்!',
+      confirmHeading: 'நன்றி!',
+      confirmBody: 'உங்கள் பதிவு சேமிக்கப்பட்டது. நாளை சந்திப்போம்.',
+      labelDate: 'தேதி',
+      labelSteps: 'இன்றைய உங்கள் நடை',
+      stepsTarget: 'இன்றைய இலக்கு: {target} நடை',
+      stepsHint: '',
+      foodHeading: 'உணவு சரிபார்ப்பு',
+      avoidStop1: '{food} தவிர்த்தீர்களா?',
+      avoidStop2: '{food} தவிர்த்தீர்களா?',
+      ateStart1: '{food} சாப்பிட்டீர்களா?',
+      ateStart2: '{food} சாப்பிட்டீர்களா?',
+      yes: 'ஆம்',
+      no: 'இல்லை',
+      bpHeading: 'இரத்த அழுத்த அளவீடு',
+      bpInstructions: 'உங்களிடம் வீட்டு BP மானிட்டர் இருந்தால், கீழே உங்கள் அளவீட்டை உள்ளிடவும். இல்லையெனில், இந்தப் பகுதியைத் தவிர்க்கவும்.',
+      labelSys: 'சிஸ்டாலிக் (மேல் எண்)',
+      labelDia: 'டயஸ்டாலிக் (கீழ் எண்)',
+      ecgHeading: 'ECG பதிவேற்றம்',
+      ecgInstructions: 'கார்டியா சாதனத்தில் 30 வினாடி ECG பதிவு செய்து, KardiaApp-இலிருந்து PDF ஏற்றுமதி செய்து இங்கே பதிவேற்றவும்.',
+      ecgBtnText: 'கார்டியா ECG PDF பதிவேற்றவும்',
+      noteHeading: 'விருப்பக் குறிப்பு',
+      labelNote: 'இன்று எப்படி உணர்கிறீர்கள்?',
+      submitLabel: 'இன்றைய பதிவை சேமி',
+      progressHeading: 'உங்கள் முன்னேற்றம்',
+      chartHeading: 'நடை — கடந்த 7 நாட்கள்',
+      adherenceHeading: 'உணவு கடைப்பிடிப்பு',
+      labelTodayGoals: 'இன்று அடைந்த இலக்குகள்',
+      labelWeekPct: 'இந்த வாரம்',
+      streakDesc: 'நாட்கள் தொடர்ச்சியாக!'
+    },
+    pl: {
+      safetyText: '<strong>Nagły przypadek:</strong> Jeśli źle się czujesz, masz ból w klatce piersiowej lub niepokojące kołatanie serca, przerwij ten dziennik i natychmiast zadzwoń pod <strong>999</strong>.',
+      eyebrow: 'Program CardioTrack',
+      hello: 'Witaj',
+      progLabel: 'Postęp programu',
+      progText: 'Tydzień {week} z 7 — tak trzymaj!',
+      confirmHeading: 'Dziękujemy!',
+      confirmBody: 'Twój dziennik został zapisany. Do zobaczenia jutro.',
+      labelDate: 'Data',
+      labelSteps: 'Twoje kroki dzisiaj',
+      stepsTarget: 'Cel na dziś: {target} kroków',
+      stepsHint: '',
+      foodHeading: 'Kontrola żywienia',
+      avoidStop1: 'Czy unikałeś/aś {food}?',
+      avoidStop2: 'Czy unikałeś/aś {food}?',
+      ateStart1: 'Czy zjadłeś/aś {food}?',
+      ateStart2: 'Czy zjadłeś/aś {food}?',
+      yes: 'Tak',
+      no: 'Nie',
+      bpHeading: 'Pomiar ciśnienia krwi',
+      bpInstructions: 'Jeśli masz domowy ciśnieniomierz, wpisz odczyt poniżej. Jeśli nie, pomiń tę sekcję.',
+      labelSys: 'Skurczowe (górna wartość)',
+      labelDia: 'Rozkurczowe (dolna wartość)',
+      ecgHeading: 'Prześlij EKG',
+      ecgInstructions: 'Nagraj 30-sekundowe EKG na urządzeniu Kardia, wyeksportuj PDF z aplikacji KardiaApp i prześlij tutaj.',
+      ecgBtnText: 'Prześlij EKG PDF z Kardia',
+      noteHeading: 'Opcjonalna notatka',
+      labelNote: 'Jak się dziś czujesz?',
+      submitLabel: 'Zapisz dzisiejszy dziennik',
+      progressHeading: 'Twoje postępy',
+      chartHeading: 'Kroki — ostatnie 7 dni',
+      adherenceHeading: 'Przestrzeganie diety',
+      labelTodayGoals: 'Cele osiągnięte dziś',
+      labelWeekPct: 'W tym tygodniu',
+      streakDesc: 'dni z rzędu!'
+    },
+    pt: {
+      safetyText: '<strong>Emergência:</strong> Se se sentir mal, tiver dor no peito ou palpitações preocupantes, pare este registo e ligue imediatamente para o <strong>999</strong>.',
+      eyebrow: 'Programa CardioTrack',
+      hello: 'Olá',
+      progLabel: 'Progresso do programa',
+      progText: 'Semana {week} de 7 — continue!',
+      confirmHeading: 'Obrigado!',
+      confirmBody: 'O seu registo foi guardado. Até amanhã.',
+      labelDate: 'Data',
+      labelSteps: 'Os seus passos hoje',
+      stepsTarget: 'Objetivo de hoje: {target} passos',
+      stepsHint: '',
+      foodHeading: 'Verificação alimentar',
+      avoidStop1: 'Evitou {food}?',
+      avoidStop2: 'Evitou {food}?',
+      ateStart1: 'Comeu {food}?',
+      ateStart2: 'Comeu {food}?',
+      yes: 'Sim',
+      no: 'Não',
+      bpHeading: 'Leitura de tensão arterial',
+      bpInstructions: 'Se tiver um medidor de tensão em casa, insira a leitura abaixo. Caso contrário, ignore esta secção.',
+      labelSys: 'Sistólica (valor superior)',
+      labelDia: 'Diastólica (valor inferior)',
+      ecgHeading: 'Carregar ECG',
+      ecgInstructions: 'Grave um ECG de 30 segundos no dispositivo Kardia, exporte o PDF a partir da aplicação KardiaApp e carregue-o aqui.',
+      ecgBtnText: 'Carregar PDF de ECG Kardia',
+      noteHeading: 'Nota opcional',
+      labelNote: 'Como se sente hoje?',
+      submitLabel: 'Guardar registo de hoje',
+      progressHeading: 'O seu progresso',
+      chartHeading: 'Passos — últimos 7 dias',
+      adherenceHeading: 'Adesão alimentar',
+      labelTodayGoals: 'Objetivos alcançados hoje',
+      labelWeekPct: 'Esta semana',
+      streakDesc: 'dias consecutivos!'
+    },
+    so: {
+      safetyText: '<strong>Xaaladda degdegga:</strong> Haddii aad xanuunsato, xanuunka laabta, ama garaaca wadnaha ku walaacdo, jooji diiwaankan oo soo wac <strong>999</strong> isla markiiba.',
+      eyebrow: 'Barnaamijka CardioTrack',
+      hello: 'Salaam',
+      progLabel: 'Horumarka barnaamijka',
+      progText: 'Toddobaadka {week} ee 7 — sii wad!',
+      confirmHeading: 'Mahadsanid!',
+      confirmBody: 'Diiwaankaaga waa la kaydiyey. Berri ayaan ku arki.',
+      labelDate: 'Taariikhda',
+      labelSteps: 'Tallaabooyinkaaga maanta',
+      stepsTarget: 'Bartilmaameedka maanta: {target} tallaabo',
+      stepsHint: '',
+      foodHeading: 'Hubinta cuntada',
+      avoidStop1: 'Ma iska ilaaliyey {food}?',
+      avoidStop2: 'Ma iska ilaaliyey {food}?',
+      ateStart1: 'Ma cuntay {food}?',
+      ateStart2: 'Ma cuntay {food}?',
+      yes: 'Haa',
+      no: 'Maya',
+      bpHeading: 'Akhriska cadaadiska dhiigga',
+      bpInstructions: 'Haddii aad haysato aalad lagu cabiro cadaadiska dhiigga guriga, geli akhriska halkan hoose. Haddii kale, ka bood qaybtan.',
+      labelSys: 'Sistooliga (lambarka sare)',
+      labelDia: 'Dayastooliga (lambarka hoose)',
+      ecgHeading: 'Soo geli ECG',
+      ecgInstructions: 'Duub ECG 30 ilbiriqsi ah qalab Kardia, kadibna PDF ka soo saar KardiaApp oo halkan ku soo geli.',
+      ecgBtnText: 'Soo geli PDF-ka ECG ee Kardia',
+      noteHeading: 'Qoraal ikhtiyaari ah',
+      labelNote: 'Sidee ayaad maanta dareemaysaa?',
+      submitLabel: 'Kaydi diiwaanka maanta',
+      progressHeading: 'Horumarkaaga',
+      chartHeading: 'Tallaabooyinka — 7-dii maalmood ee la soo dhaafay',
+      adherenceHeading: 'Raacidda cuntada',
+      labelTodayGoals: 'Hadafyada maanta la gaaray',
+      labelWeekPct: 'Toddobaadkan',
+      streakDesc: 'maalmood is daba joog ah!'
+    },
+    fr: {
+      safetyText: '<strong>Urgence :</strong> Si vous vous sentez mal, avez une douleur thoracique ou des palpitations inquiétantes, arrêtez ce journal et appelez le <strong>999</strong> immédiatement.',
+      eyebrow: 'Programme CardioTrack',
+      hello: 'Bonjour',
+      progLabel: 'Progression du programme',
+      progText: 'Semaine {week} sur 7 — continuez !',
+      confirmHeading: 'Merci !',
+      confirmBody: 'Votre journal a été enregistré. À demain.',
+      labelDate: 'Date',
+      labelSteps: 'Vos pas aujourd\'hui',
+      stepsTarget: 'Objectif du jour : {target} pas',
+      stepsHint: '',
+      foodHeading: 'Bilan alimentaire',
+      avoidStop1: 'Avez-vous évité {food} ?',
+      avoidStop2: 'Avez-vous évité {food} ?',
+      ateStart1: 'Avez-vous mangé {food} ?',
+      ateStart2: 'Avez-vous mangé {food} ?',
+      yes: 'Oui',
+      no: 'Non',
+      bpHeading: 'Mesure de la tension artérielle',
+      bpInstructions: 'Si vous avez un tensiomètre à domicile, entrez votre mesure ci-dessous. Sinon, passez cette section.',
+      labelSys: 'Systolique (valeur haute)',
+      labelDia: 'Diastolique (valeur basse)',
+      ecgHeading: 'Télécharger ECG',
+      ecgInstructions: 'Enregistrez un ECG de 30 secondes sur votre appareil Kardia, puis exportez le PDF depuis l\'application KardiaApp et téléchargez-le ici.',
+      ecgBtnText: 'Télécharger le PDF ECG Kardia',
+      noteHeading: 'Note facultative',
+      labelNote: 'Comment vous sentez-vous aujourd\'hui ?',
+      submitLabel: 'Enregistrer le journal du jour',
+      progressHeading: 'Votre progression',
+      chartHeading: 'Pas — 7 derniers jours',
+      adherenceHeading: 'Respect du régime alimentaire',
+      labelTodayGoals: 'Objectifs atteints aujourd\'hui',
+      labelWeekPct: 'Cette semaine',
+      streakDesc: 'jours consécutifs !'
     }
   };
 
@@ -990,11 +1209,16 @@
   }
 
   var DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  var MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
-  function formatDisplayDate(isoStr) {
+  function formatDisplayDate(isoStr, lang) {
     var d = new Date(isoStr + 'T00:00:00');
-    return DAY_NAMES[d.getDay()] + ' ' + d.getDate() + ' ' + MONTH_NAMES[d.getMonth()] + ' ' + d.getFullYear();
+    var locale = lang || currentLang || 'en';
+    if (locale === 'en') { locale = 'en-GB'; }
+    try {
+      return new Intl.DateTimeFormat(locale, { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' }).format(d);
+    } catch (e) {
+      return d.toLocaleDateString();
+    }
   }
 
   /* ── Apply translations to DOM ── */
@@ -1028,6 +1252,9 @@
     document.getElementById('label-today-goals').textContent = tr.labelTodayGoals;
     document.getElementById('label-week-pct').textContent = tr.labelWeekPct;
     document.getElementById('streak-desc').textContent = tr.streakDesc;
+
+    /* Re-localize the date display */
+    document.getElementById('greeting-date').textContent = formatDisplayDate(todayISO(), lang);
 
     if (patientData) {
       applyPatientTranslations(tr, patientData);
@@ -1114,7 +1341,12 @@
       var label = document.createElement('div');
       label.className = 'bar-label';
       var dObj = new Date(d.date + 'T00:00:00');
-      label.textContent = DAY_NAMES[dObj.getDay()];
+      var chartLocale = currentLang === 'en' ? 'en-GB' : currentLang;
+      try {
+        label.textContent = new Intl.DateTimeFormat(chartLocale, { weekday: 'short' }).format(dObj);
+      } catch (e) {
+        label.textContent = DAY_NAMES[dObj.getDay()];
+      }
 
       var val = document.createElement('div');
       val.className = 'bar-value';
@@ -1170,10 +1402,13 @@
     document.getElementById('patient-name').textContent = pd.firstName || 'there';
 
     /* Date */
-    document.getElementById('greeting-date').textContent = formatDisplayDate(todayISO());
+    document.getElementById('greeting-date').textContent = formatDisplayDate(todayISO(), currentLang);
 
-    /* Pre-fill date */
-    document.getElementById('log-date').value = todayISO();
+    /* Pre-fill date and restrict to today or earlier */
+    var dateEl = document.getElementById('log-date');
+    var todayStr = todayISO();
+    dateEl.value = todayStr;
+    dateEl.max = todayStr;
 
     /* Programme status */
     var week = pd.currentWeek || 1;
@@ -1184,6 +1419,9 @@
       document.getElementById('bp-card').style.display = 'block';
       document.getElementById('ecg-card').style.display = 'block';
     }
+
+    /* Set RTL direction if needed */
+    document.documentElement.setAttribute('dir', ['ar','ur'].includes(currentLang) ? 'rtl' : 'ltr');
 
     /* Apply translations (also fills food labels) */
     applyTranslations(currentLang);
@@ -1294,6 +1532,8 @@
     /* Update doc lang attribute for accessibility */
     var langMap = { en:'en-GB', ur:'ur', hi:'hi', ta:'ta', pl:'pl', pt:'pt', ar:'ar', so:'so', fr:'fr' };
     document.documentElement.setAttribute('lang', langMap[currentLang] || 'en-GB');
+    /* RTL support for Arabic and Urdu */
+    document.documentElement.setAttribute('dir', ['ar','ur'].includes(currentLang) ? 'rtl' : 'ltr');
   });
 
   /* ── ECG file upload button ── */
