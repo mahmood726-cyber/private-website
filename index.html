@@ -703,7 +703,7 @@
     .faq-a {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.35s ease, padding 0.35s ease;
+      transition: max-height 0.5s ease-out, padding 0.5s ease-out;
       padding: 0;
     }
 
@@ -712,7 +712,15 @@
       padding: 0 0 20px 0;
     }
 
-    .faq-a p { color: var(--dark-grey); font-size: 15px; }
+    .faq-a p {
+      color: var(--dark-grey);
+      font-size: 15px;
+      opacity: 0;
+      transition: opacity 0.3s ease-out 0.15s;
+    }
+    .faq-item.open .faq-a p {
+      opacity: 1;
+    }
 
     /* ── Callout box ── */
     .callout {
@@ -834,7 +842,15 @@
 
     /* ── Page sections (SPA) ── */
     .page-section { display: none; }
-    .page-section.active { display: block; }
+    .page-section.active {
+      display: block;
+      animation: pageFadeIn 0.35s ease-out;
+    }
+
+    @keyframes pageFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
     /* ── Animations ── */
     @keyframes fadeUp {
@@ -919,10 +935,10 @@
       stroke-linejoin: round;
       stroke-dasharray: 2400;
       stroke-dashoffset: 2400;
-      animation: ecg-draw 4s linear infinite;
+      animation: ecg-draw 8s ease-out forwards;
     }
-    .ecg-line-2 { animation-delay: -2s; opacity: 0.5; }
-    .ecg-line-3 { animation-delay: -3s; opacity: 0.3; stroke: var(--blue-400); }
+    .ecg-line-2 { animation-delay: -2s; opacity: 0.5; display: none; }
+    .ecg-line-3 { animation-delay: -3s; opacity: 0.3; stroke: var(--blue-400); display: none; }
     @keyframes ecg-draw {
       0% { stroke-dashoffset: 2400; }
       100% { stroke-dashoffset: 0; }
@@ -1150,9 +1166,8 @@
     .booklet-img-medium { max-width: 750px; }
 
 /* ── Booking widget ── */
-.booking-widget { max-width: 600px; margin: 0 auto; }
-.booking-step { display: none; }
-.booking-step.active { display: block; }
+.booking-widget { max-width: 600px; margin: 0 auto; position: relative; overflow: hidden; }
+/* Booking steps: hidden via opacity+position, not display:none, for smooth transitions */
 
 .date-grid {
   display: grid;
@@ -1291,15 +1306,22 @@
 .booking-error {
   color: #9e3333;
   background: #FDF2F2;
-  padding: 12px 16px;
   border-radius: var(--radius-sm);
   font-family: var(--font-sans);
   font-size: 14px;
   margin-bottom: 16px;
-  display: none;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding: 0 16px;
+  transition: max-height 0.4s ease-out, opacity 0.4s ease-out, padding 0.4s ease-out;
 }
 
-.booking-error.visible { display: block; }
+.booking-error.visible {
+  max-height: 120px;
+  opacity: 1;
+  padding: 12px 16px;
+}
 
 .booking-back {
   font-family: var(--font-sans);
@@ -1340,6 +1362,394 @@
   .date-grid { grid-template-columns: repeat(2, 1fr); }
   .time-btn { padding: 10px 18px; font-size: 14px; }
 }
+
+    /* ══════════════════════════════════════════════════════════════
+       MOTION SYSTEM — A through F
+       ══════════════════════════════════════════════════════════════ */
+
+    /* ── A. Breathing Exercise Animation (P0) ── */
+    .breath-exercise {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 24px 32px;
+      margin: 28px 0;
+      background: linear-gradient(135deg, #e8f5ee 0%, #d4ebe0 100%);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .breath-exercise::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(77,122,101,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .breath-rings {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      margin-bottom: 24px;
+    }
+
+    .breath-ring {
+      position: absolute;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: none;
+    }
+
+    .breath-ring-outer {
+      width: 200px;
+      height: 200px;
+      border: 2px solid rgba(77,122,101,0.18);
+      background: rgba(77,122,101,0.04);
+    }
+
+    .breath-ring-mid {
+      width: 140px;
+      height: 140px;
+      border: 2px solid rgba(77,122,101,0.25);
+      background: rgba(77,122,101,0.08);
+    }
+
+    .breath-ring-inner {
+      width: 80px;
+      height: 80px;
+      border: 2px solid rgba(77,122,101,0.35);
+      background: rgba(77,122,101,0.12);
+    }
+
+    .breath-ring-core {
+      width: 36px;
+      height: 36px;
+      background: rgba(45,107,80,0.5);
+      box-shadow: 0 0 20px rgba(45,107,80,0.3);
+    }
+
+    /* Animate when running */
+    .breath-exercise.breathing .breath-ring {
+      transition-property: width, height, opacity, box-shadow;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .breath-exercise.inhaling .breath-ring-outer {
+      width: 220px; height: 220px;
+      transition-duration: 4s;
+    }
+    .breath-exercise.inhaling .breath-ring-mid {
+      width: 170px; height: 170px;
+      transition-duration: 4s;
+    }
+    .breath-exercise.inhaling .breath-ring-inner {
+      width: 120px; height: 120px;
+      transition-duration: 4s;
+    }
+    .breath-exercise.inhaling .breath-ring-core {
+      width: 56px; height: 56px;
+      background: rgba(45,107,80,0.65);
+      box-shadow: 0 0 40px rgba(45,107,80,0.4);
+      transition-duration: 4s;
+    }
+
+    .breath-exercise.exhaling .breath-ring-outer {
+      width: 160px; height: 160px;
+      transition-duration: 6s;
+    }
+    .breath-exercise.exhaling .breath-ring-mid {
+      width: 110px; height: 110px;
+      transition-duration: 6s;
+    }
+    .breath-exercise.exhaling .breath-ring-inner {
+      width: 60px; height: 60px;
+      transition-duration: 6s;
+    }
+    .breath-exercise.exhaling .breath-ring-core {
+      width: 28px; height: 28px;
+      background: rgba(45,107,80,0.35);
+      box-shadow: 0 0 12px rgba(45,107,80,0.2);
+      transition-duration: 6s;
+    }
+
+    .breath-label {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 700;
+      color: #2d6b50;
+      text-align: center;
+      min-height: 34px;
+      margin-bottom: 8px;
+      transition: opacity 0.5s ease;
+    }
+
+    .breath-counter {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--dark-grey);
+      text-align: center;
+      min-height: 22px;
+      margin-bottom: 16px;
+      opacity: 0.8;
+    }
+
+    .breath-timer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 700;
+      color: #2d6b50;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .breath-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      background: #2d6b50;
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .breath-btn:hover { background: #245a42; transform: translateY(-1px); }
+    .breath-btn:focus-visible { outline: 2px solid var(--blue-400); outline-offset: 2px; }
+
+    .breath-btn.active {
+      background: #9e3333;
+    }
+    .breath-btn.active:hover { background: #833030; }
+
+    .breath-progress {
+      width: 100%;
+      max-width: 280px;
+      height: 4px;
+      background: rgba(45,107,80,0.15);
+      border-radius: 2px;
+      margin-top: 16px;
+      overflow: hidden;
+    }
+
+    .breath-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #2d6b50;
+      border-radius: 2px;
+      transition: width 0.5s linear;
+    }
+
+    /* ── B. Timeline Progressive Reveal (P1) ── */
+    .timeline-item {
+      opacity: 0;
+      transform: translateX(-24px);
+      transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .timeline-item.timeline-visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .timeline::before {
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform 1.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .timeline.timeline-entered::before {
+      transform: scaleY(1);
+    }
+
+    /* ── C. Heartbeat Pulse — REMOVED (motion review) ── */
+
+    .section-divider-pulse {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 12px 0;
+      margin: 0 auto;
+      max-width: 200px;
+    }
+
+    @keyframes divider-dot-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.2); opacity: 0.6; }
+    }
+
+    .divider-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue-400);
+      animation: divider-dot-pulse 3.2s ease-in-out infinite;
+    }
+
+    .divider-dot:nth-child(2) { animation-delay: 0.3s; }
+    .divider-dot:nth-child(3) { animation-delay: 0.6s; }
+
+    @keyframes clinician-glow {
+      0%, 100% { box-shadow: var(--shadow-md), 0 0 0 0 rgba(74,127,168,0); }
+      50% { box-shadow: var(--shadow-md), 0 0 0 8px rgba(74,127,168,0.08); }
+    }
+
+    .clinician-pulse {
+      animation: clinician-glow 3.2s ease-in-out 3;
+    }
+
+    /* ── D. Number Counter (P1) ── */
+    .stat-number[data-count-to] {
+      display: inline-block;
+      min-width: 2ch;
+    }
+
+    /* ── E. Booking Step Transitions (P1) ── */
+    .booking-step {
+      opacity: 0;
+      transform: translateX(30px);
+      transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+      position: absolute;
+      width: 100%;
+    }
+
+    .booking-step.active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+      position: relative;
+    }
+
+    .booking-step.slide-back {
+      transform: translateX(-30px);
+    }
+
+    /* booking-widget position/overflow set in main booking CSS above */
+
+    /* ── F. Elevated Hover States (P2) ── */
+    .date-card {
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .date-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .date-card:active {
+      transform: translateY(0);
+      transition-duration: 0.1s;
+    }
+
+    .time-btn {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .time-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(74,127,168,0.15);
+    }
+    .time-btn:active {
+      transform: translateY(0);
+      transition-duration: 0.1s;
+    }
+
+    .price-card {
+      transition: box-shadow 0.3s, border-color 0.3s, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .price-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+      border-color: var(--blue-400);
+    }
+
+    .device-card {
+      transition: box-shadow 0.3s, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .device-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+    }
+
+    .evidence-card {
+      transition: box-shadow 0.3s;
+    }
+    .evidence-card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+
+    .info-card {
+      transition: box-shadow 0.3s;
+    }
+    .info-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .compare-card {
+      transition: box-shadow 0.3s;
+    }
+    .compare-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .protocol-step {
+      transition: box-shadow 0.3s;
+    }
+    .protocol-step:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .suit-card {
+      transition: box-shadow 0.3s;
+    }
+    .suit-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    /* ── Scroll-triggered card fade-in ── */
+    .step-card, .info-card, .price-card,
+    .evidence-card, .device-card, .protocol-step {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                  box-shadow 0.3s;
+    }
+
+    /* ── Reduced Motion: override all motion system animations ── */
+    @media (prefers-reduced-motion: reduce) {
+      .breath-exercise .breath-ring { transition: none !important; }
+      .divider-dot { animation: none !important; opacity: 0.5 !important; }
+      .clinician-pulse { animation: none !important; }
+      .timeline-item { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .booking-step { transition: none !important; transform: none !important; }
+      .booking-step.active { opacity: 1 !important; }
+      .date-card, .time-btn, .price-card, .device-card,
+      .evidence-card, .info-card, .compare-card, .protocol-step, .suit-card {
+        transition: none !important;
+        transform: none !important;
+      }
+      .faq-a p { opacity: 1 !important; transition: none !important; }
+      .step-card, .info-card, .price-card,
+      .evidence-card, .device-card, .protocol-step {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      .page-section.active { animation: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -1383,8 +1793,8 @@
   <section class="hero">
     <svg class="ecg-bg" viewBox="0 0 1200 400" preserveAspectRatio="none" aria-hidden="true">
       <path class="ecg-line" d="M-100,200 L100,200 L120,200 L140,190 L150,200 L160,200 L180,200 L190,160 L195,280 L200,120 L205,240 L210,180 L220,200 L300,200 L320,200 L340,190 L350,200 L360,200 L380,200 L390,160 L395,280 L400,120 L405,240 L410,180 L420,200 L500,200 L520,200 L540,190 L550,200 L560,200 L580,200 L590,160 L595,280 L600,120 L605,240 L610,180 L620,200 L700,200 L720,200 L740,190 L750,200 L760,200 L780,200 L790,160 L795,280 L800,120 L805,240 L810,180 L820,200 L900,200 L920,200 L940,190 L950,200 L960,200 L980,200 L990,160 L995,280 L1000,120 L1005,240 L1010,180 L1020,200 L1100,200 L1120,200 L1140,190 L1150,200 L1160,200 L1180,200 L1190,160 L1195,280 L1200,120 L1205,240 L1210,180 L1220,200 L1300,200"/>
-      <path class="ecg-line ecg-line-2" d="M-100,260 L100,260 L120,260 L140,250 L150,260 L160,260 L180,260 L190,220 L195,340 L200,180 L205,300 L210,240 L220,260 L300,260 L320,260 L340,250 L350,260 L360,260 L380,260 L390,220 L395,340 L400,180 L405,300 L410,240 L420,260 L500,260 L520,260 L540,250 L550,260 L560,260 L580,260 L590,220 L595,340 L600,180 L605,300 L610,240 L620,260 L700,260 L720,260 L740,250 L750,260 L760,260 L780,260 L790,220 L795,340 L800,180 L805,300 L810,240 L820,260 L900,260 L920,260 L940,250 L950,260 L960,260 L980,260 L990,220 L995,340 L1000,180 L1005,300 L1010,240 L1020,260 L1100,260 L1200,260 L1300,260"/>
-      <path class="ecg-line ecg-line-3" d="M-100,140 L100,140 L120,140 L140,130 L150,140 L160,140 L180,140 L190,100 L195,220 L200,60 L205,180 L210,120 L220,140 L300,140 L320,140 L340,130 L350,140 L360,140 L380,140 L390,100 L395,220 L400,60 L405,180 L410,120 L420,140 L500,140 L520,140 L540,130 L550,140 L560,140 L580,140 L590,100 L595,220 L600,60 L605,180 L610,120 L620,140 L700,140 L720,140 L740,130 L750,140 L760,140 L780,140 L790,100 L795,220 L800,60 L805,180 L810,120 L820,140 L900,140 L1000,140 L1100,140 L1200,140 L1300,140"/>
+      <path class="ecg-line ecg-line-2" style="display:none" d="M-100,260 L100,260 L120,260 L140,250 L150,260 L160,260 L180,260 L190,220 L195,340 L200,180 L205,300 L210,240 L220,260 L300,260 L320,260 L340,250 L350,260 L360,260 L380,260 L390,220 L395,340 L400,180 L405,300 L410,240 L420,260 L500,260 L520,260 L540,250 L550,260 L560,260 L580,260 L590,220 L595,340 L600,180 L605,300 L610,240 L620,260 L700,260 L720,260 L740,250 L750,260 L760,260 L780,260 L790,220 L795,340 L800,180 L805,300 L810,240 L820,260 L900,260 L920,260 L940,250 L950,260 L960,260 L980,260 L990,220 L995,340 L1000,180 L1005,300 L1010,240 L1020,260 L1100,260 L1200,260 L1300,260"/>
+      <path class="ecg-line ecg-line-3" style="display:none" d="M-100,140 L100,140 L120,140 L140,130 L150,140 L160,140 L180,140 L190,100 L195,220 L200,60 L205,180 L210,120 L220,140 L300,140 L320,140 L340,130 L350,140 L360,140 L380,140 L390,100 L395,220 L400,60 L405,180 L410,120 L420,140 L500,140 L520,140 L540,130 L550,140 L560,140 L580,140 L590,100 L595,220 L600,60 L605,180 L610,120 L620,140 L700,140 L720,140 L740,130 L750,140 L760,140 L780,140 L790,100 L795,220 L800,60 L805,180 L810,120 L820,140 L900,140 L1000,140 L1100,140 L1200,140 L1300,140"/>
     </svg>
     <div class="container">
       <p class="hero-eyebrow fade-up">OpenPalp &mdash; Your Personal Heart Rhythm Programme</p>
@@ -1483,7 +1893,7 @@
       </div>
       <div class="container-narrow" style="text-align:left;">
         <div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;">
-          <img src="img/dr-ahmad.jpg" alt="Dr Mahmood Ahmad receiving an award" style="width:200px;height:200px;object-fit:cover;object-position:65% 15%;border-radius:var(--radius);box-shadow:var(--shadow-md);flex-shrink:0;">
+          <img src="img/dr-ahmad.jpg" alt="Dr Mahmood Ahmad receiving an award" class="clinician-pulse" style="width:200px;height:200px;object-fit:cover;object-position:65% 15%;border-radius:var(--radius);box-shadow:var(--shadow-md);flex-shrink:0;">
           <div style="flex:1;min-width:260px;">
             <p style="font-size:16px;color:var(--dark-grey);line-height:1.8;margin-bottom:16px;">
               All care within the OpenPalp pathway is delivered by Dr Ahmad. He works independently
@@ -1502,6 +1912,8 @@
       </div>
     </div>
   </section>
+
+  <div class="section-divider-pulse" aria-hidden="true"><span class="divider-dot"></span><span class="divider-dot"></span><span class="divider-dot"></span></div>
 
   <!-- ── 6. Pricing ── -->
   <section id="pricing-section" class="section">
@@ -1550,6 +1962,8 @@
       <p class="price-note">A &pound;200 pre-authorisation hold is taken for the monitoring devices, released on return. Replacement costs if lost or damaged: Wellue patch &pound;90, KardiaMobile 6L &pound;70. The clinic appointment is standalone &mdash; there is no obligation to proceed to the monitoring programme.</p>
     </div>
   </section>
+
+  <div class="section-divider-pulse" aria-hidden="true"><span class="divider-dot"></span><span class="divider-dot"></span><span class="divider-dot"></span></div>
 
   <!-- ── 7. Booking ── -->
   <section class="section section-blue">
@@ -1639,6 +2053,11 @@
         <!-- Step 5: Confirmation -->
         <div class="booking-step" id="step-confirm">
           <div class="booking-confirmed">
+            <div style="width:64px;height:64px;margin:0 auto 20px;border-radius:50%;background:#F2F5F3;border:2px solid #7BA393;display:flex;align-items:center;justify-content:center;" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#4D7A65" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 14l6 6 10-12"/>
+              </svg>
+            </div>
             <h3>Booking confirmed</h3>
             <p id="confirm-details"></p>
             <p style="margin-top:16px;">40&ndash;44 The Broadway, Wimbledon, London SW19 1RQ</p>
@@ -2025,44 +2444,39 @@
 
         <div class="evidence-card">
           <h3>The breathing story</h3>
-          <!-- 4-6 Breathing diagram (recreated as HTML/CSS) -->
-          <div role="img" aria-label="4-6 breathing technique: inhale for 4 seconds, exhale for 6 seconds, repeat 5 times morning and evening" style="background:linear-gradient(135deg,#e8f5ee 0%,#d4ebe0 100%);border-radius:var(--radius);padding:28px 24px 24px;margin:20px 0;max-width:810px;">
-            <!-- Title -->
-            <div style="background:#2d6b50;color:#fff;text-align:center;padding:12px 20px;border-radius:8px;font-family:var(--font-serif);font-size:clamp(15px,2.5vw,19px);font-style:italic;margin-bottom:24px;">
+          <!-- 4-6 Breathing exercise — interactive animated version -->
+          <div class="breath-exercise" id="breath-exercise" role="application" aria-label="Interactive 4-6 breathing exercise: press Try It Now to begin guided breathing">
+            <div style="background:#2d6b50;color:#fff;text-align:center;padding:12px 20px;border-radius:8px;font-family:var(--font-serif);font-size:clamp(15px,2.5vw,19px);font-style:italic;margin-bottom:20px;width:100%;max-width:600px;">
               4-6 breathing &mdash; the most important thing you can do
             </div>
-            <!-- Lungs + repeat bar -->
-            <div style="text-align:center;position:relative;margin-bottom:24px;">
-              <svg viewBox="0 0 200 120" width="180" height="108" aria-hidden="true" style="display:block;margin:0 auto;">
-                <circle cx="80" cy="55" r="45" fill="rgba(77,122,101,0.12)" stroke="rgba(77,122,101,0.25)" stroke-width="1.5"/>
-                <circle cx="120" cy="55" r="45" fill="rgba(77,122,101,0.12)" stroke="rgba(77,122,101,0.25)" stroke-width="1.5"/>
-                <circle cx="80" cy="55" r="28" fill="rgba(77,122,101,0.18)"/>
-                <circle cx="120" cy="55" r="28" fill="rgba(77,122,101,0.18)"/>
-                <text x="100" y="50" text-anchor="middle" fill="#2d6b50" font-family="Inter,sans-serif" font-size="11" font-weight="600">lungs</text>
-                <text x="100" y="64" text-anchor="middle" fill="#2d6b50" font-family="Inter,sans-serif" font-size="10" font-style="italic">expanding</text>
-              </svg>
-              <div style="background:#2d5440;color:#fff;display:inline-block;padding:8px 24px;border-radius:6px;font-family:var(--font-sans);font-size:14px;font-style:italic;margin-top:-8px;position:relative;z-index:1;">
-                Repeat 5 times &mdash; morning and evening
-              </div>
+            <div class="breath-rings" aria-hidden="true">
+              <div class="breath-ring breath-ring-outer"></div>
+              <div class="breath-ring breath-ring-mid"></div>
+              <div class="breath-ring breath-ring-inner"></div>
+              <div class="breath-ring breath-ring-core"></div>
+              <div class="breath-timer" id="breath-timer"></div>
             </div>
-            <!-- Inhale / then / Exhale -->
-            <div style="display:flex;align-items:stretch;gap:12px;flex-wrap:wrap;justify-content:center;">
-              <!-- Inhale -->
-              <div style="flex:1;min-width:200px;max-width:280px;background:#fff;border:1.5px solid rgba(77,122,101,0.2);border-radius:10px;padding:20px 16px;text-align:center;">
-                <div style="font-family:var(--font-sans);font-size:13px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#2d6b50;">Inhale</div>
-                <div style="font-family:var(--font-serif);font-size:42px;font-weight:700;color:#2d6b50;margin:4px 0;">4</div>
-                <div style="font-family:var(--font-sans);font-size:13px;color:var(--dark-grey);">seconds in &mdash; nose or mouth</div>
-                <div style="font-family:var(--font-sans);font-size:12px;font-style:italic;color:var(--mid-grey);margin-top:4px;">gently, not forced</div>
+            <div class="breath-label" id="breath-label" aria-live="polite">Breathe in for 4, out for 6</div>
+            <div class="breath-counter" id="breath-counter">5 breaths &middot; morning and evening</div>
+            <button type="button" class="breath-btn" id="breath-btn" aria-label="Start breathing exercise">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><polygon points="3,1 13,8 3,15"/></svg>
+              Try it now
+            </button>
+            <div class="breath-progress" aria-hidden="true">
+              <div class="breath-progress-bar" id="breath-progress-bar"></div>
+            </div>
+            <!-- Static fallback info shown below the interactive widget -->
+            <div style="display:flex;align-items:stretch;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:24px;width:100%;max-width:600px;">
+              <div style="flex:1;min-width:160px;max-width:240px;background:#fff;border:1.5px solid rgba(77,122,101,0.2);border-radius:10px;padding:16px 12px;text-align:center;">
+                <div style="font-family:var(--font-sans);font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#2d6b50;">Inhale</div>
+                <div style="font-family:var(--font-serif);font-size:36px;font-weight:700;color:#2d6b50;margin:2px 0;">4</div>
+                <div style="font-family:var(--font-sans);font-size:12px;color:var(--dark-grey);">seconds in</div>
               </div>
-              <!-- then -->
-              <div style="display:flex;align-items:center;font-family:var(--font-sans);font-size:15px;color:var(--dark-grey);padding:0 4px;">then</div>
-              <!-- Exhale -->
-              <div style="flex:1;min-width:200px;max-width:280px;background:#2d6b50;border-radius:10px;padding:20px 16px;text-align:center;color:#fff;">
-                <div style="font-family:var(--font-sans);font-size:13px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;">Exhale</div>
-                <div style="font-family:var(--font-serif);font-size:42px;font-weight:700;margin:4px 0;">6</div>
-                <div style="font-family:var(--font-sans);font-size:13px;opacity:0.9;">seconds out &mdash; slowly, fully</div>
-                <div style="font-family:var(--font-sans);font-size:12px;font-style:italic;opacity:0.75;margin-top:4px;">longer out than in = the key</div>
-                <div style="font-family:var(--font-sans);font-size:12px;font-style:italic;opacity:0.75;">this activates your vagus nerve</div>
+              <div style="display:flex;align-items:center;font-family:var(--font-sans);font-size:14px;color:var(--dark-grey);padding:0 4px;">then</div>
+              <div style="flex:1;min-width:160px;max-width:240px;background:#2d6b50;border-radius:10px;padding:16px 12px;text-align:center;color:#fff;">
+                <div style="font-family:var(--font-sans);font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;">Exhale</div>
+                <div style="font-family:var(--font-serif);font-size:36px;font-weight:700;margin:2px 0;">6</div>
+                <div style="font-family:var(--font-sans);font-size:12px;opacity:0.9;">seconds out</div>
               </div>
             </div>
           </div>
@@ -2084,7 +2498,7 @@
         <div class="evidence-card">
           <h3>The movement story</h3>
           <div class="evidence-stat">
-            <div class="stat-number">22,516</div>
+            <div class="stat-number" data-count-to="22516">0</div>
             <div class="stat-label">adults followed for 14 years</div>
           </div>
           <p><em>(PubMed, 2015 &mdash; 22,516 adults, 14-year follow-up)</em></p>
@@ -2335,7 +2749,7 @@
       a.classList.toggle('active', a.getAttribute('data-page') === pageId);
     });
     if (mobileMenu) mobileMenu.classList.remove('open');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
     if (pushHistory !== false) {
       history.pushState(null, '', '#' + pageId);
     }
@@ -2397,16 +2811,279 @@
     var observer = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
         if (entry.isIntersecting) {
+          var siblings = Array.from(entry.target.parentElement.children);
+          var index = siblings.indexOf(entry.target);
+          entry.target.style.transitionDelay = (index * 0.1) + 's';
           entry.target.style.opacity = '1';
           entry.target.style.transform = 'translateY(0)';
           observer.unobserve(entry.target);
         }
       });
     }, { threshold: 0.1 });
-    document.querySelectorAll('.step-card, .info-card, .price-card, .prog-card, .timeline-item, .evidence-card, .device-card, .protocol-step').forEach(function(el) {
+    document.querySelectorAll('.step-card, .info-card, .price-card, .prog-card, .evidence-card, .device-card, .protocol-step').forEach(function(el) {
       observer.observe(el);
     });
   }
+
+  // ══════════════════════════════════════════════════════════════
+  // A. BREATHING EXERCISE ANIMATION (P0)
+  // ══════════════════════════════════════════════════════════════
+  (function initBreathExercise() {
+    var container = document.getElementById('breath-exercise');
+    var btn = document.getElementById('breath-btn');
+    var label = document.getElementById('breath-label');
+    var counter = document.getElementById('breath-counter');
+    var timer = document.getElementById('breath-timer');
+    var progressBar = document.getElementById('breath-progress-bar');
+    if (!container || !btn) return;
+
+    var INHALE_SEC = 4;
+    var EXHALE_SEC = 6;
+    var TOTAL_BREATHS = 5;
+    var CYCLE_SEC = INHALE_SEC + EXHALE_SEC; // 10s per breath
+
+    var running = false;
+    var breathCount = 0;
+    var phaseTimer = null;
+    var countdownTimer = null;
+    var currentSecond = 0;
+
+    // Check reduced-motion preference
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function startExercise() {
+      running = true;
+      breathCount = 0;
+      container.classList.add('breathing');
+      btn.classList.add('active');
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="2" y="1" width="4" height="14" rx="1"/><rect x="10" y="1" width="4" height="14" rx="1"/></svg> Stop';
+      btn.setAttribute('aria-label', 'Stop breathing exercise');
+      doInhale();
+    }
+
+    function stopExercise() {
+      running = false;
+      clearTimeout(phaseTimer);
+      clearInterval(countdownTimer);
+      container.classList.remove('breathing', 'inhaling', 'exhaling');
+      btn.classList.remove('active');
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><polygon points="3,1 13,8 3,15"/></svg> Try it now';
+      btn.setAttribute('aria-label', 'Start breathing exercise');
+      label.textContent = 'Breathe in for 4, out for 6';
+      counter.textContent = '5 breaths \u00B7 morning and evening';
+      timer.textContent = '';
+      progressBar.style.width = '0%';
+    }
+
+    function doInhale() {
+      if (!running) return;
+      breathCount++;
+      if (breathCount > TOTAL_BREATHS) {
+        finishExercise();
+        return;
+      }
+
+      container.classList.remove('exhaling');
+      container.classList.add('inhaling');
+      label.textContent = 'Breathe in\u2026';
+      counter.textContent = 'Breath ' + breathCount + ' of ' + TOTAL_BREATHS;
+
+      currentSecond = INHALE_SEC;
+      timer.textContent = currentSecond;
+      updateProgress();
+
+      countdownTimer = setInterval(function() {
+        currentSecond--;
+        if (currentSecond > 0) {
+          timer.textContent = currentSecond;
+        } else {
+          timer.textContent = '';
+          clearInterval(countdownTimer);
+        }
+      }, 1000);
+
+      phaseTimer = setTimeout(function() {
+        clearInterval(countdownTimer);
+        label.textContent = 'Hold\u2026';
+        timer.textContent = '';
+        phaseTimer = setTimeout(function() {
+          doExhale();
+        }, 1000);
+      }, INHALE_SEC * 1000);
+    }
+
+    function doExhale() {
+      if (!running) return;
+
+      container.classList.remove('inhaling');
+      container.classList.add('exhaling');
+      label.textContent = 'Breathe out\u2026 slowly';
+
+      currentSecond = EXHALE_SEC;
+      timer.textContent = currentSecond;
+      updateProgress();
+
+      countdownTimer = setInterval(function() {
+        currentSecond--;
+        if (currentSecond > 0) {
+          timer.textContent = currentSecond;
+          updateProgress();
+        } else {
+          timer.textContent = '';
+          clearInterval(countdownTimer);
+        }
+      }, 1000);
+
+      phaseTimer = setTimeout(function() {
+        clearInterval(countdownTimer);
+        doInhale();
+      }, EXHALE_SEC * 1000);
+    }
+
+    function updateProgress() {
+      var completed = (breathCount - 1) * CYCLE_SEC;
+      if (container.classList.contains('inhaling')) {
+        completed += (INHALE_SEC - currentSecond);
+      } else {
+        completed += INHALE_SEC + (EXHALE_SEC - currentSecond);
+      }
+      var pct = Math.min(100, (completed / (TOTAL_BREATHS * CYCLE_SEC)) * 100);
+      progressBar.style.width = pct + '%';
+    }
+
+    function finishExercise() {
+      running = false;
+      clearTimeout(phaseTimer);
+      clearInterval(countdownTimer);
+      container.classList.remove('inhaling', 'exhaling');
+      label.textContent = 'Well done. You completed 5 breaths.';
+      counter.textContent = 'Try this every morning and evening';
+      timer.textContent = '';
+      progressBar.style.width = '100%';
+      btn.classList.remove('active');
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><polygon points="3,1 13,8 3,15"/></svg> Try again';
+      btn.setAttribute('aria-label', 'Restart breathing exercise');
+
+      setTimeout(function() {
+        container.classList.remove('breathing');
+      }, 3000);
+    }
+
+    btn.addEventListener('click', function() {
+      if (running) {
+        stopExercise();
+      } else {
+        startExercise();
+      }
+    });
+
+    // Keyboard support
+    btn.addEventListener('keydown', function(e) {
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        btn.click();
+      }
+    });
+  })();
+
+  // ══════════════════════════════════════════════════════════════
+  // B. TIMELINE PROGRESSIVE REVEAL (P1)
+  // ══════════════════════════════════════════════════════════════
+  if ('IntersectionObserver' in window) {
+    var timelineItems = document.querySelectorAll('.timeline-item');
+    var timelineContainer = document.querySelector('.timeline');
+
+    if (timelineItems.length > 0 && timelineContainer) {
+      var timelineObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            // Stagger the reveal of each item
+            var item = entry.target;
+            var index = Array.prototype.indexOf.call(timelineItems, item);
+            setTimeout(function() {
+              item.classList.add('timeline-visible');
+            }, index * 150);
+            timelineObserver.unobserve(item);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+      timelineItems.forEach(function(item) {
+        timelineObserver.observe(item);
+      });
+
+      // Trigger the timeline line animation when container enters view
+      var lineObserver = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting) {
+          timelineContainer.classList.add('timeline-entered');
+          lineObserver.disconnect();
+        }
+      }, { threshold: 0.05 });
+      lineObserver.observe(timelineContainer);
+    }
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  // D. NUMBER COUNTER ANIMATION (P1)
+  // ══════════════════════════════════════════════════════════════
+  if ('IntersectionObserver' in window) {
+    var statElements = document.querySelectorAll('[data-count-to]');
+
+    if (statElements.length > 0) {
+      var counterObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            animateCounter(entry.target);
+            counterObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+
+      statElements.forEach(function(el) {
+        counterObserver.observe(el);
+      });
+    }
+
+    function animateCounter(el) {
+      var target = parseInt(el.getAttribute('data-count-to'), 10);
+      if (isNaN(target) || target <= 0) return;
+
+      var duration = 2000; // 2 seconds
+      var startTime = null;
+
+      function formatNumber(n) {
+        return n.toLocaleString('en-GB');
+      }
+
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        var elapsed = timestamp - startTime;
+        var progress = Math.min(elapsed / duration, 1);
+
+        // Ease-out cubic for a decelerating finish
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var current = Math.round(eased * target);
+
+        el.textContent = formatNumber(current);
+
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  // E. BOOKING STEP TRANSITIONS (P1)
+  // Enhance the existing showStep function with directional slides
+  // ══════════════════════════════════════════════════════════════
+  // The booking widget JS is in a separate IIFE below.
+  // We enhance the booking-step transitions purely via CSS above
+  // (opacity + translateX), which works with the existing .active
+  // class toggle. No additional JS needed — the CSS handles it.
+
 })();
 </script>
 
