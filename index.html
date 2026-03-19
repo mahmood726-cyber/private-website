@@ -3,443 +3,1329 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>London Cardiology Clinic — Private Cardiology in Wimbledon</title>
-
-  <!-- SEO meta -->
-  <meta name="description" content="Private cardiology consultations in Wimbledon SW19. Assessment for palpitations, ECG review, blood pressure, breathlessness and heart murmurs. From £49.99. Friday evenings.">
+  <title>OpenPalp — Private Palpitations Programme in Wimbledon | London Cardiology Clinic</title>
+  <meta name="description" content="Structured 30-day heart rhythm monitoring and 6-week improvement programme for low-risk palpitations. Wellue patch, KardiaMobile, guided lifestyle support. From £49.99. Friday evenings, Wimbledon SW19.">
   <meta name="robots" content="index, follow">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="canonical" href="https://londoncardiologyclinic.uk/">
-
-  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://londoncardiologyclinic.uk/">
-  <meta property="og:title" content="London Cardiology Clinic — Private Cardiology in Wimbledon">
-  <meta property="og:description" content="Private cardiology consultations in Wimbledon SW19. Assessment for palpitations, ECG review, blood pressure, breathlessness and heart murmurs. Friday evenings from £49.99.">
-  <meta property="og:image" content="https://londoncardiologyclinic.uk/og-image.jpg">
+  <meta property="og:title" content="OpenPalp — Private Palpitations Programme in Wimbledon">
+  <meta property="og:description" content="30 days of monitoring. 6 weeks of understanding. Structured assessment for low-risk palpitations. Friday evenings in Wimbledon. From £49.99.">
   <meta property="og:locale" content="en_GB">
-  <meta property="og:site_name" content="London Cardiology Clinic">
+  <meta property="og:site_name" content="OpenPalp by London Cardiology Clinic">
 
-  <!-- Security headers (supplementary — primary headers set by Nginx) -->
-  <meta http-equiv="X-Frame-Options" content="DENY">
-  <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-
-  <!-- External stylesheet (no Google Fonts) -->
-  <link rel="stylesheet" href="css/style.css">
-
-  <!-- Schema.org MedicalClinic structured data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "MedicalClinic",
-    "name": "London Cardiology Clinic",
-    "description": "Private cardiology consultations in Wimbledon, London. Assessment for palpitations, ECG review, blood pressure, breathlessness and heart murmurs.",
+    "name": "OpenPalp by London Cardiology Clinic",
+    "description": "Structured palpitations assessment and improvement programme combining clinic review, ECG monitoring, and a six-week guided lifestyle programme.",
     "url": "https://londoncardiologyclinic.uk/",
     "email": "drmahmoodclinic@pm.me",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "40-44 The Broadway",
-      "addressLocality": "London",
-      "addressRegion": "London",
+      "addressLocality": "Wimbledon, London",
       "postalCode": "SW19 1RQ",
       "addressCountry": "GB"
     },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": "51.4213",
-      "longitude": "-0.2011"
-    },
-    "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": "Friday",
-        "opens": "17:00",
-        "closes": "20:00"
-      }
-    ],
-    "priceRange": "£49.99",
-    "currenciesAccepted": "GBP",
-    "paymentAccepted": "Credit Card, Debit Card",
+    "openingHours": "Fr 17:00-20:00",
+    "priceRange": "£49.99-£99.98",
     "medicalSpecialty": "Cardiology",
-    "availableService": [
-      {
-        "@type": "MedicalTherapy",
-        "name": "Palpitations Assessment"
-      },
-      {
-        "@type": "MedicalTherapy",
-        "name": "ECG Review and Interpretation"
-      },
-      {
-        "@type": "MedicalTherapy",
-        "name": "Blood Pressure Assessment"
-      },
-      {
-        "@type": "MedicalTherapy",
-        "name": "Breathlessness Cardiac Assessment"
-      },
-      {
-        "@type": "MedicalTherapy",
-        "name": "Heart Murmur Auscultation"
-      }
-    ],
+    "availableService": {
+      "@type": "MedicalTherapy",
+      "name": "OpenPalp Palpitations Programme"
+    },
     "employee": {
       "@type": "Physician",
-      "name": "Dr Mahmood",
-      "description": "Specialist in Cardiology. MRCP(UK). GMC-registered (GMC no. 6071047).",
-      "medicalSpecialty": "Cardiology"
+      "name": "Dr Mahmood Ahmad",
+      "description": "Specialist in Cardiology (SAS), MRCP(UK), GMC 6071047"
     }
   }
   </script>
+
+  <style>
+    /* Self-hosted fonts — no Google Fonts CDN (GDPR compliance for UK medical site) */
+    @font-face {
+      font-family: 'Libre Baskerville';
+      src: url('/fonts/libre-baskerville-regular.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Libre Baskerville';
+      src: url('/fonts/libre-baskerville-bold.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Libre Baskerville';
+      src: url('/fonts/libre-baskerville-italic.woff2') format('woff2');
+      font-weight: 400;
+      font-style: italic;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Inter';
+      src: url('/fonts/inter-variable.woff2') format('woff2');
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+
+  <style>
+    /* ══════════════════════════════════════════════════════════════
+       OPENPALP SITE — DESIGN SYSTEM
+       Refined medical editorial. Calm, authoritative, airy.
+       ══════════════════════════════════════════════════════════════ */
+
+    :root {
+      --font-serif: 'Libre Baskerville', 'Georgia', serif;
+      --font-sans: 'Inter', 'Helvetica Neue', sans-serif;
+
+      /* Palette */
+      --white: #FFFFFF;
+      --warm-white: #FAFAF8;
+      --ivory: #F5F4F0;
+      --light-grey: #E8E6E1;
+      --mid-grey: #9B9690;
+      --dark-grey: #5A5650;
+      --charcoal: #2C2A27;
+
+      --blue-50: #F0F4F8;
+      --blue-100: #D9E4ED;
+      --blue-200: #B3C9DB;
+      --blue-400: #6A9ABF;
+      --blue-500: #4A7FA8;
+      --blue-600: #3A6B8F;
+      --blue-700: #2D5470;
+      --blue-800: #1E3A4F;
+
+      --sage-50: #F2F5F3;
+      --sage-100: #DCE5DF;
+      --sage-400: #7BA393;
+      --sage-600: #4D7A65;
+
+      --red-50: #FDF2F2;
+      --red-400: #C45A5A;
+      --red-600: #A63D3D;
+
+      --amber-50: #FDF6E3;
+      --amber-400: #D4A017;
+
+      /* Layout */
+      --max-w: 1120px;
+      --max-w-narrow: 760px;
+      --radius: 12px;
+      --radius-sm: 6px;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.08);
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 72px;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--charcoal);
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: var(--blue-600); text-decoration: none; }
+    a:hover { color: var(--blue-700); }
+    a:focus-visible { outline: 2px solid var(--blue-400); outline-offset: 2px; border-radius: 2px; }
+
+    h1, h2, h3, h4 {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--charcoal);
+    }
+
+    h1 { font-size: clamp(32px, 5vw, 48px); letter-spacing: -0.5px; }
+    h2 { font-size: clamp(26px, 3.5vw, 36px); letter-spacing: -0.3px; }
+    h3 { font-size: clamp(20px, 2.5vw, 24px); }
+    h4 { font-size: 18px; font-weight: 700; }
+
+    p, li { max-width: 68ch; }
+
+    /* ── Utility ── */
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+    .container-narrow { max-width: var(--max-w-narrow); margin: 0 auto; padding: 0 24px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    /* ── Navigation ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--light-grey);
+    }
+
+    .nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      color: var(--charcoal);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .nav-logo em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--blue-600);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 4px;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--dark-grey);
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { background: var(--blue-50); color: var(--blue-700); }
+
+    .nav-links .nav-cta {
+      background: var(--blue-600);
+      color: var(--white);
+      font-weight: 600;
+      padding: 8px 20px;
+      border-radius: 999px;
+      margin-left: 8px;
+    }
+
+    .nav-links .nav-cta:hover { background: var(--blue-700); }
+
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .nav-hamburger svg { width: 24px; height: 24px; stroke: var(--charcoal); }
+
+    /* ── Mobile nav ── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: block; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        border-bottom: 1px solid var(--light-grey);
+        padding: 16px 24px;
+        gap: 4px;
+        box-shadow: var(--shadow-lg);
+      }
+      .nav-links.open .nav-cta { margin-left: 0; margin-top: 8px; text-align: center; }
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(175deg, var(--blue-50) 0%, var(--warm-white) 60%, var(--white) 100%);
+      padding: 80px 24px 72px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--blue-600);
+      margin-bottom: 20px;
+    }
+
+    .hero h1 { margin-bottom: 20px; }
+
+    .hero-sub {
+      font-size: 18px;
+      color: var(--dark-grey);
+      line-height: 1.7;
+      max-width: 640px;
+      margin: 0 auto 36px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .hero .container { position: relative; z-index: 1; }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 14px 28px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .btn:focus-visible { outline: 2px solid var(--blue-400); outline-offset: 2px; }
+
+    .btn-primary {
+      background: var(--blue-600);
+      color: var(--white);
+    }
+
+    .btn-primary:hover { background: var(--blue-700); color: var(--white); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--blue-600);
+      border: 1.5px solid var(--blue-200);
+    }
+
+    .btn-secondary:hover { background: var(--blue-50); border-color: var(--blue-400); color: var(--blue-700); }
+
+    /* ── Sections ── */
+    .section {
+      padding: 80px 24px;
+    }
+
+    .section-alt { background: var(--warm-white); }
+    .section-blue { background: var(--blue-50); }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-header h2 { margin-bottom: 14px; }
+
+    .section-header p {
+      color: var(--dark-grey);
+      font-size: 17px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--blue-500);
+      margin-bottom: 10px;
+    }
+
+    /* ── Steps grid ── */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .step-card {
+      background: var(--white);
+      border: 1px solid var(--light-grey);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+      position: relative;
+      transition: box-shadow 0.3s, transform 0.2s;
+    }
+
+    .step-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: var(--blue-50);
+      color: var(--blue-600);
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 18px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+    }
+
+    .step-card h3 { margin-bottom: 12px; font-size: 20px; }
+    .step-card p { color: var(--dark-grey); font-size: 15px; }
+
+    /* ── Timeline ── */
+    .timeline {
+      max-width: var(--max-w-narrow);
+      margin: 0 auto;
+      position: relative;
+      padding-left: 48px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--blue-400), var(--sage-400));
+      border-radius: 1px;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 40px;
+    }
+
+    .timeline-item:last-child { padding-bottom: 0; }
+
+    .timeline-dot {
+      position: absolute;
+      left: -40px;
+      top: 4px;
+      width: 14px;
+      height: 14px;
+      background: var(--blue-500);
+      border: 3px solid var(--white);
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px var(--blue-200);
+    }
+
+    .timeline-item:last-child .timeline-dot { background: var(--sage-400); box-shadow: 0 0 0 2px var(--sage-100); }
+
+    .timeline-week {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--blue-500);
+      margin-bottom: 6px;
+    }
+
+    .timeline-item h3 { margin-bottom: 8px; }
+    .timeline-item p { color: var(--dark-grey); font-size: 15px; }
+
+    /* ── Cards grid ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .info-card {
+      background: var(--white);
+      border: 1px solid var(--light-grey);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+    }
+
+    .info-card h3 { margin-bottom: 10px; }
+    .info-card p { color: var(--dark-grey); font-size: 15px; }
+
+    .info-card-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--blue-50);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      font-size: 22px;
+    }
+
+    /* ── Pricing ── */
+    .pricing-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 740px;
+      margin: 0 auto;
+    }
+
+    .price-card {
+      background: var(--white);
+      border: 1.5px solid var(--light-grey);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+      text-align: center;
+      transition: box-shadow 0.3s, border-color 0.3s;
+    }
+
+    .price-card:hover { border-color: var(--blue-200); box-shadow: var(--shadow-md); }
+
+    .price-card h3 { margin-bottom: 8px; font-size: 20px; }
+    .price-card .price-desc { color: var(--dark-grey); font-size: 14px; margin-bottom: 20px; }
+
+    .price-amount {
+      font-family: var(--font-serif);
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--blue-700);
+      margin-bottom: 4px;
+    }
+
+    .price-per { font-size: 14px; color: var(--mid-grey); margin-bottom: 20px; }
+
+    .price-features {
+      list-style: none;
+      text-align: left;
+      font-size: 14px;
+      color: var(--dark-grey);
+    }
+
+    .price-features li {
+      padding: 6px 0;
+      border-bottom: 1px solid var(--ivory);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .price-features li::before {
+      content: '';
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      background: var(--sage-50);
+      border-radius: 50%;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%234D7A65' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      margin-top: 3px;
+    }
+
+    .price-total {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .price-total-box {
+      display: inline-block;
+      background: var(--blue-50);
+      border: 1px solid var(--blue-100);
+      border-radius: var(--radius);
+      padding: 20px 40px;
+    }
+
+    .price-total-label { font-size: 14px; color: var(--dark-grey); margin-bottom: 4px; }
+
+    .price-total-amount {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--blue-700);
+    }
+
+    .price-note {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--mid-grey);
+      font-style: italic;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── Suitability ── */
+    .suit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 28px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .suit-card {
+      border-radius: var(--radius);
+      padding: 32px 28px;
+    }
+
+    .suit-card.suit-yes {
+      background: var(--sage-50);
+      border: 1px solid var(--sage-100);
+    }
+
+    .suit-card.suit-no {
+      background: var(--red-50);
+      border: 1px solid #F5D5D5;
+    }
+
+    .suit-card.suit-maybe {
+      background: var(--amber-50);
+      border: 1px solid #F0E0B0;
+    }
+
+    .suit-card h3 { margin-bottom: 14px; font-size: 18px; }
+
+    .suit-list {
+      list-style: none;
+      font-size: 15px;
+      color: var(--dark-grey);
+    }
+
+    .suit-list li {
+      padding: 5px 0;
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .suit-list li::before {
+      position: absolute;
+      left: 0;
+      top: 5px;
+      font-size: 14px;
+    }
+
+    .suit-yes .suit-list li::before { content: '\2713'; color: var(--sage-600); }
+    .suit-no .suit-list li::before { content: '\2717'; color: var(--red-400); }
+    .suit-maybe .suit-list li::before { content: '\25CB'; color: var(--amber-400); }
+
+    /* ── Programme cards ── */
+    .prog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .prog-card {
+      background: var(--white);
+      border: 1px solid var(--light-grey);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      border-top: 3px solid var(--blue-400);
+    }
+
+    .prog-card h3 { font-size: 17px; margin-bottom: 8px; }
+    .prog-card p { font-size: 14px; color: var(--dark-grey); line-height: 1.6; }
+
+    /* ── FAQ ── */
+    .faq-list {
+      max-width: var(--max-w-narrow);
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--light-grey);
+    }
+
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 20px 40px 20px 0;
+      font-family: var(--font-sans);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--charcoal);
+      cursor: pointer;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .faq-q:focus-visible { outline: 2px solid var(--blue-400); outline-offset: -2px; border-radius: 4px; }
+
+    .faq-q::after {
+      content: '+';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--mid-grey);
+      transition: transform 0.2s;
+    }
+
+    .faq-item.open .faq-q::after { content: '\2212'; }
+
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+      padding: 0;
+    }
+
+    .faq-item.open .faq-a {
+      max-height: 400px;
+      padding: 0 0 20px 0;
+    }
+
+    .faq-a p { color: var(--dark-grey); font-size: 15px; }
+
+    /* ── Callout box ── */
+    .callout {
+      background: var(--blue-50);
+      border-left: 4px solid var(--blue-400);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 24px 28px;
+      margin: 32px 0;
+    }
+
+    .callout h4 { font-size: 16px; margin-bottom: 8px; }
+    .callout p { font-size: 15px; color: var(--dark-grey); }
+
+    .callout-urgent {
+      background: var(--red-50);
+      border-left-color: var(--red-400);
+    }
+
+    /* ── Clinician / Governance ── */
+    .governance-list {
+      list-style: none;
+      max-width: var(--max-w-narrow);
+      margin: 0 auto;
+    }
+
+    .governance-list li {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--light-grey);
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      font-size: 15px;
+      color: var(--dark-grey);
+    }
+
+    .governance-list li::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      min-width: 8px;
+      background: var(--blue-400);
+      border-radius: 50%;
+      margin-top: 8px;
+    }
+
+    /* ── Safety banner ── */
+    .safety-banner {
+      background: var(--red-50);
+      border: 1px solid #F0D0D0;
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      max-width: var(--max-w-narrow);
+      margin: 40px auto 0;
+      text-align: center;
+    }
+
+    .safety-banner p {
+      font-size: 15px;
+      color: var(--red-600);
+      margin: 0 auto;
+    }
+
+    .safety-banner strong { font-weight: 700; }
+
+    /* ── Footer ── */
+    .site-footer {
+      background: var(--charcoal);
+      color: rgba(255,255,255,0.7);
+      padding: 56px 24px 32px;
+      font-size: 14px;
+    }
+
+    .footer-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .footer-brand {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .footer-brand em { font-style: italic; color: var(--blue-200); }
+
+    .site-footer h5 {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 14px;
+    }
+
+    .site-footer a { color: rgba(255,255,255,0.7); }
+    .site-footer a:hover { color: var(--white); }
+
+    .footer-links { list-style: none; }
+    .footer-links li { padding: 4px 0; }
+
+    .footer-bottom {
+      max-width: var(--max-w);
+      margin: 40px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* ── Page sections (SPA) ── */
+    .page-section { display: none; }
+    .page-section.active { display: block; }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up {
+      animation: fadeUp 0.6s ease forwards;
+      opacity: 0;
+    }
+
+    .fade-up-d1 { animation-delay: 0.1s; }
+    .fade-up-d2 { animation-delay: 0.2s; }
+    .fade-up-d3 { animation-delay: 0.3s; }
+    .fade-up-d4 { animation-delay: 0.4s; }
+
+    /* ── Mobile sticky CTA ── */
+    .sticky-cta-mobile {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--white);
+      border-top: 1px solid var(--light-grey);
+      padding: 10px 20px;
+      z-index: 900;
+      text-align: center;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+    }
+    .sticky-cta-mobile a {
+      display: inline-block;
+      padding: 12px 32px;
+      background: var(--blue-600);
+      color: var(--white);
+      border-radius: 8px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .sticky-cta-mobile { display: block; }
+      main { padding-bottom: 60px; }
+      .hero { padding: 56px 20px 48px; }
+      .section { padding: 56px 20px; }
+      .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+      .suit-grid { grid-template-columns: 1fr; }
+      .pricing-row { grid-template-columns: 1fr; }
+      .timeline { padding-left: 40px; }
+      .timeline::before { left: 11px; }
+      .timeline-dot { left: -35px; }
+      .prog-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .prog-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fade-up { animation: none !important; opacity: 1 !important; transform: none !important; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* ── ECG Animation ── */
+    .ecg-bg {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      opacity: 0.07;
+      z-index: 0;
+    }
+    .ecg-line {
+      fill: none;
+      stroke: var(--blue-500);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 2400;
+      stroke-dashoffset: 2400;
+      animation: ecg-draw 4s linear infinite;
+    }
+    .ecg-line-2 { animation-delay: -2s; opacity: 0.5; }
+    .ecg-line-3 { animation-delay: -3s; opacity: 0.3; stroke: var(--blue-400); }
+    @keyframes ecg-draw {
+      0% { stroke-dashoffset: 2400; }
+      100% { stroke-dashoffset: 0; }
+    }
+
+    /* ── NHS Compare grid ── */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      max-width: 700px;
+      margin: 32px auto 0;
+    }
+    .compare-card {
+      background: var(--warm-white);
+      border-radius: 12px;
+      padding: 28px 24px;
+      text-align: center;
+      border: 2px solid transparent;
+    }
+    .compare-card.highlight {
+      border-color: var(--blue-500);
+      background: var(--blue-50);
+    }
+    .compare-card .compare-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--mid-grey);
+      margin-bottom: 12px;
+    }
+    .compare-card .compare-val {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      color: var(--charcoal);
+      margin-bottom: 8px;
+    }
+    .compare-card.highlight .compare-val { color: var(--blue-600); }
+    .compare-card .compare-desc {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--mid-grey);
+      line-height: 1.5;
+    }
+    @media (max-width: 600px) {
+      .compare-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Reduced motion (full override) ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* ── Print ── */
+    @media print {
+      .nav, .nav-hamburger, .hero-ctas, .btn, .site-footer, .sticky-cta-mobile { display: none; }
+      .page-section { display: block !important; }
+      .section { padding: 24px 0; }
+    }
+
+    /* ── Evidence cards ── */
+    .evidence-card {
+      background: var(--white);
+      border: 1px solid var(--light-grey);
+      border-radius: var(--radius);
+      padding: 40px 32px;
+      margin-bottom: 32px;
+    }
+    .evidence-card h3 { margin-bottom: 12px; }
+    .evidence-card p { color: var(--dark-grey); font-size: 15px; line-height: 1.7; }
+    .evidence-card blockquote {
+      border-left: 4px solid var(--blue-400);
+      padding-left: 20px;
+      margin: 20px 0;
+      font-style: italic;
+      color: var(--dark-grey);
+    }
+    .evidence-stat {
+      background: var(--blue-50);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      text-align: center;
+      margin: 20px 0;
+    }
+    .evidence-stat .stat-number {
+      font-family: var(--font-serif);
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--blue-700);
+    }
+    .evidence-stat .stat-label {
+      font-size: 14px;
+      color: var(--dark-grey);
+      margin-top: 4px;
+    }
+
+    /* ── Device cards ── */
+    .device-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 28px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+    .device-card {
+      background: var(--white);
+      border: 1px solid var(--light-grey);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+    }
+    .device-card h3 { margin-bottom: 8px; }
+    .device-card p { color: var(--dark-grey); font-size: 15px; line-height: 1.7; }
+    .device-card img {
+      width: 100%;
+      max-width: 100%;
+      border-radius: var(--radius-sm);
+      margin: 20px 0;
+      box-shadow: var(--shadow-sm);
+    }
+    .device-card .setup-steps {
+      list-style: none;
+      margin-top: 16px;
+    }
+    .device-card .setup-steps li {
+      padding: 6px 0;
+      padding-left: 28px;
+      position: relative;
+      font-size: 14px;
+      color: var(--dark-grey);
+    }
+    .device-card .setup-steps li::before {
+      content: attr(data-step);
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: 20px;
+      height: 20px;
+      background: var(--blue-50);
+      color: var(--blue-600);
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── Protocol steps ── */
+    .protocol-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+    .protocol-step {
+      background: var(--white);
+      border: 1px solid var(--light-grey);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .protocol-step .step-num {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      background: var(--blue-50);
+      color: var(--blue-600);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 16px;
+    }
+    .protocol-step h4 { font-size: 16px; margin-bottom: 4px; }
+    .protocol-step p { font-size: 14px; color: var(--dark-grey); line-height: 1.5; }
+
+    /* ── Daily practice two-column ── */
+    .daily-practice {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      max-width: var(--max-w-narrow);
+      margin: 32px auto 0;
+    }
+    .daily-col {
+      background: var(--white);
+      border: 1px solid var(--light-grey);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+    }
+    .daily-col h4 { margin-bottom: 12px; font-size: 16px; }
+    .daily-col ol {
+      list-style: decimal;
+      padding-left: 20px;
+      font-size: 14px;
+      color: var(--dark-grey);
+    }
+    .daily-col ol li { padding: 4px 0; line-height: 1.6; }
+    @media (max-width: 600px) {
+      .daily-practice { grid-template-columns: 1fr; }
+      .device-cards { grid-template-columns: 1fr; }
+    }
+
+    /* ── Booklet images ── */
+    .booklet-img {
+      display: block;
+      max-width: 100%;
+      margin: 28px auto;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+    }
+    .booklet-img-wide { max-width: 850px; }
+    .booklet-img-medium { max-width: 750px; }
+  </style>
 </head>
 <body>
+<a href="#main-content" class="sr-only" style="position:absolute;top:-100px;left:0;background:var(--blue-600);color:white;padding:8px 16px;z-index:1000;font-size:14px;transition:top 0.2s;" onfocus="this.style.top='0'" onblur="this.style.top='-100px'">Skip to main content</a>
+<div id="page-announce" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
-<!-- Skip to main content (first focusable element in body) -->
-<a href="#main" class="skip-link">Skip to main content</a>
-
-<!-- Safety Strip — visible immediately, above navigation -->
-<div class="safety-top" role="alert" aria-live="polite">
-  <p>
-    <strong>Do not book this clinic if you have:</strong>
-    current chest pain or acute symptoms (call <strong>999</strong> immediately),
-    are under 18,
-    have known congenital heart disease,
-    known heart failure,
-    an implanted cardiac device (pacemaker or ICD),
-    cardiac symptoms during pregnancy,
-    or unexplained syncope (fainting) &mdash; please attend A&amp;E or contact your GP urgently.
-    For emergencies always dial <strong>999</strong>.
-  </p>
-</div>
-
-<!-- Navigation -->
+<!-- ════════════════════════════════════════════════════════════════
+     NAVIGATION
+     ════════════════════════════════════════════════════════════════ -->
 <nav class="nav" aria-label="Main navigation">
-  <a href="#main" class="logo" aria-label="London Cardiology Clinic home">
-    London <em>Cardiology</em> Clinic
-  </a>
-
-  <!-- Mobile hamburger — aria-expanded managed by main.js -->
-  <button
-    class="nav-toggle"
-    aria-label="Open navigation menu"
-    aria-expanded="false"
-    aria-controls="nav-links"
-    type="button"
-  >
-    <span class="bar" aria-hidden="true"></span>
-    <span class="bar" aria-hidden="true"></span>
-    <span class="bar" aria-hidden="true"></span>
-  </button>
-
-  <div class="links" id="nav-links">
-    <a href="#about">About</a>
-    <a href="#conditions">Conditions</a>
-    <a href="#expect">What to Expect</a>
-    <a href="#booking">Fees</a>
-    <a href="#contact">Contact</a>
-    <a href="#booking" class="book-btn" aria-label="Book an appointment">Book Appointment</a>
+  <div class="nav-inner">
+    <a href="#home" class="nav-logo" aria-label="OpenPalp home">OpenPalp <em>by London Cardiology Clinic</em></a>
+    <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav-links">
+      <li><a href="#home" data-page="home">Home</a></li>
+      <li><a href="#programme" data-page="programme">The Programme</a></li>
+      <li><a href="#devices" data-page="devices">Your Devices</a></li>
+      <li><a href="#suitability" data-page="suitability">Is This Right for You?</a></li>
+      <li><a href="#evidence" data-page="evidence">The Evidence</a></li>
+      <li><a href="#faq" data-page="faq">FAQ</a></li>
+      <li><a href="#clinicians" data-page="clinicians">For Clinicians</a></li>
+      <li><a href="#home" class="nav-cta" data-page="home">Book</a></li>
+    </ul>
   </div>
 </nav>
 
-<!-- Main Content -->
-<main id="main">
+<main id="main-content">
 
-  <!-- ── Hero ── -->
-  <section class="hero" aria-labelledby="hero-heading">
-    <div class="hero-left">
-      <p class="eyebrow" aria-hidden="true">London Cardiology Clinic</p>
-      <h1 id="hero-heading">Cardiology care, <em>close to home</em></h1>
-      <p class="description">
-        Private cardiology consultations in Wimbledon. Experienced assessment for palpitations,
-        blood pressure, breathlessness, and heart rhythm concerns. We recommend discussing
-        your symptoms with your GP before booking.
-      </p>
-      <div class="hero-buttons">
-        <a href="#booking" class="btn-primary">Book Appointment</a>
-        <a href="#conditions" class="btn-secondary">View Conditions</a>
-      </div>
-    </div>
+<!-- ════════════════════════════════════════════════════════════════
+     HOME PAGE
+     ════════════════════════════════════════════════════════════════ -->
+<div id="home" class="page-section active">
 
-    <div class="hero-right">
-      <div id="spider-container" class="spider-container">
-        <!-- Three.js renders here when JS is enabled -->
-        <!-- SVG fallback shown when JS is disabled -->
-        <noscript>
-          <svg
-            viewBox="0 0 400 380"
-            width="380"
-            height="380"
-            role="img"
-            aria-label="Diagram showing five conditions we assess: Palpitations, Blood Pressure, ECG Interpretation, Breathlessness, and Heart Murmurs"
-          >
-            <!-- Heart-shaped grid lines (3 levels) -->
-            <path d="M200,340 C140,280 40,230 40,140 C40,60 90,20 140,20 C170,20 190,40 200,60 C210,40 230,20 260,20 C310,20 360,60 360,140 C360,230 260,280 200,340Z" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" aria-hidden="true"/>
-            <path d="M200,290 C155,245 80,210 80,145 C80,85 110,55 145,55 C165,55 180,68 200,82 C220,68 235,55 255,55 C290,55 320,85 320,145 C320,210 245,245 200,290Z" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" aria-hidden="true"/>
-            <path d="M200,240 C170,215 120,190 120,152 C120,112 138,92 158,92 C172,92 185,100 200,112 C215,100 228,92 242,92 C262,92 280,112 280,152 C280,190 230,215 200,240Z" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" aria-hidden="true"/>
-            <!-- Filled spider area -->
-            <path d="M200,330 C148,275 55,225 55,142 C55,65 98,28 145,28 C172,28 188,45 200,65 C212,45 228,28 255,28 C302,28 345,65 345,142 C345,225 252,275 200,330Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" aria-hidden="true"/>
-            <!-- Axis lines -->
-            <line x1="200" y1="180" x2="200" y2="28" stroke="rgba(255,255,255,0.12)" stroke-width="1" aria-hidden="true"/>
-            <line x1="200" y1="180" x2="55" y2="142" stroke="rgba(255,255,255,0.12)" stroke-width="1" aria-hidden="true"/>
-            <line x1="200" y1="180" x2="345" y2="142" stroke="rgba(255,255,255,0.12)" stroke-width="1" aria-hidden="true"/>
-            <line x1="200" y1="180" x2="130" y2="310" stroke="rgba(255,255,255,0.12)" stroke-width="1" aria-hidden="true"/>
-            <line x1="200" y1="180" x2="270" y2="310" stroke="rgba(255,255,255,0.12)" stroke-width="1" aria-hidden="true"/>
-            <!-- Condition dots -->
-            <circle cx="200" cy="28" r="6" fill="rgba(255,255,255,0.9)" aria-hidden="true"/>
-            <circle cx="55" cy="142" r="6" fill="rgba(255,255,255,0.9)" aria-hidden="true"/>
-            <circle cx="345" cy="142" r="6" fill="rgba(255,255,255,0.9)" aria-hidden="true"/>
-            <circle cx="130" cy="310" r="6" fill="rgba(255,255,255,0.9)" aria-hidden="true"/>
-            <circle cx="270" cy="310" r="6" fill="rgba(255,255,255,0.9)" aria-hidden="true"/>
-            <!-- Condition labels -->
-            <text x="200" y="14" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-size="12" font-weight="600" aria-hidden="true">Palpitations</text>
-            <text x="20" y="142" text-anchor="start" fill="#fff" font-family="Inter,sans-serif" font-size="12" font-weight="600" aria-hidden="true">Blood</text>
-            <text x="20" y="156" text-anchor="start" fill="rgba(255,255,255,0.8)" font-family="Inter,sans-serif" font-size="10" aria-hidden="true">Pressure</text>
-            <text x="380" y="142" text-anchor="end" fill="#fff" font-family="Inter,sans-serif" font-size="12" font-weight="600" aria-hidden="true">ECG</text>
-            <text x="380" y="156" text-anchor="end" fill="rgba(255,255,255,0.8)" font-family="Inter,sans-serif" font-size="10" aria-hidden="true">Interpretation</text>
-            <text x="105" y="328" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-size="12" font-weight="600" aria-hidden="true">Breathlessness</text>
-            <text x="295" y="328" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-size="12" font-weight="600" aria-hidden="true">Heart Murmurs</text>
-            <!-- Centre label -->
-            <text x="200" y="176" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-family="Libre Baskerville,serif" font-size="11" font-style="italic" aria-hidden="true">What we</text>
-            <text x="200" y="192" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-family="Libre Baskerville,serif" font-size="11" font-style="italic" aria-hidden="true">assess</text>
-          </svg>
-        </noscript>
+  <!-- ── 1. Hero ── -->
+  <section class="hero">
+    <svg class="ecg-bg" viewBox="0 0 1200 400" preserveAspectRatio="none" aria-hidden="true">
+      <path class="ecg-line" d="M-100,200 L100,200 L120,200 L140,190 L150,200 L160,200 L180,200 L190,160 L195,280 L200,120 L205,240 L210,180 L220,200 L300,200 L320,200 L340,190 L350,200 L360,200 L380,200 L390,160 L395,280 L400,120 L405,240 L410,180 L420,200 L500,200 L520,200 L540,190 L550,200 L560,200 L580,200 L590,160 L595,280 L600,120 L605,240 L610,180 L620,200 L700,200 L720,200 L740,190 L750,200 L760,200 L780,200 L790,160 L795,280 L800,120 L805,240 L810,180 L820,200 L900,200 L920,200 L940,190 L950,200 L960,200 L980,200 L990,160 L995,280 L1000,120 L1005,240 L1010,180 L1020,200 L1100,200 L1120,200 L1140,190 L1150,200 L1160,200 L1180,200 L1190,160 L1195,280 L1200,120 L1205,240 L1210,180 L1220,200 L1300,200"/>
+      <path class="ecg-line ecg-line-2" d="M-100,260 L100,260 L120,260 L140,250 L150,260 L160,260 L180,260 L190,220 L195,340 L200,180 L205,300 L210,240 L220,260 L300,260 L320,260 L340,250 L350,260 L360,260 L380,260 L390,220 L395,340 L400,180 L405,300 L410,240 L420,260 L500,260 L520,260 L540,250 L550,260 L560,260 L580,260 L590,220 L595,340 L600,180 L605,300 L610,240 L620,260 L700,260 L720,260 L740,250 L750,260 L760,260 L780,260 L790,220 L795,340 L800,180 L805,300 L810,240 L820,260 L900,260 L920,260 L940,250 L950,260 L960,260 L980,260 L990,220 L995,340 L1000,180 L1005,300 L1010,240 L1020,260 L1100,260 L1200,260 L1300,260"/>
+      <path class="ecg-line ecg-line-3" d="M-100,140 L100,140 L120,140 L140,130 L150,140 L160,140 L180,140 L190,100 L195,220 L200,60 L205,180 L210,120 L220,140 L300,140 L320,140 L340,130 L350,140 L360,140 L380,140 L390,100 L395,220 L400,60 L405,180 L410,120 L420,140 L500,140 L520,140 L540,130 L550,140 L560,140 L580,140 L590,100 L595,220 L600,60 L605,180 L610,120 L620,140 L700,140 L720,140 L740,130 L750,140 L760,140 L780,140 L790,100 L795,220 L800,60 L805,180 L810,120 L820,140 L900,140 L1000,140 L1100,140 L1200,140 L1300,140"/>
+    </svg>
+    <div class="container">
+      <p class="hero-eyebrow fade-up">OpenPalp &mdash; Your Personal Heart Rhythm Programme</p>
+      <p class="fade-up" style="font-family:var(--font-serif);font-size:20px;font-style:italic;color:var(--dark-grey);margin-bottom:16px;"><em>Experiencing skipped beats, fluttering, or a racing heart?</em></p>
+      <h1 class="fade-up fade-up-d1">30 days of monitoring. 6 weeks of understanding.</h1>
+      <p class="hero-sub fade-up fade-up-d2">A structured programme combining clinic assessment, ECG monitoring with two devices, and a guided lifestyle programme. Friday evenings in Wimbledon &mdash; no time off work.</p>
+      <div class="hero-ctas fade-up fade-up-d3">
+        <a href="#pricing-section" class="btn btn-primary">Book Your &pound;49.99 Heart Check</a>
+        <a href="#suitability" class="btn btn-secondary" data-page="suitability">See if this is right for you</a>
       </div>
     </div>
   </section>
 
-  <!-- ── Services Strip ── -->
-  <section class="services-strip" id="conditions" aria-label="Conditions we assess">
-    <a href="#about" aria-label="Palpitations — assessment and ECG">
-      <div class="svc-icon" aria-hidden="true">
-        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" focusable="false">
-          <path d="M13 22 C13 22 3 16 3 9 C3 5.7 5.3 4 8 4 C10 4 11.8 5.4 13 7 C14.2 5.4 16 4 18 4 C20.7 4 23 5.7 23 9 C23 16 13 22 13 22Z" stroke="#4d7a65" stroke-width="1.8" fill="none"/>
-          <polyline points="3,12 6,12 8,8 10,16 12,10 14,14 16,12 21,12" stroke="#4d7a65" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <h3>Palpitations</h3>
-      <p>Assessment &amp; ECG</p>
-    </a>
-    <a href="#about" aria-label="ECG Review — interpretation and advice">
-      <div class="svc-icon" aria-hidden="true">
-        <svg width="32" height="16" viewBox="0 0 32 16" fill="none" focusable="false">
-          <polyline points="0,8 5,8 7,2 9,14 11,5 13,11 15,8 20,8 22,2 24,14 26,8 32,8" stroke="#4d7a65" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <h3>ECG Review</h3>
-      <p>Interpretation &amp; advice</p>
-    </a>
-    <a href="#about" aria-label="Blood Pressure — hypertension assessment">
-      <div class="svc-icon" aria-hidden="true">
-        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" focusable="false">
-          <rect x="5" y="9" width="16" height="11" rx="5.5" stroke="#4d7a65" stroke-width="1.8" fill="none"/>
-          <line x1="13" y1="9" x2="13" y2="5" stroke="#4d7a65" stroke-width="1.8" stroke-linecap="round"/>
-          <line x1="13" y1="5" x2="18" y2="5" stroke="#4d7a65" stroke-width="1.8" stroke-linecap="round"/>
-          <line x1="9" y1="14.5" x2="17" y2="14.5" stroke="#4d7a65" stroke-width="1.4" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <h3>Blood Pressure</h3>
-      <p>Hypertension assessment</p>
-    </a>
-    <a href="#about" aria-label="Breathlessness — cardiac assessment">
-      <div class="svc-icon" aria-hidden="true">
-        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" focusable="false">
-          <path d="M13 21 C9 21 5 18 5 13.5 C5 11 7 9 9 9 C10 9 11 9.5 12 10.5 L13 12 L14 10.5 C15 9.5 16 9 17 9 C19 9 21 11 21 13.5 C21 18 17 21 13 21Z" stroke="#4d7a65" stroke-width="1.8" fill="none"/>
-          <line x1="13" y1="12" x2="13" y2="6" stroke="#4d7a65" stroke-width="1.6" stroke-linecap="round"/>
-          <line x1="10" y1="8" x2="13" y2="6" stroke="#4d7a65" stroke-width="1.4" stroke-linecap="round"/>
-          <line x1="16" y1="8" x2="13" y2="6" stroke="#4d7a65" stroke-width="1.4" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <h3>Breathlessness</h3>
-      <p>Cardiac assessment</p>
-    </a>
-    <a href="#about" aria-label="Heart Murmurs — auscultation and advice">
-      <div class="svc-icon" aria-hidden="true">
-        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" focusable="false">
-          <circle cx="13" cy="13" r="8" stroke="#4d7a65" stroke-width="1.8" fill="none"/>
-          <circle cx="13" cy="13" r="3.5" stroke="#4d7a65" stroke-width="1.4" fill="none"/>
-          <line x1="19" y1="19" x2="22" y2="22" stroke="#4d7a65" stroke-width="1.8" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <h3>Heart Murmurs</h3>
-      <p>Auscultation &amp; advice</p>
-    </a>
-  </section>
-
-  <!-- ── About / Clinician ── -->
-  <section class="welcome" id="about" aria-labelledby="about-heading">
-    <div class="welcome-text">
-      <h2 id="about-heading">A warm welcome to <em>our cardiac clinic</em></h2>
-      <p>
-        Our clinic offers cardiology assessment in a calm, unhurried setting. With experience
-        working on the cardiology consultant rota at the Royal Free Hospital and Barnet Hospital,
-        we bring extensive experience in managing common cardiac conditions in private practice.
-      </p>
-      <p>
-        We focus on low-risk cardiac conditions where timely cardiology input can make a real
-        difference to your care.
-      </p>
-      <ul class="credentials" role="list" aria-label="Clinician credentials">
-        <li class="credential">GMC Registered</li>
-        <li class="credential">MRCP (UK)</li>
-        <li class="credential">Fully Insured</li>
+  <!-- ── 2. You are not alone ── -->
+  <section class="section section-alt">
+    <div class="container-narrow">
+      <p class="section-eyebrow" style="text-align:center;">You are not alone</p>
+      <h2 style="text-align:center;margin-bottom:28px;">Many palpitations are distressing but not dangerous</h2>
+      <p style="margin-bottom:18px;">Palpitations are one of the most common reasons people visit a cardiologist. The sensation of your heart skipping a beat, fluttering in your chest, or suddenly racing can be alarming &mdash; but in the majority of people with no underlying heart disease, palpitations are a benign nuisance rather than a warning sign.</p>
+      <p style="margin-bottom:18px;">Most people find that their palpitations come and go unpredictably. This uncertainty is itself distressing. The OpenPalp programme is designed to give you answers: a clear record of what your heart is doing, an understanding of your personal triggers, and a structured plan to reduce the frequency and impact of symptoms.</p>
+      <p style="margin-bottom:28px;">Common triggers include:</p>
+      <ul style="list-style:none;padding:0;margin:0 0 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;">
+        <li style="background:var(--blue-50);border-radius:var(--radius-sm);padding:10px 16px;font-size:15px;color:var(--dark-grey);">Caffeine</li>
+        <li style="background:var(--blue-50);border-radius:var(--radius-sm);padding:10px 16px;font-size:15px;color:var(--dark-grey);">Poor sleep</li>
+        <li style="background:var(--blue-50);border-radius:var(--radius-sm);padding:10px 16px;font-size:15px;color:var(--dark-grey);">Stress and anxiety</li>
+        <li style="background:var(--blue-50);border-radius:var(--radius-sm);padding:10px 16px;font-size:15px;color:var(--dark-grey);">Alcohol</li>
+        <li style="background:var(--blue-50);border-radius:var(--radius-sm);padding:10px 16px;font-size:15px;color:var(--dark-grey);">Dehydration</li>
+        <li style="background:var(--blue-50);border-radius:var(--radius-sm);padding:10px 16px;font-size:15px;color:var(--dark-grey);">Hormonal changes</li>
       </ul>
-      <p class="disclosure">
-        Dr Mahmood is a Specialist in Cardiology working on the consultant rota at the Royal Free
-        Hospital and Barnet Hospital. He holds MRCP(UK) and is GMC-registered (GMC no. 6071047).
-        He does not hold a Certificate of Completion of Training (CCT) and is not a consultant
-        cardiologist. This clinic is not affiliated with or endorsed by the Royal Free London NHS
-        Foundation Trust or Barnet Hospital.
-      </p>
-    </div>
-    <div class="welcome-visual" aria-hidden="true">
-      <svg class="ecg-deco" viewBox="0 0 800 80" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-        <path class="ecg-deco-path" d="M0,40 L150,40 L170,40 L180,20 L190,40 L210,40 L220,5 L225,75 L230,35 L240,40 L400,40 L420,40 L430,20 L440,40 L460,40 L470,5 L475,75 L480,35 L490,40 L650,40 L670,40 L680,20 L690,40 L710,40 L720,5 L725,75 L730,35 L740,40 L800,40"/>
-      </svg>
+      <p style="font-style:italic;color:var(--dark-grey);text-align:center;font-family:var(--font-serif);">You will find your personal triggers through this programme.</p>
     </div>
   </section>
 
-  <!-- ── Facilities ── -->
-  <section class="facilities" id="facilities" aria-labelledby="facilities-heading">
-    <h2 id="facilities-heading">Our facilities</h2>
-    <div class="cols">
-      <div class="col">
-        <h3>What we offer</h3>
-        <p>
-          12-lead ECG and full clinical assessment. We provide a thorough cardiology consultation,
-          interpret your ECG, review your symptoms and history, and give you a clear management
-          plan. A written report is sent to your GP with your consent.
-        </p>
+  <!-- ── 3. Attention loop ── -->
+  <section class="section">
+    <div class="container-narrow">
+      <p class="section-eyebrow" style="text-align:center;">The attention loop</p>
+      <h2 style="text-align:center;margin-bottom:20px;">Why palpitations feel worse the more you notice them</h2>
+      <img src="/img/openpalp-6.png" alt="Diagram showing the attention loop: heartbeat noticed leads to attention focusing on heart, which finds more beats. The OpenPalp programme breaks this loop." class="booklet-img booklet-img-medium">
+      <p style="text-align:center;font-size:14px;color:var(--mid-grey);font-style:italic;margin-top:0;">The more you monitor your heartbeat, the more you find it &mdash; until you learn not to look.</p>
+    </div>
+  </section>
+
+  <!-- ── 4. 6-week journey ── -->
+  <section class="section section-alt">
+    <div class="container-narrow">
+      <p class="section-eyebrow" style="text-align:center;">Your journey</p>
+      <h2 style="text-align:center;margin-bottom:16px;">30 days of monitoring. 6 weeks of change.</h2>
+      <p style="text-align:center;color:var(--dark-grey);margin-bottom:28px;">Two things happen at once: your monitoring runs for 30 days, your lifestyle programme runs for 6 weeks.</p>
+      <img src="/img/openpalp-7.png" alt="6-week journey timeline: Week 1 Listen, Week 2 Breathe, Week 3 Discover, Week 4 Change, Week 5 Move, Week 6 Understand." class="booklet-img booklet-img-wide">
+    </div>
+  </section>
+
+  <!-- ── 5. NHS comparison ── -->
+  <section class="section">
+    <div class="container-narrow">
+      <p class="section-eyebrow" style="text-align:center;">Why not wait?</p>
+      <h2 style="text-align:center;margin-bottom:12px;">NHS cardiology wait vs this pathway</h2>
+      <div class="compare-grid">
+        <div class="compare-card">
+          <p class="compare-label">NHS Cardiology Referral</p>
+          <p class="compare-val">12&ndash;18 weeks</p>
+          <p class="compare-desc">Typical wait for a routine NHS cardiology outpatient appointment</p>
+        </div>
+        <div class="compare-card highlight">
+          <p class="compare-label">This Pathway</p>
+          <p class="compare-val">This Friday</p>
+          <p class="compare-desc">Clinic assessment available Friday evenings in Wimbledon SW19</p>
+        </div>
       </div>
-      <div class="col">
-        <h3>What we do not offer</h3>
-        <p>
-          We do not offer echocardiography, Holter monitoring (24-hour tape), ambulatory blood
-          pressure monitoring, CT cardiac imaging, MRI, or exercise stress testing.
-          If any of these investigations are clinically indicated, we will refer you to the
-          appropriate NHS or private service.
-        </p>
-      </div>
+      <p class="price-note" style="margin-top:28px;">A typical private cardiology initial consultation costs &pound;200&ndash;&pound;350. Our full pathway &mdash; including monitoring and a six-week programme &mdash; costs &pound;99.98 total.</p>
     </div>
   </section>
 
-  <!-- ── What to Expect ── -->
-  <section class="expect" id="expect" aria-labelledby="expect-heading">
-    <h2 id="expect-heading">What to expect</h2>
-    <p class="sub">Your consultation journey in four steps</p>
-    <ol class="timeline" aria-label="Consultation steps">
-      <li class="step">
-        <div class="step-num" aria-hidden="true">1</div>
-        <h3>Prepare</h3>
-        <p>Bring your medications list, medical history, and any previous ECG or GP correspondence.</p>
-      </li>
-      <li class="step">
-        <div class="step-num" aria-hidden="true">2</div>
-        <h3>Book &amp; Pay</h3>
-        <p>Select a Friday evening slot (17:00&ndash;19:30) and pay securely online. &pound;49.99 taken at booking.</p>
-      </li>
-      <li class="step">
-        <div class="step-num" aria-hidden="true">3</div>
-        <h3>Consultation</h3>
-        <p>30-minute cardiology assessment at The Broadway, Wimbledon SW19. ECG performed as clinically appropriate.</p>
-      </li>
-      <li class="step">
-        <div class="step-num" aria-hidden="true">4</div>
-        <h3>Follow Up</h3>
-        <p>With your consent, a written report is sent to your GP. You also receive a copy of all findings and the management plan.</p>
-      </li>
-    </ol>
+  <!-- ── 6. Pricing ── -->
+  <section id="pricing-section" class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Pricing</p>
+        <h2>Transparent and affordable</h2>
+        <p>Two clear costs. No hidden fees.</p>
+      </div>
+      <div class="pricing-row">
+        <div class="price-card">
+          <h3>Clinic Appointment</h3>
+          <p class="price-desc">Face-to-face assessment with a specialist</p>
+          <p class="price-amount">&pound;49.99</p>
+          <p class="price-per">one-off payment</p>
+          <ul class="price-features">
+            <li>Face-to-face assessment</li>
+            <li>Symptom and trigger review</li>
+            <li>Risk factor assessment</li>
+            <li>ECG if clinically indicated</li>
+            <li>Suitability confirmation</li>
+            <li>Clear explanation and next steps</li>
+          </ul>
+        </div>
+        <div class="price-card">
+          <h3>Monitoring &amp; Programme</h3>
+          <p class="price-desc">Devices, booklet, guided programme, and review</p>
+          <p class="price-amount">&pound;49.99</p>
+          <p class="price-per">one-off payment</p>
+          <ul class="price-features">
+            <li>Wellue patch (48-hour continuous recording)</li>
+            <li>KardiaMobile 6L (30 days of event recording)</li>
+            <li>OpenPalp printed booklet</li>
+            <li>6-week guided programme</li>
+            <li>Review of all recordings</li>
+            <li>Results appointment and findings letter</li>
+          </ul>
+        </div>
+      </div>
+      <div class="price-total">
+        <div class="price-total-box">
+          <p class="price-total-label">Full pathway total</p>
+          <p class="price-total-amount">&pound;99.98</p>
+        </div>
+      </div>
+      <p class="price-note">A &pound;200 pre-authorisation hold is taken for the monitoring devices, released on return. Replacement costs if lost or damaged: Wellue patch &pound;90, KardiaMobile 6L &pound;70. The clinic appointment is standalone &mdash; there is no obligation to proceed to the monitoring programme.</p>
+    </div>
   </section>
 
-  <!-- ── Booking ── -->
-  <section class="cta-section" id="booking" aria-labelledby="booking-heading">
-    <h2 id="booking-heading">Ready to <em>get checked?</em></h2>
-    <div class="price" aria-label="Consultation fee: 49 pounds 99">&pound;49.99</div>
-    <p class="price-note">30-minute cardiology consultation &middot; Friday evenings &middot; Wimbledon SW19</p>
-    <p>
-      Appointments available from 3rd April 2026. Clinic hours: Fridays 17:00&ndash;20:00
-      at 40&ndash;44 The Broadway, London SW19 1RQ.
-      Six 30-minute slots per Friday (17:00, 17:30, 18:00, 18:30, 19:00, 19:30).
-    </p>
-    <p>
-      Payment is taken securely at time of booking via Stripe.
-      We recommend discussing your symptoms with your GP before booking.
-    </p>
-
-    <!-- Cal.com inline calendar -->
-    <div id="cal-embed" aria-label="Appointment booking calendar"></div>
-
-    <p class="cancel-note">
-      <strong>Cancellation policy:</strong>
-      Cancellation with more than 48 hours&rsquo; notice: full refund.
-      Less than 48 hours&rsquo; notice or non-attendance: no refund.
-      To cancel or reschedule, use the link in your booking confirmation email.
-    </p>
+  <!-- ── 7. Booking ── -->
+  <section class="section section-blue">
+    <div class="container-narrow" style="text-align:center;">
+      <h2 style="margin-bottom:16px;">Ready to take the first step?</h2>
+      <p style="color:var(--dark-grey);font-size:17px;margin-bottom:12px;">Your &pound;49.99 clinic appointment is standalone &mdash; no commitment to the full programme.</p>
+      <p style="color:var(--mid-grey);font-size:14px;margin-bottom:32px;">40-44 The Broadway, Wimbledon, London SW19 1RQ &middot; Friday evenings 17:00&ndash;20:00</p>
+      <div id="cal-embed" aria-label="Appointment booking calendar" style="min-height:120px;background:var(--white);border-radius:var(--radius);border:1px solid var(--blue-100);padding:32px;display:flex;align-items:center;justify-content:center;">
+        <p style="color:var(--mid-grey);font-size:14px;">Booking calendar loading&hellip;</p>
+      </div>
+      <p style="margin-top:20px;font-size:13px;color:var(--mid-grey);font-style:italic;">Free cancellation up to 24 hours before your appointment. Late cancellations and no-shows may be charged in full.</p>
+    </div>
   </section>
+
+</div><!-- end #home -->
 
 </main>
-
-<!-- Footer -->
-<footer class="footer" id="contact">
-  <div>
-    <h3>London Cardiology Clinic</h3>
-    <address>
-      40&ndash;44 The Broadway<br>
-      London SW19 1RQ
-    </address>
-    <p>Friday evenings, 17:00&ndash;20:00</p>
-    <p>Starting 3rd April 2026</p>
-    <a href="mailto:drmahmoodclinic@pm.me">drmahmoodclinic@pm.me</a>
-  </div>
-  <div>
-    <h3>Conditions</h3>
-    <a href="#conditions">Palpitations</a>
-    <a href="#conditions">ECG Review</a>
-    <a href="#conditions">Blood Pressure</a>
-    <a href="#conditions">Breathlessness</a>
-    <a href="#conditions">Heart Murmurs</a>
-  </div>
-  <div>
-    <h3>Information</h3>
-    <a href="#about">About</a>
-    <a href="#expect">What to Expect</a>
-    <a href="#booking">Fees &amp; Booking</a>
-    <a href="privacy-policy.html">Privacy Policy</a>
-    <a href="terms.html">Terms of Service</a>
-    <a href="terms.html#complaints">Complaints</a>
-  </div>
-  <div>
-    <h3>Contact</h3>
-    <a href="mailto:drmahmoodclinic@pm.me">drmahmoodclinic@pm.me</a>
-    <a href="https://londoncardiologyclinic.uk" target="_blank" rel="noopener noreferrer">londoncardiologyclinic.uk</a>
-    <p>
-      This clinic is for non-emergency cardiac concerns only.
-      For emergencies call <strong>999</strong>.
-      If we identify concerning findings during your consultation, we have protocols to arrange
-      urgent referral or contact emergency services.
-    </p>
-  </div>
-</footer>
-
-<!-- Scripts: Three.js CDN, spider diagram, site behaviour -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.min.js" type="module" defer crossorigin="anonymous"></script>
-<script src="js/spider-diagram.js" type="module" defer></script>
-<script src="js/main.js" defer></script>
-
-<!-- Cal.com embed (inline booking calendar) -->
-<script>
-(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://londoncardiologyclinic.uk/booking/embed/embed.js", "init");
-Cal("init", { origin: "https://londoncardiologyclinic.uk" });
-Cal("inline", {
-  elementOrSelector: "#cal-embed",
-  calLink: "USERNAME/cardiology-consultation",
-  config: {
-    theme: "light",
-    styles: {
-      branding: { brandColor: "#4d7a65" }
-    }
-  }
-});
-</script>
 
 </body>
 </html>
