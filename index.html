@@ -14,6 +14,7 @@
   <meta property="og:description" content="30 days of monitoring. 6 weeks of understanding. Structured assessment for low-risk palpitations. Friday evenings in Wimbledon. From £49.99.">
   <meta property="og:locale" content="en_GB">
   <meta property="og:site_name" content="OpenPalp by London Cardiology Clinic">
+  <meta property="og:image" content="https://londoncardiologyclinic.uk/img/openpalp-7.png">
 
   <script type="application/ld+json">
   {
@@ -1170,7 +1171,7 @@
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 .date-card:hover,
-.date-card:focus { border-color: var(--blue-400); box-shadow: var(--shadow-sm); outline: none; }
+.date-card:focus-visible { border-color: var(--blue-400); box-shadow: 0 0 0 3px rgba(74,127,168,0.3); outline: none; }
 .date-card .date-day {
   font-family: var(--font-serif);
   font-size: 18px;
@@ -1210,7 +1211,7 @@
   transition: all 0.2s;
 }
 .time-btn:hover,
-.time-btn:focus { border-color: var(--blue-400); background: var(--blue-50); outline: none; }
+.time-btn:focus-visible { border-color: var(--blue-400); background: var(--blue-50); box-shadow: 0 0 0 3px rgba(74,127,168,0.3); outline: none; }
 
 .booking-form { text-align: left; }
 
@@ -1312,6 +1313,7 @@
   display: inline-block;
 }
 .booking-back:hover { color: var(--blue-600); }
+.booking-back:focus-visible { outline: 2px solid var(--blue-400); outline-offset: 2px; border-radius: 2px; }
 
 .booking-loading {
   text-align: center;
@@ -1366,6 +1368,10 @@
   </div>
 </nav>
 
+<div style="background:#FDF2F2;border-bottom:1px solid #F0D0D0;padding:10px 24px;text-align:center;font-family:var(--font-sans);font-size:13px;color:#A63D3D;" role="alert">
+  <strong>If you have chest pain, fainting, severe breathlessness, or feel acutely unwell, call 999 immediately.</strong> This is not an emergency service.
+</div>
+
 <main id="main-content">
 
 <!-- ════════════════════════════════════════════════════════════════
@@ -1417,7 +1423,7 @@
     <div class="container-narrow">
       <p class="section-eyebrow" style="text-align:center;">The attention loop</p>
       <h2 style="text-align:center;margin-bottom:20px;">Why palpitations feel worse the more you notice them</h2>
-      <img src="/img/openpalp-6.png" alt="Diagram showing the attention loop: heartbeat noticed leads to attention focusing on heart, which finds more beats. The OpenPalp programme breaks this loop." class="booklet-img booklet-img-medium">
+      <img src="img/openpalp-6.png" alt="Diagram showing the attention loop: heartbeat noticed leads to attention focusing on heart, which finds more beats. The OpenPalp programme breaks this loop." class="booklet-img booklet-img-medium" width="750" height="465" loading="lazy">
       <p style="text-align:center;font-size:14px;color:var(--mid-grey);font-style:italic;margin-top:0;">The more you monitor your heartbeat, the more you find it &mdash; until you learn not to look.</p>
     </div>
   </section>
@@ -1428,7 +1434,21 @@
       <p class="section-eyebrow" style="text-align:center;">Your journey</p>
       <h2 style="text-align:center;margin-bottom:16px;">30 days of monitoring. 6 weeks of change.</h2>
       <p style="text-align:center;color:var(--dark-grey);margin-bottom:28px;">Two things happen at once: your monitoring runs for 30 days, your lifestyle programme runs for 6 weeks.</p>
-      <img src="/img/openpalp-7.png" alt="6-week journey timeline: Week 1 Listen, Week 2 Breathe, Week 3 Discover, Week 4 Change, Week 5 Move, Week 6 Understand." class="booklet-img booklet-img-wide">
+      <img src="img/openpalp-7.png" alt="6-week journey timeline: Week 1 Listen, Week 2 Breathe, Week 3 Discover, Week 4 Change, Week 5 Move, Week 6 Understand." class="booklet-img booklet-img-wide" width="840" height="330" loading="lazy">
+    </div>
+  </section>
+
+  <!-- ── How it works ── -->
+  <section class="section">
+    <div class="container-narrow">
+      <p class="section-eyebrow" style="text-align:center;">How it works</p>
+      <h2 style="text-align:center;margin-bottom:20px;">Four simple steps</h2>
+      <ol style="max-width:600px;margin:0 auto;font-size:17px;line-height:1.8;color:var(--dark-grey);padding-left:24px;">
+        <li style="margin-bottom:12px;">Book your &pound;49.99 clinic appointment online</li>
+        <li style="margin-bottom:12px;">Attend your Friday evening appointment &mdash; Dr Ahmad assesses your symptoms and confirms suitability</li>
+        <li style="margin-bottom:12px;">If suitable, pay &pound;49.99 for the programme &mdash; receive your devices and OpenPalp booklet on the same visit</li>
+        <li style="margin-bottom:12px;">Start your 30-day monitoring and 6-week programme &mdash; with support throughout</li>
+      </ol>
     </div>
   </section>
 
@@ -1453,8 +1473,38 @@
     </div>
   </section>
 
+  <!-- ── Your Clinician ── -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Your clinician</p>
+        <h2>Dr Mahmood Ahmad</h2>
+        <p>Specialist in Cardiology (SAS) &middot; MRCP(UK) &middot; GMC <a href="https://www.gmc-uk.org/doctors/6071047" target="_blank" rel="noopener" style="color:var(--blue-500);">6071047</a></p>
+      </div>
+      <div class="container-narrow" style="text-align:left;">
+        <div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;">
+          <img src="img/dr-ahmad.jpg" alt="Dr Mahmood Ahmad receiving an award" style="width:200px;height:200px;object-fit:cover;object-position:65% 15%;border-radius:var(--radius);box-shadow:var(--shadow-md);flex-shrink:0;">
+          <div style="flex:1;min-width:260px;">
+            <p style="font-size:16px;color:var(--dark-grey);line-height:1.8;margin-bottom:16px;">
+              All care within the OpenPalp pathway is delivered by Dr Ahmad. He works independently
+              on the consultant cardiology rota at the Royal Free Hospital and Barnet Hospital,
+              and brings extensive experience in managing common cardiac conditions in private practice.
+              He is fully GMC-registered and fully insured for independent private practice.
+            </p>
+          </div>
+        </div>
+        <div style="background:var(--blue-50);border:1px solid var(--blue-100);border-radius:var(--radius);padding:20px 24px;margin-top:20px;">
+          <h4 style="font-size:15px;margin-bottom:8px;">Transparency</h4>
+          <p style="font-size:14px;color:var(--dark-grey);line-height:1.7;">
+            Dr Ahmad works independently on the consultant cardiology rota at the Royal Free Hospital and Barnet Hospital. He is fully GMC-registered (with licence to practise), holds MRCP(UK), and is fully insured for independent private practice. His career pathway to Specialist grade was different from the traditional NHS consultant training programme &mdash; he does not hold a CCT, a credential specific to that training route. His clinical role and right to independent practice are not dependent on holding a CCT.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ── 6. Pricing ── -->
-  <section id="pricing-section" class="section section-alt">
+  <section id="pricing-section" class="section">
     <div class="container">
       <div class="section-header">
         <p class="section-eyebrow">Pricing</p>
@@ -1549,18 +1599,26 @@
               <label for="book-dob">Date of birth <span style="color:#C45A5A;">*</span></label>
               <input type="date" id="book-dob" name="dob" required aria-required="true">
             </div>
+            <div class="form-group">
+              <label for="book-gp">GP practice name <span class="optional" style="font-weight:400;color:var(--mid-grey);">(recommended)</span></label>
+              <input type="text" id="book-gp" name="gp_practice" autocomplete="organization">
+            </div>
             <div class="consent-group">
               <div class="consent-item">
                 <input type="checkbox" id="consent-data" name="consent_data_processing" required aria-required="true">
-                <label for="consent-data">I consent to my data being processed for this appointment <span style="color:#C45A5A;">*</span></label>
+                <label for="consent-data">I consent to my data being processed for this appointment (<a href="/privacy-policy.html" target="_blank" style="color:var(--blue-500);">Privacy Policy</a>) <span style="color:#C45A5A;">*</span></label>
               </div>
               <div class="consent-item">
-                <input type="checkbox" id="consent-gp" name="consent_gp_sharing">
-                <label for="consent-gp">I consent to a summary being sent to my GP</label>
+                <input type="checkbox" id="consent-gp" name="consent_gp_sharing" checked>
+                <label for="consent-gp">I consent to a summary being sent to my GP (recommended &mdash; you may opt out)</label>
               </div>
               <div class="consent-item">
                 <input type="checkbox" id="consent-sms" name="consent_sms">
                 <label for="consent-sms">I consent to receiving appointment confirmation and reminders by SMS</label>
+              </div>
+              <div class="consent-item">
+                <input type="checkbox" id="consent-suitability" required aria-required="true">
+                <label for="consent-suitability">I confirm I have reviewed the <a href="#suitability" style="color:var(--blue-500);">suitability criteria</a>. I understand this service is for low-risk palpitations and I will raise any concerns at my appointment. <span style="color:#C45A5A;">*</span></label>
               </div>
             </div>
             <button type="submit" class="btn btn-primary" style="width:100%;margin-top:24px;">Continue to payment</button>
@@ -1586,6 +1644,7 @@
             <p style="margin-top:16px;">40&ndash;44 The Broadway, Wimbledon, London SW19 1RQ</p>
             <p style="margin-top:12px;font-size:13px;color:var(--mid-grey);">You will receive an SMS confirmation shortly (if you opted in).</p>
             <p style="margin-top:8px;font-size:13px;color:var(--mid-grey);">To cancel, email <a href="mailto:drmahmoodclinic@pm.me" style="color:var(--blue-500);">drmahmoodclinic@pm.me</a></p>
+            <p style="margin-top:12px;font-size:13px;color:var(--dark-grey);">During your programme, you can email <a href="mailto:drmahmoodclinic@pm.me" style="color:var(--blue-500);">drmahmoodclinic@pm.me</a> with any concerns.</p>
           </div>
         </div>
       </div>
@@ -1597,13 +1656,14 @@
 
 <!-- ===================== PROGRAMME PAGE ===================== -->
 <div id="programme" class="page-section">
+  <h1 class="sr-only">OpenPalp &mdash; The Programme</h1>
 
   <!-- 1. Timeline -->
   <section class="section">
-    <div class="section-inner">
-      <p class="eyebrow">THE PROGRAMME</p>
+    <div class="container">
+      <p class="section-eyebrow">THE PROGRAMME</p>
       <h2>Six weeks of structured support</h2>
-      <p class="section-sub">Each week has one focus. Build on the one before.</p>
+      <p style="color:var(--dark-grey);font-size:17px;max-width:600px;margin:0 auto;">Each week has one focus. Build on the one before.</p>
 
       <div class="timeline">
 
@@ -1655,46 +1715,62 @@
 
   <!-- 2. When you feel palpitations -->
   <section class="section">
-    <div class="section-inner">
+    <div class="container">
       <h2>When you feel palpitations</h2>
-      <p class="section-sub">Most episodes pass within a few minutes. Here is what to do &mdash; in order.</p>
+      <p style="color:var(--dark-grey);font-size:17px;max-width:600px;margin:0 auto;">Most episodes pass within a few minutes. Here is what to do &mdash; in order.</p>
+
+      <div class="callout callout-urgent" style="max-width:var(--max-w);margin:0 auto 24px;">
+        <p><strong>If you feel faint, develop chest pain, or experience a sustained fast heart rate that does not settle after 15&ndash;20 minutes, stop and call 999 immediately.</strong> Do not attempt the steps below.</p>
+      </div>
 
       <div class="protocol-steps">
 
         <div class="protocol-step">
           <div class="step-num">1</div>
-          <h4>Stay calm</h4>
-          <p>Anxiety amplifies palpitations. Take one slow breath and remind yourself: most palpitations are not dangerous. You are not in danger.</p>
+          <div>
+            <h4>Stay calm</h4>
+            <p>Anxiety amplifies palpitations. Take one slow breath and remind yourself: most palpitations are not dangerous. You are not in danger.</p>
+          </div>
         </div>
 
         <div class="protocol-step">
           <div class="step-num">2</div>
-          <h4>Sit or lie down</h4>
-          <p>Reduce demand on your heart. Do not continue strenuous activity until the episode has fully passed.</p>
+          <div>
+            <h4>Sit or lie down</h4>
+            <p>Reduce demand on your heart. Do not continue strenuous activity until the episode has fully passed.</p>
+          </div>
         </div>
 
         <div class="protocol-step">
           <div class="step-num">3</div>
-          <h4>Breathe slowly</h4>
-          <p>4 seconds in. 6 seconds out. Repeat five times. This activates your vagus nerve and can slow or settle the heart.</p>
+          <div>
+            <h4>Breathe slowly</h4>
+            <p>4 seconds in. 6 seconds out. Repeat five times. This activates your vagus nerve and can slow or settle the heart.</p>
+          </div>
         </div>
 
         <div class="protocol-step">
           <div class="step-num">4</div>
-          <h4>Try a vagal technique</h4>
-          <p>If you feel safe to do so: bear down gently as if straining (Valsalva), or splash cold water on your face. Only if you feel well enough.</p>
+          <div>
+            <h4>Try a vagal technique</h4>
+            <p>If you feel safe to do so: bear down gently as if straining (Valsalva), or splash cold water on your face. Only if you feel well enough.</p>
+          </div>
         </div>
 
         <div class="protocol-step">
           <div class="step-num">5</div>
-          <h4>Record on Kardia</h4>
-          <p>As quickly as possible. Even if symptoms are settling &mdash; record anyway. A trace during or just after an episode is highly informative.</p>
+          <div>
+            <h4>Record on Kardia</h4>
+            <p>As quickly as possible. Even if symptoms are settling &mdash; record anyway. A trace during or just after an episode is highly informative.</p>
+          </div>
         </div>
 
         <div class="protocol-step">
           <div class="step-num">6</div>
-          <h4>Write in your diary</h4>
-          <p>Time, duration, severity, what you were doing, what helped. The pattern across 30 days is where the answers live.</p>
+          <div>
+            <h4>Write in your diary</h4>
+            <p>Time, duration, severity, what you were doing, what helped. The pattern across 30 days is where the answers live.</p>
+          </div>
         </div>
 
       </div><!-- end .protocol-steps -->
@@ -1702,7 +1778,7 @@
       <!-- 3. Vagal techniques safety callout -->
       <div class="callout callout-urgent" style="max-width:var(--max-w-narrow);margin:32px auto 0;">
         <h4>Important note on vagal techniques</h4>
-        <p>Not suitable if you have known eye disease or significant heart valve problems. If you feel very unwell, do not attempt them. Always sit or lie down first.</p>
+        <p>Not suitable if you have known eye disease or significant heart valve problems. Do not press on your neck (carotid massage). If symptoms worsen during any technique, stop immediately. If you feel very unwell or develop chest pain, do not attempt them &mdash; call 999. Always sit or lie down first.</p>
       </div>
 
     </div>
@@ -1710,9 +1786,9 @@
 
   <!-- 4. Daily practice -->
   <section class="section">
-    <div class="section-inner">
+    <div class="container">
       <h2>Your daily practice</h2>
-      <p class="section-sub">Small consistent actions change the nervous system more than anything else. You do not need to be perfect. You need to be regular.</p>
+      <p style="color:var(--dark-grey);font-size:17px;max-width:600px;margin:0 auto;">Small consistent actions change the nervous system more than anything else. You do not need to be perfect. You need to be regular.</p>
 
       <div class="daily-practice">
 
@@ -1738,6 +1814,13 @@
 
       </div><!-- end .daily-practice -->
 
+      <p style="max-width:var(--max-w-narrow);margin:20px auto 0;font-size:14px;color:var(--mid-grey);font-style:italic;">If anything concerns you during the programme, email <a href="mailto:drmahmoodclinic@pm.me" style="color:var(--blue-500);">drmahmoodclinic@pm.me</a> &mdash; Dr Ahmad typically responds within 4 hours during working days.</p>
+
+      <div class="callout callout-urgent" style="max-width:var(--max-w-narrow);margin:32px auto 0;">
+        <h4>If your symptoms change during the programme</h4>
+        <p>If your palpitations become more frequent, more severe, or different from usual, or if you develop new symptoms such as fainting, chest pain, or breathlessness, contact the clinic by email or call your GP. If urgent, call 111 or 999.</p>
+      </div>
+
       <!-- 5. HRV understanding callout -->
       <div class="callout" style="max-width:var(--max-w-narrow);margin:32px auto 0;">
         <h4>Understanding HRV &mdash; your nervous system score</h4>
@@ -1750,10 +1833,10 @@
 
   <!-- 6. Lifestyle experiments -->
   <section class="section">
-    <div class="section-inner">
+    <div class="container">
       <h3>Your two lifestyle experiments</h3>
 
-      <div class="info-cards">
+      <div class="cards-grid">
 
         <div class="info-card">
           <h4>Experiment 1 &mdash; The caffeine test (week 3)</h4>
@@ -1773,11 +1856,12 @@
 
 <!-- ===================== DEVICES PAGE ===================== -->
 <div id="devices" class="page-section">
+  <h1 class="sr-only">OpenPalp &mdash; Your Devices</h1>
 
   <!-- 1. Two device cards -->
   <section class="section">
-    <div class="section-inner">
-      <p class="eyebrow">YOUR TOOLS</p>
+    <div class="container">
+      <p class="section-eyebrow">YOUR TOOLS</p>
       <h2>Two devices, one clear picture</h2>
 
       <div class="device-cards">
@@ -1785,7 +1869,7 @@
         <!-- Wellue Patch -->
         <div class="device-card">
           <h3>Wellue Patch &mdash; 48 hours</h3>
-          <img src="/img/openpalp-8.png" alt="Diagram showing correct Wellue patch placement: one palm-width below left collarbone, angled 45 degrees toward left side, with R marker facing right.">
+          <img src="img/openpalp-8.png" alt="Diagram showing correct Wellue patch placement: one palm-width below left collarbone, angled 45 degrees toward left side, with R marker facing right." width="780" height="630" loading="lazy">
           <p>This small device will record every heartbeat for 48 hours &mdash; day and night, while you sleep, while you live your life. It does not judge. It simply listens.</p>
 
           <h4>Setting up &mdash; step by step</h4>
@@ -1805,12 +1889,13 @@
 
           <h4>Returning after 48 hours</h4>
           <p>Remove the device. Place in the prepaid return envelope with your name. Post the same day &mdash; or bring to clinic. Continue using the Kardia for the remaining 28 days.</p>
+          <p style="margin-top:8px;">Your recording will be reviewed within 5 working days of receipt. If anything urgent is found, you will be contacted directly.</p>
         </div>
 
         <!-- KardiaMobile 6L -->
         <div class="device-card">
-          <h3>KardiaMobile 6L &mdash; 30 days</h3>
-          <img src="/img/openpalp-9.png" alt="Diagram showing how to record with Kardia: right hand index and thumb on top electrodes, left thumb on bottom, optionally rest on left knee for 6-lead ECG.">
+          <h3>Kardia &mdash; your handheld ECG (30 days)</h3>
+          <img src="img/openpalp-9.png" alt="Diagram showing how to record with Kardia: right hand index and thumb on top electrodes, left thumb on bottom, optionally rest on left knee for 6-lead ECG." width="780" height="570" loading="lazy">
           <p>The Kardia is yours to use whenever you feel something. Think of it as your heart&rsquo;s voice recorder &mdash; activated by you, at the moment that matters.</p>
 
           <h4>Setting up</h4>
@@ -1838,6 +1923,11 @@
 
       </div><!-- end .device-cards -->
 
+      <div class="callout" style="max-width:var(--max-w-narrow);margin:32px auto 0;">
+        <h4>What if your Kardia shows a concerning result?</h4>
+        <p>If the app displays &ldquo;Possible Atrial Fibrillation&rdquo; or another concerning result, do not panic. Record the ECG and note the time in your diary. Email <a href="mailto:drmahmoodclinic@pm.me" style="color:var(--blue-500);">drmahmoodclinic@pm.me</a> with the date and time of the recording &mdash; Dr Ahmad will review it promptly. If you also feel unwell, faint, or have chest pain, call 999.</p>
+      </div>
+
       <!-- 2. Device loan callout -->
       <div class="callout" style="max-width:var(--max-w-narrow);margin:40px auto 0;">
         <h4>Device loan</h4>
@@ -1852,6 +1942,7 @@
 
 <!-- ===== TASK 7: SUITABILITY ===== -->
 <div id="suitability" class="page-section">
+  <h1 class="sr-only">OpenPalp &mdash; Suitability</h1>
   <section class="section">
     <div class="container">
       <div class="section-header">
@@ -1860,10 +1951,12 @@
         <p>This service is designed for selected low-risk patients. Please review the criteria below carefully.</p>
       </div>
 
+      <p style="max-width:var(--max-w-narrow);margin:0 auto 24px;text-align:center;color:var(--dark-grey);font-size:16px;">Most people with palpitations will not have these features. If you are unsure about any item below, attend the clinic appointment &mdash; Dr Ahmad will assess you and advise.</p>
+
       <div class="suit-grid">
         <div class="suit-card suit-yes">
           <h3>This pathway is designed for you if</h3>
-          <ul>
+          <ul class="suit-list">
             <li>You are aged 18 or over</li>
             <li>You have intermittent palpitations &mdash; an awareness of your heartbeat</li>
             <li>Episodes are brief, lasting seconds to minutes</li>
@@ -1876,7 +1969,7 @@
 
         <div class="suit-card suit-no">
           <h3>This pathway is not suitable if</h3>
-          <ul>
+          <ul class="suit-list">
             <li>You have fainted or nearly fainted</li>
             <li>You have chest pain that may be cardiac in origin</li>
             <li>You have severe or unexplained breathlessness</li>
@@ -1892,10 +1985,10 @@
         </div>
       </div>
 
-      <div class="suit-grid suit-grid-narrow">
+      <div class="suit-grid" style="max-width:500px;margin:28px auto 0;">
         <div class="suit-card suit-maybe">
           <h3>Borderline &mdash; clinical judgement required</h3>
-          <ul>
+          <ul class="suit-list">
             <li>More frequent or prolonged episodes</li>
             <li>Mild exertional symptoms without other red flags</li>
             <li>Unclear history</li>
@@ -1911,7 +2004,7 @@
 
       <div class="callout" style="max-width:var(--max-w-narrow);margin:40px auto 0;">
         <h3>What if monitoring finds something significant?</h3>
-        <p>If monitoring reveals atrial fibrillation, SVT, significant pauses, or a high ectopy burden, you will be referred promptly to NHS or private cardiology. You will not be left without a plan.</p>
+        <p>If monitoring reveals atrial fibrillation, SVT, significant pauses, or a high ectopy burden, you will be referred promptly to NHS cardiology. You will not be left without a plan.</p>
       </div>
 
     </div>
@@ -1920,6 +2013,7 @@
 
 <!-- ===== TASK 8: EVIDENCE ===== -->
 <div id="evidence" class="page-section">
+  <h1 class="sr-only">OpenPalp &mdash; The Evidence</h1>
   <section class="section">
     <div class="container">
       <div class="section-header">
@@ -1927,12 +2021,52 @@
         <h2>These are not theories</h2>
         <p>They are findings from real studies involving real people &mdash; people whose hearts changed when they changed how they lived.</p>
       </div>
-      <div class="container-narrow">
+      <div style="max-width:880px;margin:0 auto;padding:0 24px;">
 
         <div class="evidence-card">
           <h3>The breathing story</h3>
-          <img src="/img/openpalp-10.png" alt="4-6 breathing technique: inhale for 4 seconds through nose or mouth, exhale for 6 seconds slowly. Repeat 5 times, morning and evening." class="booklet-img booklet-img-medium">
-          <img src="/img/openpalp-11.png" alt="How slow breathing calms the heart: slow exhale triggers vagus nerve, which slows heart rate, reduces anxiety, and reduces ectopic beats over time." class="booklet-img booklet-img-medium">
+          <!-- 4-6 Breathing diagram (recreated as HTML/CSS) -->
+          <div role="img" aria-label="4-6 breathing technique: inhale for 4 seconds, exhale for 6 seconds, repeat 5 times morning and evening" style="background:linear-gradient(135deg,#e8f5ee 0%,#d4ebe0 100%);border-radius:var(--radius);padding:28px 24px 24px;margin:20px 0;max-width:810px;">
+            <!-- Title -->
+            <div style="background:#2d6b50;color:#fff;text-align:center;padding:12px 20px;border-radius:8px;font-family:var(--font-serif);font-size:clamp(15px,2.5vw,19px);font-style:italic;margin-bottom:24px;">
+              4-6 breathing &mdash; the most important thing you can do
+            </div>
+            <!-- Lungs + repeat bar -->
+            <div style="text-align:center;position:relative;margin-bottom:24px;">
+              <svg viewBox="0 0 200 120" width="180" height="108" aria-hidden="true" style="display:block;margin:0 auto;">
+                <circle cx="80" cy="55" r="45" fill="rgba(77,122,101,0.12)" stroke="rgba(77,122,101,0.25)" stroke-width="1.5"/>
+                <circle cx="120" cy="55" r="45" fill="rgba(77,122,101,0.12)" stroke="rgba(77,122,101,0.25)" stroke-width="1.5"/>
+                <circle cx="80" cy="55" r="28" fill="rgba(77,122,101,0.18)"/>
+                <circle cx="120" cy="55" r="28" fill="rgba(77,122,101,0.18)"/>
+                <text x="100" y="50" text-anchor="middle" fill="#2d6b50" font-family="Inter,sans-serif" font-size="11" font-weight="600">lungs</text>
+                <text x="100" y="64" text-anchor="middle" fill="#2d6b50" font-family="Inter,sans-serif" font-size="10" font-style="italic">expanding</text>
+              </svg>
+              <div style="background:#2d5440;color:#fff;display:inline-block;padding:8px 24px;border-radius:6px;font-family:var(--font-sans);font-size:14px;font-style:italic;margin-top:-8px;position:relative;z-index:1;">
+                Repeat 5 times &mdash; morning and evening
+              </div>
+            </div>
+            <!-- Inhale / then / Exhale -->
+            <div style="display:flex;align-items:stretch;gap:12px;flex-wrap:wrap;justify-content:center;">
+              <!-- Inhale -->
+              <div style="flex:1;min-width:200px;max-width:280px;background:#fff;border:1.5px solid rgba(77,122,101,0.2);border-radius:10px;padding:20px 16px;text-align:center;">
+                <div style="font-family:var(--font-sans);font-size:13px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#2d6b50;">Inhale</div>
+                <div style="font-family:var(--font-serif);font-size:42px;font-weight:700;color:#2d6b50;margin:4px 0;">4</div>
+                <div style="font-family:var(--font-sans);font-size:13px;color:var(--dark-grey);">seconds in &mdash; nose or mouth</div>
+                <div style="font-family:var(--font-sans);font-size:12px;font-style:italic;color:var(--mid-grey);margin-top:4px;">gently, not forced</div>
+              </div>
+              <!-- then -->
+              <div style="display:flex;align-items:center;font-family:var(--font-sans);font-size:15px;color:var(--dark-grey);padding:0 4px;">then</div>
+              <!-- Exhale -->
+              <div style="flex:1;min-width:200px;max-width:280px;background:#2d6b50;border-radius:10px;padding:20px 16px;text-align:center;color:#fff;">
+                <div style="font-family:var(--font-sans);font-size:13px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;">Exhale</div>
+                <div style="font-family:var(--font-serif);font-size:42px;font-weight:700;margin:4px 0;">6</div>
+                <div style="font-family:var(--font-sans);font-size:13px;opacity:0.9;">seconds out &mdash; slowly, fully</div>
+                <div style="font-family:var(--font-sans);font-size:12px;font-style:italic;opacity:0.75;margin-top:4px;">longer out than in = the key</div>
+                <div style="font-family:var(--font-sans);font-size:12px;font-style:italic;opacity:0.75;">this activates your vagus nerve</div>
+              </div>
+            </div>
+          </div>
+          <img src="img/openpalp-11.png" alt="How slow breathing calms the heart: slow exhale triggers vagus nerve, which slows heart rate, reduces anxiety, and reduces ectopic beats over time." class="booklet-img booklet-img-medium" width="750" height="630" loading="lazy">
           <p><em>(Springer Nature, 2024 &mdash; meta-analysis of 31 studies, n=1,133)</em></p>
           <p>Researchers gathered 31 studies involving 1,133 people. Some were anxious. Some had high blood pressure. Some had palpitations. All of them were asked to do one thing: slow their breathing to fewer than 10 breaths per minute for five minutes.</p>
           <blockquote>In every group, the heart rhythm changed. Not after weeks of practice. Within the same session. Within minutes. The vagus nerve &mdash; the body&rsquo;s main brake on the heart &mdash; responded to the exhale. Longer out than in. The heart slowed. The anxiety eased.</blockquote>
@@ -1941,7 +2075,7 @@
 
         <div class="evidence-card">
           <h3>The sleep story</h3>
-          <img src="/img/openpalp-12.png" alt="The same heart, different sleep, different rhythm: disrupted sleep increases PVCs by 33%, protected sleep decreases them by 33%." class="booklet-img booklet-img-wide">
+          <img src="img/openpalp-12.png" alt="The same heart, different sleep, different rhythm: disrupted sleep increases PVCs by 33%, protected sleep decreases them by 33%." class="booklet-img booklet-img-wide" width="840" height="465" loading="lazy">
           <p>Miner et al., <em>SLEEP</em>, 2016 &mdash; a study of hospital alarm noise found that on quieter nights, PVCs fell by 33%. They stayed lower the following day.</p>
           <p>A 2021 study in <em>JACC</em> followed 403,187 UK Biobank participants and found a 29% lower risk of atrial fibrillation in those with healthy sleep patterns.</p>
           <blockquote>Your sleep is not separate from your heart rhythm. It is part of it.</blockquote>
@@ -1960,9 +2094,10 @@
 
         <div class="evidence-card">
           <h3>The most important story in modern cardiology</h3>
+          <p><em>This story has a reassuring ending &mdash; and it changed how we think about the heart forever.</em></p>
           <p>In 1989, doctors ran a trial. They had a drug that successfully suppressed extra heartbeats after heart attack. The logic seemed obvious: fewer extra beats, less risk of sudden death. The trial was stopped early. Patients taking the drug were dying at three times the rate of those who took nothing.</p>
           <p><em>(CAST Trial, 1989)</em></p>
-          <blockquote>The lesson was profound and it changed cardiology permanently: extra heartbeats are a signal, not always the problem. Silencing them without understanding them can be worse than leaving them alone. Understanding them &mdash; as you are doing &mdash; is more powerful than any drug designed to suppress them.</blockquote>
+          <blockquote>The lesson was profound and it changed cardiology permanently: extra heartbeats are a signal, not always the problem. Silencing them without understanding them can be worse than leaving them alone. Understanding them &mdash; as you are doing &mdash; is often more important than trying to suppress every extra beat.</blockquote>
         </div>
 
       </div>
@@ -1972,6 +2107,7 @@
 
 <!-- ===== TASK 9: FAQ ===== -->
 <div id="faq" class="page-section">
+  <h1 class="sr-only">OpenPalp &mdash; Frequently Asked Questions</h1>
   <section class="section">
     <div class="container">
       <div class="section-header">
@@ -2002,7 +2138,7 @@
 
         <div class="faq-item">
           <button class="faq-q" aria-expanded="false" aria-controls="faq-a-5">What if something significant is found?</button>
-          <div class="faq-a" id="faq-a-5" role="region"><p>If monitoring identifies a significant rhythm abnormality &mdash; such as SVT, atrial fibrillation, significant pauses, or high ectopy burden &mdash; you will be referred to an appropriate specialist. This may be NHS or private cardiology. We provide documented findings and a clear summary to the receiving clinician.</p></div>
+          <div class="faq-a" id="faq-a-5" role="region"><p>If monitoring identifies a significant rhythm abnormality &mdash; such as SVT, atrial fibrillation, significant pauses, or high ectopy burden &mdash; you will be referred to an appropriate NHS specialist. We provide documented findings and a clear summary to the receiving clinician.</p></div>
         </div>
 
         <div class="faq-item">
@@ -2041,6 +2177,7 @@
 </div><!-- end #faq -->
 
 <div id="clinicians" class="page-section">
+  <h1 class="sr-only">OpenPalp &mdash; For Clinicians</h1>
   <section class="section">
     <div class="container-narrow">
       <div style="background:var(--blue-50);border:1px solid var(--blue-200);border-radius:8px;padding:12px 18px;margin-bottom:24px;font-family:var(--font-sans);font-size:13px;color:var(--dark-grey);">This page is written for healthcare professionals. If you are a patient, the information you need is on our <a href="#home" data-page="home" style="color:var(--blue-500);text-decoration:underline;">main pages</a>.</div>
@@ -2161,7 +2298,7 @@
   </div>
 </footer>
 
-<div class="sticky-cta-mobile" aria-hidden="true">
+<div class="sticky-cta-mobile">
   <a href="#home">Book Your &pound;49.99 Heart Check</a>
 </div>
 
@@ -2176,7 +2313,7 @@
   var navLinks = document.querySelectorAll('[data-page]');
   var mobileMenu = document.querySelector('.nav-links');
 
-  function showPage(pageId) {
+  function showPage(pageId, pushHistory) {
     pages.forEach(function(p) { p.classList.remove('active'); });
     var target = document.getElementById(pageId);
     if (target) {
@@ -2199,7 +2336,9 @@
     });
     if (mobileMenu) mobileMenu.classList.remove('open');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    history.pushState(null, '', '#' + pageId);
+    if (pushHistory !== false) {
+      history.pushState(null, '', '#' + pageId);
+    }
   }
 
   navLinks.forEach(function(a) {
@@ -2211,10 +2350,11 @@
 
   function handleHash() {
     var hash = location.hash.replace('#', '');
-    if (hash && document.getElementById(hash)) {
-      showPage(hash);
+    var validPages = ['home','programme','devices','suitability','evidence','faq','clinicians'];
+    if (hash && validPages.indexOf(hash) !== -1) {
+      showPage(hash, false);
     } else {
-      showPage('home');
+      showPage('home', false);
     }
   }
 
@@ -2259,6 +2399,7 @@
         if (entry.isIntersecting) {
           entry.target.style.opacity = '1';
           entry.target.style.transform = 'translateY(0)';
+          observer.unobserve(entry.target);
         }
       });
     }, { threshold: 0.1 });
@@ -2362,7 +2503,7 @@
   function loadSlots() {
     dateGrid.innerHTML = '<div class="booking-loading">Loading available dates\u2026<\/div>';
     fetch('/api/slots')
-      .then(function(r) { return r.json(); })
+      .then(function(r) { if (!r.ok) throw new Error('Server error'); return r.json(); })
       .then(function(data) {
         allSlots = data.slots || [];
         grouped = groupSlots(allSlots);
@@ -2436,7 +2577,16 @@
       if (!email || !email.includes('@')) { showError('Please enter a valid email address.'); return; }
       if (!phone || phone.length < 7) { showError('Please enter a valid phone number.'); return; }
       if (!dob) { showError('Please enter your date of birth.'); return; }
+      if (dob) {
+        var birthDate = new Date(dob);
+        var ageDiff = Date.now() - birthDate.getTime();
+        var ageDate = new Date(ageDiff);
+        var age = Math.abs(ageDate.getUTCFullYear() - 1970);
+        if (age < 18) { showError('This service is for patients aged 18 and over. Please contact your GP.'); return; }
+      }
       if (!consentData) { showError('You must consent to data processing to book.'); return; }
+      var consentSuitability = document.getElementById('consent-suitability').checked;
+      if (!consentSuitability) { showError('Please confirm you have reviewed the suitability criteria.'); return; }
 
       // Show payment summary
       paymentSummary.textContent = 'Clinic appointment \u2014 ' + formatDate(selectedDate) + ' at ' + selectedTime;
@@ -2492,6 +2642,7 @@
           email: document.getElementById('book-email').value.trim(),
           phone: document.getElementById('book-phone').value.trim(),
           dob: document.getElementById('book-dob').value,
+          gp_practice: (document.getElementById('book-gp').value || '').trim(),
           tier: 1,
           language: 'en',
           slot_date: selectedDate,
@@ -2499,14 +2650,21 @@
           consent_data_processing: document.getElementById('consent-data').checked,
           consent_gp_sharing: document.getElementById('consent-gp').checked,
           consent_sms: document.getElementById('consent-sms').checked,
+          consent_suitability: document.getElementById('consent-suitability').checked,
           stripe_payment_method_id: pmResult.paymentMethod.id
         };
+
+        var controller = new AbortController();
+        var timeoutId = setTimeout(function() { controller.abort(); }, 30000);
 
         var resp = await fetch('/api/book', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body)
+          body: JSON.stringify(body),
+          signal: controller.signal
         });
+
+        clearTimeout(timeoutId);
 
         var result = await resp.json();
 
@@ -2528,7 +2686,11 @@
         showStep('step-confirm');
 
       } catch (err) {
-        showError('Something went wrong. Please try again or email drmahmoodclinic@pm.me.');
+        if (err.name === 'AbortError') {
+          showError('Request timed out. Please try again or email drmahmoodclinic@pm.me.');
+        } else {
+          showError('Something went wrong. Please try again or email drmahmoodclinic@pm.me.');
+        }
         payBtn.disabled = false;
         payBtn.textContent = 'Pay \u00A349.99';
       }
