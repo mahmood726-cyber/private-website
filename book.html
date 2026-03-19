@@ -9,6 +9,7 @@
   <meta http-equiv="X-Frame-Options" content="DENY">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="stripe-public-key" content="">
   <link rel="stylesheet" href="css/style.css">
 
   <style>
@@ -928,7 +929,7 @@
     <option value="ur">&#1575;&#1585;&#1583;&#1608; (Urdu)</option>
     <option value="hi">&#2361;&#2367;&#2344;&#2381;&#2342;&#2368; (Hindi)</option>
     <option value="ar">&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;</option>
-    <option value="ta">Tamil</option>
+    <option value="ta">&#2980;&#2990;&#2996;&#3021; (Tamil)</option>
     <option value="pl">Polski</option>
     <option value="pt">Portugu&#234;s</option>
     <option value="so">Soomaali</option>
@@ -980,9 +981,10 @@
       </div>
       <div class="clinician-info">
         <h2 id="clinician-heading">Your Clinician</h2>
-        <p class="clinician-title">Dr Mahmood Ahmad &mdash; Specialist in Cardiology</p>
+        <p class="clinician-title">Dr Mahmood Ahmad &mdash; Specialist in Cardiology (SAS), MRCP(UK)</p>
         <p class="clinician-gmc">GMC Number: <a href="https://www.gmc-uk.org/doctors/6071047" target="_blank" rel="noopener">6071047</a> &middot; Royal Free Hospital &amp; Barnet Hospital, London</p>
-        <p class="clinician-bio">Dr Ahmad is a Specialist in Cardiology on the consultant rota at the Royal Free and Barnet hospitals. He delivers the Rapid Rhythm Assessment Pathway from his Wimbledon clinic on Friday evenings. He does not hold a Certificate of Completion of Training (CCT) and is not on the GMC Specialist Register.</p>
+        <p class="clinician-bio">Dr Ahmad is a Specialist in Cardiology (SAS) who practises independently on the consultant rota at the Royal Free Hospital and Barnet Hospital. He is GMC-registered, holds MRCP(UK), and is fully insured for independent private practice. He delivers the Rapid Rhythm Assessment Pathway from his Wimbledon clinic on Friday evenings.</p>
+        <p class="clinician-bio" style="margin-top:8px;font-size:13px;"><strong>Transparency:</strong> Dr Ahmad reached his Specialist grade through a career pathway different from the traditional NHS consultant training programme. He does not hold a Certificate of Completion of Training (CCT) and is not on the GMC Specialist Register. These are credentials associated with the NHS consultant training route. His clinical role, GMC registration, and right to independent practice are not dependent on holding a CCT.</p>
       </div>
     </div>
   </section>
@@ -1006,7 +1008,7 @@
           <li>30-minute face-to-face appointment</li>
           <li>Focused palpitation and rhythm assessment</li>
           <li>Trigger and risk factor review</li>
-          <li>ECG if part of the service model</li>
+          <li>ECG if clinically indicated during your appointment</li>
           <li>Confirmation of pathway suitability</li>
           <li>Clear explanation and next steps</li>
         </ul>
@@ -1087,7 +1089,7 @@
               <option value="en">English</option>
               <option value="ur">Urdu</option>
               <option value="hi">Hindi</option>
-              <option value="ta">Tamil</option>
+              <option value="ta">&#2980;&#2990;&#2996;&#3021; (Tamil)</option>
               <option value="pl">Polish</option>
               <option value="pt">Portuguese</option>
               <option value="ar">Arabic</option>
@@ -1249,6 +1251,20 @@
             </label>
           </div>
 
+          <div class="consent-group tier2-only" id="consent-auto-group">
+            <label>
+              <input type="checkbox" id="consent-auto" name="consentAuto" aria-required="true">
+              <span>I consent to automated analysis of my ECG recordings and automated safety alerts if a concerning pattern is detected. <span class="required-star" aria-hidden="true">*</span></span>
+            </label>
+          </div>
+
+          <div class="consent-group">
+            <label>
+              <input type="checkbox" id="consent-sms" name="consentSms">
+              <span>I consent to receiving appointment reminders and programme support messages by SMS. You can withdraw this consent at any time by replying STOP. <span class="optional">(optional)</span></span>
+            </label>
+          </div>
+
           <!-- Tier 2 additional consents -->
           <div class="consent-group tier2-only" id="consent-retention-group">
             <label>
@@ -1261,7 +1277,7 @@
           <div class="consent-group tier2-only" id="consent-device-group">
             <label>
               <input type="checkbox" id="consent-device" name="consentDevice" aria-required="true">
-              <span>I agree to the device loan terms: a Kardia ECG device will be provided for Week 1 monitoring. A temporary <strong>&pound;200 pre-authorisation</strong> will appear on my bank statement &mdash; this is <strong>NOT</strong> a charge. It is automatically released when I return the monitoring device within 7 days of issue. <span class="required-star" aria-hidden="true">*</span></span>
+              <span>I agree to the device loan terms: a KardiaMobile 6L (a small handheld heart monitor) will be provided for the 30-day monitoring period. I will return it at my results appointment. If the device is lost or damaged beyond reasonable wear, the replacement cost is <strong>&pound;70</strong>. <span class="required-star" aria-hidden="true">*</span></span>
             </label>
           </div>
         </fieldset>
@@ -1293,10 +1309,17 @@
           <p>To cancel, email <a href="mailto:drmahmoodclinic@pm.me" style="color:var(--sage-deep);">drmahmoodclinic@pm.me</a> with your booking reference.</p>
         </div>
 
+        <!-- Stripe Payment Element -->
+        <div class="form-divider" role="separator"></div>
+        <p class="form-section-heading">Payment</p>
+        <div id="stripe-card-element" style="padding:12px;border:1.5px solid rgba(0,0,0,0.12);border-radius:8px;background:var(--cream);margin-bottom:12px;"></div>
+        <p id="stripe-card-error" style="font-family:var(--font-sans);font-size:13px;color:var(--danger);margin-bottom:16px;display:none;"></p>
+
         <div class="form-submit-row">
           <button type="submit" class="btn-submit" id="submit-btn" disabled>
-            Proceed to Payment
+            Pay &amp; Confirm Booking
           </button>
+          <p id="submit-help" style="font-family:var(--font-sans);font-size:12px;color:var(--mid-grey);margin-top:8px;text-align:center;">Select an appointment date and time above to continue.</p>
           <p class="form-error-msg" id="form-error" role="alert"></p>
         </div>
 
@@ -1321,7 +1344,7 @@
       <p><strong>More than 48 hours before appointment:</strong> Full refund, no questions asked.</p>
       <p><strong>24&ndash;48 hours before appointment:</strong> 50% refund. The booking slot will be released for another patient.</p>
       <p><strong>Less than 24 hours / no-show:</strong> No refund. The full fee is retained.</p>
-      <p><strong>CardioTrack device pre-authorisation:</strong> A temporary &pound;200 pre-authorisation will appear on your bank statement &mdash; this is NOT a charge. It is automatically released within 2 working days of the device being returned and inspected. If the device is lost or damaged, the pre-authorisation may be captured in full or in part.</p>
+      <p><strong>Device loan:</strong> The KardiaMobile 6L is loaned for the monitoring period. You return it at your results appointment. If the device is lost or damaged beyond reasonable wear, the replacement cost is &pound;70.</p>
       <p>To cancel, please email <a href="mailto:drmahmoodclinic@pm.me" style="color:var(--sage-deep);">drmahmoodclinic@pm.me</a> with your booking reference.</p>
     </div>
   </section>
@@ -1339,18 +1362,52 @@
     <div class="footer-col">
       <h4>Contact</h4>
       <p>Email: <a href="mailto:drmahmoodclinic@pm.me">drmahmoodclinic@pm.me</a></p>
-      <p>Phone: <a href="tel:+442012345678">020 1234 5678</a></p>
+      <p>Fridays 17:00&ndash;20:00 &middot; By appointment only</p>
       <p>Dr Mahmood Ahmad &mdash; GMC <a href="https://www.gmc-uk.org/doctors/6071047" target="_blank" rel="noopener">6071047</a></p>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>Rapid Rhythm Assessment Pathway &mdash; Dr Mahmood Ahmad, Specialist in Cardiology (GMC 6071047). This service is for selected low-risk palpitation patients only. It is not an emergency service. If you have chest pain, fainting, or severe breathlessness, call 999.</p>
+    <p>Rapid Rhythm Assessment Pathway &mdash; Dr Mahmood Ahmad, Specialist in Cardiology (SAS), MRCP(UK), GMC 6071047. Career pathway different from the NHS consultant training route &mdash; does not hold a CCT or Specialist Register listing. This service is for selected low-risk palpitation patients only. It is not an emergency service. If you have chest pain, fainting, or severe breathlessness, call 999.</p>
   </div>
 </footer>
 
+<script src="https://js.stripe.com/v3/"></script>
 <script>
 (function () {
   'use strict';
+
+  /* ── Stripe setup ── */
+  var stripePublicKey = document.querySelector('meta[name="stripe-public-key"]');
+  var stripe = null;
+  var stripeCard = null;
+  if (typeof Stripe !== 'undefined' && stripePublicKey && stripePublicKey.content) {
+    stripe = Stripe(stripePublicKey.content);
+    var elements = stripe.elements();
+    stripeCard = elements.create('card', {
+      style: {
+        base: {
+          fontFamily: 'DM Sans, Helvetica Neue, sans-serif',
+          fontSize: '15px',
+          color: '#2C2A27',
+          '::placeholder': { color: '#9B9690' }
+        }
+      }
+    });
+    stripeCard.mount('#stripe-card-element');
+    stripeCard.on('change', function(event) {
+      var errEl = document.getElementById('stripe-card-error');
+      if (event.error) {
+        errEl.textContent = event.error.message;
+        errEl.style.display = 'block';
+      } else {
+        errEl.style.display = 'none';
+      }
+    });
+  } else {
+    /* Stripe not configured — hide payment element, show note */
+    var cardEl = document.getElementById('stripe-card-element');
+    if (cardEl) { cardEl.innerHTML = '<p style="font-family:var(--font-sans);font-size:13px;color:var(--mid-grey);">Payment will be collected at your appointment.</p>'; }
+  }
 
   /* ── #16: HTML escape utility ── */
   function esc(str) {
@@ -1440,10 +1497,16 @@
       card.setAttribute('data-date', formatDateISO(fri));
       var label = 'Friday ' + fri.getDate() + ' ' + MONTHS[fri.getMonth()];
       card.setAttribute('aria-label', label);
+      /* Count available slots for this date */
+      var dateStr = formatDateISO(fri);
+      var availCount = 0;
+      availableSlotsCache.forEach(function(s) { if (s.slot_date === dateStr) availCount++; });
+      var slotsLabel = availCount === 0 ? 'Full' : availCount + ' of 6 available';
       card.innerHTML =
         '<div class="fri-day">Friday</div>' +
         '<div class="fri-date">' + esc(String(fri.getDate())) + '</div>' +
-        '<div class="fri-month">' + esc(MONTHS[fri.getMonth()] + ' ' + fri.getFullYear()) + '</div>';
+        '<div class="fri-month">' + esc(MONTHS[fri.getMonth()] + ' ' + fri.getFullYear()) + '</div>' +
+        '<div style="font-family:var(--font-sans);font-size:11px;margin-top:6px;color:' + (availCount <= 2 ? 'var(--danger)' : 'var(--sage-deep)') + ';">' + slotsLabel + '</div>';
       card.addEventListener('click', function () { selectFriday(this); });
       card.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectFriday(this); }
@@ -1645,6 +1708,8 @@
     var btn = document.getElementById('submit-btn');
     var ready = selectedTier && selectedFriday && selectedTime;
     btn.disabled = !ready;
+    var helpEl = document.getElementById('submit-help');
+    if (helpEl) helpEl.style.display = ready ? 'none' : 'block';
   }
 
   /* ── #17: Food dropdown duplicate validation ── */
@@ -1722,7 +1787,8 @@
       slot_date: selectedFriday,
       slot_time: selectedTime,
       consent_data_processing: form.consentData.checked,
-      consent_gp_sharing: form.consentGp.checked
+      consent_gp_sharing: form.consentGp.checked,
+      consent_sms: form.consentSms.checked
     };
 
     if (selectedTier === '2') {
@@ -1735,10 +1801,27 @@
     btn.textContent = 'Processing\u2026';
     announceStatus('Processing your booking, please wait.');
 
-    fetch('/api/book', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+    /* Create Stripe payment method if Stripe is active */
+    var stripePromise;
+    if (stripe && stripeCard) {
+      stripePromise = stripe.createPaymentMethod({
+        type: 'card',
+        card: stripeCard,
+        billing_details: { name: payload.name, email: payload.email }
+      }).then(function (result) {
+        if (result.error) { throw new Error(result.error.message); }
+        payload.stripe_payment_method_id = result.paymentMethod.id;
+      });
+    } else {
+      stripePromise = Promise.resolve();
+    }
+
+    stripePromise.then(function () {
+      return fetch('/api/book', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
     })
       .then(function (r) {
         if (!r.ok) { return r.json().then(function (d) { throw new Error(d.error || ('HTTP ' + r.status)); }); }
