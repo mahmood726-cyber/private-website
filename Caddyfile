@@ -6,26 +6,31 @@ synthesis-medicine.org, www.synthesis-medicine.org {
 }
 
 londoncardiologyclinic.uk, www.londoncardiologyclinic.uk {
-    root * /var/www/clinic-site
+    # API and dashboard → Express server on port 3001
+    handle /api/* {
+        reverse_proxy localhost:3001
+    }
+    handle /dashboard* {
+        reverse_proxy localhost:3001
+    }
 
-    # Serve pathway.html as the main landing page
-    try_files {path} /pathway.html
-
-    file_server
+    # Everything else → static files
+    handle {
+        root * /var/www/clinic-site
+        try_files {path} /index.html
+        file_server
+    }
 
     header {
         X-Content-Type-Options "nosniff"
         Referrer-Policy "strict-origin-when-cross-origin"
         Permissions-Policy "camera=(), microphone=(), geolocation=()"
         Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' js.stripe.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' api.stripe.com; frame-src js.stripe.com; object-src 'none'; upgrade-insecure-requests"
     }
 
     handle_errors {
         rewrite * /404.html
         file_server
     }
-}
-
-booking.londoncardiologyclinic.uk {
-    reverse_proxy localhost:3000
 }
