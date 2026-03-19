@@ -1772,6 +1772,7 @@
       <li><a href="#suitability" data-page="suitability">Is This Right for You?</a></li>
       <li><a href="#evidence" data-page="evidence">The Evidence</a></li>
       <li><a href="#faq" data-page="faq">FAQ</a></li>
+      <li><a href="/articles/">Articles</a></li>
       <li><a href="#clinicians" data-page="clinicians">For Clinicians</a></li>
       <li><a href="#home" class="nav-cta" data-page="home">Book</a></li>
     </ul>
@@ -1833,7 +1834,60 @@
     <div class="container-narrow">
       <p class="section-eyebrow" style="text-align:center;">The attention loop</p>
       <h2 style="text-align:center;margin-bottom:20px;">Why palpitations feel worse the more you notice them</h2>
-      <img src="img/openpalp-6.png" alt="Diagram showing the attention loop: heartbeat noticed leads to attention focusing on heart, which finds more beats. The OpenPalp programme breaks this loop." class="booklet-img booklet-img-medium" width="750" height="465" loading="lazy">
+      <!-- Attention loop diagram (recreated as HTML/CSS) -->
+      <div role="img" aria-label="Diagram showing the attention loop: heartbeat noticed leads to attention focusing on heart, which finds more beats. The OpenPalp programme breaks this loop." style="max-width:640px;margin:0 auto;">
+
+        <!-- Top arrow label -->
+        <div style="text-align:center;font-family:var(--font-sans);font-size:13px;font-style:italic;color:var(--blue-600);margin-bottom:6px;">
+          finds more beats &nbsp;&rarr;
+        </div>
+
+        <!-- Two boxes side by side -->
+        <div style="display:flex;align-items:stretch;gap:24px;justify-content:center;flex-wrap:wrap;">
+          <!-- Heartbeat box -->
+          <div style="flex:1;min-width:220px;max-width:270px;background:var(--white);border:2px solid var(--blue-200);border-radius:var(--radius);padding:24px 20px;text-align:center;">
+            <div style="font-family:var(--font-serif);font-size:19px;font-weight:700;color:var(--charcoal);margin-bottom:6px;">Heartbeat</div>
+            <div style="font-family:var(--font-sans);font-size:14px;color:var(--dark-grey);">noticed or felt</div>
+            <div style="font-family:var(--font-sans);font-size:13px;font-style:italic;color:var(--mid-grey);margin-top:4px;">awareness increases</div>
+          </div>
+
+          <!-- Arrows between boxes -->
+          <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;min-width:40px;" aria-hidden="true">
+            <svg width="40" height="24" viewBox="0 0 40 24"><path d="M4,12 L30,12" stroke="var(--blue-400)" stroke-width="1.5" fill="none"/><path d="M26,6 L34,12 L26,18" fill="var(--blue-400)"/></svg>
+            <svg width="40" height="24" viewBox="0 0 40 24"><path d="M36,12 L10,12" stroke="var(--blue-400)" stroke-width="1.5" fill="none"/><path d="M14,6 L6,12 L14,18" fill="var(--blue-400)"/></svg>
+          </div>
+
+          <!-- Attention box -->
+          <div style="flex:1;min-width:220px;max-width:270px;background:var(--white);border:2px solid var(--blue-200);border-radius:var(--radius);padding:24px 20px;text-align:center;">
+            <div style="font-family:var(--font-serif);font-size:19px;font-weight:700;color:var(--charcoal);margin-bottom:6px;">Attention</div>
+            <div style="font-family:var(--font-sans);font-size:14px;color:var(--dark-grey);">focuses on heart</div>
+            <div style="font-family:var(--font-sans);font-size:13px;font-style:italic;color:var(--mid-grey);margin-top:4px;">anxiety rises</div>
+          </div>
+        </div>
+
+        <!-- Bottom arrow label -->
+        <div style="text-align:center;font-family:var(--font-sans);font-size:13px;font-style:italic;color:var(--blue-600);margin-top:6px;">
+          &larr; &nbsp;notices even more
+        </div>
+
+        <!-- Down arrow -->
+        <div style="text-align:center;margin:16px 0 12px;">
+          <svg width="20" height="36" viewBox="0 0 20 36" aria-hidden="true">
+            <line x1="10" y1="0" x2="10" y2="28" stroke="var(--blue-400)" stroke-width="1.5"/>
+            <path d="M4,24 L10,34 L16,24" fill="var(--blue-400)"/>
+          </svg>
+        </div>
+
+        <!-- Programme breaks the loop -->
+        <div style="background:#4D7A65;border-radius:var(--radius);padding:24px 32px;text-align:center;color:#fff;">
+          <div style="font-family:var(--font-serif);font-size:18px;font-weight:700;margin-bottom:8px;">This programme breaks the loop</div>
+          <div style="font-family:var(--font-sans);font-size:14px;opacity:0.9;line-height:1.7;">
+            By understanding your triggers, breathing slowly, and reducing
+            the fear around symptoms, the loop gradually weakens.
+          </div>
+        </div>
+
+      </div>
       <p style="text-align:center;font-size:14px;color:var(--mid-grey);font-style:italic;margin-top:0;">The more you monitor your heartbeat, the more you find it &mdash; until you learn not to look.</p>
     </div>
   </section>
