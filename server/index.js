@@ -124,6 +124,7 @@ const upload = multer({
 // ---------------------------------------------------------------------------
 
 const app = express();
+app.set('trust proxy', 1); // Trust first proxy (Caddy)
 
 // ---------------------------------------------------------------------------
 // Security — helmet CSP configured for our inline styles & scripts
@@ -135,7 +136,8 @@ app.use(
       directives: {
         defaultSrc:     ["'self'"],
         scriptSrc:      ["'self'", "'unsafe-inline'", 'js.stripe.com'],
-        styleSrc:       ["'self'", "'unsafe-inline'"],
+        styleSrc:       ["'self'", "'unsafe-inline'", 'fonts.googleapis.com'],
+        fontSrc:        ["'self'", 'fonts.gstatic.com'],
         imgSrc:         ["'self'", 'data:', 'blob:'],
         connectSrc:     ["'self'", 'api.stripe.com'],
         frameSrc:       ['js.stripe.com'],
@@ -185,6 +187,7 @@ const STATIC_ROOT = path.join(__dirname, '..');
 // Block direct access to server source code and data directories
 app.use('/server', (_req, res) => res.status(403).end());
 app.use('/data', (_req, res) => res.status(403).json({ error: 'Forbidden' }));
+app.use('/dashboard.html', (_req, res) => res.status(403).send('Access denied'));
 
 app.use(express.static(STATIC_ROOT, {
   index: 'index.html',
@@ -299,10 +302,20 @@ function checkLoginRate(ip) {
 }
 
 function recordLoginFailure(ip) {
-  const now = Date.now();
-  const record = loginAttempts.get(ip) || { count: 0, first: now };
+  var now = Date.now();
+  var record = loginAttempts.get(ip) || { count: 0, first: now };
+  // Reset if previous block window expired
+  if (record.blocked && record.blocked <= now) {
+    record = { count: 0, first: now };
+  }
+  // Reset if tracking window expired (15 min)
+  if (now - record.first > 900000) {
+    record = { count: 0, first: now };
+  }
   record.count++;
-  if (record.count >= 5) record.blocked = now + 900000; // 15 minutes
+  if (record.count >= 5) {
+    record.blocked = now + 900000;
+  }
   loginAttempts.set(ip, record);
 }
 
@@ -326,6 +339,21 @@ function recordBookingAttempt(ip) {
   record.timestamps.push(now);
   bookingAttempts.set(ip, record);
 }
+
+// Periodic cleanup of expired rate limiter entries (every 5 minutes)
+setInterval(function() {
+  var now = Date.now();
+  loginAttempts.forEach(function(record, ip) {
+    if (record.blocked && record.blocked <= now && (now - record.first > 900000)) {
+      loginAttempts.delete(ip);
+    }
+  });
+  bookingAttempts.forEach(function(record, ip) {
+    if (now - record.first > 3600000) {
+      bookingAttempts.delete(ip);
+    }
+  });
+}, 300000); // every 5 minutes
 
 // ---------------------------------------------------------------------------
 // API routes — /api/*
@@ -363,7 +391,7 @@ api.get('/slots', (_req, res) => {
  * Flow:
  *  1. Validate input
  *  2. Check slot is still free
- *  3. Create PaymentIntent (tier 1: £49.99 capture; tier 2: £49.99 capture + £200 hold)
+ *  3. Create PaymentIntent (tier 1: £50.00 capture; tier 2: £50.00 capture + £200 hold)
  *  4. Create patient record + book slot atomically
  *  5. Send confirmation SMS
  */
@@ -379,6 +407,7 @@ api.post('/book', async (req, res) => {
     name, email, phone, dob, tier, language,
     slot_date, slot_time,
     consent_data_processing, consent_gp_sharing, consent_device_agreement,
+    consent_sms,
     stripe_payment_method_id,
   } = req.body;
 
@@ -411,14 +440,14 @@ api.post('/book', async (req, res) => {
     let stripeHoldId    = null;
 
     if (stripe && stripe_payment_method_id) {
-      // Consultation fee: £49.99 (4999 pence) — immediate capture
+      // Consultation fee: £50.00 (5000 pence) — immediate capture
       const intent = await stripe.paymentIntents.create({
         amount:               4999,
         currency:             'gbp',
         payment_method:       stripe_payment_method_id,
         confirm:              true,
         automatic_payment_methods: { enabled: true, allow_redirects: 'never' },
-        description:          `London Cardiology Clinic — Tier ${tierNum} booking`,
+        description:          'OpenPalp — Clinic appointment',
         metadata:             { email, slot_date, slot_time },
       });
       stripePaymentId = intent.id;
@@ -455,6 +484,7 @@ api.post('/book', async (req, res) => {
         consent_data_processing:  consent_data_processing  ? 1 : 0,
         consent_gp_sharing:       consent_gp_sharing       ? 1 : 0,
         consent_device_agreement: consent_device_agreement ? 1 : 0,
+        consent_sms:              consent_sms              ? 1 : 0,
         consent_timestamp:        consentTs,
         appointment_date:         slot_date,
         appointment_time:         slot_time,
@@ -476,18 +506,27 @@ api.post('/book', async (req, res) => {
       patientId = bookingTransaction();
     } catch (txErr) {
       if (txErr.message === 'SLOT_CONFLICT') {
+        // Refund if payment was taken
+        if (stripePaymentId) {
+          try { await stripe.refunds.create({ payment_intent: stripePaymentId }); } catch (e) { console.error('[book] refund failed:', e.message); }
+        }
+        if (stripeHoldId) {
+          try { await stripe.paymentIntents.cancel(stripeHoldId); } catch (e) { console.error('[book] hold cancel failed:', e.message); }
+        }
         return res.status(409).json({ error: 'Slot was just taken — please choose another' });
       }
       throw txErr;
     }
 
-    // --- Confirmation SMS (async, non-blocking) ---
-    const humanDate = formatDateHuman(slot_date);
-    const smsBody   = tierNum === 1
-      ? `London Cardiology Clinic: Your appointment is confirmed for ${humanDate} at ${slot_time}. Reply CANCEL to cancel.`
-      : `London Cardiology Clinic: Your CardioTrack appointment is confirmed for ${humanDate} at ${slot_time}. Please bring your devices. Reply CANCEL to cancel.`;
+    // --- Confirmation SMS (async, non-blocking; only if SMS consent given) ---
+    if (consent_sms) {
+      const humanDate = formatDateHuman(slot_date);
+      const smsBody   = tierNum === 1
+        ? `London Cardiology Clinic: Your appointment is confirmed for ${humanDate} at ${slot_time}. Reply CANCEL to cancel.`
+        : `London Cardiology Clinic: Your CardioTrack appointment is confirmed for ${humanDate} at ${slot_time}. Please bring your devices. Reply CANCEL to cancel.`;
 
-    sendSms(patientId, phone, smsBody).catch((e) => console.error('[sms async]', e));
+      sendSms(patientId, phone, smsBody).catch((e) => console.error('[sms async]', e));
+    }
 
     // --- Response ---
     const logUrl = `${process.env.BASE_URL || 'https://londoncardiologyclinic.uk'}/log?token=${logToken}`;
@@ -566,13 +605,17 @@ api.get('/log/patient', (req, res) => {
 
   res.json({
     patient: {
-      id:               patient.id,
-      name:             patient.name,
-      programme_status: patient.programme_status,
-      stop_food_1:      patient.stop_food_1,
-      stop_food_2:      patient.stop_food_2,
-      start_food_1:     patient.start_food_1,
-      start_food_2:     patient.start_food_2,
+      id:                     patient.id,
+      name:                   patient.name,
+      language:               patient.language || 'en',
+      programme_status:       patient.programme_status,
+      stop_food_1:            patient.stop_food_1,
+      stop_food_2:            patient.stop_food_2,
+      start_food_1:           patient.start_food_1,
+      start_food_2:           patient.start_food_2,
+      baseline_steps:         patient.baseline_steps,
+      devices_collected_date: patient.devices_collected_date,
+      booking_status:         patient.booking_status,
     },
     logs,
   });
@@ -632,19 +675,24 @@ api.post('/log/submit', (req, res) => {
       bp_systolic:  bpSys,
       bp_diastolic: bpDia,
       heart_rate:   fields.heart_rate   != null ? Number(fields.heart_rate)   : null,
-      note:         fields.note         || null,
+      note:         typeof fields.note === 'string' ? fields.note.slice(0, 2000) : null,
     });
 
     // Red-flag alerting: severely elevated BP (systolic >= 180 OR diastolic >= 110)
-    if ((bpSys != null && bpSys >= 180) || (bpDia != null && bpDia >= 110)) {
+    var bpAlert = (bpSys != null && bpSys >= 180) || (bpDia != null && bpDia >= 110);
+    if (bpAlert) {
       console.warn(`[RED FLAG] Patient ${patient.id} (${patient.name}) submitted severely elevated BP: ${bpSys}/${bpDia}`);
       if (twilioClient && process.env.TWILIO_FROM_NUMBER && process.env.CLINIC_PHONE_NUMBER) {
-        const alertMsg = `RED FLAG: Patient ${patient.name} (ID ${patient.id}) submitted BP ${bpSys}/${bpDia}. Urgent review required.`;
+        const alertMsg = `RED FLAG: Patient ID ${patient.id} submitted BP ${bpSys}/${bpDia}. Urgent review required. Check dashboard for details.`;
         sendSms(patient.id, process.env.CLINIC_PHONE_NUMBER, alertMsg).catch((e) => console.error('[red-flag sms]', e));
       }
     }
 
-    res.status(201).json({ success: true });
+    var responseObj = { success: true };
+    if (bpAlert) {
+      responseObj.warning = 'Your blood pressure reading is outside the normal range. This clinic operates on Friday evenings only. If you have symptoms such as headache, chest pain, or visual changes, please call 111 or attend A&E immediately. Do not wait for a clinic appointment.';
+    }
+    res.status(201).json(responseObj);
   } catch (err) {
     console.error('[api/log/submit]', err);
     res.status(500).json({ error: 'Failed to save log entry' });
@@ -679,15 +727,16 @@ api.post('/ecg/upload', upload.single('ecg'), async (req, res) => {
     });
 
     // Attempt to parse the ECG and check for red-flag recordings
+    var hasRedFlag = false;
     try {
       const ecgParser = require('./services/ecg-parser');
       const ecgBuffer = fs.readFileSync(path.join(UPLOAD_DIR, req.file.filename));
       const recordings = await ecgParser.parseKardiaPdf(ecgBuffer);
-      const hasRedFlag = recordings.some((r) => ecgParser.classifyRecording(r.classification, r.heartRate) === 'red');
+      hasRedFlag = recordings.some((r) => ecgParser.classifyRecording(r.classification, r.heartRate) === 'red');
       if (hasRedFlag) {
         console.warn(`[RED FLAG] Patient ${patient.id} (${patient.name}) uploaded ECG with red-flag recording`);
         if (twilioClient && process.env.TWILIO_FROM_NUMBER && process.env.CLINIC_PHONE_NUMBER) {
-          const alertMsg = `RED FLAG: Patient ${patient.name} (ID ${patient.id}) uploaded ECG with atrial fibrillation. Urgent review required.`;
+          const alertMsg = `RED FLAG: Patient ID ${patient.id} uploaded ECG with significant finding. Urgent review required. Check dashboard for details.`;
           sendSms(patient.id, process.env.CLINIC_PHONE_NUMBER, alertMsg).catch((e) => console.error('[red-flag sms]', e));
         }
       }
@@ -696,7 +745,31 @@ api.post('/ecg/upload', upload.single('ecg'), async (req, res) => {
       console.log('[api/ecg/upload] Auto-parse not available:', parseErr.message);
     }
 
-    res.status(201).json({ success: true, filename: req.file.filename });
+    var responseObj = { success: true, filename: req.file.filename };
+    if (hasRedFlag) {
+      responseObj.warning = 'Your ECG recording needs urgent clinical review. This clinic operates on Friday evenings only. If you are experiencing symptoms right now (dizziness, chest pain, breathlessness, or feeling unwell), please call 111 or attend A&E immediately. Do not wait for a clinic appointment.';
+      responseObj.flagLevel = 'red';
+
+      // Email backup alert (out-of-hours safety netting)
+      if (process.env.CLINIC_EMAIL) {
+        const nodemailer = (() => { try { return require('nodemailer'); } catch (_e) { return null; } })();
+        if (nodemailer && process.env.SMTP_HOST) {
+          const transporter = nodemailer.createTransport({
+            host: process.env.SMTP_HOST,
+            port: Number(process.env.SMTP_PORT) || 587,
+            secure: false,
+            auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASSWORD },
+          });
+          transporter.sendMail({
+            from: process.env.SMTP_USER,
+            to: process.env.CLINIC_EMAIL,
+            subject: 'RED FLAG ECG ALERT — Patient ' + patient.name,
+            text: 'Patient ' + patient.name + ' (ID ' + patient.id + ') uploaded an ECG classified as red-flag (possible atrial fibrillation or other significant finding). Urgent review required.',
+          }).catch(function(e) { console.error('[email alert]', e.message); });
+        }
+      }
+    }
+    res.status(201).json(responseObj);
   } catch (err) {
     console.error('[api/ecg/upload]', err);
     res.status(500).json({ error: 'Failed to save ECG record' });
@@ -1043,11 +1116,21 @@ app.use('/api', api);
 
 /**
  * /book — Booking page
- * Returns the main index.html; booking UI is rendered client-side.
- * The booking form JS will hit /api/slots and /api/book.
+ * Serves book.html with Stripe public key injected into meta tag.
  */
 app.get('/book', (_req, res) => {
-  res.sendFile(path.join(STATIC_ROOT, 'index.html'));
+  const bookPath = path.join(STATIC_ROOT, 'book.html');
+  if (process.env.STRIPE_PUBLIC_KEY) {
+    let html = fs.readFileSync(bookPath, 'utf8');
+    html = html.replace(
+      '<meta name="stripe-public-key" content="">',
+      '<meta name="stripe-public-key" content="' + esc(process.env.STRIPE_PUBLIC_KEY) + '">'
+    );
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.send(html);
+  } else {
+    res.sendFile(bookPath);
+  }
 });
 
 /**
@@ -1314,7 +1397,39 @@ app.get('/dashboard/login', (_req, res) => {
     })
     .then(function(r) { return r.json(); })
     .then(function(data) {
-      if (data.success) {
+      if (data.success && data.mustChangePassword) {
+        /* Show password change form */
+        document.querySelector('.card').innerHTML =
+          '<h1>Change Your Password</h1>'
+          + '<p style="color:#666;font-size:.85rem;margin-bottom:1.5rem;">Your default password must be changed before you can access the dashboard.</p>'
+          + '<form id="pw-form">'
+          + '<label for="cur-pw" style="display:block;font-size:.85rem;color:#444;margin-bottom:.25rem;margin-top:.75rem;">Current password</label>'
+          + '<input type="password" id="cur-pw" autocomplete="current-password" required style="width:100%;padding:.6rem .75rem;border:1px solid #ccd;border-radius:6px;font-size:.95rem;">'
+          + '<label for="new-pw" style="display:block;font-size:.85rem;color:#444;margin-bottom:.25rem;margin-top:.75rem;">New password (min 12 characters)</label>'
+          + '<input type="password" id="new-pw" autocomplete="new-password" required minlength="12" style="width:100%;padding:.6rem .75rem;border:1px solid #ccd;border-radius:6px;font-size:.95rem;">'
+          + '<button type="submit" style="margin-top:1.25rem;width:100%;padding:.75rem;background:#c0392b;color:#fff;border:none;border-radius:8px;font-size:1rem;cursor:pointer;">Update Password</button>'
+          + '<div class="err" id="pw-err" style="display:none;margin-top:.75rem;padding:.5rem;background:#f8d7da;color:#721c24;border-radius:6px;font-size:.85rem;"></div>'
+          + '</form>';
+        document.getElementById('pw-form').addEventListener('submit', function(ev) {
+          ev.preventDefault();
+          var pwErr = document.getElementById('pw-err');
+          pwErr.style.display = 'none';
+          fetch('/api/admin/change-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              current_password: document.getElementById('cur-pw').value,
+              new_password: document.getElementById('new-pw').value
+            })
+          })
+          .then(function(r2) { return r2.json(); })
+          .then(function(d2) {
+            if (d2.success) { window.location.href = '/dashboard'; }
+            else { pwErr.style.display = 'block'; pwErr.textContent = d2.error || 'Failed'; }
+          })
+          .catch(function() { pwErr.style.display = 'block'; pwErr.textContent = 'Network error'; });
+        });
+      } else if (data.success) {
         window.location.href = '/dashboard';
       } else {
         errEl.style.display = 'block';
@@ -1739,6 +1854,7 @@ function startReminderCron() {
     const tomorrow = addDays(today(), 1);
     const patients  = getPatientsWithAppointmentOn(tomorrow);
     for (const p of patients) {
+      if (!p.consent_sms) continue; // PECR: only send SMS if consent given
       const msg = `London Cardiology Clinic reminder: Your appointment is tomorrow (${formatDateHuman(p.appointment_date)}) at ${p.appointment_time}. If you need to cancel reply CANCEL or call us.`;
       await sendSms(p.id, p.phone, msg);
     }
