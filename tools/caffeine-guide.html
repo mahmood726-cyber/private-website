@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Caffeine Experiment &mdash; OpenPalp</title>
+  <meta name="description" content="A two-week guided experiment to find out whether caffeine is triggering your palpitations. Part of the OpenPalp programme at London Cardiology Clinic.">
+  <link rel="canonical" href="https://londoncardiologyclinic.uk/tools/caffeine-guide">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://londoncardiologyclinic.uk/tools/caffeine-guide">
+  <meta property="og:title" content="The Caffeine Experiment &mdash; OpenPalp">
+  <meta property="og:description" content="A two-week guided experiment to find out whether caffeine is triggering your palpitations. Part of the OpenPalp programme at London Cardiology Clinic.">
+  <meta property="og:image" content="https://londoncardiologyclinic.uk/img/openpalp-7.png">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:site_name" content="OpenPalp by London Cardiology Clinic">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="robots" content="index, follow">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="stylesheet" href="../css/pages.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    "headline": "The Caffeine Experiment",
+    "description": "A two-week guided experiment to find out whether caffeine is triggering your palpitations. Part of the OpenPalp programme at London Cardiology Clinic.",
+    "url": "https://londoncardiologyclinic.uk/tools/caffeine-guide",
+    "author": { "@type": "Physician", "name": "Dr Mahmood Ahmad", "description": "Specialist in Cardiology (SAS), MRCP(UK), GMC 6071047" },
+    "publisher": { "@type": "MedicalClinic", "name": "OpenPalp by London Cardiology Clinic" },
+    "datePublished": "2026-03-24",
+    "dateModified": "2026-03-24",
+    "audience": { "@type": "Patient" },
+    "about": { "@type": "MedicalCondition", "name": "Palpitations" }
+  }
+  </script>
+
+  <style>
+    /* ── Tool-page layout helpers ── */
+    .tool-hero {
+      background: linear-gradient(175deg, var(--sage-50) 0%, var(--warm-white) 60%, var(--white) 100%);
+      padding: 80px 24px 48px;
+      text-align: center;
+    }
+
+    .tool-hero h1 {
+      font-size: clamp(28px, 4vw, 40px);
+      margin-bottom: 12px;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .tool-hero .hero-sub {
+      font-size: 16px;
+      color: var(--dark-grey);
+      max-width: 560px;
+      margin: 0 auto 0;
+      line-height: 1.7;
+    }
+
+    .tool-content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    .tool-content h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(20px, 2.5vw, 26px);
+      margin: 48px 0 16px;
+      color: var(--charcoal);
+    }
+
+    .tool-content h2:first-child {
+      margin-top: 0;
+    }
+
+    .tool-content p {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--dark-grey);
+      margin-bottom: 20px;
+      max-width: 68ch;
+    }
+
+    /* ── OpenPalp badge ── */
+    .openpalp-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--sage-50);
+      border: 1px solid var(--sage-100);
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--sage-600);
+      margin-bottom: 20px;
+    }
+
+    /* ── Phase timeline ── */
+    .timeline {
+      position: relative;
+      margin: 32px 0 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 23px;
+      top: 48px;
+      bottom: 24px;
+      width: 2px;
+      background: var(--light-grey);
+      border-radius: 2px;
+    }
+
+    .phase-card {
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .phase-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      background: var(--white);
+      border: 1px solid var(--light-grey);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      width: 100%;
+      text-align: left;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      position: relative;
+      z-index: 1;
+    }
+
+    .phase-header:hover {
+      border-color: var(--sage-400);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .phase-header:focus-visible {
+      outline: 2px solid var(--sage-400);
+      outline-offset: 2px;
+    }
+
+    .phase-card.open .phase-header {
+      border-color: var(--sage-400);
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      border-bottom-color: transparent;
+    }
+
+    .phase-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--sage-100);
+      color: var(--sage-600);
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 700;
+      flex-shrink: 0;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .phase-card.open .phase-number {
+      background: var(--sage-600);
+      color: var(--white);
+    }
+
+    .phase-title-wrap {
+      flex: 1;
+    }
+
+    .phase-label {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--mid-grey);
+      margin-bottom: 3px;
+    }
+
+    .phase-title {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--charcoal);
+      line-height: 1.3;
+    }
+
+    .phase-chevron {
+      width: 20px;
+      height: 20px;
+      stroke: var(--mid-grey);
+      flex-shrink: 0;
+      transition: transform 0.25s;
+    }
+
+    .phase-card.open .phase-chevron {
+      transform: rotate(180deg);
+    }
+
+    .phase-body {
+      display: none;
+      background: var(--white);
+      border: 1px solid var(--sage-400);
+      border-top: none;
+      border-bottom-left-radius: var(--radius);
+      border-bottom-right-radius: var(--radius);
+      padding: 24px 24px 20px 88px;
+    }
+
+    .phase-card.open .phase-body {
+      display: block;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .phase-card.animating .phase-body {
+        animation: slideDown 0.22s ease-out;
+      }
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .phase-body p {
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--dark-grey);
+      margin-bottom: 14px;
+      max-width: none;
+    }
+
+    .phase-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .record-box {
+      background: var(--sage-50);
+      border: 1px solid var(--sage-100);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      margin: 16px 0;
+    }
+
+    .record-box-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--sage-600);
+      margin-bottom: 8px;
+    }
+
+    .record-box ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .record-box li {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--dark-grey);
+      padding: 3px 0 3px 20px;
+      position: relative;
+      max-width: none;
+    }
+
+    .record-box li::before {
+      content: '›';
+      position: absolute;
+      left: 4px;
+      color: var(--sage-600);
+      font-weight: 700;
+    }
+
+    .tip-box {
+      background: var(--amber-50);
+      border-left: 3px solid var(--amber-400);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 12px 16px;
+      margin-top: 16px;
+    }
+
+    .tip-box-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #8B6914;
+      margin-bottom: 4px;
+    }
+
+    .tip-box p {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--dark-grey);
+      margin: 0;
+    }
+
+    /* ── Caffeine calculator ── */
+    .calc-section {
+      background: var(--ivory);
+      border: 1px solid var(--light-grey);
+      border-radius: var(--radius);
+      padding: 32px 28px 28px;
+      margin: 0;
+    }
+
+    .calc-section h2 {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    .calc-intro {
+      font-size: 14px;
+      color: var(--dark-grey);
+      margin-bottom: 24px;
+    }
+
+    .drink-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .drink-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      background: var(--white);
+      border: 2px solid var(--light-grey);
+      border-radius: var(--radius);
+      padding: 14px 10px 12px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, transform 0.1s;
+      position: relative;
+      font-family: var(--font-sans);
+    }
+
+    .drink-btn:hover {
+      border-color: var(--sage-400);
+      background: var(--sage-50);
+    }
+
+    .drink-btn:focus-visible {
+      outline: 2px solid var(--sage-400);
+      outline-offset: 2px;
+    }
+
+    .drink-btn.selected {
+      border-color: var(--sage-600);
+      background: var(--sage-50);
+    }
+
+    .drink-btn .drink-icon {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .drink-btn .drink-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--charcoal);
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .drink-btn .drink-mg {
+      font-size: 11px;
+      color: var(--mid-grey);
+      font-weight: 500;
+    }
+
+    .drink-btn .drink-count-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--sage-600);
+      color: var(--white);
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.6);
+      transition: opacity 0.15s, transform 0.15s;
+    }
+
+    .drink-btn.selected .drink-count-badge {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Total display */
+    .total-display {
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      transition: background 0.4s, border-color 0.4s;
+      border: 2px solid transparent;
+    }
+
+    .total-display.band-low {
+      background: #F0F7F4;
+      border-color: #4D7A65;
+    }
+
+    .total-display.band-amber {
+      background: #FDF6E3;
+      border-color: #D4A43C;
+    }
+
+    .total-display.band-red {
+      background: var(--red-50);
+      border-color: var(--red-400);
+    }
+
+    .total-display.band-none {
+      background: var(--white);
+      border-color: var(--light-grey);
+    }
+
+    .total-mg-wrap {
+      text-align: center;
+      min-width: 80px;
+    }
+
+    .total-mg {
+      font-family: var(--font-serif);
+      font-size: 38px;
+      font-weight: 700;
+      line-height: 1;
+      transition: color 0.3s;
+    }
+
+    .total-mg.band-low   { color: #4D7A65; }
+    .total-mg.band-amber { color: #9A6F10; }
+    .total-mg.band-red   { color: var(--red-400); }
+    .total-mg.band-none  { color: var(--mid-grey); }
+
+    .total-mg-unit {
+      font-size: 13px;
+      color: var(--mid-grey);
+      margin-top: 2px;
+    }
+
+    .total-text-wrap {
+      flex: 1;
+    }
+
+    .total-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--mid-grey);
+      margin-bottom: 4px;
+    }
+
+    .total-band-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--charcoal);
+      margin-bottom: 4px;
+    }
+
+    .total-band-desc {
+      font-size: 13px;
+      color: var(--dark-grey);
+      line-height: 1.5;
+      max-width: none;
+    }
+
+    .calc-note {
+      font-size: 12px;
+      color: var(--mid-grey);
+      margin-top: 16px;
+      font-style: italic;
+    }
+
+    /* Reset button */
+    .calc-reset-wrap {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 16px;
+    }
+
+    .calc-reset-btn {
+      background: none;
+      border: 1px solid var(--light-grey);
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--mid-grey);
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .calc-reset-btn:hover {
+      border-color: var(--dark-grey);
+      color: var(--dark-grey);
+    }
+
+    .calc-reset-btn:focus-visible {
+      outline: 2px solid var(--sage-400);
+      outline-offset: 2px;
+    }
+
+    /* ── Science note ── */
+    .science-note {
+      background: var(--blue-50);
+      border: 1px solid var(--blue-100);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      margin: 48px 0 0;
+    }
+
+    .science-note-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--blue-500);
+      margin-bottom: 10px;
+    }
+
+    .science-note p {
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--dark-grey);
+      margin: 0;
+    }
+
+    /* ── Bottom note ── */
+    .bottom-note {
+      background: var(--warm-white);
+      border: 1px solid var(--light-grey);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      margin-top: 40px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .bottom-note-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .bottom-note p {
+      font-size: 13px;
+      color: var(--mid-grey);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .tool-hero { padding: 56px 20px 36px; }
+      .tool-content { padding: 36px 20px 60px; }
+
+      .phase-body {
+        padding-left: 24px;
+      }
+
+      .timeline::before {
+        display: none;
+      }
+
+      .drink-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      }
+
+      .total-display {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+      }
+
+      .total-text-wrap { text-align: center; }
+
+      .calc-section { padding: 24px 18px 22px; }
+    }
+
+    @media (max-width: 480px) {
+      .drink-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="safety-banner" role="alert">
+    <strong>If you have chest pain, fainting, severe breathlessness, or feel acutely unwell, call 999 immediately.</strong> This is not an emergency service.
+  </div>
+
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">OpenPalp <em>by London Cardiology Clinic</em></a>
+      <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../index.html#programme">The Programme</a></li>
+        <li><a href="../index.html#devices">Your Device</a></li>
+        <li><a href="../index.html#suitability">Is This Right for You?</a></li>
+        <li><a href="../index.html#evidence">The Evidence</a></li>
+        <li><a href="../articles/" >Articles</a></li>
+        <li><a href="./" class="active">Tools</a></li>
+        <li><a href="../index.html#clinicians">For Clinicians</a></li>
+        <li><a href="../index.html#home" class="nav-cta">Book</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div class="tool-hero">
+      <div class="openpalp-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        OpenPalp Interactive Tool
+      </div>
+      <h1>The Caffeine Experiment</h1>
+      <p class="hero-sub">A two-week protocol to find out, with your own data, whether caffeine is a trigger for your palpitations.</p>
+    </div>
+
+    <div class="tool-content">
+
+      <p>Caffeine blocks adenosine receptors in your heart. In some people, this triggers palpitations. In others, it has no effect. The only way to know is to test it carefully. This guide walks you through the two-week caffeine experiment from your OpenPalp booklet.</p>
+
+      <!-- ── Section 1: Timeline ── -->
+      <h2>The Two-Week Protocol</h2>
+
+      <div class="timeline" role="list">
+
+        <!-- Phase 1 -->
+        <div class="phase-card" role="listitem">
+          <button class="phase-header" aria-expanded="false" aria-controls="phase-1-body">
+            <div class="phase-number" aria-hidden="true">1</div>
+            <div class="phase-title-wrap">
+              <div class="phase-label">Days 1&ndash;2</div>
+              <div class="phase-title">Withdrawal</div>
+            </div>
+            <svg class="phase-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="phase-body" id="phase-1-body" role="region">
+            <p>You may feel tired, headachy, or irritable. This is normal caffeine withdrawal.</p>
+            <p>These symptoms typically peak at 24&ndash;48 hours and then improve.</p>
+            <div class="record-box" aria-label="What to record in your booklet">
+              <div class="record-box-label">Record in your booklet</div>
+              <ul>
+                <li>Energy levels (morning and evening)</li>
+                <li>Headache severity (0&ndash;10)</li>
+                <li>Palpitation frequency</li>
+              </ul>
+            </div>
+            <div class="tip-box">
+              <div class="tip-box-label">Tip</div>
+              <p>Stay well hydrated. Decaf tea or coffee can help with the ritual.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="phase-card" role="listitem">
+          <button class="phase-header" aria-expanded="false" aria-controls="phase-2-body">
+            <div class="phase-number" aria-hidden="true">2</div>
+            <div class="phase-title-wrap">
+              <div class="phase-label">Days 3&ndash;5</div>
+              <div class="phase-title">Observation</div>
+            </div>
+            <svg class="phase-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="phase-body" id="phase-2-body" role="region">
+            <p>Most withdrawal symptoms settle by day 3&ndash;4.</p>
+            <p>Pay attention to your heart rhythm. Are palpitations less frequent? Less noticeable?</p>
+            <div class="record-box" aria-label="What to record in your booklet">
+              <div class="record-box-label">Record in your booklet</div>
+              <ul>
+                <li>Palpitation frequency (how many episodes per day)</li>
+                <li>Sleep quality</li>
+                <li>Mood</li>
+                <li>Kardia readings</li>
+              </ul>
+            </div>
+            <div class="tip-box">
+              <div class="tip-box-label">Tip</div>
+              <p>This is the key observation window. Record everything.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="phase-card" role="listitem">
+          <button class="phase-header" aria-expanded="false" aria-controls="phase-3-body">
+            <div class="phase-number" aria-hidden="true">3</div>
+            <div class="phase-title-wrap">
+              <div class="phase-label">Day 6</div>
+              <div class="phase-title">Reintroduction</div>
+            </div>
+            <svg class="phase-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="phase-body" id="phase-3-body" role="region">
+            <p>Have ONE cup of your usual caffeinated drink.</p>
+            <p>Note exactly when you drink it and then observe for 4&ndash;6 hours.</p>
+            <div class="record-box" aria-label="What to record in your booklet">
+              <div class="record-box-label">Record in your booklet</div>
+              <ul>
+                <li>Time of caffeine intake</li>
+                <li>Any palpitations (time and duration)</li>
+                <li>How they compare to your caffeine-free days</li>
+              </ul>
+            </div>
+            <div class="tip-box">
+              <div class="tip-box-label">Tip</div>
+              <p>If palpitations return within hours, caffeine is likely a trigger for you.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 4 -->
+        <div class="phase-card" role="listitem">
+          <button class="phase-header" aria-expanded="false" aria-controls="phase-4-body">
+            <div class="phase-number" aria-hidden="true">4</div>
+            <div class="phase-title-wrap">
+              <div class="phase-label">Days 7&ndash;14</div>
+              <div class="phase-title">Your Decision</div>
+            </div>
+            <svg class="phase-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="phase-body" id="phase-4-body" role="region">
+            <p>If symptoms returned with caffeine: you have your answer. Consider reducing or eliminating it.</p>
+            <p>If no change: caffeine may not be your trigger. You can reintroduce gradually.</p>
+            <p>Either way, you now have data rather than guesswork.</p>
+            <div class="record-box" aria-label="What to record in your booklet">
+              <div class="record-box-label">Record in your booklet</div>
+              <ul>
+                <li>Your decision</li>
+                <li>Ongoing palpitation diary</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /timeline -->
+
+      <!-- ── Section 2: Calculator ── -->
+      <h2>Caffeine Calculator</h2>
+
+      <div class="calc-section" aria-label="Daily caffeine intake calculator">
+        <p class="calc-intro">Select your typical daily drinks to estimate your caffeine intake. Click a drink to add it; click again to add another serving. No data is stored.</p>
+
+        <div class="calc-reset-wrap">
+          <button class="calc-reset-btn" id="calc-reset" aria-label="Reset all drink selections">Reset</button>
+        </div>
+
+        <div class="drink-grid" role="group" aria-label="Drink selection">
+          <button class="drink-btn" data-drink="espresso" data-mg="63" aria-pressed="false" aria-label="Espresso, 63mg per shot">
+            <span class="drink-icon" aria-hidden="true">&#9749;</span>
+            <span class="drink-name">Espresso</span>
+            <span class="drink-mg">63mg / shot</span>
+            <span class="drink-count-badge" aria-hidden="true">0</span>
+          </button>
+          <button class="drink-btn" data-drink="filter" data-mg="95" aria-pressed="false" aria-label="Filter coffee, 95mg per cup">
+            <span class="drink-icon" aria-hidden="true">&#9749;</span>
+            <span class="drink-name">Filter coffee</span>
+            <span class="drink-mg">95mg / cup</span>
+            <span class="drink-count-badge" aria-hidden="true">0</span>
+          </button>
+          <button class="drink-btn" data-drink="instant" data-mg="60" aria-pressed="false" aria-label="Instant coffee, 60mg per cup">
+            <span class="drink-icon" aria-hidden="true">&#9749;</span>
+            <span class="drink-name">Instant coffee</span>
+            <span class="drink-mg">60mg / cup</span>
+            <span class="drink-count-badge" aria-hidden="true">0</span>
+          </button>
+          <button class="drink-btn" data-drink="blacktea" data-mg="47" aria-pressed="false" aria-label="Black tea, 47mg per cup">
+            <span class="drink-icon" aria-hidden="true">&#129382;</span>
+            <span class="drink-name">Black tea</span>
+            <span class="drink-mg">47mg / cup</span>
+            <span class="drink-count-badge" aria-hidden="true">0</span>
+          </button>
+          <button class="drink-btn" data-drink="greentea" data-mg="28" aria-pressed="false" aria-label="Green tea, 28mg per cup">
+            <span class="drink-icon" aria-hidden="true">&#129382;</span>
+            <span class="drink-name">Green tea</span>
+            <span class="drink-mg">28mg / cup</span>
+            <span class="drink-count-badge" aria-hidden="true">0</span>
+          </button>
+          <button class="drink-btn" data-drink="cola" data-mg="34" aria-pressed="false" aria-label="Cola, 34mg per can">
+            <span class="drink-icon" aria-hidden="true">&#129380;</span>
+            <span class="drink-name">Cola</span>
+            <span class="drink-mg">34mg / can</span>
+            <span class="drink-count-badge" aria-hidden="true">0</span>
+          </button>
+          <button class="drink-btn" data-drink="energy" data-mg="80" aria-pressed="false" aria-label="Energy drink, 80mg per can">
+            <span class="drink-icon" aria-hidden="true">&#129380;</span>
+            <span class="drink-name">Energy drink</span>
+            <span class="drink-mg">80mg / can</span>
+            <span class="drink-count-badge" aria-hidden="true">0</span>
+          </button>
+          <button class="drink-btn" data-drink="chocolate" data-mg="23" aria-pressed="false" aria-label="Dark chocolate, 23mg per 30g bar">
+            <span class="drink-icon" aria-hidden="true">&#127851;</span>
+            <span class="drink-name">Dark chocolate</span>
+            <span class="drink-mg">23mg / 30g bar</span>
+            <span class="drink-count-badge" aria-hidden="true">0</span>
+          </button>
+        </div>
+
+        <div class="total-display band-none" id="total-display" aria-live="polite" aria-atomic="true">
+          <div class="total-mg-wrap">
+            <div class="total-mg band-none" id="total-mg">0</div>
+            <div class="total-mg-unit">mg / day</div>
+          </div>
+          <div class="total-text-wrap">
+            <div class="total-label">Your estimated daily caffeine</div>
+            <div class="total-band-name" id="total-band-name">&mdash;</div>
+            <div class="total-band-desc" id="total-band-desc">Select your drinks above to see your estimate.</div>
+          </div>
+        </div>
+
+        <p class="calc-note">These are approximate values. Actual caffeine content varies by brand and preparation.</p>
+      </div>
+
+      <!-- ── Section 3: Science note ── -->
+      <div class="science-note">
+        <div class="science-note-label">Science note</div>
+        <p>Some people have genetic variations (CYP1A2 slow metabolisers) that mean caffeine stays in their system much longer. If you notice palpitations within an hour of drinking coffee, you may be a slow metaboliser. This is not dangerous &mdash; but it means even moderate caffeine can trigger symptoms.</p>
+      </div>
+
+      <!-- ── Bottom note ── -->
+      <div class="bottom-note">
+        <span class="bottom-note-icon" aria-hidden="true">&#128214;</span>
+        <p>Record your caffeine experiment results in your OpenPalp booklet (Week 3). This tool does not store any data.</p>
+      </div>
+
+      <!-- ── CTA ── -->
+      <div class="article-cta" style="margin-top: 56px;">
+        <h3>Ready to start the experiment?</h3>
+        <p>The OpenPalp programme combines 30 days of heart rhythm monitoring with a 6-week guided plan. Friday evenings in Wimbledon. &pound;60 assessment.</p>
+        <a href="../index.html#home" class="btn btn-primary">Book Your &pound;60 Assessment</a>
+      </div>
+
+      <!-- ── Related tools / articles ── -->
+      <div class="related-articles">
+        <h3>Related reading</h3>
+        <div class="related-grid">
+          <a href="../articles/caffeine-and-heart-rhythm.html" class="related-card">
+            <h4>Caffeine and Your Heart</h4>
+            <p>The evidence on coffee and palpitations is more nuanced than you think.</p>
+          </a>
+          <a href="../articles/when-to-worry-about-palpitations.html" class="related-card">
+            <h4>When to Worry About Palpitations</h4>
+            <p>The red flags that need urgent attention &mdash; and the reassuring signs.</p>
+          </a>
+          <a href="../articles/breathing-exercises-for-palpitations.html" class="related-card">
+            <h4>The 4-6 Breathing Technique</h4>
+            <p>Five minutes, twice a day. The evidence says your heart rhythm can change within a single session.</p>
+          </a>
+        </div>
+      </div>
+
+    </div><!-- /tool-content -->
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-brand">OpenPalp <em>by London Cardiology Clinic</em></p>
+        <p style="margin-top:8px;">40&ndash;44 The Broadway, Wimbledon<br>London SW19 1RQ</p>
+        <p style="margin-top:8px;"><a href="mailto:drmahmoodclinic@pm.me">drmahmoodclinic@pm.me</a></p>
+      </div>
+      <div>
+        <h5>Pathway</h5>
+        <ul class="footer-links">
+          <li><a href="../index.html#programme">The Programme</a></li>
+          <li><a href="../index.html#devices">Your Device</a></li>
+          <li><a href="../index.html#suitability">Suitability</a></li>
+          <li><a href="../index.html#evidence">The Evidence</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Information</h5>
+        <ul class="footer-links">
+          <li><a href="../articles/">Articles</a></li>
+          <li><a href="./">Tools</a></li>
+          <li><a href="../index.html#faq">FAQ</a></li>
+          <li><a href="../index.html#clinicians">For Clinicians</a></li>
+          <li><a href="../privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="../terms.html">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Dr Mahmood Ahmad &mdash; Specialist in Cardiology (SAS), MRCP(UK) &mdash; GMC <a href="https://www.gmc-uk.org/doctors/6071047" target="_blank" rel="noopener">6071047</a></p>
+      <p>This service is for selected low-risk patients only. Not an emergency service. Call 999 for chest pain, fainting, or severe breathlessness.</p>
+      <p>OpenPalp Pathway v1.0</p>
+    </div>
+  </footer>
+
+  <script>
+  /* ── Hamburger nav ── */
+  document.querySelector('.nav-hamburger').addEventListener('click', function() {
+    document.querySelector('.nav-links').classList.toggle('open');
+    this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+  });
+
+  /* ── Phase card accordion ── */
+  (function() {
+    var headers = document.querySelectorAll('.phase-header');
+    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    headers.forEach(function(header) {
+      header.addEventListener('click', function() {
+        var card = this.closest('.phase-card');
+        var isOpen = card.classList.contains('open');
+
+        /* Collapse all */
+        headers.forEach(function(h) {
+          var c = h.closest('.phase-card');
+          c.classList.remove('open', 'animating');
+          h.setAttribute('aria-expanded', 'false');
+        });
+
+        /* Expand clicked if it was closed */
+        if (!isOpen) {
+          card.classList.add('open');
+          header.setAttribute('aria-expanded', 'true');
+          if (!reducedMotion) {
+            card.classList.add('animating');
+            var body = card.querySelector('.phase-body');
+            body.addEventListener('animationend', function() {
+              card.classList.remove('animating');
+            }, { once: true });
+          }
+        }
+      });
+
+      /* Keyboard: Enter/Space already fires click on button; nothing extra needed */
+    });
+  })();
+
+  /* ── Caffeine calculator ── */
+  (function() {
+    var counts = {};
+    var drinkBtns = document.querySelectorAll('.drink-btn');
+    var totalMgEl = document.getElementById('total-mg');
+    var totalDisplayEl = document.getElementById('total-display');
+    var bandNameEl = document.getElementById('total-band-name');
+    var bandDescEl = document.getElementById('total-band-desc');
+    var resetBtn = document.getElementById('calc-reset');
+
+    /* Animation frame reference for counter */
+    var animFrame = null;
+    var currentDisplayed = 0;
+
+    function getBand(mg) {
+      if (mg === 0) {
+        return { key: 'none', name: '\u2014', desc: 'Select your drinks above to see your estimate.' };
+      } else if (mg < 200) {
+        return { key: 'low', name: 'Low intake', desc: 'Most people tolerate this level of caffeine without palpitations.' };
+      } else if (mg <= 400) {
+        return { key: 'amber', name: 'Moderate intake', desc: 'Most people tolerate this, but individual sensitivity varies.' };
+      } else {
+        return { key: 'red', name: 'High intake', desc: 'This level commonly triggers palpitations. The experiment is worth trying.' };
+      }
+    }
+
+    function animateCounter(target) {
+      if (animFrame) { cancelAnimationFrame(animFrame); }
+
+      var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reducedMotion) {
+        currentDisplayed = target;
+        totalMgEl.textContent = target;
+        return;
+      }
+
+      var start = currentDisplayed;
+      var diff = target - start;
+      var duration = Math.min(Math.abs(diff) * 2, 300); /* ms, proportional but capped */
+      var startTime = null;
+
+      function step(ts) {
+        if (!startTime) { startTime = ts; }
+        var elapsed = ts - startTime;
+        var progress = Math.min(elapsed / duration, 1);
+        /* ease-out cubic */
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var value = Math.round(start + diff * eased);
+        totalMgEl.textContent = value;
+        currentDisplayed = value;
+        if (progress < 1) {
+          animFrame = requestAnimationFrame(step);
+        } else {
+          currentDisplayed = target;
+          totalMgEl.textContent = target;
+        }
+      }
+
+      if (duration < 16 || diff === 0) {
+        currentDisplayed = target;
+        totalMgEl.textContent = target;
+      } else {
+        animFrame = requestAnimationFrame(step);
+      }
+    }
+
+    function updateTotal() {
+      var total = 0;
+      drinkBtns.forEach(function(btn) {
+        var key = btn.getAttribute('data-drink');
+        var mg = parseInt(btn.getAttribute('data-mg'), 10);
+        total += (counts[key] || 0) * mg;
+      });
+
+      var band = getBand(total);
+
+      /* Update total number */
+      animateCounter(total);
+
+      /* Update band classes on total number */
+      totalMgEl.className = 'total-mg band-' + band.key;
+
+      /* Update display box */
+      totalDisplayEl.className = 'total-display band-' + band.key;
+      bandNameEl.textContent = band.name;
+      bandDescEl.textContent = band.desc;
+
+      /* Update aria-label for screen readers */
+      totalDisplayEl.setAttribute('aria-label',
+        'Daily caffeine: ' + total + ' mg. ' + band.name + '. ' + band.desc
+      );
+    }
+
+    drinkBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var key = btn.getAttribute('data-drink');
+        counts[key] = (counts[key] || 0) + 1;
+        var badge = btn.querySelector('.drink-count-badge');
+        badge.textContent = counts[key];
+        btn.classList.add('selected');
+        btn.setAttribute('aria-pressed', 'true');
+        btn.setAttribute('aria-label',
+          btn.querySelector('.drink-name').textContent + ', ' +
+          btn.getAttribute('data-mg') + 'mg, ' + counts[key] + ' serving' +
+          (counts[key] === 1 ? '' : 's') + ' selected'
+        );
+        updateTotal();
+      });
+
+      /* Right-click or long-press to decrement */
+      btn.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        var key = btn.getAttribute('data-drink');
+        if ((counts[key] || 0) > 0) {
+          counts[key]--;
+          var badge = btn.querySelector('.drink-count-badge');
+          badge.textContent = counts[key];
+          if (counts[key] === 0) {
+            btn.classList.remove('selected');
+            btn.setAttribute('aria-pressed', 'false');
+            /* Restore original aria-label */
+            btn.setAttribute('aria-label',
+              btn.querySelector('.drink-name').textContent + ', ' +
+              btn.getAttribute('data-mg') + 'mg per ' +
+              btn.querySelector('.drink-mg').textContent.split('/ ')[1]
+            );
+          } else {
+            btn.setAttribute('aria-label',
+              btn.querySelector('.drink-name').textContent + ', ' +
+              btn.getAttribute('data-mg') + 'mg, ' + counts[key] + ' serving' +
+              (counts[key] === 1 ? '' : 's') + ' selected'
+            );
+          }
+          updateTotal();
+        }
+      });
+    });
+
+    resetBtn.addEventListener('click', function() {
+      counts = {};
+      drinkBtns.forEach(function(btn) {
+        btn.classList.remove('selected');
+        btn.setAttribute('aria-pressed', 'false');
+        var badge = btn.querySelector('.drink-count-badge');
+        badge.textContent = '0';
+        btn.setAttribute('aria-label',
+          btn.querySelector('.drink-name').textContent + ', ' +
+          btn.getAttribute('data-mg') + 'mg per ' +
+          btn.querySelector('.drink-mg').textContent.split('/ ')[1]
+        );
+      });
+      updateTotal();
+    });
+
+    /* Initial render */
+    updateTotal();
+  })();
+  </script>
+</body>
+</html>

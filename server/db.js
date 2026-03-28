@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS patients (
   dob                      TEXT    NOT NULL,
   tier                     INTEGER NOT NULL,          -- 1 or 2
   language                 TEXT    DEFAULT 'en',
+  gp_practice              TEXT,                          -- GP surgery name (for referral letters)
   created_at               TEXT    DEFAULT (datetime('now')),
 
   -- GDPR consent
@@ -227,6 +228,13 @@ async function initDb() {
     // Column already exists — safe to ignore
   }
 
+  // Migration: add gp_practice column
+  try {
+    _db.exec('ALTER TABLE patients ADD COLUMN gp_practice TEXT');
+  } catch (_) {
+    // Column already exists — safe to ignore
+  }
+
   // Seed future slots (INSERT OR IGNORE — idempotent)
   seedSlots(_db);
 
@@ -253,10 +261,13 @@ function getDb() {
 
 // --- Slots ---
 
+// Earliest date patients can book (launch date)
+const EARLIEST_BOOKING_DATE = '2026-04-10';
+
 function getAvailableSlots() {
   return getDb()
-    .prepare('SELECT slot_date, slot_time FROM slots WHERE is_booked = 0 ORDER BY slot_date, slot_time')
-    .all();
+    .prepare('SELECT slot_date, slot_time FROM slots WHERE is_booked = 0 AND slot_date >= ? ORDER BY slot_date, slot_time')
+    .all(EARLIEST_BOOKING_DATE);
 }
 
 function getSlotByDatetime(date, time) {
@@ -282,14 +293,14 @@ function freeSlot(date, time) {
 function createPatient(data) {
   const stmt = getDb().prepare(`
     INSERT INTO patients
-      (name, email, phone, dob, tier, language,
-       consent_data_processing, consent_gp_sharing, consent_device_agreement, consent_timestamp,
+      (name, email, phone, dob, tier, language, gp_practice,
+       consent_data_processing, consent_gp_sharing, consent_device_agreement, consent_sms, consent_timestamp,
        appointment_date, appointment_time,
        stripe_payment_id, stripe_hold_id,
        log_token)
     VALUES
-      (@name, @email, @phone, @dob, @tier, @language,
-       @consent_data_processing, @consent_gp_sharing, @consent_device_agreement, @consent_timestamp,
+      (@name, @email, @phone, @dob, @tier, @language, @gp_practice,
+       @consent_data_processing, @consent_gp_sharing, @consent_device_agreement, @consent_sms, @consent_timestamp,
        @appointment_date, @appointment_time,
        @stripe_payment_id, @stripe_hold_id,
        @log_token)

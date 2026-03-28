@@ -48,7 +48,7 @@
   "type": "clinical",
   "primary_estimand": "Pathway completion rate",
   "validation": {
-    "status": "pass",
+    "status": "fail",
     "checks": [
       {
         "name": "single paragraph",
@@ -87,7 +87,7 @@
       },
       {
         "name": "boundary sentence present",
-        "ok": true,
+        "ok": false,
         "detail": "Sentence 7 should express a limitation, harm, or scope boundary."
       }
     ]

@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv').config({ path: require('path').resolve(__dirname, '..', '.env') });
+
 /**
  * index.js — Express server for London Cardiology Clinic
  *
@@ -132,19 +134,8 @@ app.set('trust proxy', 1); // Trust first proxy (Caddy)
 
 app.use(
   helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc:     ["'self'"],
-        scriptSrc:      ["'self'", "'unsafe-inline'", 'js.stripe.com'],
-        styleSrc:       ["'self'", "'unsafe-inline'", 'fonts.googleapis.com'],
-        fontSrc:        ["'self'", 'fonts.gstatic.com'],
-        imgSrc:         ["'self'", 'data:', 'blob:'],
-        connectSrc:     ["'self'", 'api.stripe.com'],
-        frameSrc:       ['js.stripe.com'],
-        objectSrc:      ["'none'"],
-        upgradeInsecureRequests: [],
-      },
-    },
+    // CSP handled by Caddy (single source of truth) — disable Helmet's CSP to avoid duplicates
+    contentSecurityPolicy: false,
     // X-Frame-Options: DENY — prevent clickjacking
     frameguard: { action: 'deny' },
   })
@@ -404,7 +395,7 @@ api.post('/book', async (req, res) => {
   recordBookingAttempt(ip);
 
   const {
-    name, email, phone, dob, tier, language,
+    name, email, phone, dob, tier, language, gp_practice,
     slot_date, slot_time,
     consent_data_processing, consent_gp_sharing, consent_device_agreement,
     consent_sms,
@@ -429,6 +420,14 @@ api.post('/book', async (req, res) => {
   }
 
   try {
+    // --- Require Stripe in production (prevent free bookings) ---
+    if (!stripe) {
+      return res.status(503).json({ error: 'Payment system is not available. Please email drmahmoodclinic@pm.me to book.' });
+    }
+    if (!stripe_payment_method_id) {
+      return res.status(400).json({ error: 'Payment method is required' });
+    }
+
     // --- Check slot ---
     const slot = getSlotByDatetime(slot_date, slot_time);
     if (!slot || slot.is_booked) {
@@ -440,14 +439,14 @@ api.post('/book', async (req, res) => {
     let stripeHoldId    = null;
 
     if (stripe && stripe_payment_method_id) {
-      // Consultation fee: £50.00 (5000 pence) — immediate capture
+      // Consultation fee: £60.00 (6000 pence) — immediate capture
       const intent = await stripe.paymentIntents.create({
-        amount:               4999,
+        amount:               6000,
         currency:             'gbp',
         payment_method:       stripe_payment_method_id,
         confirm:              true,
         automatic_payment_methods: { enabled: true, allow_redirects: 'never' },
-        description:          'OpenPalp — Clinic appointment',
+        description:          'OpenPalp by London Cardiology Clinic — Appointment',
         metadata:             { email, slot_date, slot_time },
       });
       stripePaymentId = intent.id;
@@ -481,6 +480,7 @@ api.post('/book', async (req, res) => {
         dob,
         tier:                     tierNum,
         language:                 language || 'en',
+        gp_practice:              (gp_practice || '').trim() || null,
         consent_data_processing:  consent_data_processing  ? 1 : 0,
         consent_gp_sharing:       consent_gp_sharing       ? 1 : 0,
         consent_device_agreement: consent_device_agreement ? 1 : 0,
@@ -1114,23 +1114,9 @@ app.use('/api', api);
 // Page routes
 // ---------------------------------------------------------------------------
 
-/**
- * /book — Booking page
- * Serves book.html with Stripe public key injected into meta tag.
- */
+// /book — redirects to homepage (book.html retired; booking widget is in index.html)
 app.get('/book', (_req, res) => {
-  const bookPath = path.join(STATIC_ROOT, 'book.html');
-  if (process.env.STRIPE_PUBLIC_KEY) {
-    let html = fs.readFileSync(bookPath, 'utf8');
-    html = html.replace(
-      '<meta name="stripe-public-key" content="">',
-      '<meta name="stripe-public-key" content="' + esc(process.env.STRIPE_PUBLIC_KEY) + '">'
-    );
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.send(html);
-  } else {
-    res.sendFile(bookPath);
-  }
+  res.redirect(301, '/');
 });
 
 /**
@@ -1646,6 +1632,7 @@ app.get('/dashboard*', requireAdmin, (_req, res) => {
             + '<dt>DOB</dt><dd>' + esc(p.dob) + '</dd>'
             + '<dt>Tier</dt><dd>' + esc(p.tier) + '</dd>'
             + '<dt>Language</dt><dd>' + esc(p.language) + '</dd>'
+            + '<dt>GP practice</dt><dd>' + esc(p.gp_practice || '—') + '</dd>'
             + '<dt>Appointment</dt><dd>' + esc(p.appointment_date) + ' ' + esc(p.appointment_time) + '</dd>'
             + '<dt>Status</dt><dd>' + esc(p.booking_status) + '</dd>'
             + '<dt>Programme</dt><dd>' + esc(p.programme_status) + '</dd>'

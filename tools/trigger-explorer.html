@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trigger Explorer &mdash; Understanding Your Palpitations &mdash; OpenPalp</title>
+  <meta name="description" content="Explore the 8 most common palpitation triggers. Understand what happens in your body and what you can do about each one.">
+  <link rel="canonical" href="https://londoncardiologyclinic.uk/tools/trigger-explorer">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://londoncardiologyclinic.uk/tools/trigger-explorer">
+  <meta property="og:title" content="Trigger Explorer &mdash; Understanding Your Palpitations &mdash; OpenPalp">
+  <meta property="og:description" content="Explore the 8 most common palpitation triggers. Understand what happens in your body and what you can do about each one.">
+  <meta property="og:image" content="https://londoncardiologyclinic.uk/img/openpalp-7.png">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:site_name" content="OpenPalp by London Cardiology Clinic">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="robots" content="index, follow">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="stylesheet" href="../css/pages.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    "name": "Trigger Explorer — Understanding Your Palpitations",
+    "description": "Explore the 8 most common palpitation triggers. Understand what happens in your body and what you can do about each one.",
+    "url": "https://londoncardiologyclinic.uk/tools/trigger-explorer",
+    "author": { "@type": "Physician", "name": "Dr Mahmood Ahmad", "description": "Specialist in Cardiology (SAS), MRCP(UK), GMC 6071047" },
+    "publisher": { "@type": "MedicalClinic", "name": "OpenPalp by London Cardiology Clinic" },
+    "datePublished": "2026-03-24",
+    "dateModified": "2026-03-24",
+    "medicalAudience": { "@type": "MedicalAudience", "audienceType": "Patient" }
+  }
+  </script>
+
+  <style>
+    /* ── Tool hero ── */
+    .tool-hero {
+      background: linear-gradient(175deg, var(--blue-50) 0%, var(--warm-white) 60%, var(--white) 100%);
+      padding: 80px 24px 48px;
+      text-align: center;
+    }
+
+    .tool-hero h1 {
+      font-size: clamp(28px, 4vw, 40px);
+      margin-bottom: 14px;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .tool-hero p {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      color: var(--dark-grey);
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── Main tool wrapper ── */
+    .tool-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* ══════════════════════════════════════
+       ATTENTION LOOP
+    ══════════════════════════════════════ */
+    .loop-section {
+      margin-bottom: 64px;
+    }
+
+    .loop-section h2 {
+      font-size: clamp(20px, 2.5vw, 26px);
+      margin-bottom: 8px;
+      color: var(--charcoal);
+    }
+
+    .loop-section .loop-intro {
+      font-size: 15px;
+      color: var(--dark-grey);
+      margin-bottom: 32px;
+      max-width: 60ch;
+    }
+
+    /* SVG loop diagram container */
+    .loop-diagram {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto 28px;
+    }
+
+    .loop-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Node labels */
+    .loop-node-text {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      fill: var(--blue-800);
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+
+    .loop-node-rect {
+      fill: var(--white);
+      stroke: var(--blue-300, #8ab4d6);
+      stroke-width: 2;
+      rx: 10;
+      ry: 10;
+    }
+
+    /* The animated glow that travels around the loop */
+    .loop-glow {
+      fill: var(--blue-500);
+      opacity: 0;
+    }
+
+    /* Animate through 4 positions — one per node */
+    @keyframes loopGlow1 {
+      0%,  15%               { opacity: 0.18; transform: translate(0px, 0px); }
+      20%, 100%              { opacity: 0; }
+    }
+    @keyframes loopGlow2 {
+      0%,  24%               { opacity: 0; }
+      25%, 40%               { opacity: 0.18; }
+      45%, 100%              { opacity: 0; }
+    }
+    @keyframes loopGlow3 {
+      0%,  49%               { opacity: 0; }
+      50%, 65%               { opacity: 0.18; }
+      70%, 100%              { opacity: 0; }
+    }
+    @keyframes loopGlow4 {
+      0%,  74%               { opacity: 0; }
+      75%, 90%               { opacity: 0.18; }
+      95%, 100%              { opacity: 0; }
+    }
+
+    .loop-glow-1 { animation: loopGlow1 4s ease-in-out infinite; }
+    .loop-glow-2 { animation: loopGlow2 4s ease-in-out infinite; }
+    .loop-glow-3 { animation: loopGlow3 4s ease-in-out infinite; }
+    .loop-glow-4 { animation: loopGlow4 4s ease-in-out infinite; }
+
+    /* Arrow paths */
+    .loop-arrow {
+      fill: none;
+      stroke: var(--blue-300, #8ab4d6);
+      stroke-width: 2;
+      marker-end: url(#arrowhead);
+    }
+
+    .loop-explainer {
+      background: var(--blue-50);
+      border-left: 4px solid var(--blue-400);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      font-size: 15px;
+      color: var(--dark-grey);
+      line-height: 1.7;
+      max-width: 60ch;
+    }
+
+    /* Reduced motion: hide animation, keep static diagram */
+    @media (prefers-reduced-motion: reduce) {
+      .loop-glow-1,
+      .loop-glow-2,
+      .loop-glow-3,
+      .loop-glow-4 {
+        animation: none !important;
+        opacity: 0 !important;
+      }
+    }
+
+    /* ══════════════════════════════════════
+       TRIGGER CARDS SECTION
+    ══════════════════════════════════════ */
+    .triggers-section h2 {
+      font-size: clamp(20px, 2.5vw, 26px);
+      margin-bottom: 8px;
+      color: var(--charcoal);
+    }
+
+    .triggers-intro {
+      font-size: 15px;
+      color: var(--dark-grey);
+      margin-bottom: 32px;
+      max-width: 60ch;
+    }
+
+    .triggers-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .triggers-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ── Individual trigger card ── */
+    .trigger-card {
+      background: var(--white);
+      border: 1px solid var(--light-grey);
+      border-left: 4px solid var(--blue-400);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+
+    .trigger-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Colour variation per card */
+    .trigger-card:nth-child(2) { border-left-color: #9B7DC4; }
+    .trigger-card:nth-child(3) { border-left-color: var(--sage-400); }
+    .trigger-card:nth-child(4) { border-left-color: var(--amber-400); }
+    .trigger-card:nth-child(5) { border-left-color: #5EB8C6; }
+    .trigger-card:nth-child(6) { border-left-color: #C47D5A; }
+    .trigger-card:nth-child(7) { border-left-color: var(--sage-600); }
+    .trigger-card:nth-child(8) { border-left-color: #C46E8B; }
+
+    /* ── Card header (always visible, clickable) ── */
+    .trigger-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 20px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-family: var(--font-sans);
+      color: inherit;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .trigger-header:focus-visible {
+      outline: 2px solid var(--blue-400);
+      outline-offset: -2px;
+    }
+
+    .trigger-icon {
+      font-size: 28px;
+      line-height: 1;
+      flex-shrink: 0;
+      width: 36px;
+      text-align: center;
+    }
+
+    .trigger-title {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--charcoal);
+      flex: 1;
+    }
+
+    .trigger-chevron {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      transition: transform 0.3s ease;
+      color: var(--mid-grey);
+    }
+
+    .trigger-card.open .trigger-chevron {
+      transform: rotate(180deg);
+    }
+
+    /* ── Expandable body ── */
+    .trigger-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .trigger-card.open .trigger-body {
+      max-height: 600px;
+    }
+
+    .trigger-body-inner {
+      padding: 0 20px 20px 20px;
+      border-top: 1px solid var(--light-grey);
+    }
+
+    /* ── Four subsections inside the body ── */
+    .trigger-subsection {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--ivory);
+    }
+
+    .trigger-subsection:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .trigger-subsection-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--mid-grey);
+      margin-bottom: 6px;
+    }
+
+    .trigger-subsection p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--dark-grey);
+      margin: 0;
+      max-width: none;
+    }
+
+    /* Booklet reference subsection — slightly different look */
+    .trigger-subsection.booklet .trigger-subsection-label {
+      color: var(--blue-600);
+    }
+
+    .trigger-subsection.booklet p {
+      font-style: italic;
+      color: var(--blue-700);
+      font-size: 13px;
+    }
+
+    /* ── CTA ── */
+    .tool-cta {
+      background: var(--blue-50);
+      border: 1px solid var(--blue-100);
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+      margin-top: 64px;
+    }
+
+    .tool-cta h3 {
+      margin: 0 0 8px;
+      font-size: clamp(18px, 2.5vw, 22px);
+    }
+
+    .tool-cta p {
+      margin: 0 0 20px;
+      font-size: 15px;
+      color: var(--dark-grey);
+      max-width: 48ch;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 768px) {
+      .tool-hero { padding: 56px 20px 36px; }
+      .tool-wrapper { padding: 36px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="safety-banner" role="alert">
+    <strong>If you have chest pain, fainting, severe breathlessness, or feel acutely unwell, call 999 immediately.</strong> This is not an emergency service.
+  </div>
+
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">OpenPalp <em>by London Cardiology Clinic</em></a>
+      <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../index.html#programme">The Programme</a></li>
+        <li><a href="../index.html#devices">Your Device</a></li>
+        <li><a href="../index.html#suitability">Is This Right for You?</a></li>
+        <li><a href="../index.html#evidence">The Evidence</a></li>
+        <li><a href="../articles/">Articles</a></li>
+        <li><a href="../index.html#clinicians">For Clinicians</a></li>
+        <li><a href="./" class="active">Tools</a></li>
+        <li><a href="../index.html#home" class="nav-cta">Book</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div class="tool-hero">
+      <h1>Trigger Explorer</h1>
+      <p>Understanding what sets off your palpitations is one of the most powerful things you can do. Explore the eight most common triggers, what happens in your body, and what you can try.</p>
+    </div>
+
+    <div class="tool-wrapper">
+
+      <!-- ══ SECTION 1: THE ATTENTION LOOP ══ -->
+      <section class="loop-section" aria-label="The Attention Loop">
+        <h2>The Attention Loop</h2>
+        <p class="loop-intro">Before exploring individual triggers, it helps to understand the cycle that amplifies them all.</p>
+
+        <div class="loop-diagram" aria-label="Cycle diagram: Notice palpitations leads to Feel anxious, which leads to Heart rate increases, which leads to Notice more palpitations, returning to the start">
+          <svg class="loop-svg" viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+            <defs>
+              <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                <polygon points="0 0, 8 3, 0 6" fill="#8ab4d6"/>
+              </marker>
+            </defs>
+
+            <!-- Glow circles (animated pulse per node) -->
+            <!-- Top: Notice palpitations -->
+            <circle class="loop-glow loop-glow-1" cx="240" cy="52" r="64"/>
+            <!-- Right: Feel anxious -->
+            <circle class="loop-glow loop-glow-2" cx="408" cy="188" r="64"/>
+            <!-- Bottom: Heart rate increases -->
+            <circle class="loop-glow loop-glow-3" cx="240" cy="316" r="64"/>
+            <!-- Left: Notice more palpitations -->
+            <circle class="loop-glow loop-glow-4" cx="72" cy="188" r="64"/>
+
+            <!-- Curved arrows between nodes -->
+            <!-- Top → Right (Notice palpitations → Feel anxious) -->
+            <path class="loop-arrow"
+              d="M 318 68 Q 390 88 400 154"
+              marker-end="url(#arrowhead)"/>
+
+            <!-- Right → Bottom (Feel anxious → Heart rate increases) -->
+            <path class="loop-arrow"
+              d="M 408 226 Q 390 292 320 320"
+              marker-end="url(#arrowhead)"/>
+
+            <!-- Bottom → Left (Heart rate increases → Notice more palpitations) -->
+            <path class="loop-arrow"
+              d="M 160 320 Q 90 292 72 228"
+              marker-end="url(#arrowhead)"/>
+
+            <!-- Left → Top (Notice more palpitations → Notice palpitations) -->
+            <path class="loop-arrow"
+              d="M 72 150 Q 90 88 162 68"
+              marker-end="url(#arrowhead)"/>
+
+            <!-- Node boxes -->
+            <!-- Top node: Notice palpitations -->
+            <rect x="152" y="22" width="176" height="60" rx="10" ry="10"
+              fill="white" stroke="#8ab4d6" stroke-width="2"/>
+            <text x="240" y="48" class="loop-node-text">Notice</text>
+            <text x="240" y="66" class="loop-node-text">palpitations</text>
+
+            <!-- Right node: Feel anxious -->
+            <rect x="338" y="158" width="140" height="60" rx="10" ry="10"
+              fill="white" stroke="#8ab4d6" stroke-width="2"/>
+            <text x="408" y="184" class="loop-node-text">Feel</text>
+            <text x="408" y="202" class="loop-node-text">anxious</text>
+
+            <!-- Bottom node: Heart rate increases -->
+            <rect x="136" y="286" width="208" height="60" rx="10" ry="10"
+              fill="white" stroke="#8ab4d6" stroke-width="2"/>
+            <text x="240" y="312" class="loop-node-text">Heart rate</text>
+            <text x="240" y="330" class="loop-node-text">increases</text>
+
+            <!-- Left node: Notice more palpitations -->
+            <rect x="2" y="158" width="140" height="60" rx="10" ry="10"
+              fill="white" stroke="#8ab4d6" stroke-width="2"/>
+            <text x="72" y="181" class="loop-node-text">Notice more</text>
+            <text x="72" y="199" class="loop-node-text">palpitations</text>
+          </svg>
+        </div>
+
+        <div class="loop-explainer" role="note">
+          Understanding this loop is the first step to breaking it. Once you recognise the cycle, you can interrupt it with breathing, distraction, or reframing.
+        </div>
+      </section>
+
+      <!-- ══ SECTION 2: TRIGGER CARDS ══ -->
+      <section class="triggers-section" aria-label="Palpitation trigger cards">
+        <h2>Eight Common Triggers</h2>
+        <p class="triggers-intro">Click any card to explore what happens in your body, what you might notice, what to try, and where to record it in your programme booklet.</p>
+
+        <div class="triggers-grid" id="triggers-grid">
+
+          <!-- Card 1: Caffeine -->
+          <div class="trigger-card" id="card-caffeine">
+            <button class="trigger-header" aria-expanded="false" aria-controls="body-caffeine"
+              onclick="toggleCard('card-caffeine')">
+              <span class="trigger-icon" aria-hidden="true">&#9749;</span>
+              <span class="trigger-title">Caffeine</span>
+              <svg class="trigger-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="5 8 10 13 15 8"/>
+              </svg>
+            </button>
+            <div class="trigger-body" id="body-caffeine" role="region" aria-labelledby="card-caffeine">
+              <div class="trigger-body-inner">
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What happens</div>
+                  <p>Caffeine blocks adenosine receptors in the heart. Adenosine normally has a calming effect on heart cells. Without it, the cells become more excitable, which can trigger extra beats.</p>
+                </div>
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What you might notice</div>
+                  <p>Palpitations within 30&ndash;60 minutes of drinking coffee or tea. May feel like fluttering, skipped beats, or a racing sensation.</p>
+                </div>
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What to try</div>
+                  <p>The two-week caffeine experiment (Week 3 of your programme). Remove caffeine for 5 days, then reintroduce.</p>
+                </div>
+                <div class="trigger-subsection booklet">
+                  <div class="trigger-subsection-label">Booklet reference</div>
+                  <p>Record in your daily diary and Week 3 trigger log.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Alcohol -->
+          <div class="trigger-card" id="card-alcohol">
+            <button class="trigger-header" aria-expanded="false" aria-controls="body-alcohol"
+              onclick="toggleCard('card-alcohol')">
+              <span class="trigger-icon" aria-hidden="true">&#127863;</span>
+              <span class="trigger-title">Alcohol</span>
+              <svg class="trigger-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="5 8 10 13 15 8"/>
+              </svg>
+            </button>
+            <div class="trigger-body" id="body-alcohol" role="region" aria-labelledby="card-alcohol">
+              <div class="trigger-body-inner">
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What happens</div>
+                  <p>Alcohol has a complex effect. During drinking, it can directly irritate heart cells. After drinking, the withdrawal effect (even from small amounts) increases sympathetic nervous system activity. Dehydration and electrolyte shifts add further stress.</p>
+                </div>
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What you might notice</div>
+                  <p>Palpitations during drinking or &mdash; more commonly &mdash; the morning after. Even one or two drinks can trigger episodes in sensitive people.</p>
+                </div>
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What to try</div>
+                  <p>Track alcohol intake in your diary. Try a two-week alcohol-free period and compare your palpitation frequency.</p>
+                </div>
+                <div class="trigger-subsection booklet">
+                  <div class="trigger-subsection-label">Booklet reference</div>
+                  <p>Record in your daily diary.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Poor Sleep -->
+          <div class="trigger-card" id="card-sleep">
+            <button class="trigger-header" aria-expanded="false" aria-controls="body-sleep"
+              onclick="toggleCard('card-sleep')">
+              <span class="trigger-icon" aria-hidden="true">&#128564;</span>
+              <span class="trigger-title">Poor Sleep</span>
+              <svg class="trigger-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="5 8 10 13 15 8"/>
+              </svg>
+            </button>
+            <div class="trigger-body" id="body-sleep" role="region" aria-labelledby="card-sleep">
+              <div class="trigger-body-inner">
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What happens</div>
+                  <p>Sleep deprivation increases sympathetic (fight-or-flight) nervous system activity and reduces heart rate variability. Circadian disruption &mdash; irregular sleep times &mdash; compounds the effect. The UK Biobank study of 403,000 people linked disrupted sleep to increased arrhythmia risk.</p>
+                </div>
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What you might notice</div>
+                  <p>More frequent or more noticeable palpitations after a bad night. Often worse in the late morning.</p>
+                </div>
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What to try</div>
+                  <p>The sleep anchor experiment (Week 4). Set a fixed wake time for two weeks, including weekends.</p>
+                </div>
+                <div class="trigger-subsection booklet">
+                  <div class="trigger-subsection-label">Booklet reference</div>
+                  <p>Record sleep quality daily. Use Week 4 sleep section.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Stress and Anxiety -->
+          <div class="trigger-card" id="card-stress">
+            <button class="trigger-header" aria-expanded="false" aria-controls="body-stress"
+              onclick="toggleCard('card-stress')">
+              <span class="trigger-icon" aria-hidden="true">&#128166;</span>
+              <span class="trigger-title">Stress &amp; Anxiety</span>
+              <svg class="trigger-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="5 8 10 13 15 8"/>
+              </svg>
+            </button>
+            <div class="trigger-body" id="body-stress" role="region" aria-labelledby="card-stress">
+              <div class="trigger-body-inner">
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What happens</div>
+                  <p>Stress triggers adrenaline release, which increases heart rate and can cause extra beats. The attention loop amplifies this: noticing your heart &rarr; anxiety &rarr; more adrenaline &rarr; more palpitations.</p>
+                </div>
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What you might notice</div>
+                  <p>Palpitations during stressful events, presentations, arguments, or anxious moments. Also common after the stress has passed (the adrenaline crash).</p>
+                </div>
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What to try</div>
+                  <p>The 4&ndash;6 breathing technique directly counters the adrenaline response. Practise it daily, not just during episodes.</p>
+                </div>
+                <div class="trigger-subsection booklet">
+                  <div class="trigger-subsection-label">Booklet reference</div>
+                  <p>Note stress levels in your daily diary.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5: Dehydration -->
+          <div class="trigger-card" id="card-dehydration">
+            <button class="trigger-header" aria-expanded="false" aria-controls="body-dehydration"
+              onclick="toggleCard('card-dehydration')">
+              <span class="trigger-icon" aria-hidden="true">&#128167;</span>
+              <span class="trigger-title">Dehydration</span>
+              <svg class="trigger-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="5 8 10 13 15 8"/>
+              </svg>
+            </button>
+            <div class="trigger-body" id="body-dehydration" role="region" aria-labelledby="card-dehydration">
+              <div class="trigger-body-inner">
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What happens</div>
+                  <p>When blood volume drops, the heart compensates by beating faster. This can trigger palpitations, especially in combination with other triggers like caffeine or exercise.</p>
+                </div>
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What you might notice</div>
+                  <p>Palpitations on hot days, after exercise, or when you have not drunk enough water. Often accompanied by lightheadedness.</p>
+                </div>
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What to try</div>
+                  <p>Aim for 1.5&ndash;2 litres of water daily. More in hot weather or after exercise.</p>
+                </div>
+                <div class="trigger-subsection booklet">
+                  <div class="trigger-subsection-label">Booklet reference</div>
+                  <p>Note fluid intake in your daily diary.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 6: Large Meals -->
+          <div class="trigger-card" id="card-meals">
+            <button class="trigger-header" aria-expanded="false" aria-controls="body-meals"
+              onclick="toggleCard('card-meals')">
+              <span class="trigger-icon" aria-hidden="true">&#127860;</span>
+              <span class="trigger-title">Large Meals</span>
+              <svg class="trigger-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="5 8 10 13 15 8"/>
+              </svg>
+            </button>
+            <div class="trigger-body" id="body-meals" role="region" aria-labelledby="card-meals">
+              <div class="trigger-body-inner">
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What happens</div>
+                  <p>A full stomach presses against the diaphragm, which sits next to the heart. Digestion also activates the vagus nerve, which can paradoxically trigger palpitations. Alcohol with a large meal compounds the effect.</p>
+                </div>
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What you might notice</div>
+                  <p>Palpitations within 30&ndash;60 minutes of a large meal, especially in the evening.</p>
+                </div>
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What to try</div>
+                  <p>Eat smaller, more frequent meals. Avoid lying down immediately after eating.</p>
+                </div>
+                <div class="trigger-subsection booklet">
+                  <div class="trigger-subsection-label">Booklet reference</div>
+                  <p>Note meal size and timing in your daily diary.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 7: Exercise -->
+          <div class="trigger-card" id="card-exercise">
+            <button class="trigger-header" aria-expanded="false" aria-controls="body-exercise"
+              onclick="toggleCard('card-exercise')">
+              <span class="trigger-icon" aria-hidden="true">&#127939;</span>
+              <span class="trigger-title">Exercise</span>
+              <svg class="trigger-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="5 8 10 13 15 8"/>
+              </svg>
+            </button>
+            <div class="trigger-body" id="body-exercise" role="region" aria-labelledby="card-exercise">
+              <div class="trigger-body-inner">
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What happens</div>
+                  <p>During exercise, your heart rate naturally increases (sinus tachycardia). This is normal. However, some arrhythmias are triggered specifically by exercise. The key distinction: palpitations during gentle activity are usually benign; palpitations only during intense exercise need assessment.</p>
+                </div>
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What you might notice</div>
+                  <p>Awareness of a fast or strong heartbeat during or immediately after exercise.</p>
+                </div>
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What to try</div>
+                  <p>Record when exercise-related palpitations happen. If they only occur during intense exercise, mention this at your appointment.</p>
+                </div>
+                <div class="trigger-subsection booklet">
+                  <div class="trigger-subsection-label">Booklet reference</div>
+                  <p>Record in Week 5 movement section.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 8: Hormonal Changes -->
+          <div class="trigger-card" id="card-hormonal">
+            <button class="trigger-header" aria-expanded="false" aria-controls="body-hormonal"
+              onclick="toggleCard('card-hormonal')">
+              <span class="trigger-icon" aria-hidden="true">&#128297;</span>
+              <span class="trigger-title">Hormonal Changes</span>
+              <svg class="trigger-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="5 8 10 13 15 8"/>
+              </svg>
+            </button>
+            <div class="trigger-body" id="body-hormonal" role="region" aria-labelledby="card-hormonal">
+              <div class="trigger-body-inner">
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What happens</div>
+                  <p>Oestrogen and progesterone fluctuations can affect heart rhythm. Palpitations are common around menstruation, during perimenopause, and in pregnancy. Thyroid dysfunction (both overactive and underactive) is another hormonal cause.</p>
+                </div>
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What you might notice</div>
+                  <p>Palpitations that follow a monthly pattern, or that started around menopause. Thyroid-related palpitations are often accompanied by weight changes, fatigue, or heat/cold intolerance.</p>
+                </div>
+                <div class="trigger-subsection">
+                  <div class="trigger-subsection-label">What to try</div>
+                  <p>Track palpitations against your menstrual cycle if relevant. If you suspect thyroid involvement, mention it at your appointment &mdash; a simple blood test can check.</p>
+                </div>
+                <div class="trigger-subsection booklet">
+                  <div class="trigger-subsection-label">Booklet reference</div>
+                  <p>Note in your daily diary. Discuss at your appointment.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /triggers-grid -->
+
+        <!-- CTA -->
+        <div class="tool-cta">
+          <h3>Ready to find out what your triggers actually are?</h3>
+          <p>The OpenPalp programme combines 30 days of heart rhythm monitoring with a 6-week guided plan. Friday evenings in Wimbledon. &pound;60 assessment.</p>
+          <a href="../index.html#home" class="btn btn-primary">Book Your &pound;60 Assessment</a>
+        </div>
+
+      </section><!-- /triggers-section -->
+
+    </div><!-- /tool-wrapper -->
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-brand">OpenPalp <em>by London Cardiology Clinic</em></p>
+        <p style="margin-top:8px;">40&ndash;44 The Broadway, Wimbledon<br>London SW19 1RQ</p>
+        <p style="margin-top:8px;"><a href="mailto:drmahmoodclinic@pm.me">drmahmoodclinic@pm.me</a></p>
+      </div>
+      <div>
+        <h5>Pathway</h5>
+        <ul class="footer-links">
+          <li><a href="../index.html#programme">The Programme</a></li>
+          <li><a href="../index.html#devices">Your Device</a></li>
+          <li><a href="../index.html#suitability">Suitability</a></li>
+          <li><a href="../index.html#evidence">The Evidence</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Information</h5>
+        <ul class="footer-links">
+          <li><a href="../articles/">Articles</a></li>
+          <li><a href="../index.html#faq">FAQ</a></li>
+          <li><a href="../index.html#clinicians">For Clinicians</a></li>
+          <li><a href="../privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="../terms.html">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Dr Mahmood Ahmad &mdash; Specialist in Cardiology (SAS), MRCP(UK) &mdash; GMC <a href="https://www.gmc-uk.org/doctors/6071047" target="_blank" rel="noopener">6071047</a></p>
+      <p>This service is for selected low-risk patients only. Not an emergency service. Call 999 for chest pain, fainting, or severe breathlessness.</p>
+      <p>OpenPalp Pathway v1.0</p>
+    </div>
+  </footer>
+
+  <script>
+  // ── Hamburger nav ──
+  document.querySelector('.nav-hamburger').addEventListener('click', function() {
+    document.querySelector('.nav-links').classList.toggle('open');
+    this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+  });
+
+  // ── Trigger card expand / collapse ──
+  function toggleCard(cardId) {
+    var card = document.getElementById(cardId);
+    var btn = card.querySelector('.trigger-header');
+    var isOpen = card.classList.contains('open');
+
+    if (isOpen) {
+      card.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    } else {
+      card.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  // ── Keyboard support: Enter/Space on the header buttons ──
+  // (buttons already fire click on Enter; Space is the only addition needed)
+  document.querySelectorAll('.trigger-header').forEach(function(btn) {
+    btn.addEventListener('keydown', function(e) {
+      if (e.key === ' ') {
+        e.preventDefault();
+        btn.click();
+      }
+    });
+  });
+  </script>
+</body>
+</html>

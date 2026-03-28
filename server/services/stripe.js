@@ -4,7 +4,7 @@
  * Stripe service — London Cardiology Clinic
  *
  * All monetary values are in GBP pence (Stripe convention).
- * £49.99  = 4999
+ * £50.00  = 5000
  * £200.00 = 20000
  */
 
@@ -21,12 +21,12 @@ const BASE_URL = process.env.APP_BASE_URL || 'https://londoncardiology.clinic';
 const TIER_CONFIG = {
   1: {
     name: 'Cardiology Consultation',
-    amount: 4999, // £49.99
+    amount: 5000, // £50.00
     currency: 'gbp',
   },
   2: {
     name: 'CardioTrack Programme',
-    amount: 4999, // £49.99
+    amount: 5000, // £50.00
     currency: 'gbp',
   },
 };

@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sleep Hygiene Scorecard &mdash; OpenPalp</title>
+  <meta name="description" content="Rate your current sleep habits and see how they may be affecting your heart rhythm. Part of the OpenPalp palpitations programme.">
+  <link rel="canonical" href="https://londoncardiologyclinic.uk/tools/sleep-scorecard">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://londoncardiologyclinic.uk/tools/sleep-scorecard">
+  <meta property="og:title" content="Sleep Hygiene Scorecard &mdash; OpenPalp">
+  <meta property="og:description" content="Rate your current sleep habits and see how they may be affecting your heart rhythm. Part of the OpenPalp palpitations programme.">
+  <meta property="og:image" content="https://londoncardiologyclinic.uk/img/openpalp-7.png">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:site_name" content="OpenPalp by London Cardiology Clinic">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="robots" content="index, follow">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="stylesheet" href="../css/pages.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    "name": "Sleep Hygiene Scorecard",
+    "description": "Rate your current sleep habits and see how they may be affecting your heart rhythm. Part of the OpenPalp palpitations programme.",
+    "url": "https://londoncardiologyclinic.uk/tools/sleep-scorecard",
+    "author": { "@type": "Physician", "name": "Dr Mahmood Ahmad", "description": "Specialist in Cardiology (SAS), MRCP(UK), GMC 6071047" },
+    "publisher": { "@type": "MedicalClinic", "name": "OpenPalp by London Cardiology Clinic" },
+    "datePublished": "2026-03-24",
+    "dateModified": "2026-03-24",
+    "medicalAudience": { "@type": "MedicalAudience", "audienceType": "Patient" }
+  }
+  </script>
+  <style>
+    /* ── Tool-page intro ── */
+    .tool-hero {
+      background: linear-gradient(175deg, var(--sage-50) 0%, var(--warm-white) 60%, var(--white) 100%);
+      padding: 80px 24px 48px;
+      text-align: center;
+    }
+
+    .tool-hero h1 {
+      font-size: clamp(28px, 4vw, 40px);
+      margin-bottom: 12px;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .tool-hero .tool-subtitle {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--sage-600);
+      margin-bottom: 16px;
+    }
+
+    .tool-intro {
+      max-width: 620px;
+      margin: 0 auto;
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--dark-grey);
+    }
+
+    /* ── Tool wrapper ── */
+    .tool-content {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* ── Scorecard grid ── */
+    .scorecard-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin: 40px 0 32px;
+    }
+
+    @media (max-width: 600px) {
+      .scorecard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ── Individual card ── */
+    .sc-card {
+      background: var(--white);
+      border: 2px solid var(--light-grey);
+      border-radius: 12px;
+      padding: 20px 20px 16px;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 120px;
+    }
+
+    .sc-card:hover {
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+
+    .sc-card:focus-visible {
+      outline: 2px solid var(--blue-400);
+      outline-offset: 2px;
+    }
+
+    .sc-card .card-text {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--charcoal);
+      flex: 1;
+    }
+
+    .sc-card .card-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--mid-grey);
+      transition: color 0.2s;
+    }
+
+    .sc-card .card-toggle-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--mid-grey);
+      flex-shrink: 0;
+      transition: background 0.2s, border-color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sc-card .card-toggle-icon svg {
+      display: none;
+      width: 10px;
+      height: 10px;
+    }
+
+    /* Selected — good habit */
+    .sc-card.selected-good {
+      border-color: #4D7A65;
+      background: #f3f8f5;
+      box-shadow: 0 4px 16px rgba(77,122,101,0.12);
+    }
+
+    .sc-card.selected-good .card-toggle {
+      color: #4D7A65;
+    }
+
+    .sc-card.selected-good .card-toggle-icon {
+      background: #4D7A65;
+      border-color: #4D7A65;
+    }
+
+    .sc-card.selected-good .card-toggle-icon svg {
+      display: block;
+    }
+
+    /* Selected — bad habit */
+    .sc-card.selected-bad {
+      border-color: #D4A43C;
+      background: #fdf8ec;
+      box-shadow: 0 4px 16px rgba(212,164,60,0.12);
+    }
+
+    .sc-card.selected-bad .card-toggle {
+      color: #B8880F;
+    }
+
+    .sc-card.selected-bad .card-toggle-icon {
+      background: #D4A43C;
+      border-color: #D4A43C;
+    }
+
+    .sc-card.selected-bad .card-toggle-icon svg {
+      display: block;
+    }
+
+    /* ── Score button ── */
+    .scorecard-actions {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    #see-results-btn {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 14px 36px;
+      border-radius: 999px;
+      border: none;
+      background: var(--blue-600);
+      color: var(--white);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+    }
+
+    #see-results-btn:hover:not(:disabled) {
+      background: var(--blue-700);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+
+    #see-results-btn:focus-visible {
+      outline: 2px solid var(--blue-400);
+      outline-offset: 2px;
+    }
+
+    #see-results-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    /* ── Results panel ── */
+    #results-panel {
+      display: none;
+      margin-top: 40px;
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #results-panel { animation: none; }
+    }
+
+    .results-score-band {
+      border-radius: 12px;
+      padding: 28px 28px 24px;
+      margin-bottom: 28px;
+    }
+
+    .results-score-band.green {
+      background: #edf6f1;
+      border: 1.5px solid #4D7A65;
+    }
+
+    .results-score-band.amber {
+      background: #fdf7e8;
+      border: 1.5px solid #D4A43C;
+    }
+
+    .results-score-band.red {
+      background: #fdf2f2;
+      border: 1.5px solid #C45A5A;
+    }
+
+    .results-score-num {
+      font-family: var(--font-serif);
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .results-score-band.green .results-score-num { color: #4D7A65; }
+    .results-score-band.amber .results-score-num { color: #B8880F; }
+    .results-score-band.red   .results-score-num { color: #C45A5A; }
+
+    .results-score-label {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .results-score-band.green .results-score-label { color: #4D7A65; }
+    .results-score-band.amber .results-score-label { color: #B8880F; }
+    .results-score-band.red   .results-score-label { color: #C45A5A; }
+
+    .results-message {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--dark-grey);
+      max-width: 560px;
+    }
+
+    /* ── Tips section ── */
+    .results-tips h3 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: var(--charcoal);
+    }
+
+    .tip-item {
+      background: var(--ivory);
+      border-left: 3px solid var(--blue-400);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--dark-grey);
+    }
+
+    .tip-item strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--charcoal);
+      margin-bottom: 4px;
+    }
+
+    .no-tips-msg {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      color: var(--dark-grey);
+      font-style: italic;
+      margin-bottom: 16px;
+    }
+
+    /* ── Bottom note ── */
+    .scorecard-note {
+      background: var(--ivory);
+      border: 1px solid var(--light-grey);
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--mid-grey);
+      line-height: 1.6;
+      margin-top: 32px;
+    }
+
+    /* ── Try again ── */
+    #try-again-btn {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 24px;
+      border-radius: 999px;
+      border: 1.5px solid var(--blue-200);
+      background: transparent;
+      color: var(--blue-600);
+      cursor: pointer;
+      margin-top: 24px;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    #try-again-btn:hover {
+      background: var(--blue-50);
+      border-color: var(--blue-400);
+      color: var(--blue-700);
+    }
+
+    #try-again-btn:focus-visible {
+      outline: 2px solid var(--blue-400);
+      outline-offset: 2px;
+    }
+
+    /* ── CTA box ── */
+    .article-cta {
+      background: var(--blue-50);
+      border: 1px solid var(--blue-100);
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+      margin-top: 48px;
+    }
+
+    .article-cta h3 { margin: 0 0 8px; }
+    .article-cta p { margin: 0 0 16px; font-size: 15px; color: var(--dark-grey); max-width: none; }
+  </style>
+</head>
+<body>
+  <div class="safety-banner" role="alert">
+    <strong>If you have chest pain, fainting, severe breathlessness, or feel acutely unwell, call 999 immediately.</strong> This is not an emergency service.
+  </div>
+
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">OpenPalp <em>by London Cardiology Clinic</em></a>
+      <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../index.html#programme">The Programme</a></li>
+        <li><a href="../index.html#devices">Your Device</a></li>
+        <li><a href="../index.html#suitability">Is This Right for You?</a></li>
+        <li><a href="../index.html#evidence">The Evidence</a></li>
+        <li><a href="../articles/">Articles</a></li>
+        <li><a href="./" class="active">Tools</a></li>
+        <li><a href="../index.html#clinicians">For Clinicians</a></li>
+        <li><a href="../index.html#home" class="nav-cta">Book</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div class="tool-hero">
+      <p class="tool-subtitle">OpenPalp Tool &mdash; Week 4</p>
+      <h1>Sleep Hygiene Scorecard</h1>
+      <p class="tool-intro">Sleep is one of the strongest predictors of heart rhythm stability. The UK Biobank study of 403,000 people found that disrupted sleep patterns significantly increase arrhythmia risk. Rate your current habits below.</p>
+    </div>
+
+    <div class="tool-content">
+
+      <div class="scorecard-grid" id="scorecard-grid" role="group" aria-label="Sleep habit statements">
+
+        <!-- Card 1 — GOOD -->
+        <div class="sc-card"
+             id="card-1"
+             role="checkbox"
+             aria-checked="false"
+             tabindex="0"
+             data-type="good"
+             data-index="1">
+          <span class="card-text">I wake up at the same time every day, including weekends.</span>
+          <span class="card-toggle" aria-hidden="true">
+            <span class="card-toggle-icon">
+              <svg viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="1.5,5 4,7.5 8.5,2.5"/>
+              </svg>
+            </span>
+            <span class="card-toggle-label">This is me</span>
+          </span>
+        </div>
+
+        <!-- Card 2 — BAD -->
+        <div class="sc-card"
+             id="card-2"
+             role="checkbox"
+             aria-checked="false"
+             tabindex="0"
+             data-type="bad"
+             data-index="2">
+          <span class="card-text">I use my phone or tablet in bed before sleep.</span>
+          <span class="card-toggle" aria-hidden="true">
+            <span class="card-toggle-icon">
+              <svg viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="1.5,5 4,7.5 8.5,2.5"/>
+              </svg>
+            </span>
+            <span class="card-toggle-label">This is me</span>
+          </span>
+        </div>
+
+        <!-- Card 3 — GOOD -->
+        <div class="sc-card"
+             id="card-3"
+             role="checkbox"
+             aria-checked="false"
+             tabindex="0"
+             data-type="good"
+             data-index="3">
+          <span class="card-text">I avoid caffeine after 2pm.</span>
+          <span class="card-toggle" aria-hidden="true">
+            <span class="card-toggle-icon">
+              <svg viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="1.5,5 4,7.5 8.5,2.5"/>
+              </svg>
+            </span>
+            <span class="card-toggle-label">This is me</span>
+          </span>
+        </div>
+
+        <!-- Card 4 — BAD -->
+        <div class="sc-card"
+             id="card-4"
+             role="checkbox"
+             aria-checked="false"
+             tabindex="0"
+             data-type="bad"
+             data-index="4">
+          <span class="card-text">I often fall asleep with the TV on.</span>
+          <span class="card-toggle" aria-hidden="true">
+            <span class="card-toggle-icon">
+              <svg viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="1.5,5 4,7.5 8.5,2.5"/>
+              </svg>
+            </span>
+            <span class="card-toggle-label">This is me</span>
+          </span>
+        </div>
+
+        <!-- Card 5 — GOOD -->
+        <div class="sc-card"
+             id="card-5"
+             role="checkbox"
+             aria-checked="false"
+             tabindex="0"
+             data-type="good"
+             data-index="5">
+          <span class="card-text">My bedroom is cool, dark, and quiet.</span>
+          <span class="card-toggle" aria-hidden="true">
+            <span class="card-toggle-icon">
+              <svg viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="1.5,5 4,7.5 8.5,2.5"/>
+              </svg>
+            </span>
+            <span class="card-toggle-label">This is me</span>
+          </span>
+        </div>
+
+        <!-- Card 6 — BAD -->
+        <div class="sc-card"
+             id="card-6"
+             role="checkbox"
+             aria-checked="false"
+             tabindex="0"
+             data-type="bad"
+             data-index="6">
+          <span class="card-text">I go to bed at very different times on weeknights versus weekends.</span>
+          <span class="card-toggle" aria-hidden="true">
+            <span class="card-toggle-icon">
+              <svg viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="1.5,5 4,7.5 8.5,2.5"/>
+              </svg>
+            </span>
+            <span class="card-toggle-label">This is me</span>
+          </span>
+        </div>
+
+        <!-- Card 7 — GOOD -->
+        <div class="sc-card"
+             id="card-7"
+             role="checkbox"
+             aria-checked="false"
+             tabindex="0"
+             data-type="good"
+             data-index="7">
+          <span class="card-text">I have a wind-down routine in the 30 minutes before bed.</span>
+          <span class="card-toggle" aria-hidden="true">
+            <span class="card-toggle-icon">
+              <svg viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="1.5,5 4,7.5 8.5,2.5"/>
+              </svg>
+            </span>
+            <span class="card-toggle-label">This is me</span>
+          </span>
+        </div>
+
+        <!-- Card 8 — BAD -->
+        <div class="sc-card"
+             id="card-8"
+             role="checkbox"
+             aria-checked="false"
+             tabindex="0"
+             data-type="bad"
+             data-index="8">
+          <span class="card-text">I regularly wake up feeling unrefreshed.</span>
+          <span class="card-toggle" aria-hidden="true">
+            <span class="card-toggle-icon">
+              <svg viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="1.5,5 4,7.5 8.5,2.5"/>
+              </svg>
+            </span>
+            <span class="card-toggle-label">This is me</span>
+          </span>
+        </div>
+
+      </div><!-- /.scorecard-grid -->
+
+      <div class="scorecard-actions">
+        <button id="see-results-btn" disabled aria-disabled="true">See your results</button>
+      </div>
+
+      <!-- ── Results panel ── -->
+      <div id="results-panel" aria-live="polite" aria-atomic="true">
+
+        <div id="score-band" class="results-score-band">
+          <div id="score-num" class="results-score-num"></div>
+          <div id="score-label" class="results-score-label"></div>
+          <p id="score-message" class="results-message"></p>
+        </div>
+
+        <div class="results-tips" id="tips-section">
+          <h3>Personalised suggestions</h3>
+          <div id="tips-list"></div>
+        </div>
+
+        <p class="scorecard-note">Record your sleep observations in your OpenPalp booklet (Week&nbsp;4) and discuss them at your results appointment. This scorecard does not store any data.</p>
+
+        <div style="text-align:center;">
+          <button id="try-again-btn">Try again</button>
+        </div>
+
+      </div><!-- /#results-panel -->
+
+      <div class="article-cta">
+        <h3>Ready to take the next step?</h3>
+        <p>The OpenPalp programme combines 30 days of heart rhythm monitoring with a 6-week guided plan. Friday evenings in Wimbledon. &pound;60 assessment.</p>
+        <a href="../index.html#home" class="btn btn-primary">Book Your &pound;60 Assessment</a>
+      </div>
+
+    </div><!-- /.tool-content -->
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-brand">OpenPalp <em>by London Cardiology Clinic</em></p>
+        <p style="margin-top:8px;">40&ndash;44 The Broadway, Wimbledon<br>London SW19 1RQ</p>
+        <p style="margin-top:8px;"><a href="mailto:drmahmoodclinic@pm.me">drmahmoodclinic@pm.me</a></p>
+      </div>
+      <div>
+        <h5>Pathway</h5>
+        <ul class="footer-links">
+          <li><a href="../index.html#programme">The Programme</a></li>
+          <li><a href="../index.html#devices">Your Device</a></li>
+          <li><a href="../index.html#suitability">Suitability</a></li>
+          <li><a href="../index.html#evidence">The Evidence</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Information</h5>
+        <ul class="footer-links">
+          <li><a href="../articles/">Articles</a></li>
+          <li><a href="../index.html#faq">FAQ</a></li>
+          <li><a href="../index.html#clinicians">For Clinicians</a></li>
+          <li><a href="../privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="../terms.html">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Dr Mahmood Ahmad &mdash; Specialist in Cardiology (SAS), MRCP(UK) &mdash; GMC <a href="https://www.gmc-uk.org/doctors/6071047" target="_blank" rel="noopener">6071047</a></p>
+      <p>This service is for selected low-risk patients only. Not an emergency service. Call 999 for chest pain, fainting, or severe breathlessness.</p>
+      <p>OpenPalp Pathway v1.0</p>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    'use strict';
+
+    /* ── Data ── */
+    var CARDS = [
+      {
+        id: 1,
+        type: 'good',
+        missingTip: {
+          label: 'No fixed wake time',
+          text: 'Try setting the same alarm every day for two weeks \u2014 including weekends. This is the \u2018sleep anchor\u2019 from Week\u00a04 of the programme.'
+        }
+      },
+      {
+        id: 2,
+        type: 'bad',
+        presentTip: {
+          label: 'Phone or tablet in bed',
+          text: 'Blue light and mental stimulation keep your brain alert. Try leaving your phone outside the bedroom, or use Do Not Disturb mode from 9pm.'
+        }
+      },
+      {
+        id: 3,
+        type: 'good',
+        missingTip: {
+          label: 'Caffeine after 2pm',
+          text: 'Caffeine has a half-life of 5\u20136 hours. An afternoon coffee at 3pm still has half its effect at 9pm.'
+        }
+      },
+      {
+        id: 4,
+        type: 'bad',
+        presentTip: {
+          label: 'Falling asleep with the TV on',
+          text: 'Falling asleep to TV fragments your sleep cycles. Try silence or a low-volume podcast with a sleep timer.'
+        }
+      },
+      {
+        id: 5,
+        type: 'good',
+        missingTip: {
+          label: 'Bedroom environment',
+          text: 'Even small improvements \u2014 a blackout blind, earplugs, a cooler room \u2014 can improve sleep quality measurably.'
+        }
+      },
+      {
+        id: 6,
+        type: 'bad',
+        presentTip: {
+          label: 'Irregular bedtimes',
+          text: 'A fixed wake time \u2014 even at weekends \u2014 is the single most effective sleep anchor. Start there.'
+        }
+      },
+      {
+        id: 7,
+        type: 'good',
+        missingTip: {
+          label: 'No wind-down routine',
+          text: 'Even 15 minutes of low-stimulation activity (reading, stretching, breathing exercises) signals your brain to prepare for sleep.'
+        }
+      },
+      {
+        id: 8,
+        type: 'bad',
+        presentTip: {
+          label: 'Waking unrefreshed',
+          text: 'Waking unrefreshed despite adequate hours may indicate poor sleep quality. Track it in your booklet (Week\u00a04) and discuss at your appointment.'
+        }
+      }
+    ];
+
+    /* ── State ── */
+    var selected = {}; /* { cardId: true/false } */
+
+    /* ── DOM refs ── */
+    var grid       = document.getElementById('scorecard-grid');
+    var seeBtn     = document.getElementById('see-results-btn');
+    var resultsPanel = document.getElementById('results-panel');
+    var scoreBand  = document.getElementById('score-band');
+    var scoreNum   = document.getElementById('score-num');
+    var scoreLabel = document.getElementById('score-label');
+    var scoreMsg   = document.getElementById('score-message');
+    var tipsList   = document.getElementById('tips-list');
+    var tryAgainBtn = document.getElementById('try-again-btn');
+
+    /* ── Toggle a card ── */
+    function toggleCard(cardEl) {
+      var id = parseInt(cardEl.getAttribute('data-index'), 10);
+      var type = cardEl.getAttribute('data-type');
+      var nowSelected = !selected[id];
+      selected[id] = nowSelected;
+
+      cardEl.setAttribute('aria-checked', nowSelected ? 'true' : 'false');
+
+      /* Remove both state classes first */
+      cardEl.classList.remove('selected-good', 'selected-bad');
+
+      if (nowSelected) {
+        cardEl.classList.add(type === 'good' ? 'selected-good' : 'selected-bad');
+        cardEl.querySelector('.card-toggle-label').textContent = 'This is me';
+      } else {
+        cardEl.querySelector('.card-toggle-label').textContent = 'This is me';
+      }
+
+      /* Enable button once at least one card touched */
+      var anySelected = Object.keys(selected).some(function (k) { return selected[k]; });
+      seeBtn.disabled = !anySelected;
+      seeBtn.setAttribute('aria-disabled', anySelected ? 'false' : 'true');
+
+      /* Hide results if user continues editing */
+      resultsPanel.style.display = 'none';
+    }
+
+    /* ── Attach card listeners ── */
+    var cards = grid.querySelectorAll('.sc-card');
+    cards.forEach(function (cardEl) {
+      cardEl.addEventListener('click', function () { toggleCard(cardEl); });
+      cardEl.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleCard(cardEl);
+        }
+      });
+    });
+
+    /* ── Compute score ── */
+    function computeScore() {
+      var score = 0;
+      CARDS.forEach(function (card) {
+        var isSelected = !!selected[card.id];
+        if (card.type === 'good' && isSelected)  { score++; }
+        if (card.type === 'bad'  && !isSelected) { score++; }
+      });
+      return score;
+    }
+
+    /* ── Build tips ── */
+    function buildTips() {
+      var html = '';
+      CARDS.forEach(function (card) {
+        var isSelected = !!selected[card.id];
+        var tip = null;
+        if (card.type === 'bad' && isSelected && card.presentTip) {
+          tip = card.presentTip;
+        }
+        if (card.type === 'good' && !isSelected && card.missingTip) {
+          tip = card.missingTip;
+        }
+        if (tip) {
+          html += '<div class="tip-item"><strong>' +
+            escHtml(tip.label) +
+            '</strong>' +
+            escHtml(tip.text) +
+            '</div>';
+        }
+      });
+      return html;
+    }
+
+    /* ── Simple HTML escape (content only, no attribute context) ── */
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    /* ── Show results ── */
+    seeBtn.addEventListener('click', function () {
+      var score = computeScore();
+
+      scoreNum.textContent = score + '/8';
+
+      /* Traffic light */
+      scoreBand.classList.remove('green', 'amber', 'red');
+      if (score >= 7) {
+        scoreBand.classList.add('green');
+        scoreLabel.textContent = 'Strong sleep habits';
+        scoreMsg.textContent = 'Your sleep habits are strong. Keep it up \u2014 your heart rhythm benefits.';
+      } else if (score >= 4) {
+        scoreBand.classList.add('amber');
+        scoreLabel.textContent = 'Room for improvement';
+        scoreMsg.textContent = 'There are a few areas that could improve your heart rhythm. Small changes can make a real difference.';
+      } else {
+        scoreBand.classList.add('red');
+        scoreLabel.textContent = 'Sleep may be a significant factor';
+        scoreMsg.textContent = 'Sleep may be a significant contributor to your palpitations. Prioritising sleep could be one of the most effective changes you make.';
+      }
+
+      /* Tips */
+      var tipsHtml = buildTips();
+      if (tipsHtml) {
+        tipsList.innerHTML = tipsHtml;
+        document.getElementById('tips-section').style.display = '';
+      } else {
+        tipsList.innerHTML = '<p class="no-tips-msg">No specific suggestions \u2014 your habits are all on track.</p>';
+        document.getElementById('tips-section').style.display = '';
+      }
+
+      resultsPanel.style.display = 'block';
+      resultsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    /* ── Reset ── */
+    tryAgainBtn.addEventListener('click', function () {
+      selected = {};
+      cards.forEach(function (cardEl) {
+        cardEl.classList.remove('selected-good', 'selected-bad');
+        cardEl.setAttribute('aria-checked', 'false');
+        cardEl.querySelector('.card-toggle-label').textContent = 'This is me';
+      });
+      seeBtn.disabled = true;
+      seeBtn.setAttribute('aria-disabled', 'true');
+      resultsPanel.style.display = 'none';
+      grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+  }());
+
+  /* ── Hamburger ── */
+  document.querySelector('.nav-hamburger').addEventListener('click', function () {
+    document.querySelector('.nav-links').classList.toggle('open');
+    this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+  });
+  </script>
+</body>
+</html>

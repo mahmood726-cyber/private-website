@@ -135,7 +135,7 @@ function classifyRecording(classification, heartRate) {
 
   if (c === 'atrial fibrillation') return 'red';
 
-  if (c === 'possible atrial fibrillation') return 'amber';
+  if (c === 'possible atrial fibrillation') return 'red';
 
   if (c === 'sinus tachycardia') {
     // Amber only if HR is actually elevated; default amber if HR unknown

@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vagal Techniques &mdash; Step by Step &mdash; OpenPalp</title>
+  <meta name="description" content="Step-by-step interactive guide to vagal techniques for palpitations. The Valsalva manoeuvre, cold water dive reflex, and 4-6 breathing — with countdown timers.">
+  <link rel="canonical" href="https://londoncardiologyclinic.uk/tools/vagal-techniques">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://londoncardiologyclinic.uk/tools/vagal-techniques">
+  <meta property="og:title" content="Vagal Techniques &mdash; Step by Step &mdash; OpenPalp">
+  <meta property="og:description" content="Step-by-step interactive guide to vagal techniques for palpitations. The Valsalva manoeuvre, cold water dive reflex, and 4-6 breathing — with countdown timers.">
+  <meta property="og:image" content="https://londoncardiologyclinic.uk/img/openpalp-7.png">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:site_name" content="OpenPalp by London Cardiology Clinic">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="robots" content="index, follow">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="stylesheet" href="../css/pages.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    "name": "Vagal Techniques Step by Step",
+    "description": "Step-by-step interactive guide to vagal techniques for palpitations. The Valsalva manoeuvre, cold water dive reflex, and 4-6 breathing.",
+    "url": "https://londoncardiologyclinic.uk/tools/vagal-techniques",
+    "author": { "@type": "Physician", "name": "Dr Mahmood Ahmad", "description": "Specialist in Cardiology (SAS), MRCP(UK), GMC 6071047" },
+    "publisher": { "@type": "MedicalClinic", "name": "OpenPalp by London Cardiology Clinic" },
+    "datePublished": "2026-03-24",
+    "dateModified": "2026-03-24",
+    "medicalAudience": { "@type": "MedicalAudience", "audienceType": "Patient" }
+  }
+  </script>
+
+  <style>
+    /* ── Tool hero ── */
+    .tool-hero {
+      background: linear-gradient(175deg, var(--blue-50) 0%, var(--warm-white) 60%, var(--white) 100%);
+      padding: 80px 24px 48px;
+      text-align: center;
+    }
+
+    .tool-hero h1 {
+      font-size: clamp(28px, 4vw, 40px);
+      margin-bottom: 14px;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .tool-hero p {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      color: var(--dark-grey);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.75;
+    }
+
+    /* ── Page wrapper ── */
+    .vagal-wrapper {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 56px 24px 80px;
+    }
+
+    /* ── Technique cards ── */
+    .technique-card {
+      background: var(--blue-50);
+      border: 1px solid var(--blue-100);
+      border-radius: 16px;
+      padding: 36px 32px 32px;
+      margin-bottom: 40px;
+    }
+
+    .technique-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: var(--blue-500);
+      color: var(--white);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 50%;
+      margin-bottom: 16px;
+    }
+
+    .technique-title {
+      font-family: var(--font-serif);
+      font-size: clamp(22px, 3vw, 28px);
+      font-weight: 700;
+      color: var(--charcoal);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .technique-subtitle {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--blue-500);
+      margin-bottom: 24px;
+    }
+
+    /* ── Steps ── */
+    .steps-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 24px;
+      counter-reset: step-counter;
+    }
+
+    .steps-list li {
+      counter-increment: step-counter;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--blue-100);
+      max-width: none;
+    }
+
+    .steps-list li:last-child {
+      border-bottom: none;
+    }
+
+    .step-num {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: var(--white);
+      border: 2px solid var(--blue-200);
+      color: var(--blue-700);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 50%;
+      margin-top: 2px;
+    }
+
+    .step-text {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      color: var(--dark-grey);
+      line-height: 1.65;
+    }
+
+    /* ── Timer block ── */
+    .timer-block {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      background: var(--white);
+      border: 1px solid var(--blue-200);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 24px 0;
+      flex-wrap: wrap;
+    }
+
+    .timer-svg-wrap {
+      position: relative;
+      flex-shrink: 0;
+      width: 72px;
+      height: 72px;
+    }
+
+    .timer-svg-wrap svg {
+      transform: rotate(-90deg);
+      display: block;
+    }
+
+    .timer-track {
+      fill: none;
+      stroke: var(--blue-100);
+      stroke-width: 6;
+    }
+
+    .timer-ring {
+      fill: none;
+      stroke: var(--blue-500);
+      stroke-width: 6;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1s linear;
+    }
+
+    .timer-countdown-label {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-sans);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--charcoal);
+    }
+
+    .timer-body {
+      flex: 1;
+    }
+
+    .timer-label {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--mid-grey);
+      margin-bottom: 8px;
+    }
+
+    .timer-btn {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 20px;
+      background: var(--blue-600);
+      color: var(--white);
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .timer-btn:hover { background: var(--blue-700); transform: translateY(-1px); }
+    .timer-btn:focus-visible { outline: 2px solid var(--blue-400); outline-offset: 2px; }
+
+    .timer-btn:disabled {
+      background: var(--blue-200);
+      cursor: default;
+      transform: none;
+    }
+
+    .timer-status {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--blue-700);
+      margin-top: 8px;
+      min-height: 20px;
+    }
+
+    /* ── Safety box ── */
+    .safety-box {
+      background: #FDF2F2;
+      border: 1.5px solid #E8B4B4;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 24px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .safety-box-icon {
+      flex-shrink: 0;
+      font-size: 18px;
+      line-height: 1.4;
+    }
+
+    .safety-box-body {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: #7A2A2A;
+      line-height: 1.65;
+    }
+
+    .safety-box-body strong {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #A63D3D;
+    }
+
+    /* ── How it works callout ── */
+    .how-it-works {
+      border-left: 4px solid var(--blue-400);
+      padding: 14px 18px;
+      background: var(--white);
+      border-radius: 0 8px 8px 0;
+      margin: 24px 0 0;
+    }
+
+    .how-it-works strong {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--blue-500);
+      margin-bottom: 6px;
+    }
+
+    .how-it-works p {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--dark-grey);
+      line-height: 1.65;
+      margin: 0;
+      max-width: none;
+    }
+
+    /* ── Alternative box ── */
+    .alternative-box {
+      background: var(--ivory);
+      border: 1px solid var(--light-grey);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--dark-grey);
+      line-height: 1.65;
+    }
+
+    .alternative-box strong {
+      color: var(--charcoal);
+    }
+
+    /* ── Breathing card ── */
+    .breathing-card {
+      background: var(--sage-50);
+      border: 1px solid var(--sage-100);
+      border-radius: 16px;
+      padding: 36px 32px 32px;
+      margin-bottom: 40px;
+    }
+
+    .breathing-card .technique-subtitle {
+      color: var(--sage-600);
+    }
+
+    .breathing-circle-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 28px 0;
+    }
+
+    /* Breathing animation */
+    .breath-ring {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--sage-400) 0%, var(--sage-100) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+      text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      animation: breath-cycle 10s ease-in-out infinite;
+    }
+
+    @keyframes breath-cycle {
+      0%   { transform: scale(0.80); opacity: 0.75; }
+      40%  { transform: scale(1.15); opacity: 1; }     /* inhale 4s */
+      100% { transform: scale(0.80); opacity: 0.75; }  /* exhale 6s */
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .breath-ring {
+        animation: none;
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .breath-phase-label {
+      display: block;
+      text-align: center;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--sage-600);
+      margin-top: -10px;
+      margin-bottom: 20px;
+      height: 20px;
+    }
+
+    .breathing-card p {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      color: var(--dark-grey);
+      line-height: 1.75;
+      margin-bottom: 16px;
+      max-width: none;
+    }
+
+    .breathing-card a {
+      color: var(--sage-600);
+    }
+
+    .breathing-card a:hover {
+      color: var(--charcoal);
+    }
+
+    /* ── When to use section ── */
+    .when-section {
+      background: var(--white);
+      border: 1px solid var(--light-grey);
+      border-radius: 16px;
+      padding: 36px 32px;
+      margin-bottom: 40px;
+    }
+
+    .when-section h2 {
+      font-size: clamp(20px, 2.5vw, 24px);
+      margin-bottom: 24px;
+    }
+
+    .protocol-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      counter-reset: protocol-counter;
+    }
+
+    .protocol-list li {
+      counter-increment: protocol-counter;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--light-grey);
+      max-width: none;
+    }
+
+    .protocol-list li:last-child {
+      border-bottom: none;
+    }
+
+    .protocol-num {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      background: var(--charcoal);
+      color: var(--white);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: 50%;
+      margin-top: 1px;
+    }
+
+    .protocol-list li:last-child .protocol-num {
+      background: #A63D3D;
+    }
+
+    .protocol-text {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      color: var(--dark-grey);
+      line-height: 1.65;
+    }
+
+    .protocol-list li:last-child .protocol-text {
+      color: #A63D3D;
+      font-weight: 600;
+    }
+
+    /* ── Disclaimer ── */
+    .tool-disclaimer {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--mid-grey);
+      background: var(--ivory);
+      border: 1px solid var(--light-grey);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    /* ── CTA section ── */
+    .cta-section {
+      background: var(--blue-50);
+      border-top: 1px solid var(--blue-100);
+      padding: 64px 24px;
+      text-align: center;
+    }
+
+    .cta-section h3 {
+      font-size: clamp(20px, 2.5vw, 26px);
+      margin-bottom: 12px;
+    }
+
+    .cta-section p {
+      font-size: 16px;
+      color: var(--dark-grey);
+      margin-bottom: 24px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── Screen reader announcer ── */
+    .sr-announcer {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .tool-hero { padding: 56px 20px 36px; }
+      .vagal-wrapper { padding: 40px 20px 60px; }
+      .technique-card,
+      .breathing-card,
+      .when-section { padding: 28px 20px; }
+      .timer-block { gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="safety-banner" role="alert">
+    <strong>If you have chest pain, fainting, severe breathlessness, or feel acutely unwell, call 999 immediately.</strong> This is not an emergency service.
+  </div>
+
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">OpenPalp <em>by London Cardiology Clinic</em></a>
+      <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../index.html#programme">The Programme</a></li>
+        <li><a href="../index.html#devices">Your Device</a></li>
+        <li><a href="../index.html#suitability">Is This Right for You?</a></li>
+        <li><a href="../index.html#evidence">The Evidence</a></li>
+        <li><a href="../articles/">Articles</a></li>
+        <li><a href="./" class="active">Tools</a></li>
+        <li><a href="../index.html#clinicians">For Clinicians</a></li>
+        <li><a href="../index.html#home" class="nav-cta">Book</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+
+    <div class="tool-hero">
+      <h1>Vagal Techniques &mdash; Step by Step</h1>
+      <p>These techniques stimulate the vagus nerve, which can slow your heart rate during a palpitation episode. They work best when used early &mdash; as soon as you notice symptoms. Practise them when you feel well so they are familiar when you need them.</p>
+    </div>
+
+    <div class="vagal-wrapper">
+
+      <!-- Screen reader live region -->
+      <div class="sr-announcer" aria-live="polite" aria-atomic="true" id="sr-announcer"></div>
+
+      <!-- ────────────────────────────────────────────────
+           TECHNIQUE 1: VALSALVA MANOEUVRE
+      ──────────────────────────────────────────────── -->
+      <div class="technique-card" id="technique-valsalva">
+
+        <div class="technique-number" aria-hidden="true">1</div>
+        <h2 class="technique-title">The Valsalva Manoeuvre</h2>
+        <p class="technique-subtitle">Pressure-based vagal activation</p>
+
+        <ol class="steps-list" aria-label="Steps for the Valsalva manoeuvre">
+          <li>
+            <span class="step-num" aria-hidden="true">1</span>
+            <span class="step-text">Sit down and take a deep breath in</span>
+          </li>
+          <li>
+            <span class="step-num" aria-hidden="true">2</span>
+            <span class="step-text">Close your mouth and pinch your nose</span>
+          </li>
+          <li>
+            <span class="step-num" aria-hidden="true">3</span>
+            <span class="step-text">Bear down &mdash; as if straining on the toilet</span>
+          </li>
+          <li>
+            <span class="step-num" aria-hidden="true">4</span>
+            <span class="step-text">
+              Hold for 10&ndash;15 seconds &mdash; start the timer when you begin bearing down
+              <div class="timer-block" role="group" aria-label="15 second countdown timer">
+                <div class="timer-svg-wrap" aria-hidden="true">
+                  <svg width="72" height="72" viewBox="0 0 72 72">
+                    <circle class="timer-track" cx="36" cy="36" r="30"/>
+                    <circle class="timer-ring" id="valsalva-ring" cx="36" cy="36" r="30"
+                      stroke-dasharray="188.5"
+                      stroke-dashoffset="0"/>
+                  </svg>
+                  <div class="timer-countdown-label" id="valsalva-count">15</div>
+                </div>
+                <div class="timer-body">
+                  <p class="timer-label">Hold for 15 seconds</p>
+                  <button class="timer-btn" id="valsalva-btn" type="button">Start timer</button>
+                  <p class="timer-status" id="valsalva-status" aria-live="polite"></p>
+                </div>
+              </div>
+            </span>
+          </li>
+          <li>
+            <span class="step-num" aria-hidden="true">5</span>
+            <span class="step-text">Release suddenly and breathe normally</span>
+          </li>
+          <li>
+            <span class="step-num" aria-hidden="true">6</span>
+            <span class="step-text">Wait 30 seconds. If palpitations continue, you can try again.</span>
+          </li>
+        </ol>
+
+        <div class="safety-box" role="note" aria-label="Safety warning">
+          <span class="safety-box-icon" aria-hidden="true">&#9888;</span>
+          <div class="safety-box-body">
+            <strong>Do NOT use this technique if you have:</strong>
+            glaucoma or eye disease, a known heart valve problem, or have been told to avoid straining.
+          </div>
+        </div>
+
+        <div class="how-it-works">
+          <strong>How it works</strong>
+          <p>Bearing down increases pressure in your chest, which stimulates the vagus nerve. The sudden release causes a reflex slowing of the heart.</p>
+        </div>
+
+      </div><!-- /technique-valsalva -->
+
+
+      <!-- ────────────────────────────────────────────────
+           TECHNIQUE 2: COLD WATER / DIVE REFLEX
+      ──────────────────────────────────────────────── -->
+      <div class="technique-card" id="technique-cold">
+
+        <div class="technique-number" aria-hidden="true">2</div>
+        <h2 class="technique-title">Cold Water Technique</h2>
+        <p class="technique-subtitle">Dive reflex activation</p>
+
+        <ol class="steps-list" aria-label="Steps for the cold water technique">
+          <li>
+            <span class="step-num" aria-hidden="true">1</span>
+            <span class="step-text">Fill a bowl or basin with cold water (not ice)</span>
+          </li>
+          <li>
+            <span class="step-num" aria-hidden="true">2</span>
+            <span class="step-text">Take a breath in and hold it</span>
+          </li>
+          <li>
+            <span class="step-num" aria-hidden="true">3</span>
+            <span class="step-text">
+              Submerge your face in the water for 10&ndash;20 seconds &mdash; start the timer as your face enters the water
+              <div class="timer-block" role="group" aria-label="15 second countdown timer for cold water technique">
+                <div class="timer-svg-wrap" aria-hidden="true">
+                  <svg width="72" height="72" viewBox="0 0 72 72">
+                    <circle class="timer-track" cx="36" cy="36" r="30"/>
+                    <circle class="timer-ring" id="cold-ring" cx="36" cy="36" r="30"
+                      stroke-dasharray="188.5"
+                      stroke-dashoffset="0"/>
+                  </svg>
+                  <div class="timer-countdown-label" id="cold-count">15</div>
+                </div>
+                <div class="timer-body">
+                  <p class="timer-label">Hold for 15 seconds</p>
+                  <button class="timer-btn" id="cold-btn" type="button">Start timer</button>
+                  <p class="timer-status" id="cold-status" aria-live="polite"></p>
+                </div>
+              </div>
+            </span>
+          </li>
+          <li>
+            <span class="step-num" aria-hidden="true">4</span>
+            <span class="step-text">Lift your face out and breathe normally</span>
+          </li>
+        </ol>
+
+        <div class="alternative-box" role="note">
+          <strong>No bowl available?</strong> Hold a cold flannel, cold pack, or bag of frozen peas against your forehead and cheeks for 20&ndash;30 seconds. This achieves a similar effect.
+        </div>
+
+        <div class="safety-box" role="note" aria-label="Safety warning">
+          <span class="safety-box-icon" aria-hidden="true">&#9888;</span>
+          <div class="safety-box-body">
+            <strong>Not suitable if you have:</strong>
+            Raynaud syndrome or severe cold sensitivity. Do not use ice water.
+          </div>
+        </div>
+
+        <div class="how-it-works">
+          <strong>How it works</strong>
+          <p>Cold water on the face triggers the mammalian dive reflex &mdash; an automatic response that slows the heart. It is one of the fastest vagal techniques.</p>
+        </div>
+
+      </div><!-- /technique-cold -->
+
+
+      <!-- ────────────────────────────────────────────────
+           TECHNIQUE 3: 4-6 BREATHING
+      ──────────────────────────────────────────────── -->
+      <div class="breathing-card" id="technique-breathing">
+
+        <div class="technique-number" style="background: var(--sage-600);" aria-hidden="true">3</div>
+        <h2 class="technique-title">The 4-6 Breathing Technique</h2>
+        <p class="technique-subtitle">Foundation technique &mdash; daily practice</p>
+
+        <p>This is the foundation technique of the OpenPalp programme. Inhale for 4 seconds, exhale for 6 seconds. The longer exhale activates the vagus nerve.</p>
+
+        <div class="breathing-circle-wrap" role="img" aria-label="Animated breathing guide: expanding circle for inhale, contracting for exhale">
+          <div>
+            <div class="breath-ring" id="breath-ring" aria-hidden="true">Breathe</div>
+            <span class="breath-phase-label" id="breath-phase-label" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <p>Practise this twice daily &mdash; not just during episodes. A meta-analysis of 31 studies (1,133 people) found measurable heart rhythm effects within a single session.</p>
+
+        <p>The slow exhale amplifies cardiac vagal tone by extending the parasympathetic phase of each respiratory cycle. Regular practice lowers your resting heart rate variability baseline over weeks.</p>
+
+        <p><a href="../index.html#evidence">Read the evidence behind the 4-6 technique on the main site.</a></p>
+
+      </div><!-- /technique-breathing -->
+
+
+      <!-- ────────────────────────────────────────────────
+           WHEN TO USE THESE
+      ──────────────────────────────────────────────── -->
+      <div class="when-section" id="when-to-use">
+
+        <h2>When to Use These Techniques</h2>
+
+        <ol class="protocol-list" aria-label="Step-by-step protocol for using vagal techniques during a palpitation episode">
+          <li>
+            <span class="protocol-num" aria-hidden="true">1</span>
+            <span class="protocol-text">Feel palpitations starting &rarr; sit or lie down</span>
+          </li>
+          <li>
+            <span class="protocol-num" aria-hidden="true">2</span>
+            <span class="protocol-text">Try slow breathing first (4-6 pattern, 1&ndash;2 minutes)</span>
+          </li>
+          <li>
+            <span class="protocol-num" aria-hidden="true">3</span>
+            <span class="protocol-text">If palpitations persist &rarr; try Valsalva or cold water</span>
+          </li>
+          <li>
+            <span class="protocol-num" aria-hidden="true">4</span>
+            <span class="protocol-text">Record on Kardia after the episode settles</span>
+          </li>
+          <li>
+            <span class="protocol-num" aria-hidden="true">5</span>
+            <span class="protocol-text">If palpitations do not stop within 30 minutes, or you feel unwell &rarr; call 111 or attend A&amp;E</span>
+          </li>
+        </ol>
+
+      </div><!-- /when-section -->
+
+      <p class="tool-disclaimer">
+        This tool is for educational purposes only and is intended for use within the OpenPalp programme by patients who have been assessed as suitable. It does not replace medical advice. If you are unsure whether any of these techniques are appropriate for you, consult your cardiologist or GP before using them.
+      </p>
+
+    </div><!-- /vagal-wrapper -->
+
+  </main>
+
+  <section class="cta-section">
+    <h3>Ready to take the first step?</h3>
+    <p>The OpenPalp programme combines 30 days of heart rhythm monitoring with a 6-week guided plan. Book your &pound;60 assessment &mdash; Friday evenings in Wimbledon.</p>
+    <a href="../index.html#home" class="btn btn-primary">Book Your &pound;60 Assessment</a>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-brand">OpenPalp <em>by London Cardiology Clinic</em></p>
+        <p style="margin-top:8px;">40&ndash;44 The Broadway, Wimbledon<br>London SW19 1RQ</p>
+        <p style="margin-top:8px;"><a href="mailto:drmahmoodclinic@pm.me">drmahmoodclinic@pm.me</a></p>
+      </div>
+      <div>
+        <h5>Pathway</h5>
+        <ul class="footer-links">
+          <li><a href="../index.html#programme">The Programme</a></li>
+          <li><a href="../index.html#devices">Your Device</a></li>
+          <li><a href="../index.html#suitability">Suitability</a></li>
+          <li><a href="../index.html#evidence">The Evidence</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Information</h5>
+        <ul class="footer-links">
+          <li><a href="../articles/">Articles</a></li>
+          <li><a href="./">Tools</a></li>
+          <li><a href="../index.html#faq">FAQ</a></li>
+          <li><a href="../index.html#clinicians">For Clinicians</a></li>
+          <li><a href="../privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="../terms.html">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Dr Mahmood Ahmad &mdash; Specialist in Cardiology (SAS), MRCP(UK) &mdash; GMC <a href="https://www.gmc-uk.org/doctors/6071047" target="_blank" rel="noopener">6071047</a></p>
+      <p>This service is for selected low-risk patients only. Not an emergency service. Call 999 for chest pain, fainting, or severe breathlessness.</p>
+      <p>OpenPalp Pathway v1.0</p>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    'use strict';
+
+    /* ── Generic countdown timer factory ──────────────────────────────
+       Creates a self-contained timer for a given set of element IDs.
+       duration  : seconds to count down
+       ringId    : SVG circle element id  (stroke-dasharray = circumference)
+       countId   : text label element id
+       btnId     : start button element id
+       statusId  : status paragraph element id
+    ────────────────────────────────────────────────────────────────── */
+    var CIRCUMFERENCE = 188.5;  /* 2 * Math.PI * 30 */
+
+    function makeTimer(duration, ringId, countId, btnId, statusId) {
+      var ring     = document.getElementById(ringId);
+      var countEl  = document.getElementById(countId);
+      var btn      = document.getElementById(btnId);
+      var statusEl = document.getElementById(statusId);
+      var announcer = document.getElementById('sr-announcer');
+
+      var intervalId = null;
+      var remaining  = duration;
+      var running    = false;
+
+      function setRing(secondsLeft) {
+        var fraction = secondsLeft / duration;
+        /* offset from full circle (0) down to 0 (complete) */
+        var offset = CIRCUMFERENCE * (1 - fraction);
+        ring.style.strokeDashoffset = offset;
+      }
+
+      function reset() {
+        clearInterval(intervalId);
+        intervalId = null;
+        running    = false;
+        remaining  = duration;
+        setRing(duration);
+        countEl.textContent = duration;
+        btn.textContent = 'Start timer';
+        btn.disabled = false;
+        statusEl.textContent = '';
+      }
+
+      function tick() {
+        remaining -= 1;
+        setRing(remaining);
+        countEl.textContent = remaining;
+
+        if (remaining <= 0) {
+          clearInterval(intervalId);
+          intervalId = null;
+          running    = false;
+          countEl.textContent = '0';
+          statusEl.textContent = 'Release now!';
+          announcer.textContent = 'Timer complete. Release now.';
+          btn.textContent = 'Reset';
+          btn.disabled = false;
+        }
+      }
+
+      function start() {
+        if (running) { return; }
+        if (remaining <= 0) {
+          /* Act as reset */
+          reset();
+          return;
+        }
+        running = true;
+        btn.textContent = 'Running\u2026';
+        btn.disabled = true;
+        statusEl.textContent = '';
+        announcer.textContent = 'Timer started. ' + remaining + ' seconds remaining.';
+        setRing(remaining);
+        intervalId = setInterval(tick, 1000);
+      }
+
+      btn.addEventListener('click', function () {
+        if (remaining <= 0 || !running) {
+          /* Either never started, or finished (reset mode) */
+          if (remaining <= 0) {
+            reset();
+          } else {
+            start();
+          }
+        }
+      });
+
+      /* Initial visual state */
+      setRing(duration);
+    }
+
+    /* Initialise both timers */
+    makeTimer(15, 'valsalva-ring', 'valsalva-count', 'valsalva-btn', 'valsalva-status');
+    makeTimer(15, 'cold-ring',     'cold-count',     'cold-btn',     'cold-status');
+
+    /* ── Breathing animation phase label ──────────────────────────────
+       4s inhale + 6s exhale = 10s cycle.
+       CSS animation drives the visual; this JS just updates the text label.
+    ────────────────────────────────────────────────────────────────── */
+    var phaseLabel  = document.getElementById('breath-phase-label');
+    var CYCLE       = 10000;  /* ms */
+    var INHALE_FRAC = 0.40;   /* 4 / 10 */
+
+    function updateBreathLabel() {
+      var t = (Date.now() % CYCLE) / CYCLE;
+      if (t < INHALE_FRAC) {
+        phaseLabel.textContent = 'Breathe in\u2026';
+      } else {
+        phaseLabel.textContent = 'Breathe out\u2026';
+      }
+    }
+
+    /* Only run label updates if animations are allowed */
+    var motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!motionQuery.matches) {
+      updateBreathLabel();
+      setInterval(updateBreathLabel, 250);
+    } else {
+      phaseLabel.textContent = 'In 4 seconds / out 6 seconds';
+    }
+
+  }());
+  </script>
+
+  <script>
+  document.querySelector('.nav-hamburger').addEventListener('click', function() {
+    document.querySelector('.nav-links').classList.toggle('open');
+    this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+  });
+  </script>
+
+</body>
+</html>

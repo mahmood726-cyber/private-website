@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heart Rate Interpreter &mdash; OpenPalp</title>
+  <meta name="description" content="A plain-English interpreter for resting heart rate and HRV values from Kardia and fitness trackers. Part of the OpenPalp palpitations programme.">
+  <link rel="canonical" href="https://londoncardiologyclinic.uk/tools/hr-interpreter">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://londoncardiologyclinic.uk/tools/hr-interpreter">
+  <meta property="og:title" content="Heart Rate Interpreter &mdash; OpenPalp">
+  <meta property="og:description" content="A plain-English interpreter for resting heart rate and HRV values from Kardia and fitness trackers.">
+  <meta property="og:image" content="https://londoncardiologyclinic.uk/img/openpalp-7.png">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:site_name" content="OpenPalp by London Cardiology Clinic">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="robots" content="index, follow">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="stylesheet" href="../css/pages.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Heart Rate Interpreter",
+    "description": "Interactive tool for interpreting resting heart rate and HRV values in plain English.",
+    "url": "https://londoncardiologyclinic.uk/tools/hr-interpreter",
+    "author": { "@type": "Physician", "name": "Dr Mahmood Ahmad", "description": "Specialist in Cardiology (SAS), MRCP(UK), GMC 6071047" },
+    "publisher": { "@type": "MedicalClinic", "name": "OpenPalp by London Cardiology Clinic" }
+  }
+  </script>
+
+  <style>
+    /* ── Tool page layout ── */
+    .tool-hero {
+      background: linear-gradient(175deg, var(--blue-50) 0%, var(--warm-white) 60%, var(--white) 100%);
+      padding: 80px 24px 48px;
+      text-align: center;
+    }
+
+    .tool-hero h1 {
+      font-size: clamp(28px, 4vw, 40px);
+      margin-bottom: 16px;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .tool-hero .hero-intro {
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--dark-grey);
+    }
+
+    .tool-disclaimer {
+      display: inline-block;
+      margin-top: 16px;
+      background: var(--amber-50);
+      border: 1px solid #e8c96a;
+      border-radius: 6px;
+      padding: 10px 16px;
+      font-size: 13px;
+      color: #7a5a00;
+      max-width: 600px;
+      text-align: left;
+    }
+
+    .tool-body {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* ── Section cards ── */
+    .tool-section {
+      background: var(--white);
+      border: 1px solid var(--light-grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .tool-section h2 {
+      font-size: clamp(20px, 2.5vw, 24px);
+      margin-bottom: 8px;
+      color: var(--charcoal);
+    }
+
+    .tool-section .section-desc {
+      font-size: 14px;
+      color: var(--mid-grey);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    /* ── Form controls ── */
+    .input-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .input-group label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--charcoal);
+      font-family: var(--font-sans);
+    }
+
+    .tool-input {
+      font-family: var(--font-sans);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--charcoal);
+      background: var(--warm-white);
+      border: 2px solid var(--light-grey);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      width: 100%;
+      transition: border-color 0.2s;
+      -moz-appearance: textfield;
+    }
+
+    .tool-input::-webkit-outer-spin-button,
+    .tool-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .tool-input:focus {
+      outline: none;
+      border-color: var(--blue-400);
+      background: var(--white);
+    }
+
+    .tool-select {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--charcoal);
+      background: var(--warm-white);
+      border: 2px solid var(--light-grey);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      width: 100%;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      height: 56px;
+    }
+
+    .tool-select:focus {
+      outline: none;
+      border-color: var(--blue-400);
+    }
+
+    .interpret-btn {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--white);
+      background: var(--blue-600);
+      border: none;
+      border-radius: 999px;
+      padding: 14px 28px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
+      height: 56px;
+      align-self: flex-end;
+    }
+
+    .interpret-btn:hover {
+      background: var(--blue-700);
+      transform: translateY(-1px);
+    }
+
+    .interpret-btn:focus-visible {
+      outline: 2px solid var(--blue-400);
+      outline-offset: 2px;
+    }
+
+    .interpret-btn:active {
+      transform: translateY(0);
+    }
+
+    /* ── HR Gauge ── */
+    .gauge-container {
+      margin: 20px 0 8px;
+      display: none;
+    }
+
+    .gauge-container.visible {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .gauge-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--mid-grey);
+      font-family: var(--font-sans);
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+
+    .gauge-bar-wrap {
+      position: relative;
+      height: 20px;
+      border-radius: 10px;
+      overflow: visible;
+    }
+
+    .gauge-track {
+      position: absolute;
+      inset: 0;
+      border-radius: 10px;
+      background: linear-gradient(
+        to right,
+        #C45A5A 0%,              /* <40 red */
+        #C45A5A 7%,
+        #D4A017 7%,              /* 40-49 amber */
+        #D4A017 13%,
+        #8DB87A 13%,             /* 50-59 light green */
+        #8DB87A 20%,
+        #4D9B5C 20%,             /* 60-80 green */
+        #4D9B5C 40%,
+        #D4A017 40%,             /* 81-100 amber */
+        #D4A017 53%,
+        #D4750A 53%,             /* 101-120 orange */
+        #D4750A 65%,
+        #C45A5A 65%,             /* >120 red */
+        #C45A5A 100%
+      );
+    }
+
+    .gauge-marker {
+      position: absolute;
+      top: -4px;
+      width: 4px;
+      height: 28px;
+      background: var(--charcoal);
+      border-radius: 2px;
+      transform: translateX(-50%);
+      transition: left 0.4s ease;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    }
+
+    .gauge-marker::after {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 12px;
+      background: var(--charcoal);
+      border-radius: 50%;
+    }
+
+    .gauge-value-label {
+      text-align: center;
+      font-size: 13px;
+      color: var(--dark-grey);
+      font-family: var(--font-sans);
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .gauge-zone-labels {
+      display: grid;
+      grid-template-columns: 7fr 6fr 7fr 20fr 13fr 12fr 35fr;
+      gap: 0;
+      margin-top: 6px;
+    }
+
+    .gauge-zone-label {
+      font-size: 10px;
+      color: var(--mid-grey);
+      text-align: center;
+      font-family: var(--font-sans);
+      line-height: 1.3;
+      padding: 0 1px;
+    }
+
+    /* ── Result panel ── */
+    .result-panel {
+      display: none;
+      border-radius: var(--radius-sm);
+      padding: 20px 24px;
+      margin-top: 20px;
+      border-left: 5px solid;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .result-panel.visible { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-panel.band-red {
+      background: var(--red-50);
+      border-color: var(--red-400);
+    }
+
+    .result-panel.band-amber {
+      background: var(--amber-50);
+      border-color: var(--amber-400);
+    }
+
+    .result-panel.band-light-green {
+      background: #F2F8F2;
+      border-color: #8DB87A;
+    }
+
+    .result-panel.band-green {
+      background: #EDF7EE;
+      border-color: #4D9B5C;
+    }
+
+    .result-panel.band-orange {
+      background: #FEF4EA;
+      border-color: #D4750A;
+    }
+
+    .result-band-label {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .band-red    .result-band-label { color: var(--red-600); }
+    .band-amber  .result-band-label { color: #7a5a00; }
+    .band-light-green .result-band-label { color: #4a7a2d; }
+    .band-green  .result-band-label { color: #2d6b3a; }
+    .band-orange .result-band-label { color: #8a4200; }
+
+    .result-text {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--dark-grey);
+      margin: 0;
+    }
+
+    /* ── HRV notes ── */
+    .hrv-notes {
+      margin-top: 20px;
+      padding: 16px 20px;
+      background: var(--blue-50);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--blue-100);
+      display: none;
+    }
+
+    .hrv-notes.visible { display: block; }
+
+    .hrv-notes h4 {
+      font-size: 14px;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      color: var(--blue-700);
+      margin-bottom: 10px;
+    }
+
+    .hrv-notes ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .hrv-notes li {
+      font-size: 13px;
+      color: var(--dark-grey);
+      line-height: 1.6;
+      padding: 4px 0 4px 20px;
+      position: relative;
+      max-width: none;
+    }
+
+    .hrv-notes li::before {
+      content: '\2192';
+      position: absolute;
+      left: 0;
+      color: var(--blue-400);
+      font-size: 12px;
+      top: 5px;
+    }
+
+    /* ── Accordions ── */
+    .learn-section {
+      border-top: 1px solid var(--light-grey);
+      margin-top: 32px;
+      padding-top: 24px;
+    }
+
+    .learn-section h3 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: var(--charcoal);
+    }
+
+    .accordion {
+      border: 1px solid var(--light-grey);
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+
+    .accordion-trigger {
+      width: 100%;
+      text-align: left;
+      background: var(--warm-white);
+      border: none;
+      padding: 16px 20px;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--charcoal);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      transition: background 0.15s;
+    }
+
+    .accordion-trigger:hover { background: var(--ivory); }
+
+    .accordion-trigger:focus-visible {
+      outline: 2px solid var(--blue-400);
+      outline-offset: -2px;
+    }
+
+    .accordion-icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--blue-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.25s, background 0.15s;
+      font-size: 14px;
+      color: var(--blue-600);
+      font-weight: 700;
+    }
+
+    .accordion-trigger[aria-expanded="true"] .accordion-icon {
+      transform: rotate(45deg);
+      background: var(--blue-200);
+    }
+
+    .accordion-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .accordion-panel.open {
+      max-height: 600px;
+    }
+
+    .accordion-panel-inner {
+      padding: 16px 20px 20px;
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--dark-grey);
+      border-top: 1px solid var(--light-grey);
+    }
+
+    /* ── Article CTA (reuse from pages.css pattern) ── */
+    .article-cta {
+      background: var(--blue-50);
+      border: 1px solid var(--blue-100);
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+      margin: 48px 0 0;
+    }
+
+    .article-cta h3 { margin: 0 0 8px; }
+    .article-cta p { margin: 0 0 16px; font-size: 15px; color: var(--dark-grey); max-width: none; }
+
+    /* ── Validation error ── */
+    .input-error {
+      display: none;
+      font-size: 12px;
+      color: var(--red-600);
+      font-family: var(--font-sans);
+      margin-top: 4px;
+    }
+
+    .input-error.visible { display: block; }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .tool-section { padding: 20px 16px; }
+      .input-row { flex-direction: column; }
+      .interpret-btn { width: 100%; }
+      .gauge-zone-labels { display: none; }
+      .tool-body { padding: 32px 16px 60px; }
+    }
+
+    @media print {
+      .nav, .nav-hamburger, .safety-banner, .btn, .site-footer,
+      .interpret-btn, .tool-input, .tool-select { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="safety-banner" role="alert">
+    <strong>If you have chest pain, fainting, severe breathlessness, or feel acutely unwell, call 999 immediately.</strong> This is not an emergency service.
+  </div>
+
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">OpenPalp <em>by London Cardiology Clinic</em></a>
+      <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../index.html#programme">The Programme</a></li>
+        <li><a href="../index.html#devices">Your Device</a></li>
+        <li><a href="../index.html#suitability">Is This Right for You?</a></li>
+        <li><a href="../index.html#evidence">The Evidence</a></li>
+        <li><a href="../articles/">Articles</a></li>
+        <li><a href="../index.html#clinicians">For Clinicians</a></li>
+        <li><a href="./" class="active">Tools</a></li>
+        <li><a href="../index.html#home" class="nav-cta">Book</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div class="tool-hero">
+      <h1>Heart Rate Interpreter</h1>
+      <p class="hero-intro">
+        Understanding your heart rate numbers helps you make sense of your Kardia readings and fitness tracker data.
+        Enter a value below for a plain-English explanation.
+      </p>
+      <div class="tool-disclaimer" role="note">
+        <strong>For educational purposes only.</strong> This tool does not replace medical assessment. If you are unwell, call 111 or visit your GP.
+      </div>
+    </div>
+
+    <div class="tool-body">
+
+      <!-- ────────────────────────────────────────────
+           SECTION 1: RESTING HEART RATE
+      ──────────────────────────────────────────── -->
+      <section class="tool-section" aria-labelledby="hr-section-heading">
+        <h2 id="hr-section-heading">Resting Heart Rate</h2>
+        <p class="section-desc">
+          Take your resting heart rate first thing in the morning, before getting out of bed, after at least
+          five minutes of stillness. Most fitness trackers and Kardia devices display this automatically.
+        </p>
+
+        <div class="input-row">
+          <div class="input-group">
+            <label for="hr-input">Resting heart rate (bpm)</label>
+            <input
+              type="number"
+              id="hr-input"
+              class="tool-input"
+              min="30"
+              max="220"
+              placeholder="e.g. 68"
+              aria-describedby="hr-error"
+              inputmode="numeric"
+            >
+            <span id="hr-error" class="input-error" role="alert"></span>
+          </div>
+          <button class="interpret-btn" id="hr-btn" onclick="interpretHR()">
+            Interpret
+          </button>
+        </div>
+
+        <!-- Gauge bar -->
+        <div class="gauge-container" id="hr-gauge" aria-hidden="true">
+          <div class="gauge-label-row">
+            <span>30 bpm</span>
+            <span>220 bpm</span>
+          </div>
+          <div class="gauge-bar-wrap">
+            <div class="gauge-track"></div>
+            <div class="gauge-marker" id="hr-marker" style="left: 0%"></div>
+          </div>
+          <div class="gauge-zone-labels" aria-hidden="true">
+            <div class="gauge-zone-label">Very low<br>&lt;40</div>
+            <div class="gauge-zone-label">Low<br>40&ndash;49</div>
+            <div class="gauge-zone-label">Fit<br>50&ndash;59</div>
+            <div class="gauge-zone-label">Normal<br>60&ndash;80</div>
+            <div class="gauge-zone-label">Upper<br>81&ndash;100</div>
+            <div class="gauge-zone-label">High<br>101&ndash;120</div>
+            <div class="gauge-zone-label">Very high<br>&gt;120</div>
+          </div>
+          <p class="gauge-value-label" id="hr-gauge-label"></p>
+        </div>
+
+        <!-- Result -->
+        <div class="result-panel" id="hr-result" role="status" aria-live="polite">
+          <div class="result-band-label" id="hr-band-label"></div>
+          <p class="result-text" id="hr-result-text"></p>
+        </div>
+      </section>
+
+      <!-- ────────────────────────────────────────────
+           SECTION 2: HRV
+      ──────────────────────────────────────────── -->
+      <section class="tool-section" aria-labelledby="hrv-section-heading">
+        <h2 id="hrv-section-heading">Heart Rate Variability (HRV)</h2>
+        <p class="section-desc">
+          HRV measures the variation in time between consecutive heartbeats, expressed in milliseconds.
+          Select which metric your device reports, then enter the value. Most consumer wearables report RMSSD.
+        </p>
+
+        <div class="input-row">
+          <div class="input-group" style="max-width: 160px; min-width: 120px;">
+            <label for="hrv-metric">Metric</label>
+            <select id="hrv-metric" class="tool-select" aria-label="HRV metric type">
+              <option value="rmssd">RMSSD</option>
+              <option value="sdnn">SDNN</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="hrv-input">HRV value (ms)</label>
+            <input
+              type="number"
+              id="hrv-input"
+              class="tool-input"
+              min="1"
+              max="300"
+              placeholder="e.g. 42"
+              aria-describedby="hrv-error"
+              inputmode="numeric"
+            >
+            <span id="hrv-error" class="input-error" role="alert"></span>
+          </div>
+          <button class="interpret-btn" id="hrv-btn" onclick="interpretHRV()">
+            Interpret
+          </button>
+        </div>
+
+        <!-- Result -->
+        <div class="result-panel" id="hrv-result" role="status" aria-live="polite">
+          <div class="result-band-label" id="hrv-band-label"></div>
+          <p class="result-text" id="hrv-result-text"></p>
+        </div>
+
+        <!-- HRV notes -->
+        <div class="hrv-notes" id="hrv-notes">
+          <h4>Important notes about HRV</h4>
+          <ul>
+            <li>HRV varies enormously between individuals. Your trend over weeks matters far more than any single number.</li>
+            <li>Morning readings taken immediately after waking are the most consistent.</li>
+            <li>Your Kardia app may not display HRV. If it does, record it in your booklet.</li>
+            <li>HRV decreases with age &mdash; this is normal.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ────────────────────────────────────────────
+           SECTION 3: EDUCATIONAL CONTEXT
+      ──────────────────────────────────────────── -->
+      <section class="tool-section" aria-labelledby="learn-section-heading">
+        <h2 id="learn-section-heading">Learn More</h2>
+        <p class="section-desc">
+          Expand any section below to understand what these measurements mean for your palpitations programme.
+        </p>
+
+        <div class="learn-section" role="list">
+
+          <div class="accordion" role="listitem">
+            <button
+              class="accordion-trigger"
+              aria-expanded="false"
+              aria-controls="acc-panel-1"
+              id="acc-btn-1"
+            >
+              What is HRV?
+              <span class="accordion-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="accordion-panel" id="acc-panel-1" role="region" aria-labelledby="acc-btn-1">
+              <div class="accordion-panel-inner">
+                Heart rate variability is the variation in time between consecutive heartbeats. Unlike heart
+                rate, which counts beats per minute, HRV measures the subtle differences between each beat
+                &mdash; typically expressed in milliseconds. Higher variability is generally associated with
+                better health, adaptability, and resilience to stress. A perfectly regular heartbeat (zero
+                variability) would actually be a warning sign, not a reassuring one.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion" role="listitem">
+            <button
+              class="accordion-trigger"
+              aria-expanded="false"
+              aria-controls="acc-panel-2"
+              id="acc-btn-2"
+            >
+              Why does HRV matter for palpitations?
+              <span class="accordion-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="accordion-panel" id="acc-panel-2" role="region" aria-labelledby="acc-btn-2">
+              <div class="accordion-panel-inner">
+                Low HRV is associated with increased sympathetic (fight-or-flight) tone and reduced
+                parasympathetic (rest-and-digest) activity. This imbalance can make the heart more
+                reactive to triggers like caffeine, stress, and poor sleep &mdash; which are common
+                drivers of ectopic beats and palpitations. The 4&ndash;6 breathing technique, regular
+                exercise, and good sleep all improve HRV over time, which is one reason the OpenPalp
+                programme includes all three. Tracking your HRV alongside your symptom diary can reveal
+                which lifestyle factors matter most for your heart.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion" role="listitem">
+            <button
+              class="accordion-trigger"
+              aria-expanded="false"
+              aria-controls="acc-panel-3"
+              id="acc-btn-3"
+            >
+              What affects HRV?
+              <span class="accordion-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="accordion-panel" id="acc-panel-3" role="region" aria-labelledby="acc-btn-3">
+              <div class="accordion-panel-inner">
+                Many factors influence your HRV reading: sleep quality and duration, psychological stress,
+                caffeine intake, alcohol, exercise load, age, illness, and medications (particularly beta-blockers
+                and antidepressants). Even your posture changes it &mdash; lying down gives a higher reading
+                than sitting. This is why consistency in measurement timing matters so much. Taking your
+                reading in the same position, at the same time each morning, is the only way to track your
+                true trend rather than measurement noise.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion" role="listitem">
+            <button
+              class="accordion-trigger"
+              aria-expanded="false"
+              aria-controls="acc-panel-4"
+              id="acc-btn-4"
+            >
+              RMSSD vs SDNN: what is the difference?
+              <span class="accordion-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="accordion-panel" id="acc-panel-4" role="region" aria-labelledby="acc-btn-4">
+              <div class="accordion-panel-inner">
+                <strong>RMSSD</strong> (Root Mean Square of Successive Differences) measures short-term
+                variability between adjacent beats. It reflects parasympathetic nervous system activity
+                and is the metric most commonly reported by consumer wearables such as Apple Watch, Garmin,
+                and Whoop. It is the preferred metric for daily tracking.
+                <br><br>
+                <strong>SDNN</strong> (Standard Deviation of NN intervals) captures overall variability
+                over a longer recording &mdash; typically 24 hours. It reflects total autonomic tone, both
+                sympathetic and parasympathetic. It is more commonly used in clinical 24-hour Holter
+                recordings than in consumer devices. If your device reports SDNN, it is usually from a
+                shorter interval than 24 hours, so interpret the number cautiously.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="article-cta">
+        <h3>Ready to track your numbers in context?</h3>
+        <p>The OpenPalp programme includes 30 days of heart rhythm monitoring, a symptom &amp; HRV diary, and a structured 6-week plan. Friday evenings in Wimbledon. &pound;60 assessment.</p>
+        <a href="../index.html#home" class="btn btn-primary">Book Your &pound;60 Assessment</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-brand">OpenPalp <em>by London Cardiology Clinic</em></p>
+        <p style="margin-top:8px;">40&ndash;44 The Broadway, Wimbledon<br>London SW19 1RQ</p>
+        <p style="margin-top:8px;"><a href="mailto:drmahmoodclinic@pm.me">drmahmoodclinic@pm.me</a></p>
+      </div>
+      <div>
+        <h5>Pathway</h5>
+        <ul class="footer-links">
+          <li><a href="../index.html#programme">The Programme</a></li>
+          <li><a href="../index.html#devices">Your Device</a></li>
+          <li><a href="../index.html#suitability">Suitability</a></li>
+          <li><a href="../index.html#evidence">The Evidence</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Information</h5>
+        <ul class="footer-links">
+          <li><a href="../articles/">Articles</a></li>
+          <li><a href="../index.html#faq">FAQ</a></li>
+          <li><a href="../index.html#clinicians">For Clinicians</a></li>
+          <li><a href="../privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="../terms.html">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Dr Mahmood Ahmad &mdash; Specialist in Cardiology (SAS), MRCP(UK) &mdash; GMC <a href="https://www.gmc-uk.org/doctors/6071047" target="_blank" rel="noopener">6071047</a></p>
+      <p>This service is for selected low-risk patients only. Not an emergency service. Call 999 for chest pain, fainting, or severe breathlessness.</p>
+      <p>OpenPalp Pathway v1.0</p>
+    </div>
+  </footer>
+
+  <script>
+  /* ═══════════════════════════════════════════════════════════
+     HR INTERPRETER — no data storage, no network calls
+     ═══════════════════════════════════════════════════════════ */
+
+  /* ── HR band definitions ── */
+  var HR_BANDS = [
+    {
+      max: 39,
+      cssClass: 'band-red',
+      label: 'Very low — possible bradycardia',
+      text: 'Very low resting heart rate. This could be normal if you are an elite athlete, but may need assessment if you feel dizzy or faint. Mention this at your appointment.'
+    },
+    {
+      max: 49,
+      cssClass: 'band-amber',
+      label: 'Low (bradycardia range)',
+      text: 'Low resting heart rate. Common in physically fit people and often harmless. If you feel well, this is usually not a concern. Worth mentioning at your appointment for completeness.'
+    },
+    {
+      max: 59,
+      cssClass: 'band-light-green',
+      label: 'Below average \u2014 within normal limits',
+      text: 'Below average but within normal limits. Common in active people and generally a sign of good cardiovascular fitness. No action needed unless you have symptoms.'
+    },
+    {
+      max: 80,
+      cssClass: 'band-green',
+      label: 'Normal range',
+      text: 'Normal resting heart rate range. Most adults fall here. Continue recording over several mornings to build a personal baseline.'
+    },
+    {
+      max: 100,
+      cssClass: 'band-amber',
+      label: 'Upper end of normal',
+      text: 'Upper end of the normal range. Stress, caffeine, dehydration, or being deconditioned can raise your resting rate. Track it over several mornings before and after your usual coffee to see your trend. If consistently above 90, mention it at your appointment.'
+    },
+    {
+      max: 120,
+      cssClass: 'band-orange',
+      label: 'Above normal range (resting tachycardia)',
+      text: 'Above normal resting range. If this is a single reading taken after coffee, a stressful morning, or physical activity, it may be transient. If you are seeing this consistently across multiple calm mornings, please mention it at your appointment. Ensure the measurement was taken at true rest.'
+    },
+    {
+      max: 999,
+      cssClass: 'band-red',
+      label: 'Significantly elevated',
+      text: 'Significantly elevated resting heart rate. If you feel unwell, call 111 or attend A&E. If you feel well, book an assessment promptly \u2014 a rate this high at rest warrants review.'
+    }
+  ];
+
+  /* ── HRV band definitions ── */
+  var HRV_BANDS = {
+    rmssd: [
+      {
+        max: 19,
+        cssClass: 'band-amber',
+        label: 'Low HRV (RMSSD)',
+        text: 'Low HRV. This can reflect stress, poor sleep, illness, or overtraining. It does not mean anything is wrong with your heart \u2014 but it suggests your autonomic nervous system is under strain. Track trends over days rather than reacting to single readings. The breathing exercises and sleep improvements in the OpenPalp programme are directly aimed at raising this number.'
+      },
+      {
+        max: 39,
+        cssClass: 'band-amber',
+        label: 'Below average (RMSSD)',
+        text: 'Below average. Many people with palpitations fall in this range. This is not a clinical threshold to worry about, but it does suggest your parasympathetic tone could be stronger. Breathing exercises, better sleep, and regular movement can all improve HRV over time. Track your trend weekly rather than daily.'
+      },
+      {
+        max: 79,
+        cssClass: 'band-green',
+        label: 'Normal range (RMSSD)',
+        text: 'Normal range for most adults. Your autonomic balance appears reasonable. Continue recording your morning values to understand how sleep, caffeine, and stress affect your personal HRV trend.'
+      },
+      {
+        max: 999,
+        cssClass: 'band-light-green',
+        label: 'Above average (RMSSD)',
+        text: 'Above average. This generally indicates good autonomic balance and parasympathetic tone. Common in fit, well-rested individuals. Keep tracking to understand your personal range \u2014 your baseline is the reference point that matters most.'
+      }
+    ],
+    sdnn: [
+      {
+        max: 49,
+        cssClass: 'band-amber',
+        label: 'Low variability (SDNN)',
+        text: 'Low variability. Similar interpretation to low RMSSD \u2014 may reflect stress, poor sleep, illness, or reduced autonomic flexibility. If this is from a 24-hour recording, it is a meaningful figure. If measured over a shorter period (as most consumer devices do), values are typically lower than 24-hour reference ranges.'
+      },
+      {
+        max: 99,
+        cssClass: 'band-green',
+        label: 'Normal range (SDNN)',
+        text: 'Normal range for 24-hour SDNN recordings. If measured over a shorter period \u2014 which most consumer wearables do \u2014 values differ from clinical 24-hour standards, so interpret this in the context of your own trend rather than population norms.'
+      },
+      {
+        max: 999,
+        cssClass: 'band-light-green',
+        label: 'Good variability (SDNN)',
+        text: 'Good variability over a 24-hour period. This suggests healthy overall autonomic tone. If this reading comes from a shorter recording window, it may still reflect good autonomic function \u2014 continue tracking to build a personal baseline.'
+      }
+    ]
+  };
+
+  /* ── Gauge: map bpm to % position ──
+     Scale: 30 bpm = 0%, 220 bpm = 100%
+     Breakpoints align with the gradient in CSS:
+       <40  = 0-7%,   40-49 = 7-13%,  50-59 = 13-20%,
+       60-80 = 20-40%, 81-100 = 40-53%, 101-120 = 53-65%, >120 = 65-100%
+  */
+  function bpmToGaugePercent(bpm) {
+    var v = Math.max(30, Math.min(220, bpm));
+    return ((v - 30) / (220 - 30)) * 100;
+  }
+
+  /* ── HR interpret ── */
+  function interpretHR() {
+    var input = document.getElementById('hr-input');
+    var errEl = document.getElementById('hr-error');
+    var resultEl = document.getElementById('hr-result');
+    var bandLabel = document.getElementById('hr-band-label');
+    var resultText = document.getElementById('hr-result-text');
+    var gaugeEl = document.getElementById('hr-gauge');
+    var marker = document.getElementById('hr-marker');
+    var gaugeValueLabel = document.getElementById('hr-gauge-label');
+
+    var raw = input.value.trim();
+    var val = parseInt(raw, 10);
+
+    /* Validate */
+    errEl.textContent = '';
+    errEl.classList.remove('visible');
+    resultEl.className = 'result-panel';
+    gaugeEl.classList.remove('visible');
+
+    if (raw === '' || isNaN(val)) {
+      errEl.textContent = 'Please enter a number.';
+      errEl.classList.add('visible');
+      return;
+    }
+    if (val < 30 || val > 220) {
+      errEl.textContent = 'Please enter a value between 30 and 220 bpm.';
+      errEl.classList.add('visible');
+      return;
+    }
+
+    /* Find band */
+    var band = null;
+    for (var i = 0; i < HR_BANDS.length; i++) {
+      if (val <= HR_BANDS[i].max) {
+        band = HR_BANDS[i];
+        break;
+      }
+    }
+    if (!band) { band = HR_BANDS[HR_BANDS.length - 1]; }
+
+    /* Show result */
+    bandLabel.textContent = band.label;
+    resultText.textContent = band.text;
+    resultEl.className = 'result-panel visible ' + band.cssClass;
+
+    /* Animate gauge */
+    var pct = bpmToGaugePercent(val);
+    marker.style.left = pct + '%';
+    gaugeValueLabel.textContent = val + ' bpm \u2014 ' + band.label;
+    gaugeEl.classList.add('visible');
+  }
+
+  /* ── HRV interpret ── */
+  function interpretHRV() {
+    var input = document.getElementById('hrv-input');
+    var metricEl = document.getElementById('hrv-metric');
+    var errEl = document.getElementById('hrv-error');
+    var resultEl = document.getElementById('hrv-result');
+    var bandLabel = document.getElementById('hrv-band-label');
+    var resultText = document.getElementById('hrv-result-text');
+    var notesEl = document.getElementById('hrv-notes');
+
+    var raw = input.value.trim();
+    var val = parseFloat(raw);
+    var metric = metricEl.value;
+
+    /* Validate */
+    errEl.textContent = '';
+    errEl.classList.remove('visible');
+    resultEl.className = 'result-panel';
+    notesEl.classList.remove('visible');
+
+    if (raw === '' || isNaN(val)) {
+      errEl.textContent = 'Please enter a number.';
+      errEl.classList.add('visible');
+      return;
+    }
+    if (val < 1 || val > 300) {
+      errEl.textContent = 'Please enter a value between 1 and 300 ms.';
+      errEl.classList.add('visible');
+      return;
+    }
+
+    /* Find band */
+    var bands = HRV_BANDS[metric];
+    var band = null;
+    for (var i = 0; i < bands.length; i++) {
+      if (val <= bands[i].max) {
+        band = bands[i];
+        break;
+      }
+    }
+    if (!band) { band = bands[bands.length - 1]; }
+
+    /* Show result */
+    bandLabel.textContent = band.label;
+    resultText.textContent = band.text;
+    resultEl.className = 'result-panel visible ' + band.cssClass;
+
+    /* Show notes */
+    notesEl.classList.add('visible');
+  }
+
+  /* ── Enter key support for inputs ── */
+  document.getElementById('hr-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { interpretHR(); }
+  });
+
+  document.getElementById('hrv-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { interpretHRV(); }
+  });
+
+  /* ── Accordion ── */
+  var accBtns = document.querySelectorAll('.accordion-trigger');
+  for (var i = 0; i < accBtns.length; i++) {
+    accBtns[i].addEventListener('click', function() {
+      var expanded = this.getAttribute('aria-expanded') === 'true';
+      var panel = document.getElementById(this.getAttribute('aria-controls'));
+      this.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+      if (expanded) {
+        panel.classList.remove('open');
+      } else {
+        panel.classList.add('open');
+      }
+    });
+
+    accBtns[i].addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        this.click();
+      }
+    });
+  }
+
+  /* ── Hamburger nav ── */
+  document.querySelector('.nav-hamburger').addEventListener('click', function() {
+    document.querySelector('.nav-links').classList.toggle('open');
+    this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+  });
+  </script>
+
+</body>
+</html>

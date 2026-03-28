@@ -326,6 +326,43 @@
     }
     .download-bar p { font-family: var(--font-sans); font-size: 14px; color: var(--dark-grey); margin-bottom: 12px; }
 
+    /* ── Booklet actions (button row) ── */
+    .booklet-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    /* ── Outline button variant ── */
+    .btn-outline {
+      background: transparent;
+      color: var(--blue-700);
+      border: 1.5px solid var(--blue-700);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 10px 22px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .btn-outline:hover, .btn-outline:focus-visible {
+      background: var(--blue-700);
+      color: var(--white);
+      outline: 2px solid var(--blue-400);
+      outline-offset: 2px;
+    }
+
+    /* ── Download hint text ── */
+    .download-hint {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--mid-grey);
+      margin: 0 !important;
+    }
+
     /* ── Images ── */
     .booklet-img { display: block; max-width: 100%; margin: 24px auto; border-radius: 8px; box-shadow: var(--shadow-sm); }
 
@@ -379,15 +416,35 @@
 
     /* ── Print ── */
     @media print {
-      .nav, .site-footer, .safety-banner, .download-bar, .btn { display: none !important; }
-      .booklet { padding: 0; max-width: none; }
-      .booklet-cover { page-break-after: always; background: none !important; }
+      /* Hide navigation and interactive chrome */
+      .nav,
+      .site-footer,
+      .safety-banner,
+      .download-bar,
+      .booklet-actions,
+      .btn { display: none !important; }
+
+      /* Reset layout */
+      body { font-size: 11pt; background: #ffffff !important; color: #000000 !important; }
+      .booklet { padding: 0; max-width: 100%; }
+
+      /* Remove decorative chrome */
+      * { box-shadow: none !important; border-radius: 0 !important; }
+
+      /* Force backgrounds on coloured boxes */
+      .booklet-cover { page-break-after: always; background: none !important; border: none !important; }
       .part-header { page-break-before: always; background: #2D5470 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      body { font-size: 11pt; }
+
+      /* Typography */
       .diary-table { font-size: 9pt; }
       .diary-table td { min-height: 28px; padding: 5px 4px; }
       h2 { font-size: 18pt; }
       h3 { font-size: 14pt; }
+
+      /* No underlines on links */
+      a { text-decoration: none !important; color: inherit !important; }
+
+      /* Avoid breaking inside key blocks */
       .evidence-card { break-inside: avoid; }
       .commitment-box { break-inside: avoid; }
       .safety-box { break-inside: avoid; }
@@ -435,7 +492,11 @@
     <!-- ── Download bar ── -->
     <div class="download-bar">
       <p>This is the digital version of your OpenPalp booklet. Print it out or save it as a PDF using your browser&rsquo;s print function.</p>
-      <button onclick="window.print()" class="btn btn-primary">Print or Save as PDF</button>
+      <div class="booklet-actions">
+        <button onclick="window.print()" class="btn btn-primary">Print Booklet</button>
+        <button onclick="window.print()" class="btn btn-outline">Download as PDF</button>
+      </div>
+      <p class="download-hint">Use your browser&rsquo;s &ldquo;Save as PDF&rdquo; option when the print dialog appears.</p>
     </div>
 
     <!-- ══════════════════════════════════════
@@ -1291,7 +1352,7 @@
 
     <div class="appointment-card">
       <h3>At the end of your 30 days</h3>
-      <p>Return to the clinic for your <strong>15-minute in-person results appointment</strong>. This appointment is included in your &pound;99.99 monitoring and programme fee.</p>
+      <p>Return to the clinic for your <strong>15-minute in-person results appointment</strong>. This appointment is included in your &pound;70 monitoring and programme fee.</p>
       <ul>
         <li><strong>Bring your Kardia device</strong> &mdash; charged and with the app open. Dr Ahmad will review your recordings with you on the screen.</li>
         <li><strong>Bring this booklet</strong> &mdash; particularly your completed progress tracker and self-assessment from Part 7.</li>
@@ -1310,7 +1371,7 @@
 
       <div class="info-box" style="margin-top:24px;">
         <p style="margin:0;font-size:15px;"><strong>Pricing reminder</strong></p>
-        <p style="margin:8px 0 0;font-size:14px;color:var(--dark-grey);">Your clinic appointment: <strong>&pound;49.99</strong><br>Monitoring, programme, device, booklet &amp; results appointment: <strong>&pound;99.99</strong><br>Full pathway total: <strong>&pound;149.98</strong></p>
+        <p style="margin:8px 0 0;font-size:14px;color:var(--dark-grey);">Your clinic appointment: <strong>&pound;60</strong><br>Monitoring, programme, device, booklet &amp; results appointment: <strong>&pound;70</strong><br>Full pathway total: <strong>&pound;130</strong></p>
       </div>
     </section>
 

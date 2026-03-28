@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Should I Worry? &mdash; Symptom Guide &mdash; OpenPalp</title>
+  <meta name="description" content="An interactive guide to understanding your palpitation symptoms. Learn which signs are reassuring and which need attention.">
+  <link rel="canonical" href="https://londoncardiologyclinic.uk/tools/symptom-triage">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://londoncardiologyclinic.uk/tools/symptom-triage">
+  <meta property="og:title" content="Should I Worry? &mdash; Symptom Guide &mdash; OpenPalp">
+  <meta property="og:description" content="An interactive guide to understanding your palpitation symptoms. Learn which signs are reassuring and which need attention.">
+  <meta property="og:image" content="https://londoncardiologyclinic.uk/img/openpalp-7.png">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:site_name" content="OpenPalp by London Cardiology Clinic">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="robots" content="index, follow">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="stylesheet" href="../css/pages.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    "name": "Should I Worry? Palpitation Symptom Triage",
+    "description": "An interactive guide to understanding your palpitation symptoms. Learn which signs are reassuring and which need attention.",
+    "url": "https://londoncardiologyclinic.uk/tools/symptom-triage",
+    "author": { "@type": "Physician", "name": "Dr Mahmood Ahmad", "description": "Specialist in Cardiology (SAS), MRCP(UK), GMC 6071047" },
+    "publisher": { "@type": "MedicalClinic", "name": "OpenPalp by London Cardiology Clinic" },
+    "datePublished": "2026-03-24",
+    "dateModified": "2026-03-24",
+    "medicalAudience": { "@type": "MedicalAudience", "audienceType": "Patient" }
+  }
+  </script>
+
+  <style>
+    /* ── Tool hero ── */
+    .tool-hero {
+      background: linear-gradient(175deg, var(--blue-50) 0%, var(--warm-white) 60%, var(--white) 100%);
+      padding: 80px 24px 48px;
+      text-align: center;
+    }
+
+    .tool-hero h1 {
+      font-size: clamp(28px, 4vw, 40px);
+      margin-bottom: 14px;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .tool-hero p {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      color: var(--dark-grey);
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── Triage container ── */
+    .triage-wrapper {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* ── Progress bar ── */
+    .progress-bar-outer {
+      background: var(--light-grey);
+      border-radius: 999px;
+      height: 6px;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--blue-500);
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    .progress-label {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--mid-grey);
+      margin-bottom: 36px;
+      display: block;
+    }
+
+    /* ── Question panel ── */
+    .question-panel {
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    .question-panel.fading {
+      opacity: 0;
+    }
+
+    .question-text {
+      font-family: var(--font-serif);
+      font-size: clamp(22px, 3vw, 28px);
+      font-weight: 700;
+      color: var(--charcoal);
+      line-height: 1.35;
+      margin-bottom: 36px;
+    }
+
+    /* ── Answer buttons ── */
+    .answer-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .answer-btn {
+      flex: 1 1 140px;
+      min-width: 140px;
+      padding: 18px 24px;
+      font-family: var(--font-sans);
+      font-size: 17px;
+      font-weight: 600;
+      border-radius: 12px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .answer-btn:focus-visible {
+      outline: 3px solid var(--blue-400);
+      outline-offset: 3px;
+    }
+
+    .answer-btn-yes {
+      background: var(--white);
+      color: var(--charcoal);
+      border-color: var(--blue-200);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .answer-btn-yes:hover {
+      background: var(--blue-50);
+      border-color: var(--blue-500);
+      color: var(--blue-700);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .answer-btn-no {
+      background: var(--white);
+      color: var(--charcoal);
+      border-color: var(--light-grey);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .answer-btn-no:hover {
+      background: var(--ivory);
+      border-color: var(--mid-grey);
+      color: var(--charcoal);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* ── Result card ── */
+    .result-card {
+      border-radius: 16px;
+      padding: 36px 32px;
+      border-left: 6px solid transparent;
+      box-shadow: var(--shadow-md);
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    .result-card.fading {
+      opacity: 0;
+    }
+
+    .result-card.result-red {
+      background: #FDF2F2;
+      border-left-color: #C45A5A;
+    }
+
+    .result-card.result-amber {
+      background: #FDF6E3;
+      border-left-color: #D4A43C;
+    }
+
+    .result-card.result-green {
+      background: #F2F8F5;
+      border-left-color: #4D7A65;
+    }
+
+    .result-icon {
+      font-size: 36px;
+      line-height: 1;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .result-heading {
+      font-family: var(--font-serif);
+      font-size: clamp(22px, 3vw, 28px);
+      font-weight: 700;
+      margin-bottom: 14px;
+      line-height: 1.25;
+    }
+
+    .result-red .result-heading { color: #A63D3D; }
+    .result-amber .result-heading { color: #8A6210; }
+    .result-green .result-heading { color: #2F5C42; }
+
+    .result-body {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      color: var(--dark-grey);
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+
+    .result-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn-restart {
+      background: transparent;
+      color: var(--dark-grey);
+      border: 1.5px solid var(--light-grey);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 22px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-restart:hover {
+      background: var(--ivory);
+      border-color: var(--mid-grey);
+      color: var(--charcoal);
+    }
+
+    .btn-restart:focus-visible {
+      outline: 2px solid var(--blue-400);
+      outline-offset: 2px;
+    }
+
+    /* ── CTA section ── */
+    .cta-section {
+      background: var(--blue-50);
+      border-top: 1px solid var(--blue-100);
+      padding: 64px 24px;
+    }
+
+    .cta-section h3 {
+      font-size: clamp(20px, 2.5vw, 26px);
+      margin-bottom: 12px;
+    }
+
+    .cta-section p {
+      font-size: 16px;
+      color: var(--dark-grey);
+      margin-bottom: 24px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── Disclaimer ── */
+    .tool-disclaimer {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--mid-grey);
+      background: var(--ivory);
+      border: 1px solid var(--light-grey);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      margin-top: 40px;
+      line-height: 1.6;
+    }
+
+    /* ── Separator between progress and question ── */
+    .progress-region {
+      margin-bottom: 40px;
+    }
+
+    /* ── aria-live announcer (visually hidden) ── */
+    .sr-announcer {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .triage-wrapper { padding: 36px 20px 60px; }
+      .answer-buttons { flex-direction: column; }
+      .answer-btn { flex: 1 1 auto; min-width: 0; width: 100%; }
+      .result-card { padding: 28px 24px; }
+      .tool-hero { padding: 56px 20px 36px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="safety-banner" role="alert">
+    <strong>If you have chest pain, fainting, severe breathlessness, or feel acutely unwell, call 999 immediately.</strong> This is not an emergency service.
+  </div>
+
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">OpenPalp <em>by London Cardiology Clinic</em></a>
+      <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../index.html#programme">The Programme</a></li>
+        <li><a href="../index.html#devices">Your Device</a></li>
+        <li><a href="../index.html#suitability">Is This Right for You?</a></li>
+        <li><a href="../index.html#evidence">The Evidence</a></li>
+        <li><a href="../articles/">Articles</a></li>
+        <li><a href="./" class="active">Tools</a></li>
+        <li><a href="../index.html#clinicians">For Clinicians</a></li>
+        <li><a href="../index.html#home" class="nav-cta">Book</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div class="tool-hero">
+      <h1>Should I Worry About My Palpitations?</h1>
+      <p>Answer seven quick questions. This tool will help you understand whether your symptoms suggest reassurance, further assessment, or urgent care.</p>
+    </div>
+
+    <div class="triage-wrapper">
+
+      <!-- Screen reader live region for announcements -->
+      <div class="sr-announcer" aria-live="polite" aria-atomic="true" id="sr-announcer"></div>
+
+      <!-- Progress indicator (hidden when result is shown) -->
+      <div class="progress-region" id="progress-region" aria-hidden="false">
+        <div class="progress-bar-outer" role="progressbar" aria-valuemin="0" aria-valuemax="7" aria-valuenow="0" aria-label="Question progress" id="progress-bar-outer">
+          <div class="progress-bar-fill" id="progress-bar-fill" style="width: 0%;"></div>
+        </div>
+        <span class="progress-label" id="progress-label">Question 1 of 7</span>
+      </div>
+
+      <!-- Question panel -->
+      <div class="question-panel" id="question-panel" role="group" aria-labelledby="question-text">
+        <p class="question-text" id="question-text"></p>
+        <div class="answer-buttons">
+          <button class="answer-btn answer-btn-yes" id="btn-yes" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Yes
+          </button>
+          <button class="answer-btn answer-btn-no" id="btn-no" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            No
+          </button>
+        </div>
+      </div>
+
+      <!-- Result card (hidden until result) -->
+      <div class="result-card" id="result-card" style="display:none;" tabindex="-1" aria-labelledby="result-heading" role="region">
+        <span class="result-icon" id="result-icon" aria-hidden="true"></span>
+        <h2 class="result-heading" id="result-heading"></h2>
+        <p class="result-body" id="result-body"></p>
+        <div class="result-actions" id="result-actions"></div>
+      </div>
+
+      <!-- Disclaimer -->
+      <p class="tool-disclaimer" id="tool-disclaimer">
+        This tool is for educational purposes only. It does not replace medical advice. Always consult a qualified healthcare professional if you are concerned about your health.
+      </p>
+
+    </div>
+  </main>
+
+  <section class="cta-section">
+    <div class="article-body" style="text-align:center;">
+      <h3>Ready to take the first step?</h3>
+      <p>The OpenPalp programme combines 30 days of monitoring with a 6-week guided plan. Book your &pound;60 assessment &mdash; Friday evenings in Wimbledon.</p>
+      <a href="../index.html#home" class="btn btn-primary">Book Your &pound;60 Assessment</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-brand">OpenPalp <em>by London Cardiology Clinic</em></p>
+        <p style="margin-top:8px;">40&ndash;44 The Broadway, Wimbledon<br>London SW19 1RQ</p>
+        <p style="margin-top:8px;"><a href="mailto:drmahmoodclinic@pm.me">drmahmoodclinic@pm.me</a></p>
+      </div>
+      <div>
+        <h5>Pathway</h5>
+        <ul class="footer-links">
+          <li><a href="../index.html#programme">The Programme</a></li>
+          <li><a href="../index.html#devices">Your Device</a></li>
+          <li><a href="../index.html#suitability">Suitability</a></li>
+          <li><a href="../index.html#evidence">The Evidence</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Information</h5>
+        <ul class="footer-links">
+          <li><a href="../articles/">Articles</a></li>
+          <li><a href="./">Tools</a></li>
+          <li><a href="../index.html#faq">FAQ</a></li>
+          <li><a href="../index.html#clinicians">For Clinicians</a></li>
+          <li><a href="../privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="../terms.html">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Dr Mahmood Ahmad &mdash; Specialist in Cardiology (SAS), MRCP(UK) &mdash; GMC <a href="https://www.gmc-uk.org/doctors/6071047" target="_blank" rel="noopener">6071047</a></p>
+      <p>This service is for selected low-risk patients only. Not an emergency service. Call 999 for chest pain, fainting, or severe breathlessness.</p>
+      <p>OpenPalp Pathway v1.0</p>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    'use strict';
+
+    /* ── Decision tree data ──────────────────────────────────────────────
+       Each question has:
+         text      : question string
+         yesResult : result key (or null if tree continues)
+         noNext    : index of next question on "No" (or null if last)
+       After all 7 No answers, a fallback amber result fires.
+    ────────────────────────────────────────────────────────────────────── */
+    var QUESTIONS = [
+      {
+        text: 'Are you experiencing chest pain right now?',
+        yesResult: 'red',
+        noNext: 1
+      },
+      {
+        text: 'Have you fainted, or do you feel like you might faint right now?',
+        yesResult: 'red',
+        noNext: 2
+      },
+      {
+        text: 'Are you severely breathless right now?',
+        yesResult: 'red',
+        noNext: 3
+      },
+      {
+        text: 'Is your heart racing continuously and will it not stop?',
+        yesResult: 'amber-q4',
+        noNext: 4
+      },
+      {
+        text: 'Do your palpitations only happen during heavy exercise?',
+        yesResult: 'amber-q5',
+        noNext: 5
+      },
+      {
+        text: 'Do you have known heart disease, a heart valve problem, or a previous heart operation?',
+        yesResult: 'amber-q6',
+        noNext: 6
+      },
+      {
+        text: 'Are your palpitations brief, intermittent, and do you feel well between episodes?',
+        yesResult: 'green',
+        noNext: null  /* last question — "No" triggers fallback amber */
+      }
+    ];
+
+    /* ── Result definitions ─────────────────────────────────────────── */
+    var RESULTS = {
+      red: {
+        cssClass: 'result-red',
+        icon: '&#9888;&#65039;',  /* warning sign */
+        heading: 'Call 999 immediately',
+        body: 'Your symptoms need urgent medical attention. Do not wait. Call 999 or go to your nearest A&amp;E now. This is not the right time to use an online tool.',
+        showBooking: false
+      },
+      'amber-q4': {
+        cssClass: 'result-amber',
+        icon: '&#128308;',  /* orange circle */
+        heading: 'See your GP or attend A&amp;E',
+        body: 'A continuous racing heart that will not stop may need medical assessment. Call 111 for guidance, or attend A&amp;E if the fast rhythm is sustained, you feel unwell, or you develop any chest pain or breathlessness.',
+        showBooking: false
+      },
+      'amber-q5': {
+        cssClass: 'result-amber',
+        icon: '&#128308;',
+        heading: 'See your GP',
+        body: 'Palpitations that occur specifically during heavy exercise should be assessed by your GP before anything else. The OpenPalp pathway is designed for palpitations at rest or with minimal everyday activity &mdash; exercise-triggered symptoms need a different assessment first.',
+        showBooking: false
+      },
+      'amber-q6': {
+        cssClass: 'result-amber',
+        icon: '&#128308;',
+        heading: 'Please see your cardiologist',
+        body: 'If you have known heart disease, a valve problem, or a history of heart surgery, this self-referral pathway is not suitable for you. Please contact your existing cardiologist or cardiology team, who can arrange monitoring in the appropriate clinical context.',
+        showBooking: false
+      },
+      'amber-fallback': {
+        cssClass: 'result-amber',
+        icon: '&#128308;',
+        heading: 'Discuss with a clinician',
+        body: 'Your symptom pattern does not clearly fit a single category from these questions. We recommend discussing with your GP, or booking an OpenPalp assessment where a consultant cardiologist can review your history in detail and advise whether monitoring is appropriate.',
+        showBooking: true
+      },
+      green: {
+        cssClass: 'result-green',
+        icon: '&#9989;',  /* green tick */
+        heading: 'Your symptoms may be suitable for OpenPalp',
+        body: 'Brief, intermittent palpitations with no red-flag features are exactly what the OpenPalp pathway is designed for. Book a &pound;60 assessment and a consultant cardiologist will confirm suitability at your appointment before any monitoring begins.',
+        showBooking: true
+      }
+    };
+
+    /* ── State ──────────────────────────────────────────────────────── */
+    var currentQuestionIndex = 0;
+
+    /* ── DOM refs ───────────────────────────────────────────────────── */
+    var questionPanel   = document.getElementById('question-panel');
+    var questionText    = document.getElementById('question-text');
+    var btnYes          = document.getElementById('btn-yes');
+    var btnNo           = document.getElementById('btn-no');
+    var resultCard      = document.getElementById('result-card');
+    var resultIcon      = document.getElementById('result-icon');
+    var resultHeading   = document.getElementById('result-heading');
+    var resultBody      = document.getElementById('result-body');
+    var resultActions   = document.getElementById('result-actions');
+    var progressBarFill = document.getElementById('progress-bar-fill');
+    var progressBarOuter= document.getElementById('progress-bar-outer');
+    var progressLabel   = document.getElementById('progress-label');
+    var progressRegion  = document.getElementById('progress-region');
+    var srAnnouncer     = document.getElementById('sr-announcer');
+
+    /* ── Render a question ──────────────────────────────────────────── */
+    function showQuestion(index) {
+      var q = QUESTIONS[index];
+
+      /* Update progress */
+      var pct = Math.round((index / 7) * 100);
+      progressBarFill.style.width = pct + '%';
+      progressBarOuter.setAttribute('aria-valuenow', index);
+      progressLabel.textContent = 'Question ' + (index + 1) + ' of 7';
+
+      /* Fade in new question text */
+      questionPanel.classList.remove('fading');
+      questionText.textContent = q.text;
+
+      /* Announce to screen readers */
+      srAnnouncer.textContent = 'Question ' + (index + 1) + ' of 7: ' + q.text;
+
+      /* Move focus to question text for keyboard users */
+      questionText.setAttribute('tabindex', '-1');
+      questionText.focus();
+    }
+
+    /* ── Render a result ────────────────────────────────────────────── */
+    function showResult(resultKey) {
+      var r = RESULTS[resultKey];
+
+      /* Hide question panel and progress */
+      questionPanel.style.display = 'none';
+      progressRegion.style.display = 'none';
+
+      /* Populate result card */
+      resultCard.className = 'result-card ' + r.cssClass;
+      resultIcon.innerHTML = r.icon;
+      resultHeading.innerHTML = r.heading;
+      resultBody.innerHTML = r.body;
+
+      /* Build action buttons */
+      resultActions.innerHTML = '';
+
+      if (r.showBooking) {
+        var bookBtn = document.createElement('a');
+        bookBtn.href = '../index.html#home';
+        bookBtn.className = 'btn btn-primary';
+        bookBtn.textContent = 'Book Your \u00A360 Assessment';
+        resultActions.appendChild(bookBtn);
+      }
+
+      var restartBtn = document.createElement('button');
+      restartBtn.type = 'button';
+      restartBtn.className = 'btn-restart';
+      restartBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> Start again';
+      restartBtn.addEventListener('click', restartTool);
+      resultActions.appendChild(restartBtn);
+
+      /* Show card */
+      resultCard.style.display = 'block';
+      resultCard.classList.remove('fading');
+
+      /* Announce to screen readers */
+      srAnnouncer.textContent = 'Result: ' + r.heading + '. ' + r.body.replace(/&amp;/g, '&').replace(/&pound;/g, '\u00A3').replace(/&mdash;/g, '\u2014');
+
+      /* Move focus to result card */
+      resultCard.focus();
+    }
+
+    /* ── Handle answer ──────────────────────────────────────────────── */
+    function handleAnswer(answeredYes) {
+      var q = QUESTIONS[currentQuestionIndex];
+
+      /* Fade out question */
+      questionPanel.classList.add('fading');
+
+      setTimeout(function () {
+        if (answeredYes) {
+          /* Yes branch always leads to a result */
+          showResult(q.yesResult);
+        } else {
+          /* No branch */
+          if (q.noNext !== null) {
+            currentQuestionIndex = q.noNext;
+            showQuestion(currentQuestionIndex);
+          } else {
+            /* Answered No to all 7 questions — fallback amber */
+            showResult('amber-fallback');
+          }
+        }
+      }, 300);
+    }
+
+    /* ── Restart ────────────────────────────────────────────────────── */
+    function restartTool() {
+      currentQuestionIndex = 0;
+
+      /* Hide result */
+      resultCard.classList.add('fading');
+
+      setTimeout(function () {
+        resultCard.style.display = 'none';
+        resultCard.classList.remove('fading');
+
+        /* Show progress and question */
+        progressRegion.style.display = 'block';
+        questionPanel.style.display = 'block';
+        questionPanel.classList.remove('fading');
+
+        showQuestion(0);
+
+        /* Announce restart */
+        srAnnouncer.textContent = 'Tool restarted. Question 1 of 7.';
+      }, 300);
+    }
+
+    /* ── Event listeners ────────────────────────────────────────────── */
+    btnYes.addEventListener('click', function () { handleAnswer(true); });
+    btnNo.addEventListener('click',  function () { handleAnswer(false); });
+
+    /* Keyboard: Enter and Space already fire click on buttons natively,
+       but we ensure no double-fire with the explicit handler above only. */
+
+    /* ── Initialise ─────────────────────────────────────────────────── */
+    showQuestion(0);
+
+  }());
+  </script>
+
+  <script>
+  document.querySelector('.nav-hamburger').addEventListener('click', function() {
+    document.querySelector('.nav-links').classList.toggle('open');
+    this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+  });
+  </script>
+
+</body>
+</html>

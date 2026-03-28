@@ -1,168 +1,117 @@
-# Multi-Persona Review: CardioTrack Platform (book.html, log.html, dashboard.html, server/)
+# Multi-Persona Review: OpenPalp Website
 
-### Date: 2026-03-17
-### Personas: Anxious Patient, Clinical Safety/GDPR, Security Auditor, UX/Accessibility, Software Engineer
-### Summary: 19 P0, 23 P1, 15 P2 (deduplicated from 5 personas)
-
----
-
-## P0 -- Critical (19)
-
-### Architecture / Integration (BLOCKING -- nothing works end-to-end)
-
-- **[ARCH-1]** `routes/booking.js`, `routes/patients.js`, `routes/logs.js` are NEVER MOUNTED in `index.js`. All 3 files are dead code. All API traffic goes through inline routes in `index.js`.
-  - Fix: Either mount the route files or delete them and align HTML frontends to the inline routes.
-
-- **[ARCH-2]** `book.html` sends field names (`fullName`, `appointmentDate`, `consentData`) that don't match what `index.js` expects (`name`, `slot_date`, `consent_data_processing`). Every booking from book.html will fail validation.
-  - Fix: Align field names between book.html and the live index.js handler.
-
-- **[ARCH-3]** `dashboard.html` calls API endpoints that don't exist in `index.js`: `/api/auth/login` (should be `/api/admin/login`), `/api/dashboard/summary` (should be `/api/admin/stats`), `/api/bookings`, `/api/patients/:id/report`, `/api/devices`, `/api/analytics`. Dashboard is non-functional.
-  - Fix: Update dashboard.html to call the actual endpoints defined in index.js.
-
-- **[ARCH-4]** `dashboard.html` uses Bearer token auth (`Authorization: Bearer <token>`) but `index.js` uses cookie-session (`req.session.adminId`). Login response never returns a token. Dashboard auth is broken.
-  - Fix: Use cookie-session consistently -- remove Bearer header from dashboard.html.
-
-- **[ARCH-5]** `log.html` calls `/api/log/progress` which does not exist in `index.js`. Patient progress view is broken.
-  - Fix: Add the endpoint to index.js or update log.html to use existing endpoints.
-
-- **[ARCH-6]** Dead route files (`routes/booking.js`, `routes/patients.js`) reference nonexistent schema columns (`status` instead of `booking_status`, `stripe_session_id`, `confirmed_at`, `cancelled_at`, `updated_at`) and nonexistent tables (`patient_logs`, `ecg_records`, `programme_progress`). If ever mounted, they would crash.
-  - Fix: Delete or rewrite to match actual db.js schema.
-
-### Patient Trust (would cause patients to abandon)
-
-- **[PAT-1]** No doctor name, photo, qualifications, or GMC number anywhere on `book.html`. Patients asked to pay and share health data without knowing who the doctor is.
-  - Fix: Add "Your Cardiologist" section with name, photo, GMC number, qualifications.
-
-- **[PAT-2]** "GMC-registered cardiologist" (book.html:668) is misleading -- clinician is a registrar without CCT. Contradicts the honest disclosure on index.html.
-  - Fix: Change to "GMC-registered doctor specialising in cardiology" and add CCT disclosure on the booking page.
-
-- **[PAT-3]** No full clinic address -- only "Wimbledon, SW19". Patients don't know where to go.
-  - Fix: Add full street address, postcode, map link, transport info.
-
-### Clinical Safety
-
-- **[CLIN-1]** ECG traffic-light system (`ecg-parser.js:129-152`) and BP classifier (`report-generator.js:207-222`) constitute clinical decision support that may require UKCA marking under UK MDR. No DCB0129 clinical risk management, no hazard log.
-  - Fix: Complete DCB0129 process. Add disclaimers that flags are for clinician triage only.
-
-- **[CLIN-2]** No real-time alerting for RED flags. Patient uploads AF ECG on Saturday, clinician sees it next Friday. Untreated AF carries significant stroke risk.
-  - Fix: Send immediate email + SMS to clinician on red flag. Show patient-facing message: "Your reading is outside normal range. Contact the clinic or call 111."
-
-- **[CLIN-3]** SMS `_streakDays()` (sms.js:288-293) fabricates streak data -- returns `Math.min(7, dayNumber)` regardless of actual logging. "You've hit your step goal 3 days in a row" may be false.
-  - Fix: Query actual database for real streak data or remove streak variant.
-
-- **[CLIN-4]** Mortality reduction language ("~30%") in patient-facing reports (report-generator.js:257-286). Discussing "mortality reduction" with anxious cardiac patients is emotionally destabilising.
-  - Fix: Reframe as "cardiovascular health improvement" or remove from patient-facing output.
-
-### Security
-
-- **[SEC-1]** Admin API `GET /api/admin/patients` returns `SELECT * FROM patients` including `log_token`, `stripe_payment_id`, `stripe_hold_id`. Compromised admin session exposes all patient authentication tokens.
-  - Fix: Return only needed columns. Never return log_token in API responses.
-
-- **[SEC-2]** No rate limiting on login endpoint (`POST /api/admin/login`). Known username (`admin`), default password (`ChangeMe123!`), no lockout.
-  - Fix: Add express-rate-limit (5 attempts/15 min). Force password change on first login.
-
-- **[SEC-3]** Default admin credentials hardcoded in db.js (line 193) and printed to console (line 203). If logs are captured, credentials are exposed.
-  - Fix: Generate random password at first startup. Never log credentials.
-
-### Data Protection
-
-- **[GDPR-1]** No explicit PECR consent for SMS. System sends 7+ SMS types without opt-in checkbox or STOP handler.
-  - Fix: Add SMS consent checkbox. Implement STOP keyword handler via Twilio webhook.
-
-- **[GDPR-2]** `log_token` transmitted as URL query parameter -- logged in browser history, server logs, Referer headers. This token grants access to submit and view health data.
-  - Fix: Exchange token for a session cookie server-side. Use POST for initial authentication.
+### Date: 2026-03-19
+### Personas: Security Auditor, UX/Accessibility, Clinical Safety, Software Engineer, Frontend Quality
+### Summary: 16 P0, 22 P1, 18 P2 (deduplicated across 5 personas)
 
 ---
 
-## P1 -- Important (23)
+## P0 -- Critical (16)
 
-### Patient Experience
+- **P0-1** [Clinical Safety]: No emergency/999 message on Home page above the fold. Patient with chest pain could book without seeing safety warning. (line ~1377)
+  - Fix: Add global safety banner below nav, visible on every SPA page
 
-- **[PAT-4]** No "what happens after I pay" explanation. Patient clicks "Proceed to Payment" without knowing next steps.
-- **[PAT-5]** Both tiers cost £49.99 -- confusing value proposition with no explanation.
-- **[PAT-6]** Only 3/9 languages have translations in log.html (en, ur, hi). 6 languages fall back to English silently.
-- **[PAT-7]** No RTL support for Arabic and Urdu (dir attribute never set).
-- **[PAT-8]** No language selector on book.html at all -- the patient's first interaction is English-only.
-- **[PAT-9]** "STOP food" / "START food" labelling is confusing clinical jargon. Double-negative toggles.
-- **[PAT-10]** No explanation of KardiaMobile -- what it is, how to export PDF.
-- **[PAT-11]** No clinic phone number -- only ProtonMail email.
-- **[PAT-12]** Cancellation policy buried below the form. Hidden refund terms.
-- **[PAT-13]** Device return SMS uses threatening "avoid the £200 charge" language.
+- **P0-2** [Clinical Safety]: No age validation in booking form. Under-18s can book and pay. (line ~2432)
+  - Fix: Calculate age from DOB, reject if <18
 
-### Clinical / Regulatory
+- **P0-3** [Clinical Safety]: Name inconsistency: "Dr Mahmood Ahmad" in index.html vs "Dr Mahmood Ul Hassan" in privacy-policy.html and terms.html
+  - Fix: Use GMC-registered name consistently everywhere
 
-- **[CLIN-5]** No CQC registration. Operating without CQC is a criminal offence.
-- **[CLIN-6]** No DPIA for health data processing at scale (mandatory under UK GDPR Article 35).
-- **[CLIN-7]** Auto-generated clinical recommendations approved with one click -- no mandatory review step, no audit trail.
-- **[CLIN-8]** Consent for health data is a single bundled checkbox, not granular per purpose.
-- **[CLIN-9]** No data retention enforcement. Privacy policy says 8 years, no automated deletion exists.
-- **[CLIN-10]** Refund policy mismatch: book.html advertises 3 tiers (>48h/24-48h/<24h) but server only implements binary (>48h or nothing).
+- **P0-4** [Clinical Safety]: "When you feel palpitations" 6-step protocol has no emergency escalation step. Patient could follow steps during sustained VT. (lines 1656-1700)
+  - Fix: Add "If symptoms last >15-20 min or you feel faint/chest pain, call 999"
 
-### Security
+- **P0-5** [Clinical Safety]: No suitability screening before booking. Patient with syncope/chest pain can book without any gate. (lines 1504-1568)
+  - Fix: Add mandatory pre-booking acknowledgement checkbox confirming no red flags
 
-- **[SEC-4]** No rate limiting on booking endpoint -- attacker can exhaust all slots with fake bookings.
-- **[SEC-5]** Cancellation uses sequential patient_id + email -- trivially enumerable IDOR.
-- **[SEC-6]** `unsafe-inline` in CSP script-src defeats XSS protection entirely.
-- **[SEC-7]** Session secret defaults to hardcoded value when NODE_ENV is not set.
-- **[SEC-8]** ECG upload mimetype check trusts browser header only -- no magic byte validation. Upload dir is under static root.
-- **[SEC-9]** Server source code accessible at `/server/db.js` etc. via static file serving.
-- **[SEC-10]** Cancelled patients can still submit daily logs -- log_token never invalidated.
+- **P0-6** [Software Eng]: SPA routing breaks on `#pricing-section` popstate — page goes blank. (line 2212)
+  - Fix: Guard handleHash() to only accept known page IDs
 
-### UX / Accessibility
+- **P0-7** [Software Eng]: Stripe payment succeeds but DB booking fails (non-SLOT_CONFLICT error) — charge without refund. (server line 540)
+  - Fix: Add refund logic in outer catch block
 
-- **[UX-1]** Toggle switch labels not programmatically associated (no aria-labelledby). Screen readers announce "switch" with no label.
-- **[UX-2]** `aria-hidden="true"` on section headings removes them from accessibility tree while referenced by `aria-labelledby`.
-- **[UX-3]** Focus indicators nearly invisible (8% opacity box-shadow).
+- **P0-8** [Security]: Booking rate-limiter cleanup bug — `record.first` undefined, entries never cleaned up, memory leak. (server line 352)
+  - Fix: Use `record.timestamps[0]` instead of `record.first`
+
+- **P0-9** [Frontend/UX]: Suitability `<ul>` elements missing `class="suit-list"` — no checkmarks/crosses/circles shown. (lines 1866, 1879, 1898)
+  - Fix: Add `class="suit-list"` to all three `<ul>` tags
+
+- **P0-10** [Frontend]: `class="eyebrow"` used but not defined — "THE PROGRAMME" and "YOUR TOOLS" labels unstyled. (lines 1604, 1780)
+  - Fix: Change to `class="section-eyebrow"`
+
+- **P0-11** [Frontend]: Protocol steps layout broken — h4 and p are separate flex items instead of stacked. (lines 1664-1698)
+  - Fix: Wrap h4+p in a `<div>` inside each `.protocol-step`
+
+- **P0-12** [Frontend]: All 7 images missing `width`/`height` attributes — CLS layout shift.
+  - Fix: Add intrinsic dimensions to each `<img>`
+
+- **P0-13** [UX]: `outline: none` on date-card and time-btn without visible replacement — keyboard focus invisible. (lines 1173, 1213)
+  - Fix: Add strong focus ring `outline: 2px solid var(--blue-400)`
+
+- **P0-14** [UX]: Sticky mobile CTA has `aria-hidden="true"` but contains focusable link — ghost element for screen readers. (line 2164)
+  - Fix: Remove `aria-hidden="true"`
+
+- **P0-15** [UX]: SPA pages have no `<h1>` except home — heading hierarchy broken for screen readers. (lines 1598-2127)
+  - Fix: Add `<h1>` to each page section
+
+- **P0-16** [Frontend]: No `og:image` meta tag — social sharing shows no preview.
+  - Fix: Add `<meta property="og:image" content="...">`
+
+## P1 -- Important (22)
+
+- **P1-1** [Security]: CSP mismatch between Caddyfile and helmet — dual headers, Google Fonts whitelist stale in helmet
+- **P1-2** [Security]: No CSRF protection on state-changing endpoints (mitigated by sameSite:strict)
+- **P1-3** [Security]: Patient log token exposed in URL query string (browser history, Referrer header)
+- **P1-4** [Security]: No rate limiting on /api/cancel, /api/log/submit, /api/ecg/upload
+- **P1-5** [Security]: `unsafe-inline` in script-src CSP — negates XSS protection
+- **P1-6** [Security]: Missing `frame-ancestors` in Caddyfile CSP + no X-Frame-Options on static pages
+- **P1-7** [Clinical Safety]: CCT/Specialist Register disclosure only in clinicians page + footer — not on patient-facing pages
+- **P1-8** [Clinical Safety]: Devices page has no emergency guidance
+- **P1-9** [Clinical Safety]: Evidence page has no emergency guidance
+- **P1-10** [Clinical Safety]: Vagal technique warning incomplete — no carotid massage warning, no escalation
+- **P1-11** [Clinical Safety]: Privacy policy references Cal.com but site now uses custom Stripe — GDPR inaccuracy
+- **P1-12** [Clinical Safety]: No CQC registration statement anywhere
+- **P1-13** [Clinical Safety]: No complaints procedure mentioned
+- **P1-14** [Clinical Safety]: No privacy policy link next to consent checkbox at booking
+- **P1-15** [UX]: `--mid-grey` text on white fails WCAG AA contrast (2.8:1 vs required 4.5:1)
+- **P1-16** [UX]: Footer text rgba(255,255,255,0.4) on dark background fails contrast
+- **P1-17** [UX]: Booking widget has no step progress indicator (Step 2 of 5)
+- **P1-18** [Frontend]: 5 CSS classes used in HTML but never defined: `.section-inner`, `.section-sub`, `.eyebrow`, `.info-cards`, `.suit-grid-narrow`
+- **P1-19** [Software Eng]: /api/slots 500 response silently shows "No appointments" instead of error
+- **P1-20** [Software Eng]: showPage() pushes duplicate history entries on popstate — Back button feels stuck
+- **P1-21** [Software Eng]: No fetch timeout on /api/book — user stuck on "Processing..." forever
+- **P1-22** [Software Eng]: IntersectionObserver never unobserves — wastes CPU on scroll
+
+## P2 -- Minor (18)
+
+- **P2-1** [Security]: Weak email validation (`includes('@')` only)
+- **P2-2** [Security]: No `Secure` cookie flag when NODE_ENV not set
+- **P2-3** [Security]: Default admin password hardcoded in source
+- **P2-4** [Security]: Server error messages leak Stripe details to admin client
+- **P2-5** [UX]: Booking back buttons have no focus-visible style
+- **P2-6** [UX]: FAQ answer regions lack `aria-labelledby`
+- **P2-7** [UX]: Skip link uses inline JS (onfocus/onblur)
+- **P2-8** [UX]: Duplicate `prefers-reduced-motion` media queries
+- **P2-9** [UX]: Book CTA in nav goes to #home instead of #pricing-section
+- **P2-10** [UX]: FAQ max-height: 400px could truncate long answers on mobile
+- **P2-11** [Clinical Safety]: Evidence citations lack full references/DOIs
+- **P2-12** [Clinical Safety]: "Movement is medicine" — slightly overclaimed
+- **P2-13** [Clinical Safety]: CAST trial narrative overclaims ("more powerful than any drug")
+- **P2-14** [Clinical Safety]: Cookie consent needed for Stripe cookies
+- **P2-15** [Frontend]: No favicon declared
+- **P2-16** [Frontend]: Images should use `loading="lazy"`
+- **P2-17** [Frontend]: ~120 lines dead CSS (unused classes)
+- **P2-18** [Frontend]: PNGs could be WebP for smaller sizes
+
+## False Positive Watch
+- The booking "Unable to load appointments" is expected without a running Express server — NOT a bug
+- The `pk_live_PLACEHOLDER` is a known placeholder — NOT a leaked key
+- Div balance 155 vs 151 on raw grep is due to 4 `<div` in JS innerHTML strings — actual balance is 151/151
 
 ---
 
-## P1 (continued) - merged above with 23 total
+## USER REQUEST: Add Clinician Profile Section
+User noted the clinician bio/transparency is buried in #clinicians (a page labelled "for healthcare professionals") and the footer. Patients need to easily see who they're seeing. **Add a prominent "Your Clinician" section to the Home page with Dr Ahmad's bio and transparency statement.**
 
 ---
 
-## P2 -- Minor (15)
-
-- **[P2-1]** Tamil shown without native script in language dropdown (should be "தமிழ்").
-- **[P2-2]** No `max` attribute on log date picker -- future dates submittable.
-- **[P2-3]** Morning SMS at 7:30am may be too early -- no preference setting.
-- **[P2-4]** No loading spinner for slot fetch -- just plain text.
-- **[P2-5]** £200 hold not explained as pre-authorisation vs charge.
-- **[P2-6]** Form data not persisted to localStorage (lost on tab close).
-- **[P2-7]** SMS messages don't include clinic contact info.
-- **[P2-8]** Report generator uses "the patient" as fallback name (cold/clinical).
-- **[P2-9]** No dark mode or prefers-color-scheme support.
-- **[P2-10]** No Windows High Contrast Mode support.
-- **[P2-11]** Multiple font sizes below 14px (10px bar values, 11-12px labels).
-- **[P2-12]** No inline validation or field-level error messages on forms.
-- **[P2-13]** Heading semantics: `<p>` used as section headings instead of `<h3>`.
-- **[P2-14]** Consent checkboxes 18x18px -- below WCAG 24x24px minimum touch target.
-- **[P2-15]** Step chart uses colour-only differentiation (fails WCAG 1.4.1).
-
----
-
-## Top 5 Actions Before Launch
-
-1. **ARCH-1 through ARCH-6**: Resolve dual implementation. Decide canonical backend (index.js inline vs routes/), delete the other, align all HTML frontends to match. **Nothing works until this is fixed.**
-2. **PAT-1 + PAT-2 + PAT-3**: Add doctor identity, honest credentials, and full clinic address to booking page.
-3. **SEC-1 + SEC-2 + SEC-3**: Stop leaking tokens in API responses, add rate limiting on login, remove hardcoded credentials.
-4. **CLIN-1 + CLIN-2**: Add red-flag alerting and DCB0129 clinical safety process for ECG classifier.
-5. **GDPR-1 + GDPR-2**: Add SMS consent, move log_token out of URL.
-
----
-
-## Architecture Decision Required
-
-The codebase has TWO complete implementations:
-
-| | `index.js` (inline, LIVE) | `routes/*.js` (modular, DEAD) |
-|---|---|---|
-| Slot times | 17:00-19:30 (Friday evenings) | 09:00-16:30 (daytime) |
-| Status column | `booking_status` | `status` (doesn't exist) |
-| Payment | Direct PaymentIntent | Stripe Checkout Session |
-| Cancel auth | patient_id + email | log_token |
-| Rate limiting | None | 3/day on logs |
-| HTML frontend | Server-rendered templates in index.js | Standalone book.html, log.html, dashboard.html |
-
-The standalone HTML files (book.html, log.html, dashboard.html) were designed for the `routes/` backend but are served by the `index.js` backend. **Neither pair works together.**
-
-**Recommendation**: Keep the modular `routes/` architecture (cleaner, better validation, Stripe Checkout is safer than direct PaymentIntents), fix the schema mismatches, mount the routes, and delete the inline implementations from index.js.
+Status: REVIEW COMPLETE — awaiting fix decisions

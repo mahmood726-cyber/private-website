@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weekly Quizzes &mdash; OpenPalp</title>
+  <meta name="description" content="Test your knowledge week by week as you move through the OpenPalp 6-week palpitations programme. Five questions per week, instant feedback.">
+  <link rel="canonical" href="https://londoncardiologyclinic.uk/tools/weekly-quiz">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://londoncardiologyclinic.uk/tools/weekly-quiz">
+  <meta property="og:title" content="Weekly Quizzes &mdash; OpenPalp">
+  <meta property="og:description" content="Test your knowledge week by week as you move through the OpenPalp 6-week palpitations programme. Five questions per week, instant feedback.">
+  <meta property="og:image" content="https://londoncardiologyclinic.uk/img/openpalp-7.png">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:site_name" content="OpenPalp by London Cardiology Clinic">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="robots" content="index, follow">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="stylesheet" href="../css/pages.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    "name": "Weekly Quizzes &mdash; OpenPalp",
+    "description": "Test your knowledge week by week as you move through the OpenPalp 6-week palpitations programme.",
+    "url": "https://londoncardiologyclinic.uk/tools/weekly-quiz",
+    "author": { "@type": "Physician", "name": "Dr Mahmood Ahmad", "description": "Specialist in Cardiology (SAS), MRCP(UK), GMC 6071047" },
+    "publisher": { "@type": "MedicalClinic", "name": "OpenPalp by London Cardiology Clinic" },
+    "specialty": "Cardiology"
+  }
+  </script>
+  <style>
+    /* ── Quiz tool styles ── */
+    .quiz-intro {
+      max-width: 720px;
+      margin: 0 auto 2.5rem;
+      padding: 0 1.25rem;
+    }
+    .quiz-intro p {
+      color: #4a4a4a;
+      line-height: 1.7;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Tab bar */
+    .week-tabs {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 0.375rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 0 1.25rem 0.25rem;
+      max-width: 760px;
+      margin: 0 auto 2rem;
+      scrollbar-width: thin;
+      scrollbar-color: #4D7A65 #e8ede9;
+    }
+    .week-tabs::-webkit-scrollbar {
+      height: 4px;
+    }
+    .week-tabs::-webkit-scrollbar-track {
+      background: #e8ede9;
+      border-radius: 2px;
+    }
+    .week-tabs::-webkit-scrollbar-thumb {
+      background: #4D7A65;
+      border-radius: 2px;
+    }
+    .tab-btn {
+      flex: 0 0 auto;
+      padding: 0.55rem 1rem;
+      border: 2px solid #4D7A65;
+      background: #fff;
+      color: #4D7A65;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+      white-space: nowrap;
+      line-height: 1.3;
+    }
+    .tab-btn:hover {
+      background: #e8ede9;
+    }
+    .tab-btn[aria-selected="true"] {
+      background: #4D7A65;
+      color: #fff;
+    }
+    .tab-btn:focus-visible {
+      outline: 3px solid #4D7A65;
+      outline-offset: 2px;
+    }
+
+    /* Tab panels */
+    .tab-panel {
+      display: none;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 1.25rem 3rem;
+    }
+    .tab-panel.active {
+      display: block;
+    }
+    .week-heading {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #2c2c2c;
+      margin-bottom: 0.3rem;
+    }
+    .week-subheading {
+      font-size: 0.9rem;
+      color: #6a6a6a;
+      margin-bottom: 2rem;
+    }
+
+    /* Question cards */
+    .question-card {
+      background: #f8faf8;
+      border: 1px solid #dce8dc;
+      border-radius: 10px;
+      padding: 1.25rem 1.4rem;
+      margin-bottom: 1.25rem;
+      transition: border-color 0.2s;
+    }
+    .question-card.correct {
+      border-color: #4D7A65;
+      background: #eef5ee;
+    }
+    .question-card.incorrect {
+      border-color: #c97a2a;
+      background: #fdf5ea;
+    }
+    .question-card fieldset {
+      border: none;
+      margin: 0;
+      padding: 0;
+    }
+    .question-card legend {
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: #2c2c2c;
+      line-height: 1.5;
+      margin-bottom: 0.9rem;
+      display: block;
+      width: 100%;
+    }
+    .question-number {
+      display: inline-block;
+      background: #4D7A65;
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      border-radius: 4px;
+      padding: 0.15em 0.5em;
+      margin-right: 0.45rem;
+      vertical-align: middle;
+      line-height: 1.6;
+    }
+
+    /* Radio options */
+    .option-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.55rem 0.75rem;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 0.35rem;
+      transition: background 0.15s;
+      line-height: 1.45;
+      font-size: 0.91rem;
+      color: #2c2c2c;
+    }
+    .option-label:hover {
+      background: #e4ede4;
+    }
+    .option-label input[type="radio"] {
+      margin-top: 0.15rem;
+      flex-shrink: 0;
+      accent-color: #4D7A65;
+      width: 1rem;
+      height: 1rem;
+    }
+    .option-label.correct-answer {
+      background: #d4edda;
+      color: #1d5230;
+      font-weight: 600;
+      border-radius: 6px;
+    }
+    .option-label.wrong-chosen {
+      background: #fde8ca;
+      color: #7a3d00;
+      border-radius: 6px;
+    }
+
+    /* Feedback badge */
+    .feedback-badge {
+      display: none;
+      margin-top: 0.65rem;
+      font-size: 0.84rem;
+      font-weight: 600;
+      padding: 0.4rem 0.75rem;
+      border-radius: 5px;
+    }
+    .feedback-badge.show { display: inline-block; }
+    .feedback-badge.pass {
+      background: #d4edda;
+      color: #1d5230;
+    }
+    .feedback-badge.fail {
+      background: #fde8ca;
+      color: #7a3d00;
+    }
+
+    /* Score bar */
+    .score-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1.75rem;
+      flex-wrap: wrap;
+    }
+    .score-display {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #2c2c2c;
+      min-width: 110px;
+    }
+    .score-display .score-num {
+      color: #4D7A65;
+      font-size: 1.3rem;
+    }
+
+    /* Buttons */
+    .quiz-btn {
+      display: inline-block;
+      padding: 0.6rem 1.35rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.15s, background 0.15s;
+    }
+    .quiz-btn:focus-visible {
+      outline: 3px solid #4D7A65;
+      outline-offset: 2px;
+    }
+    .btn-check {
+      background: #4D7A65;
+      color: #fff;
+    }
+    .btn-check:hover { opacity: 0.88; }
+    .btn-check:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .btn-reset {
+      background: #fff;
+      color: #4D7A65;
+      border: 2px solid #4D7A65;
+    }
+    .btn-reset:hover { background: #e8ede9; }
+
+    /* Live region */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Responsive tweak */
+    @media (max-width: 480px) {
+      .tab-btn { font-size: 0.76rem; padding: 0.5rem 0.75rem; }
+      .week-tabs { gap: 0.25rem; }
+      .question-card { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="safety-banner" role="alert">
+    <strong>If you have chest pain, fainting, severe breathlessness, or feel acutely unwell, call 999 immediately.</strong> This is not an emergency service.
+  </div>
+
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">OpenPalp <em>by London Cardiology Clinic</em></a>
+      <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../index.html#programme">Programme</a></li>
+        <li><a href="../index.html#devices">Device</a></li>
+        <li><a href="../index.html#suitability">Suitability</a></li>
+        <li><a href="../index.html#evidence">Evidence</a></li>
+        <li><a href="../articles/">Articles</a></li>
+        <li><a href="./" class="active">Tools</a></li>
+        <li><a href="../index.html#clinicians">Clinicians</a></li>
+        <li><a href="../index.html#home" class="nav-cta">Book</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div class="article-hero">
+      <h1>Weekly Quizzes</h1>
+    </div>
+
+    <div class="quiz-intro">
+      <p>Five questions for each week of the OpenPalp programme. Use these to check your understanding before your results appointment. Scores are not saved &mdash; answers vanish when you close the page.</p>
+      <p>Select the best answer for each question, then press <strong>Check answers</strong>. Correct answers are highlighted in green; incorrect ones in amber with the right answer shown.</p>
+    </div>
+
+    <!-- aria-live region for screen reader score announcements -->
+    <div id="quiz-live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Tab bar -->
+    <div class="week-tabs" role="tablist" aria-label="Programme weeks">
+      <button class="tab-btn" role="tab" id="tab-w1" aria-controls="panel-w1" aria-selected="true"  tabindex="0">Week 1: Listen</button>
+      <button class="tab-btn" role="tab" id="tab-w2" aria-controls="panel-w2" aria-selected="false" tabindex="-1">Week 2: Breathe</button>
+      <button class="tab-btn" role="tab" id="tab-w3" aria-controls="panel-w3" aria-selected="false" tabindex="-1">Week 3: Discover</button>
+      <button class="tab-btn" role="tab" id="tab-w4" aria-controls="panel-w4" aria-selected="false" tabindex="-1">Week 4: Change</button>
+      <button class="tab-btn" role="tab" id="tab-w5" aria-controls="panel-w5" aria-selected="false" tabindex="-1">Week 5: Move</button>
+      <button class="tab-btn" role="tab" id="tab-w6" aria-controls="panel-w6" aria-selected="false" tabindex="-1">Week 6: Understand</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         WEEK 1 — LISTEN
+    ════════════════════════════════════════════════════════════ -->
+    <div class="tab-panel active" id="panel-w1" role="tabpanel" aria-labelledby="tab-w1">
+      <p class="week-heading">Week 1 &mdash; Listen</p>
+      <p class="week-subheading">Observation, your Kardia device, and the daily diary.</p>
+
+      <!-- Q1 -->
+      <div class="question-card" id="w1q1-card">
+        <fieldset>
+          <legend><span class="question-number">1</span>During Week 1, what is the main thing you should focus on?</legend>
+          <label class="option-label"><input type="radio" name="w1q1" value="A"> Trying to stop your palpitations</label>
+          <label class="option-label"><input type="radio" name="w1q1" value="B"> Observing your symptoms without trying to change them</label>
+          <label class="option-label"><input type="radio" name="w1q1" value="C"> Starting a new exercise routine</label>
+          <label class="option-label"><input type="radio" name="w1q1" value="D"> Eliminating all caffeine immediately</label>
+          <div class="feedback-badge" id="w1q1-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q2 -->
+      <div class="question-card" id="w1q2-card">
+        <fieldset>
+          <legend><span class="question-number">2</span>How often should you record a resting Kardia reading?</legend>
+          <label class="option-label"><input type="radio" name="w1q2" value="A"> Once each morning</label>
+          <label class="option-label"><input type="radio" name="w1q2" value="B"> Every hour</label>
+          <label class="option-label"><input type="radio" name="w1q2" value="C"> Only when you feel symptoms</label>
+          <label class="option-label"><input type="radio" name="w1q2" value="D"> Once a week</label>
+          <div class="feedback-badge" id="w1q2-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q3 -->
+      <div class="question-card" id="w1q3-card">
+        <fieldset>
+          <legend><span class="question-number">3</span>What does an &lsquo;Unclassified&rsquo; Kardia reading usually mean?</legend>
+          <label class="option-label"><input type="radio" name="w1q3" value="A"> You have a dangerous heart rhythm</label>
+          <label class="option-label"><input type="radio" name="w1q3" value="B"> The device is broken</label>
+          <label class="option-label"><input type="radio" name="w1q3" value="C"> The device could not categorise the rhythm &mdash; it does not mean something is wrong</label>
+          <label class="option-label"><input type="radio" name="w1q3" value="D"> You need to call your doctor</label>
+          <div class="feedback-badge" id="w1q3-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q4 -->
+      <div class="question-card" id="w1q4-card">
+        <fieldset>
+          <legend><span class="question-number">4</span>When should you record an additional Kardia reading?</legend>
+          <label class="option-label"><input type="radio" name="w1q4" value="A"> Only at bedtime</label>
+          <label class="option-label"><input type="radio" name="w1q4" value="B"> Every 30 minutes</label>
+          <label class="option-label"><input type="radio" name="w1q4" value="C"> Whenever you feel symptoms</label>
+          <label class="option-label"><input type="radio" name="w1q4" value="D"> Only if told to by your doctor</label>
+          <div class="feedback-badge" id="w1q4-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q5 -->
+      <div class="question-card" id="w1q5-card">
+        <fieldset>
+          <legend><span class="question-number">5</span>What is the purpose of the daily diary?</legend>
+          <label class="option-label"><input type="radio" name="w1q5" value="A"> To count your calories</label>
+          <label class="option-label"><input type="radio" name="w1q5" value="B"> To spot patterns between your symptoms and daily habits</label>
+          <label class="option-label"><input type="radio" name="w1q5" value="C"> To record your medications</label>
+          <label class="option-label"><input type="radio" name="w1q5" value="D"> To track your exercise only</label>
+          <div class="feedback-badge" id="w1q5-badge"></div>
+        </fieldset>
+      </div>
+
+      <div class="score-row">
+        <button class="quiz-btn btn-check" id="w1-check" onclick="checkWeek('w1')">Check answers</button>
+        <button class="quiz-btn btn-reset" id="w1-reset" onclick="resetWeek('w1')" style="display:none;">Try again</button>
+        <div class="score-display" id="w1-score" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         WEEK 2 — BREATHE
+    ════════════════════════════════════════════════════════════ -->
+    <div class="tab-panel" id="panel-w2" role="tabpanel" aria-labelledby="tab-w2">
+      <p class="week-heading">Week 2 &mdash; Breathe</p>
+      <p class="week-subheading">The 4-6 breathing technique and the vagal response.</p>
+
+      <!-- Q1 -->
+      <div class="question-card" id="w2q1-card">
+        <fieldset>
+          <legend><span class="question-number">1</span>In the 4-6 breathing technique, what do the numbers refer to?</legend>
+          <label class="option-label"><input type="radio" name="w2q1" value="A"> 4 breaths in, 6 breaths out</label>
+          <label class="option-label"><input type="radio" name="w2q1" value="B"> Inhale for 4 seconds, exhale for 6 seconds</label>
+          <label class="option-label"><input type="radio" name="w2q1" value="C"> 4 minutes of breathing, 6 minutes of rest</label>
+          <label class="option-label"><input type="radio" name="w2q1" value="D"> Breathe 46 times per minute</label>
+          <div class="feedback-badge" id="w2q1-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q2 -->
+      <div class="question-card" id="w2q2-card">
+        <fieldset>
+          <legend><span class="question-number">2</span>Why is a longer exhale important?</legend>
+          <label class="option-label"><input type="radio" name="w2q2" value="A"> It makes you dizzy which distracts from palpitations</label>
+          <label class="option-label"><input type="radio" name="w2q2" value="B"> It fills your lungs more fully</label>
+          <label class="option-label"><input type="radio" name="w2q2" value="C"> It activates the vagus nerve, which slows the heart</label>
+          <label class="option-label"><input type="radio" name="w2q2" value="D"> It increases your oxygen levels</label>
+          <div class="feedback-badge" id="w2q2-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q3 -->
+      <div class="question-card" id="w2q3-card">
+        <fieldset>
+          <legend><span class="question-number">3</span>How often should you practise the breathing exercise?</legend>
+          <label class="option-label"><input type="radio" name="w2q3" value="A"> Once a week</label>
+          <label class="option-label"><input type="radio" name="w2q3" value="B"> Only during palpitations</label>
+          <label class="option-label"><input type="radio" name="w2q3" value="C"> Twice daily &mdash; morning and evening, 5 minutes each</label>
+          <label class="option-label"><input type="radio" name="w2q3" value="D"> For one hour before bed</label>
+          <div class="feedback-badge" id="w2q3-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q4 -->
+      <div class="question-card" id="w2q4-card">
+        <fieldset>
+          <legend><span class="question-number">4</span>A meta-analysis of how many studies supports slow breathing for heart rhythm?</legend>
+          <label class="option-label"><input type="radio" name="w2q4" value="A"> 3 studies</label>
+          <label class="option-label"><input type="radio" name="w2q4" value="B"> 31 studies involving 1,133 participants</label>
+          <label class="option-label"><input type="radio" name="w2q4" value="C"> 100 studies</label>
+          <label class="option-label"><input type="radio" name="w2q4" value="D"> 5 studies</label>
+          <div class="feedback-badge" id="w2q4-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q5 -->
+      <div class="question-card" id="w2q5-card">
+        <fieldset>
+          <legend><span class="question-number">5</span>What should you do if you feel dizzy during breathing exercises?</legend>
+          <label class="option-label"><input type="radio" name="w2q5" value="A"> Breathe faster</label>
+          <label class="option-label"><input type="radio" name="w2q5" value="B"> Continue pushing through</label>
+          <label class="option-label"><input type="radio" name="w2q5" value="C"> Return to normal breathing &mdash; do not force it</label>
+          <label class="option-label"><input type="radio" name="w2q5" value="D"> Hold your breath for 30 seconds</label>
+          <div class="feedback-badge" id="w2q5-badge"></div>
+        </fieldset>
+      </div>
+
+      <div class="score-row">
+        <button class="quiz-btn btn-check" id="w2-check" onclick="checkWeek('w2')">Check answers</button>
+        <button class="quiz-btn btn-reset" id="w2-reset" onclick="resetWeek('w2')" style="display:none;">Try again</button>
+        <div class="score-display" id="w2-score" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         WEEK 3 — DISCOVER
+    ════════════════════════════════════════════════════════════ -->
+    <div class="tab-panel" id="panel-w3" role="tabpanel" aria-labelledby="tab-w3">
+      <p class="week-heading">Week 3 &mdash; Discover</p>
+      <p class="week-subheading">Triggers, the attention loop, and pattern recognition.</p>
+
+      <!-- Q1 -->
+      <div class="question-card" id="w3q1-card">
+        <fieldset>
+          <legend><span class="question-number">1</span>What is the caffeine test in the programme?</legend>
+          <label class="option-label"><input type="radio" name="w3q1" value="A"> Drinking extra coffee to test your heart</label>
+          <label class="option-label"><input type="radio" name="w3q1" value="B"> Removing caffeine for 5 days then reintroducing to see if symptoms change</label>
+          <label class="option-label"><input type="radio" name="w3q1" value="C"> A blood test for caffeine levels</label>
+          <label class="option-label"><input type="radio" name="w3q1" value="D"> Drinking decaf to see if it tastes different</label>
+          <div class="feedback-badge" id="w3q1-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q2 -->
+      <div class="question-card" id="w3q2-card">
+        <fieldset>
+          <legend><span class="question-number">2</span>Name the most common palpitation triggers.</legend>
+          <label class="option-label"><input type="radio" name="w3q2" value="A"> Cold weather, sunshine, and rain</label>
+          <label class="option-label"><input type="radio" name="w3q2" value="B"> Caffeine, poor sleep, and stress</label>
+          <label class="option-label"><input type="radio" name="w3q2" value="C"> Exercise, water, and fresh air</label>
+          <label class="option-label"><input type="radio" name="w3q2" value="D"> Reading, writing, and cooking</label>
+          <div class="feedback-badge" id="w3q2-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q3 -->
+      <div class="question-card" id="w3q3-card">
+        <fieldset>
+          <legend><span class="question-number">3</span>What is the attention loop?</legend>
+          <label class="option-label"><input type="radio" name="w3q3" value="A"> A hearing test</label>
+          <label class="option-label"><input type="radio" name="w3q3" value="B"> A type of heart rhythm</label>
+          <label class="option-label"><input type="radio" name="w3q3" value="C"> Noticing palpitations leads to anxiety which makes them feel worse</label>
+          <label class="option-label"><input type="radio" name="w3q3" value="D"> A Kardia device feature</label>
+          <div class="feedback-badge" id="w3q3-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q4 -->
+      <div class="question-card" id="w3q4-card">
+        <fieldset>
+          <legend><span class="question-number">4</span>Why might your palpitations feel worse at night?</legend>
+          <label class="option-label"><input type="radio" name="w3q4" value="A"> Your heart beats differently at night</label>
+          <label class="option-label"><input type="radio" name="w3q4" value="B"> Reduced ambient noise makes your heartbeat more noticeable</label>
+          <label class="option-label"><input type="radio" name="w3q4" value="C"> Gravity changes your heart rhythm</label>
+          <label class="option-label"><input type="radio" name="w3q4" value="D"> Night air contains less oxygen</label>
+          <div class="feedback-badge" id="w3q4-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q5 -->
+      <div class="question-card" id="w3q5-card">
+        <fieldset>
+          <legend><span class="question-number">5</span>What should you record when you notice a trigger?</legend>
+          <label class="option-label"><input type="radio" name="w3q5" value="A"> Only the time</label>
+          <label class="option-label"><input type="radio" name="w3q5" value="B"> What you ate or drank, sleep quality, stress level, and when symptoms occurred</label>
+          <label class="option-label"><input type="radio" name="w3q5" value="C"> Your blood pressure only</label>
+          <label class="option-label"><input type="radio" name="w3q5" value="D"> Nothing &mdash; just ignore it</label>
+          <div class="feedback-badge" id="w3q5-badge"></div>
+        </fieldset>
+      </div>
+
+      <div class="score-row">
+        <button class="quiz-btn btn-check" id="w3-check" onclick="checkWeek('w3')">Check answers</button>
+        <button class="quiz-btn btn-reset" id="w3-reset" onclick="resetWeek('w3')" style="display:none;">Try again</button>
+        <div class="score-display" id="w3-score" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         WEEK 4 — CHANGE
+    ════════════════════════════════════════════════════════════ -->
+    <div class="tab-panel" id="panel-w4" role="tabpanel" aria-labelledby="tab-w4">
+      <p class="week-heading">Week 4 &mdash; Change</p>
+      <p class="week-subheading">Sleep, HRV, and the sleep anchor experiment.</p>
+
+      <!-- Q1 -->
+      <div class="question-card" id="w4q1-card">
+        <fieldset>
+          <legend><span class="question-number">1</span>What is a sleep anchor?</legend>
+          <label class="option-label"><input type="radio" name="w4q1" value="A"> A heavy pillow</label>
+          <label class="option-label"><input type="radio" name="w4q1" value="B"> A fixed wake time every day, including weekends</label>
+          <label class="option-label"><input type="radio" name="w4q1" value="C"> A sleep medication</label>
+          <label class="option-label"><input type="radio" name="w4q1" value="D"> Sleeping in the same position each night</label>
+          <div class="feedback-badge" id="w4q1-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q2 -->
+      <div class="question-card" id="w4q2-card">
+        <fieldset>
+          <legend><span class="question-number">2</span>Why does poor sleep affect heart rhythm?</legend>
+          <label class="option-label"><input type="radio" name="w4q2" value="A"> It does not</label>
+          <label class="option-label"><input type="radio" name="w4q2" value="B"> Sleep disruption increases sympathetic nervous system activity and reduces HRV</label>
+          <label class="option-label"><input type="radio" name="w4q2" value="C"> Lying down compresses the heart</label>
+          <label class="option-label"><input type="radio" name="w4q2" value="D"> Dreams cause palpitations</label>
+          <div class="feedback-badge" id="w4q2-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q3 -->
+      <div class="question-card" id="w4q3-card">
+        <fieldset>
+          <legend><span class="question-number">3</span>Which major study linked sleep disruption to arrhythmia?</legend>
+          <label class="option-label"><input type="radio" name="w4q3" value="A"> The Framingham Heart Study</label>
+          <label class="option-label"><input type="radio" name="w4q3" value="B"> The UK Biobank study of 403,000 people</label>
+          <label class="option-label"><input type="radio" name="w4q3" value="C"> The CAST trial</label>
+          <label class="option-label"><input type="radio" name="w4q3" value="D"> The Nurses Health Study</label>
+          <div class="feedback-badge" id="w4q3-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q4 -->
+      <div class="question-card" id="w4q4-card">
+        <fieldset>
+          <legend><span class="question-number">4</span>What is HRV?</legend>
+          <label class="option-label"><input type="radio" name="w4q4" value="A"> Heart rate velocity</label>
+          <label class="option-label"><input type="radio" name="w4q4" value="B"> A type of heart attack</label>
+          <label class="option-label"><input type="radio" name="w4q4" value="C"> Heart rate variability &mdash; the variation in time between heartbeats</label>
+          <label class="option-label"><input type="radio" name="w4q4" value="D"> High-risk ventricle</label>
+          <div class="feedback-badge" id="w4q4-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q5 -->
+      <div class="question-card" id="w4q5-card">
+        <fieldset>
+          <legend><span class="question-number">5</span>If your sleep experiment improves symptoms, what should you do?</legend>
+          <label class="option-label"><input type="radio" name="w4q5" value="A"> Stop the experiment</label>
+          <label class="option-label"><input type="radio" name="w4q5" value="B"> Keep the new routine and note it in your progress tracker</label>
+          <label class="option-label"><input type="radio" name="w4q5" value="C"> See your GP immediately</label>
+          <label class="option-label"><input type="radio" name="w4q5" value="D"> Double your caffeine intake</label>
+          <div class="feedback-badge" id="w4q5-badge"></div>
+        </fieldset>
+      </div>
+
+      <div class="score-row">
+        <button class="quiz-btn btn-check" id="w4-check" onclick="checkWeek('w4')">Check answers</button>
+        <button class="quiz-btn btn-reset" id="w4-reset" onclick="resetWeek('w4')" style="display:none;">Try again</button>
+        <div class="score-display" id="w4-score" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         WEEK 5 — MOVE
+    ════════════════════════════════════════════════════════════ -->
+    <div class="tab-panel" id="panel-w5" role="tabpanel" aria-labelledby="tab-w5">
+      <p class="week-heading">Week 5 &mdash; Move</p>
+      <p class="week-subheading">Exercise, autonomic balance, and managing episodes during activity.</p>
+
+      <!-- Q1 -->
+      <div class="question-card" id="w5q1-card">
+        <fieldset>
+          <legend><span class="question-number">1</span>What type of movement does the programme recommend starting with?</legend>
+          <label class="option-label"><input type="radio" name="w5q1" value="A"> Marathon training</label>
+          <label class="option-label"><input type="radio" name="w5q1" value="B"> Gentle daily walking with gradual increases</label>
+          <label class="option-label"><input type="radio" name="w5q1" value="C"> High-intensity interval training</label>
+          <label class="option-label"><input type="radio" name="w5q1" value="D"> Weight lifting</label>
+          <div class="feedback-badge" id="w5q1-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q2 -->
+      <div class="question-card" id="w5q2-card">
+        <fieldset>
+          <legend><span class="question-number">2</span>A 14-year study found regular activity reduced AF risk by about how much?</legend>
+          <label class="option-label"><input type="radio" name="w5q2" value="A"> 5%</label>
+          <label class="option-label"><input type="radio" name="w5q2" value="B"> 15%</label>
+          <label class="option-label"><input type="radio" name="w5q2" value="C"> 35%</label>
+          <label class="option-label"><input type="radio" name="w5q2" value="D"> 75%</label>
+          <div class="feedback-badge" id="w5q2-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q3 -->
+      <div class="question-card" id="w5q3-card">
+        <fieldset>
+          <legend><span class="question-number">3</span>Should you exercise during a palpitation episode?</legend>
+          <label class="option-label"><input type="radio" name="w5q3" value="A"> Yes, exercise will fix it</label>
+          <label class="option-label"><input type="radio" name="w5q3" value="B"> No &mdash; rest, use breathing or vagal techniques, and record on Kardia</label>
+          <label class="option-label"><input type="radio" name="w5q3" value="C"> Yes, but only light jogging</label>
+          <label class="option-label"><input type="radio" name="w5q3" value="D"> Only if the palpitations last more than an hour</label>
+          <div class="feedback-badge" id="w5q3-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q4 -->
+      <div class="question-card" id="w5q4-card">
+        <fieldset>
+          <legend><span class="question-number">4</span>What is a reasonable daily step goal?</legend>
+          <label class="option-label"><input type="radio" name="w5q4" value="A"> Exactly 10,000 steps for everyone</label>
+          <label class="option-label"><input type="radio" name="w5q4" value="B"> Gradually increase from your baseline &mdash; there is no single target</label>
+          <label class="option-label"><input type="radio" name="w5q4" value="C"> 20,000 steps minimum</label>
+          <label class="option-label"><input type="radio" name="w5q4" value="D"> Steps do not matter</label>
+          <div class="feedback-badge" id="w5q4-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q5 -->
+      <div class="question-card" id="w5q5-card">
+        <fieldset>
+          <legend><span class="question-number">5</span>Why is movement good for palpitations even when your heart is structurally normal?</legend>
+          <label class="option-label"><input type="radio" name="w5q5" value="A"> It weakens the heart so it beats less</label>
+          <label class="option-label"><input type="radio" name="w5q5" value="B"> It improves autonomic balance and reduces resting sympathetic tone</label>
+          <label class="option-label"><input type="radio" name="w5q5" value="C"> It eliminates all palpitations permanently</label>
+          <label class="option-label"><input type="radio" name="w5q5" value="D"> It has no effect on palpitations</label>
+          <div class="feedback-badge" id="w5q5-badge"></div>
+        </fieldset>
+      </div>
+
+      <div class="score-row">
+        <button class="quiz-btn btn-check" id="w5-check" onclick="checkWeek('w5')">Check answers</button>
+        <button class="quiz-btn btn-reset" id="w5-reset" onclick="resetWeek('w5')" style="display:none;">Try again</button>
+        <div class="score-display" id="w5-score" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         WEEK 6 — UNDERSTAND
+    ════════════════════════════════════════════════════════════ -->
+    <div class="tab-panel" id="panel-w6" role="tabpanel" aria-labelledby="tab-w6">
+      <p class="week-heading">Week 6 &mdash; Understand</p>
+      <p class="week-subheading">The results appointment, onward pathways, and living well with your findings.</p>
+
+      <!-- Q1 -->
+      <div class="question-card" id="w6q1-card">
+        <fieldset>
+          <legend><span class="question-number">1</span>What happens at the results appointment on day 30?</legend>
+          <label class="option-label"><input type="radio" name="w6q1" value="A"> You receive medication</label>
+          <label class="option-label"><input type="radio" name="w6q1" value="B"> You and Dr Ahmad review all Kardia recordings and your booklet together</label>
+          <label class="option-label"><input type="radio" name="w6q1" value="C"> You have a blood test</label>
+          <label class="option-label"><input type="radio" name="w6q1" value="D"> You are discharged immediately</label>
+          <div class="feedback-badge" id="w6q1-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q2 -->
+      <div class="question-card" id="w6q2-card">
+        <fieldset>
+          <legend><span class="question-number">2</span>What should you bring to the results appointment?</legend>
+          <label class="option-label"><input type="radio" name="w6q2" value="A"> Nothing</label>
+          <label class="option-label"><input type="radio" name="w6q2" value="B"> Your completed booklet and your phone with the Kardia app</label>
+          <label class="option-label"><input type="radio" name="w6q2" value="C"> A letter from your GP</label>
+          <label class="option-label"><input type="radio" name="w6q2" value="D"> Your passport</label>
+          <div class="feedback-badge" id="w6q2-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q3 -->
+      <div class="question-card" id="w6q3-card">
+        <fieldset>
+          <legend><span class="question-number">3</span>If monitoring finds atrial fibrillation, what happens?</legend>
+          <label class="option-label"><input type="radio" name="w6q3" value="A"> Nothing &mdash; AF is always harmless</label>
+          <label class="option-label"><input type="radio" name="w6q3" value="B"> You will be referred to an appropriate NHS specialist with documented findings</label>
+          <label class="option-label"><input type="radio" name="w6q3" value="C"> You are given medication immediately</label>
+          <label class="option-label"><input type="radio" name="w6q3" value="D"> The programme continues as normal</label>
+          <div class="feedback-badge" id="w6q3-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q4 -->
+      <div class="question-card" id="w6q4-card">
+        <fieldset>
+          <legend><span class="question-number">4</span>What does the CAST trial (1989) teach us?</legend>
+          <label class="option-label"><input type="radio" name="w6q4" value="A"> That all palpitations are dangerous</label>
+          <label class="option-label"><input type="radio" name="w6q4" value="B"> That suppressing ectopic beats with drugs can be harmful &mdash; reassurance and lifestyle are safer</label>
+          <label class="option-label"><input type="radio" name="w6q4" value="C"> That caffeine causes heart attacks</label>
+          <label class="option-label"><input type="radio" name="w6q4" value="D"> That exercise is dangerous for the heart</label>
+          <div class="feedback-badge" id="w6q4-badge"></div>
+        </fieldset>
+      </div>
+
+      <!-- Q5 -->
+      <div class="question-card" id="w6q5-card">
+        <fieldset>
+          <legend><span class="question-number">5</span>After the programme, how can you manage future episodes?</legend>
+          <label class="option-label"><input type="radio" name="w6q5" value="A"> There is nothing you can do</label>
+          <label class="option-label"><input type="radio" name="w6q5" value="B"> Continue breathing exercises, maintain trigger awareness, and record on Kardia if concerned</label>
+          <label class="option-label"><input type="radio" name="w6q5" value="C"> Take medication daily</label>
+          <label class="option-label"><input type="radio" name="w6q5" value="D"> Avoid all physical activity</label>
+          <div class="feedback-badge" id="w6q5-badge"></div>
+        </fieldset>
+      </div>
+
+      <div class="score-row">
+        <button class="quiz-btn btn-check" id="w6-check" onclick="checkWeek('w6')">Check answers</button>
+        <button class="quiz-btn btn-reset" id="w6-reset" onclick="resetWeek('w6')" style="display:none;">Try again</button>
+        <div class="score-display" id="w6-score" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="article-cta" style="max-width:720px;margin:3rem auto 0;padding:0 1.25rem 3rem;">
+      <h3>Ready to begin the programme?</h3>
+      <p>The OpenPalp programme combines 30 days of heart rhythm monitoring with this 6-week guided plan. Friday evenings in Wimbledon. &pound;60 assessment.</p>
+      <a href="../index.html#home" class="btn btn-primary">Book Your &pound;60 Assessment</a>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-brand">OpenPalp <em>by London Cardiology Clinic</em></p>
+        <p style="margin-top:8px;">40&ndash;44 The Broadway, Wimbledon<br>London SW19 1RQ</p>
+        <p style="margin-top:8px;"><a href="mailto:drmahmoodclinic@pm.me">drmahmoodclinic@pm.me</a></p>
+      </div>
+      <div>
+        <h5>Pathway</h5>
+        <ul class="footer-links">
+          <li><a href="../index.html#programme">The Programme</a></li>
+          <li><a href="../index.html#devices">Your Device</a></li>
+          <li><a href="../index.html#suitability">Suitability</a></li>
+          <li><a href="../index.html#evidence">The Evidence</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Information</h5>
+        <ul class="footer-links">
+          <li><a href="../articles/">Articles</a></li>
+          <li><a href="../index.html#faq">FAQ</a></li>
+          <li><a href="../index.html#clinicians">For Clinicians</a></li>
+          <li><a href="../privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="../terms.html">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Dr Mahmood Ahmad &mdash; Specialist in Cardiology (SAS), MRCP(UK) &mdash; GMC <a href="https://www.gmc-uk.org/doctors/6071047" target="_blank" rel="noopener">6071047</a></p>
+      <p>This service is for selected low-risk patients only. Not an emergency service. Call 999 for chest pain, fainting, or severe breathlessness.</p>
+      <p>OpenPalp Pathway v1.0</p>
+    </div>
+  </footer>
+
+  <script>
+  /* ── Correct answer key ── */
+  var ANSWERS = {
+    w1: { w1q1: 'B', w1q2: 'A', w1q3: 'C', w1q4: 'C', w1q5: 'B' },
+    w2: { w2q1: 'B', w2q2: 'C', w2q3: 'C', w2q4: 'B', w2q5: 'C' },
+    w3: { w3q1: 'B', w3q2: 'B', w3q3: 'C', w3q4: 'B', w3q5: 'B' },
+    w4: { w4q1: 'B', w4q2: 'B', w4q3: 'B', w4q4: 'C', w4q5: 'B' },
+    w5: { w5q1: 'B', w5q2: 'C', w5q3: 'B', w5q4: 'B', w5q5: 'B' },
+    w6: { w6q1: 'B', w6q2: 'B', w6q3: 'B', w6q4: 'B', w6q5: 'B' }
+  };
+
+  /* ── Tab switching ── */
+  var tabs = document.querySelectorAll('[role="tab"]');
+
+  function activateTab(targetTab) {
+    tabs.forEach(function(t) {
+      var isTarget = t === targetTab;
+      t.setAttribute('aria-selected', isTarget ? 'true' : 'false');
+      t.setAttribute('tabindex', isTarget ? '0' : '-1');
+    });
+    document.querySelectorAll('.tab-panel').forEach(function(p) {
+      p.classList.toggle('active', p.id === targetTab.getAttribute('aria-controls'));
+    });
+  }
+
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      activateTab(tab);
+    });
+    tab.addEventListener('keydown', function(e) {
+      var idx = Array.prototype.indexOf.call(tabs, tab);
+      var newIdx = idx;
+      if (e.key === 'ArrowRight') { newIdx = (idx + 1) % tabs.length; }
+      else if (e.key === 'ArrowLeft') { newIdx = (idx - 1 + tabs.length) % tabs.length; }
+      else if (e.key === 'Home') { newIdx = 0; }
+      else if (e.key === 'End') { newIdx = tabs.length - 1; }
+      else { return; }
+      e.preventDefault();
+      activateTab(tabs[newIdx]);
+      tabs[newIdx].focus();
+    });
+  });
+
+  /* ── Check answers for a week ── */
+  function checkWeek(week) {
+    var correct = ANSWERS[week];
+    var questions = Object.keys(correct);
+    var score = 0;
+
+    questions.forEach(function(qName) {
+      var card = document.getElementById(week + qName.slice(week.length) + '-card');
+      var badge = document.getElementById(week + qName.slice(week.length) + '-badge');
+      var chosen = document.querySelector('input[name="' + qName + '"]:checked');
+      var chosenVal = chosen ? chosen.value : null;
+      var rightVal = correct[qName];
+
+      /* Style all labels */
+      var labels = card.querySelectorAll('label.option-label');
+      labels.forEach(function(lbl) {
+        lbl.classList.remove('correct-answer', 'wrong-chosen');
+        var inp = lbl.querySelector('input');
+        inp.disabled = true;
+        if (inp.value === rightVal) {
+          lbl.classList.add('correct-answer');
+        } else if (chosenVal && inp.value === chosenVal && chosenVal !== rightVal) {
+          lbl.classList.add('wrong-chosen');
+        }
+      });
+
+      /* Card border */
+      card.classList.remove('correct', 'incorrect');
+      if (chosenVal === rightVal) {
+        card.classList.add('correct');
+        score++;
+      } else {
+        card.classList.add('incorrect');
+      }
+
+      /* Per-question badge */
+      badge.classList.add('show');
+      if (chosenVal === rightVal) {
+        badge.textContent = 'Correct';
+        badge.className = 'feedback-badge show pass';
+      } else if (!chosenVal) {
+        badge.textContent = 'Not answered';
+        badge.className = 'feedback-badge show fail';
+      } else {
+        badge.textContent = 'Incorrect';
+        badge.className = 'feedback-badge show fail';
+      }
+    });
+
+    /* Score display */
+    var scoreEl = document.getElementById(week + '-score');
+    scoreEl.innerHTML = '<span class="score-num">' + score + '</span> out of 5';
+
+    /* Live region announcement */
+    document.getElementById('quiz-live').textContent = score + ' out of 5 correct.';
+
+    /* Swap buttons */
+    document.getElementById(week + '-check').style.display = 'none';
+    document.getElementById(week + '-reset').style.display = 'inline-block';
+  }
+
+  /* ── Reset a week ── */
+  function resetWeek(week) {
+    var correct = ANSWERS[week];
+    var questions = Object.keys(correct);
+
+    questions.forEach(function(qName) {
+      var card = document.getElementById(week + qName.slice(week.length) + '-card');
+      var badge = document.getElementById(week + qName.slice(week.length) + '-badge');
+
+      card.classList.remove('correct', 'incorrect');
+
+      var labels = card.querySelectorAll('label.option-label');
+      labels.forEach(function(lbl) {
+        lbl.classList.remove('correct-answer', 'wrong-chosen');
+        var inp = lbl.querySelector('input');
+        inp.disabled = false;
+        inp.checked = false;
+      });
+
+      badge.className = 'feedback-badge';
+      badge.textContent = '';
+    });
+
+    /* Clear score */
+    document.getElementById(week + '-score').innerHTML = '';
+    document.getElementById('quiz-live').textContent = '';
+
+    /* Swap buttons back */
+    document.getElementById(week + '-check').style.display = 'inline-block';
+    document.getElementById(week + '-reset').style.display = 'none';
+  }
+
+  /* ── Hamburger nav ── */
+  document.querySelector('.nav-hamburger').addEventListener('click', function() {
+    document.querySelector('.nav-links').classList.toggle('open');
+    this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+  });
+  </script>
+</body>
+</html>
