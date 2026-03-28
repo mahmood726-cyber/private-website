@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenPalp Booklet &mdash; Your Personal Heart Rhythm Programme</title>
+  <meta name="description" content="The OpenPalp patient booklet. 30 days of Kardia monitoring, 6 weeks of guided lifestyle support for low-risk palpitations.">
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="css/pages.css">
+  <style>
+    /* ── Booklet layout ── */
+    .booklet { max-width: 760px; margin: 0 auto; padding: 40px 24px 80px; }
+
+    /* ── Cover ── */
+    .booklet-cover {
+      text-align: center;
+      padding: 60px 24px 48px;
+      background: linear-gradient(175deg, var(--blue-50) 0%, var(--warm-white) 60%);
+      border-radius: 12px;
+      margin-bottom: 48px;
+      border: 1px solid var(--blue-100);
+    }
+    .booklet-cover h1 { font-size: clamp(28px, 5vw, 36px); margin-bottom: 8px; }
+    .booklet-cover .cover-subtitle { font-size: 18px; color: var(--dark-grey); font-style: italic; font-family: var(--font-serif); margin-bottom: 32px; }
+    .cover-fields { display: flex; flex-direction: column; gap: 16px; max-width: 380px; margin: 0 auto 24px; }
+    .cover-field { display: flex; flex-direction: column; gap: 4px; text-align: left; }
+    .cover-field label { font-family: var(--font-sans); font-size: 13px; color: var(--mid-grey); font-weight: 600; letter-spacing: 0.5px; }
+    .cover-field .fill-line { border-bottom: 1.5px solid var(--light-grey); padding: 6px 0; min-height: 30px; }
+
+    /* ── Typography ── */
+    .booklet h2 {
+      font-size: clamp(22px, 3vw, 28px);
+      margin: 56px 0 16px;
+      padding-top: 40px;
+      border-top: 1px solid var(--light-grey);
+      color: var(--charcoal);
+    }
+    .booklet h2:first-of-type { border-top: none; }
+    .booklet h3 { font-size: 20px; margin: 32px 0 12px; color: var(--charcoal); }
+    .booklet h4 { font-size: 16px; margin: 24px 0 8px; color: var(--charcoal); font-family: var(--font-sans); font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; }
+    .booklet p { font-size: 16px; line-height: 1.8; color: var(--dark-grey); margin-bottom: 16px; max-width: 100%; }
+    .booklet ul, .booklet ol { padding-left: 24px; margin-bottom: 16px; }
+    .booklet li { font-size: 15px; line-height: 1.7; color: var(--dark-grey); margin-bottom: 6px; max-width: 100%; }
+    .booklet strong { color: var(--charcoal); }
+    .booklet em { color: var(--dark-grey); }
+
+    /* ── Part header ── */
+    .part-header {
+      background: var(--blue-700);
+      color: var(--white);
+      border-radius: 8px;
+      padding: 20px 28px;
+      margin: 56px 0 0;
+    }
+    .part-header .part-label {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 4px;
+    }
+    .part-header h2 {
+      font-size: 22px;
+      margin: 0;
+      padding: 0;
+      border: none;
+      color: var(--white);
+    }
+
+    /* ── Blockquote ── */
+    .booklet blockquote {
+      border-left: 4px solid var(--blue-400);
+      padding: 16px 24px;
+      margin: 24px 0;
+      background: var(--blue-50);
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+      color: var(--dark-grey);
+      line-height: 1.8;
+    }
+
+    /* ── Commitment box ── */
+    .commitment-box {
+      background: var(--warm-white);
+      border: 1px solid var(--light-grey);
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin: 24px 0;
+    }
+    .commitment-line {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--light-grey);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      color: var(--dark-grey);
+    }
+    .commitment-line:last-child { border-bottom: none; }
+    .commitment-line .fill-space { flex: 1; border-bottom: 1px solid var(--mid-grey); min-height: 24px; }
+
+    /* ── Numbered steps ── */
+    .steps-list { list-style: none; padding: 0; margin: 16px 0; }
+    .steps-list li {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--ivory);
+      font-size: 15px;
+      color: var(--dark-grey);
+      line-height: 1.6;
+      max-width: 100%;
+    }
+    .steps-list li:last-child { border-bottom: none; }
+    .step-num {
+      min-width: 28px;
+      height: 28px;
+      background: var(--blue-600);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    /* ── Safety box ── */
+    .safety-box {
+      background: var(--red-50);
+      border: 1px solid #F0D0D0;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+    .safety-box strong { color: var(--red-600); }
+    .safety-box p, .safety-box li { color: #6B2E2E; }
+
+    /* ── Info box ── */
+    .info-box {
+      background: var(--blue-50);
+      border: 1px solid var(--blue-100);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+
+    /* ── Sage box ── */
+    .sage-box {
+      background: var(--sage-50);
+      border: 1px solid var(--sage-100);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+
+    /* ── Week header ── */
+    .week-header {
+      background: var(--blue-50);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 32px 0 16px;
+      border-left: 4px solid var(--blue-400);
+    }
+    .week-header h3 { margin: 0 0 4px; color: var(--blue-700); font-size: 18px; }
+    .week-focus { font-family: var(--font-sans); font-size: 13px; color: var(--dark-grey); }
+
+    /* ── Diary table ── */
+    .diary-section { margin: 24px 0 40px; }
+    .diary-table { width: 100%; border-collapse: collapse; margin: 12px 0 16px; font-family: var(--font-sans); font-size: 12px; }
+    .diary-table th {
+      background: var(--blue-700);
+      color: var(--white);
+      padding: 8px 6px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 11px;
+      border: 1px solid var(--blue-600);
+      white-space: nowrap;
+    }
+    .diary-table td {
+      padding: 10px 6px;
+      border: 1px solid var(--light-grey);
+      min-height: 36px;
+      vertical-align: top;
+    }
+    .diary-table tr:nth-child(even) td { background: var(--warm-white); }
+    .diary-table .col-date { min-width: 50px; }
+    .diary-table .col-narrow { min-width: 38px; }
+    .diary-table .col-wide { min-width: 80px; }
+
+    /* ── Reflection box ── */
+    .reflection-box {
+      border: 1px solid var(--light-grey);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 16px 0 32px;
+      background: var(--warm-white);
+    }
+    .reflection-box h4 { margin: 0 0 12px; font-family: var(--font-sans); font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--mid-grey); }
+    .reflection-line { border-bottom: 1px solid var(--light-grey); min-height: 28px; margin: 12px 0; }
+
+    /* ── Progress table ── */
+    .progress-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-family: var(--font-sans); font-size: 14px; }
+    .progress-table th {
+      background: var(--blue-50);
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+      border: 1px solid var(--light-grey);
+      font-size: 13px;
+      color: var(--blue-700);
+    }
+    .progress-table td { padding: 10px 12px; border: 1px solid var(--light-grey); }
+    .progress-table tr:nth-child(even) td { background: var(--warm-white); }
+
+    /* ── Checklist ── */
+    .check-list { list-style: none; padding: 0; margin: 12px 0; }
+    .check-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--dark-grey);
+      border-bottom: 1px solid var(--ivory);
+      max-width: 100%;
+    }
+    .check-list li:last-child { border-bottom: none; }
+    .checkbox {
+      min-width: 18px;
+      height: 18px;
+      border: 1.5px solid var(--mid-grey);
+      border-radius: 3px;
+      margin-top: 2px;
+      display: inline-block;
+    }
+
+    /* ── Self-assessment ── */
+    .assess-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      color: var(--dark-grey);
+      border-bottom: 1px solid var(--ivory);
+    }
+    .assess-option:last-child { border-bottom: none; }
+    .radio-circle {
+      min-width: 18px;
+      height: 18px;
+      border: 1.5px solid var(--mid-grey);
+      border-radius: 50%;
+      margin-top: 3px;
+      display: inline-block;
+    }
+
+    /* ── Fill lines ── */
+    .fill-line { border-bottom: 1px solid var(--light-grey); min-height: 28px; margin: 12px 0; }
+    .fill-label { font-family: var(--font-sans); font-size: 13px; color: var(--mid-grey); }
+
+    /* ── Letter space ── */
+    .letter-space {
+      min-height: 220px;
+      border: 1px solid var(--light-grey);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 16px 0;
+      background: var(--warm-white);
+    }
+
+    /* ── Signature block ── */
+    .sig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin: 24px 0; }
+    .sig-block .sig-line { border-bottom: 1.5px solid var(--charcoal); margin-bottom: 6px; min-height: 36px; }
+    .sig-block .sig-label { font-family: var(--font-sans); font-size: 12px; color: var(--mid-grey); }
+
+    /* ── Evidence cards ── */
+    .evidence-card {
+      background: var(--white);
+      border: 1px solid var(--light-grey);
+      border-radius: 12px;
+      padding: 28px 24px;
+      margin: 20px 0;
+    }
+    .evidence-card h3 { margin: 0 0 12px; font-size: 20px; }
+    .evidence-card .citation { font-family: var(--font-sans); font-size: 13px; color: var(--mid-grey); margin-bottom: 16px; font-style: italic; }
+
+    /* ── Trigger finder ── */
+    .trigger-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 16px 0; }
+    .trigger-item {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      padding: 8px 12px;
+      background: var(--warm-white);
+      border: 1px solid var(--light-grey);
+      border-radius: 6px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--dark-grey);
+    }
+
+    /* ── Step goal table ── */
+    .step-table { width: 100%; border-collapse: collapse; font-family: var(--font-sans); font-size: 14px; margin: 16px 0; }
+    .step-table th { background: var(--sage-50); padding: 10px; text-align: left; font-weight: 600; border: 1px solid var(--light-grey); color: var(--sage-600); }
+    .step-table td { padding: 10px; border: 1px solid var(--light-grey); }
+    .step-table tr:nth-child(even) td { background: var(--warm-white); }
+
+    /* ── Download bar ── */
+    .download-bar {
+      text-align: center;
+      padding: 20px 24px;
+      background: var(--blue-50);
+      border-radius: 8px;
+      margin: 0 0 32px;
+      border: 1px solid var(--blue-100);
+    }
+    .download-bar p { font-family: var(--font-sans); font-size: 14px; color: var(--dark-grey); margin-bottom: 12px; }
+
+    /* ── Booklet actions (button row) ── */
+    .booklet-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    /* ── Outline button variant ── */
+    .btn-outline {
+      background: transparent;
+      color: var(--blue-700);
+      border: 1.5px solid var(--blue-700);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 10px 22px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .btn-outline:hover, .btn-outline:focus-visible {
+      background: var(--blue-700);
+      color: var(--white);
+      outline: 2px solid var(--blue-400);
+      outline-offset: 2px;
+    }
+
+    /* ── Download hint text ── */
+    .download-hint {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--mid-grey);
+      margin: 0 !important;
+    }
+
+    /* ── Images ── */
+    .booklet-img { display: block; max-width: 100%; margin: 24px auto; border-radius: 8px; box-shadow: var(--shadow-sm); }
+
+    /* ── Device setup card ── */
+    .setup-card {
+      background: var(--blue-50);
+      border: 1px solid var(--blue-100);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin: 20px 0;
+    }
+    .setup-steps { list-style: none; padding: 0; margin: 0; counter-reset: setup-counter; }
+    .setup-steps li {
+      counter-increment: setup-counter;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--blue-100);
+      font-size: 15px;
+      color: var(--dark-grey);
+      line-height: 1.6;
+      max-width: 100%;
+    }
+    .setup-steps li:last-child { border-bottom: none; }
+    .setup-steps li::before {
+      content: counter(setup-counter);
+      min-width: 26px;
+      height: 26px;
+      background: var(--blue-600);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    /* ── Results appointment ── */
+    .appointment-card {
+      background: linear-gradient(135deg, var(--blue-50) 0%, var(--warm-white) 100%);
+      border: 1px solid var(--blue-100);
+      border-radius: 12px;
+      padding: 32px 28px;
+      margin: 24px 0;
+    }
+    .appointment-card h3 { margin-bottom: 16px; color: var(--blue-700); }
+
+    /* ── Print ── */
+    @media print {
+      /* Hide navigation and interactive chrome */
+      .nav,
+      .site-footer,
+      .safety-banner,
+      .download-bar,
+      .booklet-actions,
+      .btn { display: none !important; }
+
+      /* Reset layout */
+      body { font-size: 11pt; background: #ffffff !important; color: #000000 !important; }
+      .booklet { padding: 0; max-width: 100%; }
+
+      /* Remove decorative chrome */
+      * { box-shadow: none !important; border-radius: 0 !important; }
+
+      /* Force backgrounds on coloured boxes */
+      .booklet-cover { page-break-after: always; background: none !important; border: none !important; }
+      .part-header { page-break-before: always; background: #2D5470 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+      /* Typography */
+      .diary-table { font-size: 9pt; }
+      .diary-table td { min-height: 28px; padding: 5px 4px; }
+      h2 { font-size: 18pt; }
+      h3 { font-size: 14pt; }
+
+      /* No underlines on links */
+      a { text-decoration: none !important; color: inherit !important; }
+
+      /* Avoid breaking inside key blocks */
+      .evidence-card { break-inside: avoid; }
+      .commitment-box { break-inside: avoid; }
+      .safety-box { break-inside: avoid; }
+      .setup-card { break-inside: avoid; }
+      .appointment-card { break-inside: avoid; }
+      .sig-grid { break-inside: avoid; }
+      .reflection-box { break-inside: avoid; }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .trigger-grid { grid-template-columns: 1fr; }
+      .sig-grid { grid-template-columns: 1fr; }
+      .booklet { padding: 20px 16px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navigation (shared) ── -->
+  <nav class="nav" aria-label="Site navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">OpenPalp <em>by London Cardiology Clinic</em></a>
+      <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#programme">The Programme</a></li>
+        <li><a href="index.html#pricing-section" class="nav-cta">Book Now</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── Safety banner ── -->
+  <div class="safety-banner" role="alert">
+    <strong>Emergency:</strong> If you experience chest pain, severe breathlessness, or collapse, call <strong>999</strong> immediately.
+  </div>
+
+  <main>
+  <div class="booklet">
+
+    <!-- ── Download bar ── -->
+    <div class="download-bar">
+      <p>This is the digital version of your OpenPalp booklet. Print it out or save it as a PDF using your browser&rsquo;s print function.</p>
+      <div class="booklet-actions">
+        <button onclick="window.print()" class="btn btn-primary">Print Booklet</button>
+        <button onclick="window.print()" class="btn btn-outline">Download as PDF</button>
+      </div>
+      <p class="download-hint">Use your browser&rsquo;s &ldquo;Save as PDF&rdquo; option when the print dialog appears.</p>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         COVER
+    ══════════════════════════════════════ -->
+    <div class="booklet-cover">
+      <p style="font-family:var(--font-sans);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--mid-grey);margin-bottom:12px;">London Cardiology Clinic &mdash; OpenPalp Programme</p>
+      <h1>Your Personal Heart Rhythm Programme</h1>
+      <p class="cover-subtitle">30 days of monitoring. 6 weeks of understanding.</p>
+      <div class="cover-fields">
+        <div class="cover-field">
+          <label>Patient name</label>
+          <div class="fill-line"></div>
+        </div>
+        <div class="cover-field">
+          <label>Date started</label>
+          <div class="fill-line"></div>
+        </div>
+        <div class="cover-field">
+          <label>Day 30 review date</label>
+          <div class="fill-line"></div>
+        </div>
+      </div>
+      <p style="font-family:var(--font-sans);font-size:13px;color:var(--mid-grey);margin:0;">40&ndash;44 The Broadway, Wimbledon, London SW19 1RQ</p>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         MY PERSONAL COMMITMENT
+    ══════════════════════════════════════ -->
+    <section aria-labelledby="commitment-heading">
+      <h2 id="commitment-heading">My personal commitment</h2>
+      <p>Before you read another word &mdash; take a moment. You came here because something has been worrying you. That took courage. This is your programme. These are your thirty days.</p>
+      <p>Complete these three lines today. Come back and read them on day 30.</p>
+
+      <div class="commitment-box">
+        <div class="commitment-line">
+          <span>In 30 days I want to feel</span>
+          <span class="fill-space"></span>
+        </div>
+        <div class="commitment-line">
+          <span>Palpitations stop me from</span>
+          <span class="fill-space"></span>
+        </div>
+        <div class="commitment-line">
+          <span>I commit to</span>
+          <span class="fill-space"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         WHAT IS IN THIS BOOKLET
+    ══════════════════════════════════════ -->
+    <section aria-labelledby="contents-heading">
+      <h2 id="contents-heading">What is in this booklet</h2>
+      <ol>
+        <li><strong>Understanding your heart</strong> &mdash; why palpitations happen and why they are distressing</li>
+        <li><strong>Your device</strong> &mdash; Kardia setup, recording, and when to use it</li>
+        <li><strong>When you feel palpitations</strong> &mdash; the 6-step in-the-moment protocol</li>
+        <li><strong>Your daily practice</strong> &mdash; morning routine, evening routine, experiments</li>
+        <li><strong>Your 6-week journey</strong> &mdash; week-by-week focus areas</li>
+        <li><strong>Your 30-day diary</strong> &mdash; daily tracking tables, weekly reflections</li>
+        <li><strong>Your progress tracker</strong> &mdash; compare week 2 vs week 4 vs week 6</li>
+        <li><strong>The evidence</strong> &mdash; the studies behind the programme</li>
+        <li><strong>A letter to yourself</strong> &mdash; write it at the end of week 6</li>
+        <li><strong>Safety, consent, and device</strong> &mdash; your agreement with the clinic</li>
+        <li><strong>Results appointment</strong> &mdash; what happens at day 30</li>
+      </ol>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         PART 1: UNDERSTANDING YOUR HEART
+    ══════════════════════════════════════ -->
+    <div class="part-header">
+      <p class="part-label">Part One</p>
+      <h2>Understanding your heart</h2>
+    </div>
+
+    <section aria-labelledby="not-alone-heading">
+      <h3 id="not-alone-heading">You are not alone</h3>
+      <p>If you are reading this, you have probably spent time worrying about your heart &mdash; perhaps lying awake, perhaps checking your pulse repeatedly, perhaps avoiding things you used to enjoy. You are not imagining your symptoms. And you are not alone.</p>
+      <p>Millions of people experience palpitations. Most of the time, they are not a sign of a serious heart problem &mdash; but that does not make them any less real, or any less frightening, when they happen to you.</p>
+    </section>
+
+    <section aria-labelledby="what-heart-doing-heading">
+      <h3 id="what-heart-doing-heading">What your heart is doing</h3>
+      <p>Your heart beats about 100,000 times every day. You are not normally aware of it. Palpitations happen when something makes those beats noticeable &mdash; an extra beat, a brief change in rhythm, or a heightened sensitivity to normal variation.</p>
+      <p>Most of these changes are entirely normal. The heart is constantly adjusting: speeding up when you stand, slowing when you breathe out, producing occasional extra beats in virtually every person on the planet. What differs between people is not the beats themselves &mdash; it is whether they are noticed, and whether noticing them triggers alarm.</p>
+    </section>
+
+    <section aria-labelledby="attention-loop-heading">
+      <h3 id="attention-loop-heading">The attention loop &mdash; and why it matters</h3>
+      <p>Once you become aware of your heartbeat, attention amplifies sensation. The brain, trained to protect you, monitors the heart more closely. More monitoring means more awareness. More awareness means more anxiety. Anxiety activates the nervous system, which changes heart rhythm, which gives the brain more to monitor.</p>
+      <blockquote>This is not a psychological problem. It is a normal nervous system doing exactly what it was designed to do. The programme is designed to interrupt the loop &mdash; not by ignoring it, but by giving you information, tools, and evidence that allow your nervous system to stand down.</blockquote>
+    </section>
+
+    <section aria-labelledby="triggers-heading">
+      <h3 id="triggers-heading">Common triggers</h3>
+      <p>You will find your personal triggers through this programme. Most people are surprised by what they discover. The most common triggers are:</p>
+      <ul>
+        <li><strong>Caffeine</strong> &mdash; coffee, tea, cola, energy drinks. Even moderate amounts can increase ectopic beat frequency in sensitive individuals.</li>
+        <li><strong>Poor sleep</strong> &mdash; even one disturbed night increases sympathetic nervous system activity and sensitivity to rhythm changes.</li>
+        <li><strong>Stress and anxiety</strong> &mdash; activates the nervous system directly, increasing heart rate and ectopic beat frequency.</li>
+        <li><strong>Alcohol</strong> &mdash; particularly the morning after drinking, when acetaldehyde and dehydration combine.</li>
+        <li><strong>Dehydration</strong> &mdash; reduces blood volume and raises resting heart rate.</li>
+        <li><strong>Hormonal changes</strong> &mdash; menstrual cycle, thyroid dysfunction, perimenopause. All affect cardiac electrophysiology directly.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="starting-point-heading">
+      <h3 id="starting-point-heading">Where you are starting from</h3>
+      <p>Fill this in today. You will revisit it at week 6.</p>
+      <div class="commitment-box" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <div>
+          <p class="fill-label">Palpitations per week (approximate)</p>
+          <div class="fill-line"></div>
+          <p class="fill-label">Average severity (1&ndash;10)</p>
+          <div class="fill-line"></div>
+          <p class="fill-label">Sleep quality (1&ndash;10)</p>
+          <div class="fill-line"></div>
+        </div>
+        <div>
+          <p class="fill-label">Heart anxiety (1&ndash;10)</p>
+          <div class="fill-line"></div>
+          <p class="fill-label">Energy (1&ndash;10)</p>
+          <div class="fill-line"></div>
+          <p class="fill-label">Average daily steps</p>
+          <div class="fill-line"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         PART 2: YOUR DEVICE — KARDIA
+    ══════════════════════════════════════ -->
+    <div class="part-header">
+      <p class="part-label">Part Two</p>
+      <h2>Your device &mdash; Kardia</h2>
+    </div>
+
+    <p>The Kardia is yours to use whenever you feel something. Think of it as your heart&rsquo;s voice recorder &mdash; activated by you, at the moment that matters. Unlike a continuous monitor, it captures the exact moment you choose to record. Your diary tells us what was happening at that moment. Together, they tell the story of your heart.</p>
+
+    <img src="img/openpalp-9.png" alt="Diagram showing how to record with Kardia: right hand index finger and thumb on top two electrodes, left thumb on the bottom electrode. Optionally rest the back of the device on your left knee for a 6-lead ECG." class="booklet-img" width="640" height="470" loading="lazy">
+
+    <section aria-labelledby="kardia-setup-heading">
+      <h3 id="kardia-setup-heading">Setting up &mdash; three steps</h3>
+      <div class="setup-card">
+        <ol class="setup-steps">
+          <li>Download the free Kardia app &mdash; search &lsquo;Kardia&rsquo; on the App Store or Google Play. It is free to download and free to use.</li>
+          <li>Open the app, tap &lsquo;Add a device&rsquo;, and follow the pairing steps. The device pairs via ultrasound &mdash; no Bluetooth required.</li>
+          <li>You do not need a paid subscription. The free tier records, stores, and analyses all your ECGs at no additional cost.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section aria-labelledby="how-to-record-heading">
+      <h3 id="how-to-record-heading">How to record</h3>
+      <ul>
+        <li><strong>Standard recording (2-lead):</strong> Left thumb on the bottom electrode. Right index finger and thumb on the top two electrodes.</li>
+        <li><strong>Fuller picture (6-lead):</strong> Same hand positions, but rest the back of the device lightly on your left knee.</li>
+        <li>Hold still. Breathe gently. Stay for 30 seconds. The app saves and analyses your recording automatically.</li>
+        <li>If you feel anxious during the recording, that is normal. The palpitations you notice most are often the least significant &mdash; and your recording will show that.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="when-to-record-heading">
+      <h3 id="when-to-record-heading">When to record</h3>
+      <ol>
+        <li><strong>Whenever you feel palpitations</strong> &mdash; as soon as you notice a symptom, pick up your Kardia and record. This is the most important recording you can make.</li>
+        <li><strong>Every morning</strong> &mdash; take a resting recording before you get out of bed. This gives a daily baseline and lets us see your HRV trend.</li>
+        <li><strong>After activities you suspect</strong> &mdash; after caffeine, after exercise, after a stressful moment. These before-and-after recordings are often the most revealing.</li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="unclassified-heading">
+      <h3 id="unclassified-heading">If your result says &lsquo;Unclassified&rsquo;</h3>
+      <div class="info-box">
+        <p style="margin:0;font-size:15px;color:var(--dark-grey);">An &lsquo;Unclassified&rsquo; result does not mean something is wrong. It means the recording could not be automatically categorised &mdash; often because of movement, poor contact, or normal variation that falls outside the algorithm&rsquo;s defined categories. Dr Ahmad reviews these recordings personally. Your job is simply to record; leave the interpretation to the clinical team.</p>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         PART 3: WHEN YOU FEEL PALPITATIONS
+    ══════════════════════════════════════ -->
+    <div class="part-header">
+      <p class="part-label">Part Three</p>
+      <h2>When you feel palpitations</h2>
+    </div>
+
+    <p>Most episodes pass within a few minutes. Here is what to do &mdash; in order. Follow these steps every time.</p>
+
+    <ol class="steps-list">
+      <li>
+        <span class="step-num">1</span>
+        <span><strong>Stay calm.</strong> Remind yourself: this has happened before, and it passed. Your heart is being monitored. You have a plan.</span>
+      </li>
+      <li>
+        <span class="step-num">2</span>
+        <span><strong>Sit or lie down.</strong> Reduce physical demands on the heart. Standing up and walking around raises your heart rate and can prolong the episode.</span>
+      </li>
+      <li>
+        <span class="step-num">3</span>
+        <span><strong>Breathe slowly.</strong> Inhale for 4 counts, exhale for 6 counts. The longer exhale activates the vagus nerve &mdash; your body&rsquo;s main brake on the heart rate. Do this for 2&ndash;3 minutes.</span>
+      </li>
+      <li>
+        <span class="step-num">4</span>
+        <span><strong>Try a vagal manoeuvre if the episode continues.</strong> Either bear down gently (as if you are about to have a bowel movement) for 10&ndash;15 seconds, or splash cold water on your face. Both stimulate the vagus nerve and can slow or terminate a fast rhythm. See the safety note below before using these.</span>
+      </li>
+      <li>
+        <span class="step-num">5</span>
+        <span><strong>Record on Kardia.</strong> Pick up your device and record for 30 seconds. This is the most valuable recording you can make &mdash; it captures the rhythm at the moment of symptoms.</span>
+      </li>
+      <li>
+        <span class="step-num">6</span>
+        <span><strong>Write in your diary.</strong> Note the time, what you were doing, severity, and how long it lasted. Even a brief note is valuable.</span>
+      </li>
+    </ol>
+
+    <div class="safety-box">
+      <p><strong>Vagal manoeuvres &mdash; important note</strong></p>
+      <p>Bearing down and cold water are safe for most people with benign palpitations. However, do <em>not</em> use these techniques if you have been told you have a significant heart condition, if you are pregnant, or if you have a history of stroke or carotid artery disease. If you are unsure, ask Dr Ahmad before using them.</p>
+    </div>
+
+    <div class="safety-box">
+      <p><strong>When to call 999 immediately</strong></p>
+      <ul>
+        <li>Palpitations lasting more than 15&ndash;20 minutes without improvement</li>
+        <li>Chest pain, pressure, or tightness alongside palpitations</li>
+        <li>Breathlessness that is severe or getting worse</li>
+        <li>Dizziness, near-fainting, or loss of consciousness</li>
+        <li>A feeling that something is seriously wrong</li>
+      </ul>
+      <p><strong>Do not use this booklet or attempt self-monitoring in an emergency. Call 999.</strong></p>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PART 4: YOUR DAILY PRACTICE
+    ══════════════════════════════════════ -->
+    <div class="part-header">
+      <p class="part-label">Part Four</p>
+      <h2>Your daily practice</h2>
+    </div>
+
+    <p>Small consistent actions change the nervous system more than anything else. You do not need to be perfect. You need to be regular.</p>
+
+    <section aria-labelledby="morning-heading">
+      <h3 id="morning-heading">Morning routine (5 minutes)</h3>
+      <ol>
+        <li>Take your resting Kardia recording before you get up. Note the result in your diary.</li>
+        <li>Check your HRV if your app shows it. Note the number.</li>
+        <li>Do 5 minutes of 4&ndash;6 breathing (inhale 4, exhale 6).</li>
+        <li>Write one line in your diary: how you slept, how many cups of caffeine you plan to have, what your anxiety is at this moment.</li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="evening-heading">
+      <h3 id="evening-heading">Evening routine (5 minutes)</h3>
+      <ol>
+        <li>Do 5 minutes of 4&ndash;6 breathing.</li>
+        <li>Complete your diary entry: steps, caffeine, palpitations, stress score.</li>
+        <li>Note one thing that helped today, even if small.</li>
+        <li>Rate your heart anxiety for the day (0&ndash;10) and write it down. Watch the trend across weeks.</li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="hrv-heading">
+      <h3 id="hrv-heading">Understanding HRV &mdash; your nervous system score</h3>
+      <p>Heart rate variability (HRV) is the variation between heartbeats. A higher number means your nervous system is calm and adaptable. A lower number means it is under strain.</p>
+      <p>You do not need to analyse it. Just watch the trend. Most people see their HRV rise over six weeks as their nervous system settles. That number rising is your body telling you the programme is working.</p>
+      <div class="info-box">
+        <p style="margin:0;font-size:14px;color:var(--dark-grey);">HRV varies considerably between individuals &mdash; your absolute number matters less than your personal trend. A consistent upward trend over 6 weeks is meaningful, regardless of where you started.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="caffeine-exp-heading">
+      <h3 id="caffeine-exp-heading">The caffeine experiment (week 3)</h3>
+      <p>In week 3, reduce your caffeine to one cup per day (or zero if you currently drink one) for seven days. Record your palpitations and heart anxiety each day as normal. At the end of the week, compare with your baseline.</p>
+      <div class="sage-box">
+        <p style="margin:0;font-size:14px;color:var(--dark-grey);">My caffeine experiment result:</p>
+        <div style="display:flex;gap:24px;margin-top:12px;flex-wrap:wrap;">
+          <label style="display:flex;align-items:center;gap:8px;font-family:var(--font-sans);font-size:14px;color:var(--dark-grey);"><span class="checkbox"></span> Caffeine is clearly a trigger for me</label>
+          <label style="display:flex;align-items:center;gap:8px;font-family:var(--font-sans);font-size:14px;color:var(--dark-grey);"><span class="checkbox"></span> No clear difference</label>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="sleep-exp-heading">
+      <h3 id="sleep-exp-heading">The sleep anchor experiment (week 4)</h3>
+      <p>In week 4, set a fixed wake time and stick to it every day &mdash; including weekends. A consistent wake time is the single most effective way to regulate sleep quality. Record your sleep score and heart anxiety each day. Compare with your previous weeks.</p>
+      <div class="sage-box">
+        <p style="margin:0 0 8px;font-family:var(--font-sans);font-size:14px;color:var(--dark-grey);">My sleep anchor wake time:</p>
+        <div class="fill-line"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px;">
+          <div><p class="fill-label">Sleep quality before (1&ndash;10)</p><div class="fill-line"></div></div>
+          <div><p class="fill-label">Sleep quality after (1&ndash;10)</p><div class="fill-line"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="steps-heading">
+      <h3 id="steps-heading">Step goals &mdash; graded movement</h3>
+      <p>Graded movement is one of the most powerful things you can do for your heart. Set your starting point today &mdash; not where you think you should be, but where you actually are. Add 500 steps per week.</p>
+      <table class="step-table">
+        <thead>
+          <tr>
+            <th>Week</th>
+            <th>Target (steps/day)</th>
+            <th>My actual average</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Baseline (today)</td><td>Your current average</td><td></td></tr>
+          <tr><td>Week 1</td><td>Baseline</td><td></td></tr>
+          <tr><td>Week 2</td><td>Baseline + 500</td><td></td></tr>
+          <tr><td>Week 3</td><td>Baseline + 1,000</td><td></td></tr>
+          <tr><td>Week 4</td><td>Baseline + 1,500</td><td></td></tr>
+          <tr><td>Week 5</td><td>Baseline + 2,000</td><td></td></tr>
+          <tr><td>Week 6</td><td>Baseline + 2,500</td><td></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         PART 5: YOUR 6-WEEK JOURNEY
+    ══════════════════════════════════════ -->
+    <div class="part-header">
+      <p class="part-label">Part Five</p>
+      <h2>Your 6-week journey</h2>
+    </div>
+
+    <p>This is your path. Not a prescription &mdash; a journey. Each week has one focus. Build on the one before. Your Kardia monitoring runs throughout all six weeks.</p>
+
+    <img src="img/openpalp-7.png" alt="6-week journey timeline: Week 1 Listen, Week 2 Breathe, Week 3 Discover, Week 4 Change, Week 5 Move, Week 6 Understand." class="booklet-img" width="760" height="300" loading="lazy">
+
+    <div class="week-header">
+      <h3>Week 1 &mdash; Listen</h3>
+      <p class="week-focus">Focus: awareness without judgement</p>
+    </div>
+    <p>This week is about observation only. Do not try to change anything yet. Record on Kardia whenever you feel something. Begin your daily diary entries. Notice your triggers without acting on them. The information you gather this week is the foundation of everything that follows.</p>
+    <p><strong>Your task:</strong> Complete at least 6 diary entries. Take at least one Kardia recording. Set up your morning routine (Kardia &plus; breathing &plus; diary).</p>
+
+    <div class="week-header">
+      <h3>Week 2 &mdash; Breathe</h3>
+      <p class="week-focus">Focus: 4&ndash;6 breathing, twice daily</p>
+    </div>
+    <p>Add formal 4&ndash;6 breathing twice a day &mdash; morning and evening. Five minutes each session. This is not relaxation. This is physiological regulation: the long exhale drives parasympathetic activity, which directly counteracts the sympathetic arousal that amplifies palpitations.</p>
+    <p><strong>Your task:</strong> Two breathing sessions every day. Note how your heart anxiety score changes across the week. Compare your average to week 1.</p>
+
+    <div class="week-header">
+      <h3>Week 3 &mdash; Discover</h3>
+      <p class="week-focus">Focus: find your triggers</p>
+    </div>
+    <p>Look back at your diary from weeks 1 and 2. When do palpitations cluster? What preceded them? Begin the caffeine experiment this week. By the end of the week, identify your top two triggers.</p>
+
+    <div class="trigger-grid">
+      <div class="trigger-item"><span class="checkbox"></span> More caffeine than usual</div>
+      <div class="trigger-item"><span class="checkbox"></span> Poor sleep the night before</div>
+      <div class="trigger-item"><span class="checkbox"></span> Stress or anxiety</div>
+      <div class="trigger-item"><span class="checkbox"></span> Alcohol recently</div>
+      <div class="trigger-item"><span class="checkbox"></span> Less movement than usual</div>
+      <div class="trigger-item"><span class="checkbox"></span> No clear pattern yet</div>
+    </div>
+    <p class="fill-label">My top two triggers are:</p>
+    <div class="fill-line"></div>
+    <div class="fill-line"></div>
+
+    <div class="week-header">
+      <h3>Week 4 &mdash; Change</h3>
+      <p class="week-focus">Focus: act on your top trigger &plus; sleep anchor</p>
+    </div>
+    <p>This week, make one concrete change based on your trigger findings. If caffeine is your trigger, reduce it. If sleep is your trigger, begin the sleep anchor experiment. Do not attempt to fix everything at once. One well-executed change is more powerful than five half-hearted ones.</p>
+    <p><strong>Your task:</strong> Choose one trigger to address. Begin the sleep anchor. Record the impact in your diary daily.</p>
+
+    <div class="week-header">
+      <h3>Week 5 &mdash; Move</h3>
+      <p class="week-focus">Focus: graded movement as medicine</p>
+    </div>
+    <p>Add movement to your daily routine. Use the step goal table from Part 4 and aim to increase by 500 steps per day from your week 4 baseline. Exercise is one of the most effective regulators of the autonomic nervous system. You do not need a gym &mdash; a brisk 20-minute walk changes your cardiac electrophysiology measurably.</p>
+    <p><strong>Your task:</strong> Hit your week 5 step target at least 5 days out of 7. Record your steps in the diary.</p>
+
+    <div class="week-header">
+      <h3>Week 6 &mdash; Understand</h3>
+      <p class="week-focus">Focus: integrate, review, and prepare for your results appointment</p>
+    </div>
+    <p>This is the week of consolidation. Review your diary from all six weeks. Complete the progress tracker. Write your letter to yourself. Prepare for your results appointment at day 30.</p>
+    <p>By week 6, most people have identified at least one trigger, reduced their heart anxiety score, and understand their palpitations in a way they did not at the start. The recordings on your Kardia app are the objective evidence of your journey.</p>
+    <p><strong>Your task:</strong> Complete the progress tracker. Fill in the self-assessment. Write your letter to yourself. Charge your Kardia and bring it to your appointment.</p>
+
+    <!-- ══════════════════════════════════════
+         PART 6: YOUR 30-DAY DIARY
+    ══════════════════════════════════════ -->
+    <div class="part-header">
+      <p class="part-label">Part Six</p>
+      <h2>Your 30-day diary</h2>
+    </div>
+
+    <p>Complete one row each day. You do not need to fill in every column every day &mdash; but the more consistently you record, the more useful your data will be. Use the weekly reflection boxes to note any patterns you notice.</p>
+    <p><strong>Column guide:</strong> Sleep = quality 1&ndash;10 (10 = best ever). Stress = 1&ndash;10. Palps = number of episodes, severity in brackets e.g. &ldquo;2 (6/10)&rdquo;. Kardia = tick if recorded. HA = heart anxiety 1&ndash;10.</p>
+
+    <!-- ── WEEK 1 ── -->
+    <div class="diary-section">
+      <div class="week-header">
+        <h3>Week 1 &mdash; Listen &amp; Observe</h3>
+      </div>
+      <table class="diary-table">
+        <thead>
+          <tr>
+            <th class="col-date">Date</th>
+            <th class="col-narrow">Sleep<br>1&ndash;10</th>
+            <th class="col-narrow">Caffeine<br>cups</th>
+            <th class="col-narrow">Stress<br>1&ndash;10</th>
+            <th class="col-narrow">Steps</th>
+            <th class="col-wide">Palps<br>(episodes &amp; severity)</th>
+            <th class="col-narrow">Kardia<br>taken</th>
+            <th class="col-narrow">HA<br>1&ndash;10</th>
+            <th class="col-wide">What I did for my heart</th>
+            <th class="col-wide">One thing I noticed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="col-date"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="col-date"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="col-date"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="col-date"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="col-date"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="col-date"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="col-date"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+      <div class="reflection-box">
+        <h4>Week 1 Reflection</h4>
+        <p style="font-family:var(--font-sans);font-size:13px;color:var(--mid-grey);margin-bottom:8px;">What patterns did you notice this week? When did palpitations tend to occur? What was your heart anxiety like?</p>
+        <div class="reflection-line"></div>
+        <div class="reflection-line"></div>
+        <div class="reflection-line"></div>
+      </div>
+    </div>
+
+    <!-- ── WEEK 2 ── -->
+    <div class="diary-section">
+      <div class="week-header">
+        <h3>Week 2 &mdash; Breathe</h3>
+      </div>
+      <table class="diary-table">
+        <thead>
+          <tr>
+            <th class="col-date">Date</th>
+            <th class="col-narrow">Sleep<br>1&ndash;10</th>
+            <th class="col-narrow">Caffeine<br>cups</th>
+            <th class="col-narrow">Stress<br>1&ndash;10</th>
+            <th class="col-narrow">Steps</th>
+            <th class="col-wide">Palps<br>(episodes &amp; severity)</th>
+            <th class="col-narrow">Kardia<br>taken</th>
+            <th class="col-narrow">HA<br>1&ndash;10</th>
+            <th class="col-wide">What I did for my heart</th>
+            <th class="col-wide">One thing I noticed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+      <div class="reflection-box">
+        <h4>Week 2 Reflection</h4>
+        <p style="font-family:var(--font-sans);font-size:13px;color:var(--mid-grey);margin-bottom:8px;">Has your heart anxiety score changed since week 1? Did the breathing practice change how you felt during an episode?</p>
+        <div class="reflection-line"></div>
+        <div class="reflection-line"></div>
+        <div class="reflection-line"></div>
+      </div>
+    </div>
+
+    <!-- ── WEEK 3 ── -->
+    <div class="diary-section">
+      <div class="week-header">
+        <h3>Week 3 &mdash; Discover (Caffeine Experiment)</h3>
+      </div>
+      <table class="diary-table">
+        <thead>
+          <tr>
+            <th class="col-date">Date</th>
+            <th class="col-narrow">Sleep<br>1&ndash;10</th>
+            <th class="col-narrow">Caffeine<br>cups</th>
+            <th class="col-narrow">Stress<br>1&ndash;10</th>
+            <th class="col-narrow">Steps</th>
+            <th class="col-wide">Palps<br>(episodes &amp; severity)</th>
+            <th class="col-narrow">Kardia<br>taken</th>
+            <th class="col-narrow">HA<br>1&ndash;10</th>
+            <th class="col-wide">What I did for my heart</th>
+            <th class="col-wide">One thing I noticed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+      <div class="reflection-box">
+        <h4>Week 3 Reflection</h4>
+        <p style="font-family:var(--font-sans);font-size:13px;color:var(--mid-grey);margin-bottom:8px;">What did the caffeine experiment reveal? Have you identified your main triggers? Any surprises?</p>
+        <div class="reflection-line"></div>
+        <div class="reflection-line"></div>
+        <div class="reflection-line"></div>
+      </div>
+    </div>
+
+    <!-- ── WEEK 4 ── -->
+    <div class="diary-section">
+      <div class="week-header">
+        <h3>Week 4 &mdash; Change (Sleep Anchor)</h3>
+      </div>
+      <table class="diary-table">
+        <thead>
+          <tr>
+            <th class="col-date">Date</th>
+            <th class="col-narrow">Sleep<br>1&ndash;10</th>
+            <th class="col-narrow">Caffeine<br>cups</th>
+            <th class="col-narrow">Stress<br>1&ndash;10</th>
+            <th class="col-narrow">Steps</th>
+            <th class="col-wide">Palps<br>(episodes &amp; severity)</th>
+            <th class="col-narrow">Kardia<br>taken</th>
+            <th class="col-narrow">HA<br>1&ndash;10</th>
+            <th class="col-wide">What I did for my heart</th>
+            <th class="col-wide">One thing I noticed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+      <div class="reflection-box">
+        <h4>Week 4 Reflection</h4>
+        <p style="font-family:var(--font-sans);font-size:13px;color:var(--mid-grey);margin-bottom:8px;">Has the sleep anchor helped? What change did you make to your top trigger? What impact did you notice?</p>
+        <div class="reflection-line"></div>
+        <div class="reflection-line"></div>
+        <div class="reflection-line"></div>
+      </div>
+    </div>
+
+    <!-- ── WEEK 5 ── -->
+    <div class="diary-section">
+      <div class="week-header">
+        <h3>Week 5 &mdash; Move</h3>
+      </div>
+      <table class="diary-table">
+        <thead>
+          <tr>
+            <th class="col-date">Date</th>
+            <th class="col-narrow">Sleep<br>1&ndash;10</th>
+            <th class="col-narrow">Caffeine<br>cups</th>
+            <th class="col-narrow">Stress<br>1&ndash;10</th>
+            <th class="col-narrow">Steps</th>
+            <th class="col-wide">Palps<br>(episodes &amp; severity)</th>
+            <th class="col-narrow">Kardia<br>taken</th>
+            <th class="col-narrow">HA<br>1&ndash;10</th>
+            <th class="col-wide">What I did for my heart</th>
+            <th class="col-wide">One thing I noticed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+      <div class="reflection-box">
+        <h4>Week 5 Reflection</h4>
+        <p style="font-family:var(--font-sans);font-size:13px;color:var(--mid-grey);margin-bottom:8px;">Did increased movement affect your palpitations or heart anxiety? How are your step numbers comparing to your baseline?</p>
+        <div class="reflection-line"></div>
+        <div class="reflection-line"></div>
+        <div class="reflection-line"></div>
+      </div>
+    </div>
+
+    <!-- ── WEEK 6 ── -->
+    <div class="diary-section">
+      <div class="week-header">
+        <h3>Week 6 &mdash; Understand</h3>
+      </div>
+      <table class="diary-table">
+        <thead>
+          <tr>
+            <th class="col-date">Date</th>
+            <th class="col-narrow">Sleep<br>1&ndash;10</th>
+            <th class="col-narrow">Caffeine<br>cups</th>
+            <th class="col-narrow">Stress<br>1&ndash;10</th>
+            <th class="col-narrow">Steps</th>
+            <th class="col-wide">Palps<br>(episodes &amp; severity)</th>
+            <th class="col-narrow">Kardia<br>taken</th>
+            <th class="col-narrow">HA<br>1&ndash;10</th>
+            <th class="col-wide">What I did for my heart</th>
+            <th class="col-wide">One thing I noticed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+      <div class="reflection-box">
+        <h4>Week 6 Reflection</h4>
+        <p style="font-family:var(--font-sans);font-size:13px;color:var(--mid-grey);margin-bottom:8px;">Look back at all six weeks. What is the overall trend in your heart anxiety, palpitation frequency, and sleep quality? What are you most proud of?</p>
+        <div class="reflection-line"></div>
+        <div class="reflection-line"></div>
+        <div class="reflection-line"></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PART 7: YOUR PROGRESS TRACKER
+    ══════════════════════════════════════ -->
+    <div class="part-header">
+      <p class="part-label">Part Seven</p>
+      <h2>Your progress tracker</h2>
+    </div>
+
+    <p>Fill this in at the end of weeks 2, 4, and 6. Then compare. The numbers will tell a story. Go back to the &ldquo;Where you are starting from&rdquo; section and complete your day-30 column.</p>
+
+    <table class="progress-table">
+      <thead>
+        <tr>
+          <th>Measure</th>
+          <th>Week 2</th>
+          <th>Week 4</th>
+          <th>Week 6</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Palpitations per week</td><td></td><td></td><td></td></tr>
+        <tr><td>Average severity (1&ndash;10)</td><td></td><td></td><td></td></tr>
+        <tr><td>Sleep quality (1&ndash;10)</td><td></td><td></td><td></td></tr>
+        <tr><td>Heart anxiety (1&ndash;10)</td><td></td><td></td><td></td></tr>
+        <tr><td>Energy (1&ndash;10)</td><td></td><td></td><td></td></tr>
+        <tr><td>Average daily steps</td><td></td><td></td><td></td></tr>
+        <tr><td>HRV (morning average)</td><td></td><td></td><td></td></tr>
+        <tr><td>Confidence managing symptoms (1&ndash;10)</td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+
+    <section aria-labelledby="interventions-heading">
+      <h3 id="interventions-heading">The interventions that worked for me</h3>
+      <ul class="check-list">
+        <li><span class="checkbox"></span> Slow breathing (4&ndash;6 pattern)</li>
+        <li><span class="checkbox"></span> Reducing caffeine</li>
+        <li><span class="checkbox"></span> Fixed wake time and better sleep</li>
+        <li><span class="checkbox"></span> Increased daily movement</li>
+        <li><span class="checkbox"></span> Recording on Kardia &mdash; feeling in control of the data</li>
+        <li><span class="checkbox"></span> Understanding the attention&ndash;symptom loop</li>
+        <li><span class="checkbox"></span> The Valsalva or cold water technique in an episode</li>
+        <li><span class="checkbox"></span> Simply understanding what my triggers are</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="self-assess-heading">
+      <h3 id="self-assess-heading">Looking back &mdash; your self-assessment</h3>
+      <p>Complete this before your results appointment. Bring this booklet with you.</p>
+
+      <h4>Overall, compared to when I started:</h4>
+      <div class="assess-option"><span class="radio-circle"></span> Significantly better &mdash; palpitations much less frequent or severe</div>
+      <div class="assess-option"><span class="radio-circle"></span> Somewhat better &mdash; I have improved</div>
+      <div class="assess-option"><span class="radio-circle"></span> About the same &mdash; but I understand them better now</div>
+      <div class="assess-option"><span class="radio-circle"></span> Worse &mdash; I need further help</div>
+
+      <h4 style="margin-top:24px;">My understanding of my palpitations:</h4>
+      <div class="assess-option"><span class="radio-circle"></span> I now understand what drives them &mdash; I feel in control</div>
+      <div class="assess-option"><span class="radio-circle"></span> I understand them better &mdash; but still some uncertainty</div>
+      <div class="assess-option"><span class="radio-circle"></span> I still feel uncertain &mdash; I need more support</div>
+
+      <div class="commitment-box" style="margin-top:24px;">
+        <p class="fill-label">My main trigger was</p>
+        <div class="fill-line"></div>
+        <p class="fill-label">The most helpful intervention was</p>
+        <div class="fill-line"></div>
+        <p class="fill-label">The biggest thing I have learned about my heart is</p>
+        <div class="fill-line"></div>
+        <div class="fill-line"></div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         PART 8: THE EVIDENCE
+    ══════════════════════════════════════ -->
+    <div class="part-header">
+      <p class="part-label">Part Eight</p>
+      <h2>The evidence behind the programme</h2>
+    </div>
+
+    <p>These are not theories. They are findings from real studies involving real people &mdash; people whose hearts changed when they changed how they lived.</p>
+
+    <div class="evidence-card">
+      <h3>The breathing story</h3>
+      <p class="citation">Springer Nature, 2024 &mdash; meta-analysis of 31 studies, n=1,133</p>
+      <img src="img/openpalp-11.png" alt="How slow breathing calms the heart: slow exhale triggers vagus nerve, which slows heart rate, reduces anxiety, and reduces ectopic beats over time." class="booklet-img" width="680" height="570" loading="lazy">
+      <p>Researchers gathered 31 studies involving 1,133 people. Some were anxious. Some had high blood pressure. Some had palpitations. All of them were asked to do one thing: slow their breathing to fewer than 10 breaths per minute for five minutes.</p>
+      <blockquote>In every group, the heart rhythm changed. Not after weeks of practice &mdash; within the same session. Within minutes. The vagus nerve &mdash; the body&rsquo;s main brake on the heart &mdash; responded to the exhale. Longer out than in. The heart slowed. The anxiety eased.</blockquote>
+      <p>Your 4&ndash;6 breathing practice is not a relaxation technique. It is a physiological intervention with a measurable effect on cardiac electrophysiology. You are doing it because it works.</p>
+    </div>
+
+    <div class="evidence-card">
+      <h3>The sleep story</h3>
+      <p class="citation">Miner et al., <em>SLEEP</em>, 2016 &amp; JACC UK Biobank study, 2021 (n=403,187)</p>
+      <img src="img/openpalp-12.png" alt="The same heart, different sleep: disrupted sleep increases PVCs by 33%, protected sleep decreases them by 33%." class="booklet-img" width="760" height="420" loading="lazy">
+      <p>A study of hospital alarm noise found that on quieter nights, premature ventricular contractions (PVCs &mdash; the commonest type of palpitation) fell by 33%. They stayed lower the following day. The same heart. Different sleep. Different rhythm.</p>
+      <p>A 2021 study in <em>JACC</em> followed 403,187 UK Biobank participants and found a 29% lower risk of atrial fibrillation in those with healthy sleep patterns, independent of every other cardiac risk factor measured.</p>
+      <blockquote>Your sleep is not separate from your heart rhythm. It is part of it. The sleep anchor experiment in week 4 is not about feeling rested. It is about stabilising your cardiac electrophysiology from the inside out.</blockquote>
+    </div>
+
+    <div class="evidence-card">
+      <h3>The movement story</h3>
+      <p class="citation">PubMed, 2015 &mdash; 22,516 adults, 14-year follow-up</p>
+      <p>A 14-year study of 22,516 adults found that regular moderate physical activity was associated with a 35% reduction in the risk of developing atrial fibrillation, and a significantly lower rate of ectopic beats in those already experiencing them.</p>
+      <blockquote>The key word is moderate. Extreme exercise can increase arrhythmia risk in susceptible individuals. A brisk 20-minute walk five days a week is the evidence-based target &mdash; and it is achievable from day one.</blockquote>
+      <p>Graded movement regulates the autonomic nervous system, reduces circulating adrenaline, improves sleep quality, and directly reduces ectopic beat frequency. It is the most underused cardiac medication available.</p>
+    </div>
+
+    <div class="evidence-card">
+      <h3>The most important story in modern cardiology</h3>
+      <p>In 1989, the CAST trial was stopped early. A class of drugs designed to suppress ectopic beats &mdash; which worked brilliantly at doing exactly that &mdash; was found to increase mortality. The drugs made the ECG look better and the patient worse.</p>
+      <blockquote>This finding changed everything. It established that suppressing an irregular beat is not the same as treating its cause, and that the goal of management is not a perfect ECG trace &mdash; it is a person who feels well, functions freely, and is not afraid of their heart.</blockquote>
+      <p>That is what this programme is designed to achieve. Not a perfect rhythm. A calmer life with an understood heart.</p>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PART 9: A LETTER TO YOURSELF
+    ══════════════════════════════════════ -->
+    <div class="part-header">
+      <p class="part-label">Part Nine</p>
+      <h2>A letter to yourself</h2>
+    </div>
+
+    <p>This is the most important page in this booklet. Write it at the end of week 6. Write it to the person who sat down on day 1 and filled in their commitment on the cover &mdash; the person who was worried, who was not sure this would work, who perhaps did not believe their heart would feel better.</p>
+
+    <blockquote>Begin with: <em>I want you to know that you made it.</em></blockquote>
+
+    <p>What do you know now that you wish you had known then? What has changed? What are you no longer afraid of? What would you tell them?</p>
+
+    <div class="letter-space">
+      <p style="font-family:var(--font-serif);font-style:italic;color:var(--mid-grey);font-size:14px;margin:0;">Write your letter here when you reach the end of week 6&hellip;</p>
+    </div>
+    <div class="letter-space"></div>
+
+    <!-- ══════════════════════════════════════
+         PART 10: SAFETY, CONSENT & DEVICE
+    ══════════════════════════════════════ -->
+    <div class="part-header">
+      <p class="part-label">Part Ten</p>
+      <h2>Safety, consent, and device</h2>
+    </div>
+
+    <section aria-labelledby="urgent-help-heading">
+      <h3 id="urgent-help-heading">When to seek urgent help</h3>
+      <div class="safety-box">
+        <p><strong>Call 999 immediately if you experience:</strong></p>
+        <ul>
+          <li>Chest pain or tightness, especially if spreading to arm, jaw, or back</li>
+          <li>Severe breathlessness not explained by exertion</li>
+          <li>Loss of consciousness, fainting, or near-fainting</li>
+          <li>Palpitations lasting more than 15&ndash;20 minutes without improvement</li>
+          <li>A sudden sense that something is seriously wrong</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <p style="margin:0;font-size:14px;"><strong>Contact the clinic if:</strong></p>
+        <ul style="margin-top:8px;">
+          <li>Your symptoms feel significantly different from your usual palpitations</li>
+          <li>The Kardia app stops working or you cannot pair your device</li>
+          <li>You have any concern during the monitoring period that is not an emergency</li>
+          <li>You wish to withdraw from the programme at any point</li>
+        </ul>
+        <p style="margin:12px 0 0;font-size:14px;"><strong>London Cardiology Clinic</strong><br>40&ndash;44 The Broadway, Wimbledon, London SW19 1RQ<br>Enquiries: <a href="index.html">londoncardiologyclinic.uk</a></p>
+      </div>
+    </section>
+
+    <section aria-labelledby="significant-finding-heading">
+      <h3 id="significant-finding-heading">If something significant is found</h3>
+      <p>This pathway is designed for low-risk palpitations. If monitoring reveals atrial fibrillation, SVT, significant pauses, or a high ectopy burden, you will be referred promptly to NHS or private cardiology. You will not be left without a plan.</p>
+    </section>
+
+    <section aria-labelledby="device-loan-heading">
+      <h3 id="device-loan-heading">Device loan</h3>
+      <p>Your Kardia device is lent to you for the duration of the programme. Please bring it to your results appointment at day 30 so that Dr Ahmad can review your recordings with you directly.</p>
+      <p>If the device is lost or damaged beyond reasonable wear, the replacement cost is <strong>&pound;70</strong>. Accidental damage due to normal use will not be charged.</p>
+    </section>
+
+    <section aria-labelledby="consent-heading">
+      <h3 id="consent-heading">Our agreement</h3>
+      <p>Please read each section carefully, tick each box, and sign at the bottom.</p>
+
+      <div class="commitment-box">
+        <ul class="check-list" style="margin:0;">
+          <li><span class="checkbox"></span> I understand this service is for low-risk palpitations only and does not replace emergency care or NHS cardiology services.</li>
+          <li><span class="checkbox"></span> I understand that significant findings may require onward referral to NHS or private cardiology.</li>
+          <li><span class="checkbox"></span> I consent to my ECG recordings being reviewed by the supervising clinician and cardiac physiologist within this pathway.</li>
+          <li><span class="checkbox"></span> I consent to a summary results letter being sent to my GP. <em>(If you do not wish your GP to be informed, please discuss with the clinician before signing.)</em></li>
+          <li><span class="checkbox"></span> I understand my data will be stored securely in accordance with UK GDPR and will not be shared beyond the clinical team without my further consent.</li>
+          <li><span class="checkbox"></span> I agree to bring my Kardia device to my day-30 results appointment.</li>
+          <li><span class="checkbox"></span> I have received, read, and understood the information in this booklet.</li>
+        </ul>
+      </div>
+
+      <div class="sig-grid">
+        <div class="sig-block">
+          <div class="sig-line"></div>
+          <p class="sig-label">Patient signature</p>
+        </div>
+        <div class="sig-block">
+          <div class="sig-line"></div>
+          <p class="sig-label">Printed name</p>
+        </div>
+        <div class="sig-block">
+          <div class="sig-line"></div>
+          <p class="sig-label">Date</p>
+        </div>
+        <div class="sig-block">
+          <div class="sig-line"></div>
+          <p class="sig-label">Clinician signature</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         PART 11: RESULTS APPOINTMENT
+    ══════════════════════════════════════ -->
+    <div class="part-header">
+      <p class="part-label">Part Eleven</p>
+      <h2>Your results appointment</h2>
+    </div>
+
+    <div class="appointment-card">
+      <h3>At the end of your 30 days</h3>
+      <p>Return to the clinic for your <strong>15-minute in-person results appointment</strong>. This appointment is included in your &pound;70 monitoring and programme fee.</p>
+      <ul>
+        <li><strong>Bring your Kardia device</strong> &mdash; charged and with the app open. Dr Ahmad will review your recordings with you on the screen.</li>
+        <li><strong>Bring this booklet</strong> &mdash; particularly your completed progress tracker and self-assessment from Part 7.</li>
+        <li><strong>No postal return needed</strong> &mdash; hand the device back at the appointment.</li>
+      </ul>
+    </div>
+
+    <section aria-labelledby="what-happens-heading">
+      <h3 id="what-happens-heading">What happens at the appointment</h3>
+      <ol>
+        <li>Dr Ahmad reviews your Kardia recordings with you &mdash; discussing what was found, what is normal, and what (if anything) requires further action.</li>
+        <li>You review your diary and progress tracker together. Your data tells the story of your six weeks.</li>
+        <li>You receive a <strong>written summary of findings</strong> and a personalised management plan &mdash; either reassurance with a lifestyle plan, or onward referral if clinically indicated.</li>
+        <li>A copy of the findings letter is offered to your GP with your consent.</li>
+      </ol>
+
+      <div class="info-box" style="margin-top:24px;">
+        <p style="margin:0;font-size:15px;"><strong>Pricing reminder</strong></p>
+        <p style="margin:8px 0 0;font-size:14px;color:var(--dark-grey);">Your clinic appointment: <strong>&pound;60</strong><br>Monitoring, programme, device, booklet &amp; results appointment: <strong>&pound;70</strong><br>Full pathway total: <strong>&pound;130</strong></p>
+      </div>
+    </section>
+
+    <!-- ── Footer note ── -->
+    <div style="margin-top:56px;padding-top:24px;border-top:1px solid var(--light-grey);text-align:center;">
+      <p style="font-family:var(--font-sans);font-size:13px;color:var(--mid-grey);margin:0;">OpenPalp Pathway v1.0 &mdash; London Cardiology Clinic &mdash; 40&ndash;44 The Broadway, Wimbledon, London SW19 1RQ</p>
+      <p style="font-family:var(--font-sans);font-size:12px;color:var(--mid-grey);margin-top:6px;">This booklet is for patients enrolled in the OpenPalp programme only. It does not constitute medical advice for general use.</p>
+      <p style="margin-top:16px;"><a href="index.html" style="font-family:var(--font-sans);font-size:13px;color:var(--blue-600);">&larr; Return to the OpenPalp website</a></p>
+    </div>
+
+  </div><!-- /.booklet -->
+  </main>
+
+  <!-- ── Site footer ── -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-brand">OpenPalp <em>by London Cardiology Clinic</em></p>
+        <p>Friday evenings in Wimbledon. No time off work.</p>
+        <p style="margin-top:8px;">40&ndash;44 The Broadway, Wimbledon, London SW19 1RQ</p>
+      </div>
+      <div>
+        <h5>Programme</h5>
+        <ul class="footer-links">
+          <li><a href="index.html#programme">The Programme</a></li>
+          <li><a href="index.html#devices">Your Device</a></li>
+          <li><a href="index.html#evidence">The Evidence</a></li>
+          <li><a href="booklet.html">Patient Booklet</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Clinic</h5>
+        <ul class="footer-links">
+          <li><a href="index.html#pricing-section">Pricing</a></li>
+          <li><a href="index.html#suitability">Is This Right For You?</a></li>
+          <li><a href="index.html#booking">Book an Appointment</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 London Cardiology Clinic. All rights reserved.</span>
+      <span>OpenPalp is not a substitute for emergency medical care.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile nav toggle
+    document.querySelector('.nav-hamburger').addEventListener('click', function() {
+      var links = document.querySelector('.nav-links');
+      var expanded = this.getAttribute('aria-expanded') === 'true';
+      links.classList.toggle('open');
+      this.setAttribute('aria-expanded', !expanded);
+    });
+  </script>
+
+</body>
+</html>
